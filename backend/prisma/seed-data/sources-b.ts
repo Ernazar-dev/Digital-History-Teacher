@@ -1,0 +1,61 @@
+import type { SeedSource } from './types';
+
+export const SOURCES_B: SeedSource[] = [
+  {
+    slug: 'ibn-arabshoh-ajoib-al-maqdur',
+    title: '«Ajoyib al-maqdur fi navoib Taymur» — Ibn Arabshoh',
+    summary: 'Amir Temur haqida arab tilida yozilgan, muallifning Temurga salbiy munosabati aks etgan asar.',
+    description:
+      'Muallif yoshligida Temur qo‘shinlari tomonidan Damashqdan Samarqandga olib kelingan. Asar XV asrning 30-yillarida yozilgan va Temur faoliyatiga keskin tanqidiy nuqtayi nazarni ifodalaydi.',
+    type: 'WRITTEN',
+    format: 'Qo‘lyozma / nashr',
+    period: 'temuriylar-davri',
+    topics: ['amir-temur-davlati', 'manbashunoslik'],
+    dateLabel: 'XV asrning 30-yillari',
+    yearFrom: 1430,
+    yearTo: 1440,
+    author: 'Ahmad ibn Arabshoh',
+    origin: 'Muallifning hayot yo‘li bilan bog‘liq (Damashq — Samarqand — Usmonli yerlari)',
+    repository: 'Qo‘lyozma va nashrlar turli kutubxonalarda (tadqiqotchi aniqlaydi).',
+    originalUrl: null,
+    license: 'Asl matn jamoat mulki; tarjimalar mualliflik huquqiga ega bo‘lishi mumkin',
+    reliabilityNotes: 'Muallifning shaxsiy taqdiri asar ohangiga ta’sir qilgan. Faktlar boshqa manbalar bilan solishtirilishi lozim.',
+    limitations: 'Hissiy va baholovchi ifodalar ko‘p; voqealar talqini bir tomonlama.',
+    teachingUse: '«Zafarnoma» bilan qarama-qarshi nuqtayi nazarlarni taqqoslash orqali manbaga tanqidiy yondashuvni shakllantirish.',
+    methodicalRecommendations: 'Ikki manbadan bitta voqea haqidagi parchani tanlab, «fakt» va «baho»ni ajratish jadvalini to‘ldirishni topshiring.',
+    practicalTasks: "Muallifning tarjimai holi (Temur yurishlari bilan bog‘liq taqdiri) uning baholariga qanday ta’sir qilganini tushuntiring.\nAsardagi Amir Temurga oid salbiy baholarni ajratib, ular qaysi faktlarga tayanishini aniqlang.\nIbn Arabshoh va Sharafuddin Ali Yazdiy bir voqeani qanday tasvirlaganini taqqoslang; qaysi biriga ko‘proq ishonish mumkin va nima uchun?",
+    variants: [
+      {
+        kind: 'EDUCATIONAL_ADAPTATION',
+        title: 'O‘quvchilar uchun moslashtirilgan tavsif',
+        content:
+          'Bu kitob muallifi bolaligida asir sifatida Samarqandga olib kelingan. Shu sababli u Amir Temur haqida salbiy yozgan. Muallifning hayoti uning fikrlariga qanday ta’sir qilgan bo‘lishi mumkin?',
+      },
+    ],
+  },
+  {
+    slug: 'klavixo-kundaligi',
+    title: 'Rui Gonsales de Klavixo kundaligi (Temur saroyiga elchilik)',
+    summary: 'Kastiliya qiroli elchisining 1403–1406-yillardagi safari va Samarqanddagi kuzatuvlari haqidagi yozuvlar.',
+    description:
+      'Klavixo 1404-yilda Samarqandda Amir Temur saroyida bo‘lgan va shahar, saroy marosimlari hamda qurilishlar haqida guvoh sifatida yozib qoldirgan.',
+    type: 'WRITTEN',
+    format: 'Sayohatnoma / kundalik',
+    period: 'temuriylar-davri',
+    topics: ['amir-temur-davlati', 'temuriylar-memorchiligi', 'manbashunoslik'],
+    dateLabel: '1403–1406 yillar',
+    yearFrom: 1403,
+    yearTo: 1406,
+    author: 'Rui Gonsales de Klavixo (Ruy González de Clavijo)',
+    origin: 'Kastiliya qirolligi elchiligi',
+    repository: 'Ispan tilidagi qo‘lyozma va nashrlar; turli tillarga tarjimalari mavjud.',
+    originalUrl: null,
+    license: 'Asl matn jamoat mulki; tarjimalar mualliflik huquqiga ega bo‘lishi mumkin',
+    reliabilityNotes: 'Bevosita guvoh yozuvlari; ammo muallif mahalliy til va urf-odatlarni to‘liq bilmagan, ayrim talqinlar xato bo‘lishi mumkin.',
+    limitations: 'Chet ellik nigohi, tarjimon orqali olingan ma’lumotlar; diplomatik maqsadlar ta’siri.',
+    teachingUse: 'Samarqand qurilishlari (masalan, Bibixonim masjidi) bo‘yicha 3D modellar bilan birga kuzatuv mashg‘ulotida ishlatish mumkin.',
+    methodicalRecommendations: 'Guvoh yozuvini 3D obyekt bilan taqqoslab, «matn nimani ko‘rsatadi — obyekt nimani ko‘rsatadi» jadvalini tuzdiring.',
+    practicalTasks: "Klavixo kim va qanday maqsadda Samarqandga kelganini aniqlang. Xorijiy guvoh sifatida uning afzalliklari va cheklovlari nimada?\nKundalikdagi Samarqand qurilishlari haqidagi tafsilotlarni ajratib, ularni bugungi yodgorliklar bilan solishtiring.\nElchi kundaligi va saroy tarixi («Zafarnoma») ma’lumotlarini taqqoslab, ular bir-birini qayerda to‘ldirishini ko‘rsating.",
+    variants: [],
+  },
+];

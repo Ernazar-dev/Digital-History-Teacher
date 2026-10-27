@@ -1,0 +1,73 @@
+# Render Blueprint — GitHub repodan ikkita servis: backend (Node, free) va frontend (static site, free).
+# Baza — Neon PostgreSQL (DATABASE_URL Render panelida kiritiladi). Batafsil: DEPLOY.md
+services:
+  # ── Backend: Express + Prisma ──
+  - type: web
+    name: dht-backend
+    runtime: node
+    plan: free
+    region: frankfurt # Neon loyihasini ham shu hududda oching (AWS eu-central-1)
+    rootDir: backend
+    # Dev-paketlar (prisma, typescript, tsx) build uchun kerak — NODE_ENV=production bo'lsa ham o'rnatiladi.
+    # Migratsiyalar har deployda qo'llanadi; boshlang'ich ma'lumotlar faqat baza bo'sh bo'lganda yuklanadi.
+    buildCommand: npm ci --include=dev && npx prisma generate && npm run build && npx prisma migrate deploy && npm run db:seed:if-empty
+    startCommand: npm start
+    healthCheckPath: /api/v1/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL # Neon connection string (sslmode=require)
+        sync: false
+      - key: JWT_ACCESS_SECRET
+        generateValue: true
+      - key: JWT_REFRESH_SECRET
+        generateValue: true
+      - key: ADMIN_USERNAME
+        sync: false
+      - key: ADMIN_PASSWORD # kamida 10 belgi
+        sync: false
+      - key: ADMIN_FULL_NAME
+        value: Administrator
+      - key: CORS_ORIGINS # frontend manzili, masalan https://dht-frontend.onrender.com
+        sync: false
+      # Render free diski vaqtinchalik — yuklangan fayllar bazada saqlanadi
+      - key: STORAGE_DRIVER
+        value: database
+      # Brauzer → frontend (rewrite proxy) → backend: ikki proxy
+      - key: TRUST_PROXY_HOPS
+        value: "2"
+      - key: UPLOAD_MAX_MB
+        value: "10"
+      - key: LOG_LEVEL
+        value: info
+      - key: API_DOCS_ENABLED
+        value: "false"
+
+  # ── Frontend: Vite + React (static) ──
+  - type: web
+    name: dht-frontend
+    runtime: static
+    rootDir: frontend
+    buildCommand: npm ci --include=dev && npm run build
+    staticPublishPath: dist
+    pullRequestPreviewsEnabled: false
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+    routes:
+      # API so'rovlari backendga uzatiladi — brauzer uchun bitta domen (cookie va CORS muammosiz).
+      # Backend nomi band bo'lib, Render boshqa manzil bergan bo'lsa — shu yerni o'zgartiring.
+      - type: rewrite
+        source: /api/*
+        destination: https://dht-backend.onrender.com/api/*
+      # SPA: qolgan barcha yo'llar index.html ga
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    headers:
+      - path: /assets/*
+        name: Cache-Control
+        value: public, max-age=31536000, immutable

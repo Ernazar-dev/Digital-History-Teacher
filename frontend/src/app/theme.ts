@@ -1,0 +1,53 @@
+import type { ThemeConfig } from 'antd';
+import { tokens } from './tokens';
+
+/** Ant Design temasi — tokens.ts dan olinadi (Tailwind bilan bir xil palitra) */
+export const antTheme: ThemeConfig = {
+  token: {
+    colorPrimary: tokens.color.primary,
+    colorLink: tokens.color.primary,
+    colorLinkHover: tokens.color.accent,
+    colorSuccess: tokens.color.success,
+    colorWarning: tokens.color.warning,
+    colorError: tokens.color.danger,
+    colorText: tokens.color.ink,
+    colorTextSecondary: tokens.color.muted,
+    colorBorder: tokens.color.border,
+    colorBorderSecondary: '#efece6',
+    colorBgLayout: tokens.color.canvas,
+    borderRadius: tokens.radius.md,
+    borderRadiusLG: tokens.radius.lg,
+    borderRadiusSM: tokens.radius.sm,
+    fontFamily: tokens.font.sans,
+    fontSize: 14,
+    boxShadow: tokens.shadow.card,
+    boxShadowSecondary: tokens.shadow.lift,
+    motionDurationMid: '0.24s',
+    motionEaseInOut: 'cubic-bezier(0.22, 1, 0.36, 1)',
+    controlHeight: 38,
+    controlHeightLG: 46,
+  },
+  components: {
+    Layout: { headerBg: 'rgba(255,255,255,0.72)', siderBg: tokens.color.midnight, bodyBg: tokens.color.canvas, headerHeight: 68 },
+    Menu: {
+      darkItemBg: 'transparent',
+      darkSubMenuItemBg: 'transparent',
+      darkPopupBg: tokens.color.midnightSoft,
+      darkItemColor: 'rgba(255,255,255,0.68)',
+      darkItemHoverColor: '#ffffff',
+      darkItemHoverBg: 'rgba(255,255,255,0.06)',
+      darkItemSelectedBg: 'rgba(194,154,69,0.16)',
+      darkItemSelectedColor: tokens.color.accentLight,
+      itemBorderRadius: 10,
+      itemMarginInline: 12,
+      itemHeight: 42,
+      iconSize: 16,
+    },
+    Card: { headerFontSize: 16, paddingLG: 22 },
+    Table: { headerBg: '#f6f3ec', headerColor: tokens.color.ink, rowHoverBg: '#faf8f3' },
+    Button: { primaryShadow: '0 8px 20px -8px rgba(27,55,104,0.55)', fontWeight: 500 },
+    Modal: { borderRadiusLG: 20 },
+    Input: { activeShadow: '0 0 0 3px rgba(194,154,69,0.18)' },
+    Select: { optionSelectedBg: tokens.color.accentSoft },
+  },
+};

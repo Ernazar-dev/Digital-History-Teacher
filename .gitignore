@@ -1,0 +1,40 @@
+# ── Paketlar va build natijalari ──
+node_modules/
+dist/
+coverage/
+*.tsbuildinfo
+.vite/
+
+# ── Maxfiy sozlamalar (faqat .env.example repoga chiqadi) ──
+.env
+.env.*
+!.env.example
+
+# ── Yuklangan fayllar (foydalanuvchi ma'lumotlari) ──
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# ── Loglar va tizim fayllari ──
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Muharrir / vositalar sozlamalari ──
+.idea/
+.vscode/
+.claude/
+
+# ── E2E test natijalari (skrinshotlar) ──
+frontend/shot-*.png
+frontend/fail-*.png
+
+# ── Dizayn maketlari va manba fayllari — ilovada ishlatilmaydi ──
+# (sayt hero-arch.jpg va public/logo.png ni ishlatadi)
+frontend/src/assets/landingpage.png
+frontend/src/assets/landing 2.png
+frontend/src/assets/logo DHT.png
+
+# ── Mijoz/dissertatsiya hujjatlari — ochiq repoga chiqmasin ──
+*.docx

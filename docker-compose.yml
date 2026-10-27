@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: dht-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:?POSTGRES_USER .env da ko‘rsatilishi kerak}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD .env da ko‘rsatilishi kerak}
+      POSTGRES_DB: ${POSTGRES_DB:-digital_history_teacher}
+    ports:
+      - "${POSTGRES_PORT:-5433}:5432"
+    volumes:
+      - dht_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-dht} -d ${POSTGRES_DB:-digital_history_teacher}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  dht_pgdata:

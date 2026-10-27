@@ -1,0 +1,728 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Grid elementlari kontent eniga qarab ustunni kengaytirmasin (aks holda telefon ekranida gorizontal skroll paydo
+   bo'ladi: uzun sarlavha, jadval yoki Segmented ustunni ekrandan kengroq qilib yuboradi). base qatlamida — alohida
+   min-w-* utilitalari ustun turadi. */
+@layer base {
+  .grid > * {
+    min-width: 0;
+  }
+}
+
+/* ════════════════════════════════════════════════════════════════
+   Asos
+   ════════════════════════════════════════════════════════════════ */
+:root {
+  --ease-premium: cubic-bezier(0.22, 1, 0.36, 1);
+  --gold-gradient: linear-gradient(135deg, #f3dd9e 0%, #c29a45 45%, #8f6a24 100%);
+  --lapis-gradient: linear-gradient(135deg, #1b3768 0%, #0b1530 100%);
+}
+html,
+body,
+#root {
+  min-height: 100%;
+}
+html {
+  scroll-behavior: smooth;
+}
+body {
+  margin: 0;
+  background: theme('colors.canvas');
+  color: theme('colors.ink');
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+::selection {
+  background: rgba(194, 154, 69, 0.28);
+  color: theme('colors.ink');
+}
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(27, 55, 104, 0.25) transparent;
+}
+:focus-visible {
+  outline: 2px solid theme('colors.accent.DEFAULT');
+  outline-offset: 2px;
+}
+
+.font-serif-title {
+  font-family: theme('fontFamily.serif');
+  letter-spacing: -0.015em;
+  font-variant-numeric: lining-nums;
+}
+.prose-text {
+  max-width: 68ch;
+  line-height: 1.65;
+  white-space: pre-line;
+}
+/* Tarixiy xarita markerlari: obyekt — rasmli doira, manba — rangli nuqta; tanlangani to'lqin chiqaradi */
+.map-pin {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  transition: transform 0.3s var(--ease-premium);
+}
+.map-pin:hover {
+  transform: scale(1.12);
+}
+.map-pin--object {
+  width: 44px;
+  height: 44px;
+  background: #fff;
+  border: 3px solid theme('colors.accent.DEFAULT');
+  box-shadow: 0 6px 16px -6px rgba(11, 21, 48, 0.5);
+}
+/* Leaflet marker ichidagi rasm o'lchamini o'zi belgilaydi — doiraga majburan moslaymiz */
+.leaflet-container .map-pin--object img {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  border-radius: 9999px;
+  object-fit: cover;
+}
+.map-pin--object span {
+  width: 14px;
+  height: 14px;
+  border-radius: 9999px;
+  background: theme('colors.accent.DEFAULT');
+}
+.map-pin--source {
+  width: 26px;
+  height: 26px;
+  margin: 9px;
+  background: theme('colors.primary.DEFAULT');
+  border: 3px solid #fff;
+  box-shadow: 0 6px 16px -6px rgba(11, 21, 48, 0.6);
+}
+.map-pin.is-selected {
+  transform: scale(1.25);
+}
+.map-pin.is-selected::after {
+  content: '';
+  position: absolute;
+  inset: -7px;
+  border-radius: 9999px;
+  border: 2px solid theme('colors.accent.DEFAULT');
+  animation: pin-pulse 1.6s ease-out infinite;
+}
+@keyframes pin-pulse {
+  from {
+    opacity: 0.9;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.6);
+  }
+}
+/* OSM plitkalarini sahifaning iliq, sokin ranglariga moslash */
+.history-map .leaflet-tile-pane {
+  filter: saturate(0.7) sepia(0.12) contrast(0.96) brightness(1.03);
+}
+.leaflet-popup-content-wrapper {
+  border-radius: 16px;
+  box-shadow: 0 18px 40px -16px rgba(11, 21, 48, 0.45);
+}
+.leaflet-popup-content {
+  margin: 12px;
+}
+
+/* Leaflet konteyneri antd bilan to'qnashmasligi uchun */
+.leaflet-container {
+  font-family: inherit;
+  z-index: 0;
+  border-radius: theme('borderRadius.md');
+}
+
+/* ════════════════════════════════════════════════════════════════
+   Dekorativ utilitalar
+   ════════════════════════════════════════════════════════════════ */
+.text-gold-gradient {
+  background: var(--gold-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.text-shimmer {
+  background: linear-gradient(110deg, #e6c77c 20%, #fff7df 40%, #e6c77c 60%, #c29a45 80%);
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shimmer-text 6s linear infinite;
+}
+.bg-lapis {
+  background: var(--lapis-gradient);
+}
+/* Mayda "don" teksturasi — tekis gradientlarga material his beradi */
+.grain::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.07;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+/* Girih naqshi (sharq geometrik ornamenti) */
+.pattern-girih {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72' viewBox='0 0 72 72'%3E%3Cg fill='none' stroke='%23c29a45' stroke-opacity='0.16' stroke-width='1'%3E%3Cpath d='M36 4l9.4 22.6L68 36l-22.6 9.4L36 68l-9.4-22.6L4 36l22.6-9.4z'/%3E%3Cpath d='M36 18l5.2 12.8L54 36l-12.8 5.2L36 54l-5.2-12.8L18 36l12.8-5.2z'/%3E%3Cpath d='M0 0l14 14M72 0L58 14M0 72l14-14M72 72L58 58'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 72px 72px;
+}
+.gold-rule {
+  height: 2px;
+  width: 48px;
+  border-radius: 2px;
+  background: var(--gold-gradient);
+}
+.glass {
+  background: rgba(255, 255, 255, 0.72);
+  -webkit-backdrop-filter: saturate(180%) blur(16px);
+  backdrop-filter: saturate(180%) blur(16px);
+}
+.glass-dark {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+}
+
+/* Aurora — sekin harakatlanuvchi rangli dog'lar */
+.aurora {
+  position: absolute;
+  inset: -20%;
+  pointer-events: none;
+  filter: blur(70px);
+  opacity: 0.75;
+}
+.aurora span {
+  position: absolute;
+  border-radius: 50%;
+  mix-blend-mode: screen;
+  animation: aurora-drift 22s var(--ease-premium) infinite alternate;
+}
+.aurora span:nth-child(1) {
+  width: 46%;
+  height: 52%;
+  left: 8%;
+  top: 6%;
+  background: radial-gradient(circle, rgba(52, 96, 178, 0.85), transparent 65%);
+}
+.aurora span:nth-child(2) {
+  width: 38%;
+  height: 46%;
+  right: 6%;
+  top: 18%;
+  background: radial-gradient(circle, rgba(194, 154, 69, 0.55), transparent 65%);
+  animation-duration: 28s;
+  animation-delay: -6s;
+}
+.aurora span:nth-child(3) {
+  width: 42%;
+  height: 40%;
+  left: 34%;
+  bottom: 2%;
+  background: radial-gradient(circle, rgba(92, 60, 160, 0.5), transparent 65%);
+  animation-duration: 34s;
+  animation-delay: -12s;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   Animatsiyalar
+   ════════════════════════════════════════════════════════════════ */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 24px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes word-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 110%, 0) rotate(4deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes shimmer-text {
+  to {
+    background-position: -250% 0;
+  }
+}
+@keyframes aurora-drift {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(8%, -6%, 0) scale(1.15);
+  }
+  100% {
+    transform: translate3d(-6%, 8%, 0) scale(0.95);
+  }
+}
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -12px, 0);
+  }
+}
+@keyframes shine {
+  from {
+    transform: translateX(-120%) skewX(-20deg);
+  }
+  to {
+    transform: translateX(260%) skewX(-20deg);
+  }
+}
+@keyframes draw-line {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+@keyframes pulse-ring {
+  0% {
+    box-shadow: 0 0 0 0 rgba(194, 154, 69, 0.45);
+  }
+  100% {
+    box-shadow: 0 0 0 14px rgba(194, 154, 69, 0);
+  }
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.8s var(--ease-premium) both;
+}
+.animate-fade-in {
+  animation: fade-in 0.6s ease both;
+}
+.animate-scale-in {
+  animation: scale-in 0.7s var(--ease-premium) both;
+}
+.animate-spin-slow {
+  animation: spin-slow 60s linear infinite;
+}
+.animate-float {
+  animation: float 7s ease-in-out infinite;
+}
+.animate-pulse-ring {
+  animation: pulse-ring 2.4s ease-out infinite;
+}
+.animate-marquee {
+  animation: marquee 40s linear infinite;
+}
+.animate-draw-line {
+  transform-origin: top;
+  animation: draw-line 1.6s var(--ease-premium) both;
+}
+
+/* Bosh sahifa hero: rasm chapdan o'ngga ochiladi va biroz uzoqlashib joyiga tushadi */
+@keyframes wipe-in {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+@keyframes zoom-settle {
+  from {
+    transform: scale(1.06);
+  }
+  to {
+    transform: none;
+  }
+}
+.animate-hero-reveal {
+  animation:
+    wipe-in 1.5s cubic-bezier(0.77, 0, 0.18, 1) 0.2s both,
+    zoom-settle 2.6s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+}
+
+/* Kichik sarlavha oldidagi chiziq o'sadi */
+@keyframes line-grow {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+.animate-line-grow {
+  transform-origin: left;
+  animation: line-grow 0.9s var(--ease-premium) both;
+}
+/* Sarlavha so'zlari birma-bir ko'tariladi */
+.word-reveal {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding-bottom: 0.08em;
+}
+.word-reveal > span {
+  display: inline-block;
+  animation: word-rise 0.9s var(--ease-premium) both;
+}
+
+/* Scroll bo'yicha paydo bo'lish (Reveal komponenti) */
+.reveal {
+  opacity: 0;
+  transform: translate3d(0, 28px, 0);
+  transition:
+    opacity 0.9s var(--ease-premium),
+    transform 0.9s var(--ease-premium);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Sahifa almashganda kontent yumshoq paydo bo'ladi */
+.page-enter {
+  animation: fade-up 0.55s var(--ease-premium) both;
+}
+
+/* Kartochkalar to'ri: elementlar ketma-ket paydo bo'ladi (12-dan keyingilari birga) */
+.stagger > * {
+  animation: fade-up 0.6s var(--ease-premium) both;
+  animation-delay: 480ms;
+}
+.stagger > *:nth-child(1) { animation-delay: 60ms; }
+.stagger > *:nth-child(2) { animation-delay: 100ms; }
+.stagger > *:nth-child(3) { animation-delay: 140ms; }
+.stagger > *:nth-child(4) { animation-delay: 180ms; }
+.stagger > *:nth-child(5) { animation-delay: 220ms; }
+.stagger > *:nth-child(6) { animation-delay: 260ms; }
+.stagger > *:nth-child(7) { animation-delay: 300ms; }
+.stagger > *:nth-child(8) { animation-delay: 340ms; }
+.stagger > *:nth-child(9) { animation-delay: 380ms; }
+.stagger > *:nth-child(10) { animation-delay: 410ms; }
+.stagger > *:nth-child(11) { animation-delay: 440ms; }
+.stagger > *:nth-child(12) { animation-delay: 460ms; }
+
+/* Tugmadagi yaltiroq chiziq */
+.btn-shine {
+  position: relative;
+  overflow: hidden;
+}
+.btn-shine::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  width: 40%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+  transform: translateX(-120%) skewX(-20deg);
+  pointer-events: none;
+}
+.btn-shine:hover::after {
+  animation: shine 0.9s var(--ease-premium);
+}
+.btn-gold.ant-btn {
+  background: var(--gold-gradient) !important;
+  border: none !important;
+  color: #1a1306 !important;
+  font-weight: 600;
+  box-shadow: 0 10px 28px -10px rgba(194, 154, 69, 0.75);
+}
+.btn-gold.ant-btn:hover {
+  filter: brightness(1.06);
+  transform: translateY(-1px);
+}
+.btn-ghost-light.ant-btn {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border-color: rgba(255, 255, 255, 0.22) !important;
+  color: #fff !important;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+.btn-ghost-light.ant-btn:hover {
+  background: rgba(255, 255, 255, 0.14) !important;
+  border-color: rgba(230, 199, 124, 0.6) !important;
+}
+
+/* Kursorga ergashuvchi yorug'lik (spotlight) kartasi */
+.spotlight {
+  position: relative;
+  isolation: isolate;
+}
+.spotlight::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  background: radial-gradient(380px circle at var(--mx, 50%) var(--my, 50%), rgba(194, 154, 69, 0.16), transparent 45%);
+}
+.spotlight:hover::before {
+  opacity: 1;
+}
+
+/* Kartalarni ko'tarish effekti */
+.lift {
+  transition:
+    transform 0.45s var(--ease-premium),
+    box-shadow 0.45s var(--ease-premium),
+    border-color 0.45s ease;
+}
+.lift:hover {
+  transform: translateY(-4px);
+  box-shadow: theme('boxShadow.lift');
+}
+
+/* Animatsiyali tagchiziq (navigatsiya havolalari) */
+.link-underline {
+  position: relative;
+}
+.link-underline::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--gold-gradient);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.4s var(--ease-premium);
+}
+.link-underline:hover::after,
+.link-underline.active::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   Ant Design — premium sayqal
+   ════════════════════════════════════════════════════════════════ */
+.ant-card {
+  border-color: theme('colors.line') !important;
+  box-shadow: theme('boxShadow.card');
+  transition:
+    box-shadow 0.4s var(--ease-premium),
+    transform 0.4s var(--ease-premium),
+    border-color 0.4s ease;
+}
+.ant-card-hoverable:hover {
+  transform: translateY(-3px);
+  box-shadow: theme('boxShadow.lift') !important;
+  border-color: rgba(194, 154, 69, 0.35) !important;
+}
+.ant-card .ant-card-head {
+  border-bottom-color: #efece6;
+}
+.ant-card .ant-card-head-title {
+  font-weight: 600;
+}
+.ant-btn-primary:not(.btn-gold):not(:disabled):not(.ant-btn-background-ghost):not(.ant-btn-dangerous) {
+  background-image: linear-gradient(135deg, #284b8a 0%, #1b3768 60%, #142a52 100%);
+}
+.ant-btn:not(:disabled):active {
+  transform: scale(0.97);
+}
+.ant-tag {
+  border-radius: 999px;
+  padding-inline: 10px;
+}
+.ant-statistic-content-value {
+  font-family: theme('fontFamily.serif');
+  font-variant-numeric: lining-nums;
+  font-weight: 700;
+}
+.ant-breadcrumb {
+  font-size: 13px;
+}
+/* Sidebar menyusidagi faol element — oltin chiziq */
+.app-sider .ant-menu-dark .ant-menu-item-selected {
+  position: relative;
+  box-shadow: inset 0 0 0 1px rgba(230, 199, 124, 0.18);
+}
+.app-sider .ant-menu-dark .ant-menu-item-selected::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10px;
+  bottom: 10px;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+  background: var(--gold-gradient);
+}
+.app-sider .ant-menu-dark .ant-menu-item .anticon {
+  transition: transform 0.3s var(--ease-premium);
+}
+.app-sider .ant-menu-dark .ant-menu-item:hover .anticon {
+  transform: scale(1.15);
+}
+
+/* ════════════════════════════════════════════════════════════════
+   Modal oynalar — hech qachon ekran balandligidan (100vh) oshmaydi:
+   sarlavha va tugmalar joyida qoladi, faqat kontent scroll bo'ladi
+   ════════════════════════════════════════════════════════════════ */
+.ant-modal {
+  top: 24px;
+  padding-bottom: 0;
+  max-width: calc(100vw - 32px);
+}
+.ant-modal:not(.ant-modal-confirm) .ant-modal-content {
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100dvh - 48px);
+  padding: 0;
+  overflow: hidden;
+}
+.ant-modal .ant-modal-header {
+  flex-shrink: 0;
+  margin: 0;
+  padding: 18px 24px 14px;
+  border-bottom: 1px solid #efece6;
+}
+.ant-modal .ant-modal-title {
+  font-family: theme('fontFamily.serif');
+  font-size: 19px;
+  font-weight: 700;
+  padding-right: 28px;
+}
+.ant-modal .ant-modal-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 20px 24px;
+}
+.ant-modal .ant-modal-footer {
+  flex-shrink: 0;
+  margin: 0;
+  padding: 14px 24px;
+  border-top: 1px solid #efece6;
+  background: #fbfaf7;
+}
+.ant-modal .ant-modal-close {
+  top: 16px;
+  inset-inline-end: 16px;
+}
+/* Modal ichidagi formalar ixcham */
+.ant-modal .ant-form-vertical .ant-form-item {
+  margin-bottom: 16px;
+}
+.ant-modal .ant-form-vertical .ant-form-item:last-child {
+  margin-bottom: 0;
+}
+@media (max-width: 575px) {
+  .ant-modal {
+    top: 12px;
+    max-width: calc(100vw - 16px);
+  }
+  .ant-modal .ant-modal-content {
+    max-height: calc(100dvh - 24px);
+  }
+  .ant-modal .ant-modal-header,
+  .ant-modal .ant-modal-body,
+  .ant-modal .ant-modal-footer {
+    padding-inline: 16px;
+  }
+}
+
+/* Kirish / ro'yxat formalari — ixcham vertikal ritm */
+.auth-form .ant-form-item {
+  margin-bottom: 14px;
+}
+.auth-form .ant-form-item-label {
+  padding-bottom: 4px !important;
+}
+.auth-form .ant-form-item-explain,
+.auth-form .ant-form-item-extra {
+  font-size: 12.5px;
+  min-height: 20px;
+}
+
+/* Harakatni kamaytirish sozlamasi — barcha animatsiyalar o'chadi */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Chop etish (PDF) ko'rinishi: faqat asosiy kontent */
+@media print {
+  .no-print,
+  .ant-layout-sider,
+  .ant-layout-header,
+  .ant-breadcrumb {
+    display: none !important;
+  }
+  .ant-layout,
+  .ant-layout-content {
+    background: #fff !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  .print-page {
+    box-shadow: none !important;
+    border: none !important;
+  }
+  .print-break {
+    page-break-inside: avoid;
+  }
+  .page-enter,
+  .reveal {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
