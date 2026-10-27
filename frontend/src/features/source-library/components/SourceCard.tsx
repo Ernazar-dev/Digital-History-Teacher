@@ -27,8 +27,9 @@ export const SourceCard = ({ s, base, canCompare }: { s: SourceListItem; base: s
   return (
     <article className="group flex h-full min-w-0 flex-col overflow-hidden rounded-2xl border border-solid border-line bg-white transition-shadow duration-300 hover:shadow-lift">
       <Link to={href} className="relative block aspect-[16/10] overflow-hidden bg-primary-soft" tabIndex={-1} aria-hidden>
+        {/* object-top: portret va miniatyuralarda yuz ko'rinsin (markazdan kesilsa kiyim qoladi) */}
         {coverUrl ? (
-          <img src={coverUrl} alt="" loading="lazy" className="h-full w-full object-cover transition-transform duration-[1200ms] ease-premium group-hover:scale-105" />
+          <img src={coverUrl} alt="" loading="lazy" className="h-full w-full object-cover object-top transition-transform duration-[1200ms] ease-premium group-hover:scale-105" />
         ) : (
           <div className="pattern-girih flex h-full w-full items-center justify-center text-5xl text-primary/40">{TYPE_ICON[s.type]}</div>
         )}

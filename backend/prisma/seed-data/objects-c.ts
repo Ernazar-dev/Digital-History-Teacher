@@ -43,7 +43,8 @@ export const OBJECTS_C: SeedObject[] = [
     license: 'Uzbekistan360 sayti foydalanish shartlariga muvofiq (kontent nusxalanmaydi, faqat havola/embed)',
     termsNote:
       'Sahifa iframe ichida ochilishiga ruxsat beradi (CSP: frame-ancestors *, 2026-10 holatiga tekshirilgan). Ruxsat o‘zgarsa, platforma tashqi havolani taklif qiladi.',
-    thumbnailUrl: null,
+    // Muqova: Kalta Minor, Ichan-Qal'a (Wikimedia Commons, CC0 — «Kalta Minor 01.jpg»)
+    thumbnailUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Kalta_Minor_01.jpg/1280px-Kalta_Minor_01.jpg',
     isDemo: false,
     status: 'PUBLISHED',
     period: 'xonliklar-va-amirlik',

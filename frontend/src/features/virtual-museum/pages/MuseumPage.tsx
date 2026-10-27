@@ -46,7 +46,13 @@ export default function MuseumPage() {
                       o.thumbnailUrl ? (
                         <img src={o.thumbnailUrl} alt={o.title} loading="lazy" className="h-48 w-full object-cover" />
                       ) : (
-                        <div className="flex h-48 items-center justify-center bg-primary-soft text-5xl text-primary"><BankOutlined /></div>
+                        // antd muqovadagi elementga display:block beradi — markazlash ichki qatlamda
+                        <div className="h-48 w-full bg-gradient-to-br from-primary to-midnight">
+                          <div className="flex h-full flex-col items-center justify-center gap-2 text-white/85">
+                            <BankOutlined className="text-4xl text-accent-light" />
+                            <span className="text-xs font-medium uppercase tracking-[0.2em]">{OBJECT_TYPE[o.type]}</span>
+                          </div>
+                        </div>
                       )
                     }
                   >
