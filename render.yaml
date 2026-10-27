@@ -62,7 +62,7 @@ services:
       # Backend nomi band bo'lib, Render boshqa manzil bergan bo'lsa — shu yerni o'zgartiring.
       - type: rewrite
         source: /api/*
-        destination: https://dht-backend.onrender.com/api/*
+        destination: https://dht-backend-uxob.onrender.com/api/*
       # SPA: qolgan barcha yo'llar index.html ga
       - type: rewrite
         source: /*
