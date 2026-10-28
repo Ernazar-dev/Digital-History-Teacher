@@ -11,7 +11,17 @@ const user = (role: User['role']): User => ({
 });
 
 describe('Marshrut himoyasi va rolga mos navigatsiya', () => {
-  beforeEach(() => useAuthStore.getState().clear());
+  beforeEach(() => {
+    useAuthStore.getState().clear();
+    useAuthStore.setState({ initialized: true });
+  });
+
+  it('sessiya hali tekshirilayotganda kirish taklifi chaqnab ketmaydi', () => {
+    useAuthStore.setState({ initialized: false });
+    renderWithProviders(<RequireAuth><div>MAXFIY</div></RequireAuth>, { route: '/app/portfolio' });
+    expect(screen.queryByText('Bu bo‘lim shaxsiy kabinetda')).not.toBeInTheDocument();
+    expect(screen.queryByText('MAXFIY')).not.toBeInTheDocument();
+  });
 
   it('kirmagan foydalanuvchiga yopiq bo‘lim o‘rnida kirish taklifi ko‘rsatiladi', () => {
     renderWithProviders(<RequireAuth><div>MAXFIY</div></RequireAuth>, { route: '/app/portfolio' });

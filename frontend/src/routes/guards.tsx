@@ -1,4 +1,4 @@
-import { Button, Result } from 'antd';
+import { Button, Result, Spin } from 'antd';
 import type { ReactNode } from 'react';
 import { Link, Navigate, useSearchParams } from 'react-router-dom';
 import { GuestGate } from '@/components/feedback/LoginPrompt';
@@ -10,15 +10,20 @@ import { safeNext } from '@/lib/safeNext';
  * Frontend guard faqat UX uchun — ruxsatlar backendda ham tekshiriladi.
  * Mehmon yopiq bo'limga kirsa — yo'naltirilmaydi, sahifa o'rnida "Kirish / Ro'yxatdan o'tish" taklifi ko'rinadi.
  */
+/** Sessiya fonda tekshirilayotganda — kirish taklifi o'rniga qisqa kutish */
+const Pending = () => <div className="flex min-h-[50vh] items-center justify-center"><Spin size="large" /></div>;
+
 export const RequireAuth = ({ children }: { children: ReactNode }) => {
   const user = useAuthStore((s) => s.user);
-  if (!user) return <GuestGate />;
+  const initialized = useAuthStore((s) => s.initialized);
+  if (!user) return initialized ? <GuestGate /> : <Pending />;
   return <>{children}</>;
 };
 
 export const RequireRole = ({ roles, children }: { roles: Role[]; children: ReactNode }) => {
   const user = useAuthStore((s) => s.user);
-  if (!user) return <GuestGate />;
+  const initialized = useAuthStore((s) => s.initialized);
+  if (!user) return initialized ? <GuestGate /> : <Pending />;
   if (!roles.includes(user.role)) {
     return (
       <Result

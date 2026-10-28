@@ -15,12 +15,39 @@ interface AuthState {
   markInitialized: () => void;
 }
 
+/**
+ * "Bu brauzerda sessiya bor edi" belgisi (maxfiy emas — token emas).
+ * Belgi yo'q bo'lsa (mehmon) sahifa refresh javobini kutmasdan darhol ochiladi.
+ */
+const HINT_KEY = 'dht_session';
+export const hasSessionHint = () => {
+  try {
+    return localStorage.getItem(HINT_KEY) === '1';
+  } catch {
+    return false;
+  }
+};
+const setSessionHint = (on: boolean) => {
+  try {
+    if (on) localStorage.setItem(HINT_KEY, '1');
+    else localStorage.removeItem(HINT_KEY);
+  } catch {
+    /* saqlash bloklangan — belgisiz ishlaydi */
+  }
+};
+
 export const useAuthStore = create<AuthState>((set) => ({
   user: null,
   accessToken: null,
   initialized: false,
-  setSession: (user, accessToken) => set({ user, accessToken }),
+  setSession: (user, accessToken) => {
+    setSessionHint(true);
+    set({ user, accessToken });
+  },
   setUser: (user) => set({ user }),
-  clear: () => set({ user: null, accessToken: null }),
+  clear: () => {
+    setSessionHint(false);
+    set({ user: null, accessToken: null });
+  },
   markInitialized: () => set({ initialized: true }),
 }));
