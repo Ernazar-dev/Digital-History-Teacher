@@ -60,9 +60,9 @@ export const authService = {
     await assertUnique(input.username, input.email);
 
     const autoApprove = await settingsService.get('auth.studentAutoApprove');
-    // O'qituvchi roli har doim administrator tasdig'idan o'tadi
-    const status = input.role === 'STUDENT' && autoApprove ? 'ACTIVE' : 'PENDING';
-    const groupId = input.role === 'STUDENT' ? input.groupId : undefined;
+    // Ochiq ro'yxatdan faqat talaba o'tadi; o'qituvchini administrator yaratadi
+    const status = autoApprove ? 'ACTIVE' : 'PENDING';
+    const groupId = input.groupId;
     if (groupId && !(await prisma.group.findFirst({ where: { id: groupId, deletedAt: null } }))) {
       throw AppError.badRequest('Tanlangan guruh topilmadi');
     }
@@ -74,9 +74,9 @@ export const authService = {
         passwordHash: await hashPassword(input.password),
         fullName: input.fullName,
         institution: input.institution,
-        role: input.role,
+        role: 'STUDENT',
         status,
-        ...(input.role === 'STUDENT' ? { portfolio: { create: {} } } : {}),
+        portfolio: { create: {} },
         ...(groupId ? { memberships: { create: { groupId } } } : {}),
       },
     });

@@ -67,14 +67,12 @@ describe('Autentifikatsiya', () => {
     expect(res.status).toBe(413);
   });
 
-  it('o‘qituvchi tasdiqlanmaguncha kira olmaydi', async () => {
+  it('o‘qituvchi o‘zi ro‘yxatdan o‘ta olmaydi — faqat administrator yaratadi', async () => {
     const username = `t-${Date.now()}`;
-    const reg = await api().post('/api/v1/auth/register').send({ username, email: `${username}@test.local`, password: 'Parol12345', fullName: 'Oqituvchi', role: 'TEACHER' });
-    expect(reg.body.data.user.status).toBe('PENDING');
-    expect(reg.body.data.accessToken).toBeNull();
-    expect(cookieOf(reg)).toBeUndefined();
+    const reg = await api().post('/api/v1/auth/register').send({ username, password: 'Parol12345', fullName: 'Oqituvchi', role: 'TEACHER' });
+    expect(reg.status).toBe(400);
     const login = await api().post('/api/v1/auth/login').send({ username, password: 'Parol12345' });
-    expect(login.status).toBe(403);
+    expect(login.status).toBe(401);
   });
 
   it('refresh token rotatsiyasi, CSRF header va qayta ishlatishni aniqlash', async () => {

@@ -21,7 +21,6 @@ export const loginSchema = z.object({
 export const registerSchema = z.object({
   fullName: z.string().trim().min(3, 'F.I.Sh. kamida 3 belgi'),
   username: usernameRule,
-  role: z.enum(['STUDENT', 'TEACHER']),
   password: passwordRule,
   groupId: z.string().optional(),
 });

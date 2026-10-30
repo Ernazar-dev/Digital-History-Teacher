@@ -27,8 +27,8 @@ export const registerSchema = z.object({
   password: passwordSchema,
   fullName: z.string().trim().min(3, 'F.I.Sh. kamida 3 belgi').max(150),
   institution: z.string().trim().max(200).optional(),
-  /// Talaba yoki o'qituvchi sifatida ro'yxatdan o'tish (o'qituvchi admin tasdig'ini kutadi)
-  role: z.enum(['STUDENT', 'TEACHER']).default('STUDENT'),
+  /// Ochiq ro'yxatdan o'tish faqat talaba uchun — o'qituvchini administrator yaratadi
+  role: z.literal('STUDENT', { errorMap: () => ({ message: 'O‘qituvchi hisobini faqat administrator yaratadi' }) }).optional(),
   /// Talaba ro'yxatdan o'tishda o'z guruhini tanlaydi
   groupId: z.string().uuid().optional(),
 });

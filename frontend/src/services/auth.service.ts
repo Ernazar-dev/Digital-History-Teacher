@@ -2,7 +2,7 @@ import { http } from '@/lib/http';
 import type { User } from '@/types/api';
 
 export interface LoginInput { username: string; password: string }
-export interface RegisterInput { username: string; email?: string; password: string; fullName: string; institution?: string; role: 'STUDENT' | 'TEACHER'; groupId?: string }
+export interface RegisterInput { username: string; email?: string; password: string; fullName: string; institution?: string; groupId?: string }
 
 export const authService = {
   login: (input: LoginInput) => http.post<{ data: { user: User; accessToken: string } }>('/auth/login', input).then((r) => r.data.data),

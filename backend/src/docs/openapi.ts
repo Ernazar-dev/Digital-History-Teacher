@@ -8,7 +8,7 @@ type Route = [Method, string, string, Access, boolean?];
 
 const R: Record<string, Route[]> = {
   Auth: [
-    ['post', '/auth/register', 'Ro‘yxatdan o‘tish (talaba/o‘qituvchi)', 'public', true],
+    ['post', '/auth/register', 'Ro‘yxatdan o‘tish (faqat talaba)', 'public', true],
     ['post', '/auth/login', 'Kirish — access token + httpOnly refresh cookie', 'public', true],
     ['post', '/auth/refresh', 'Tokenni yangilash (X-Requested-With: dht header)', 'public'],
     ['post', '/auth/logout', 'Chiqish', 'public'],
