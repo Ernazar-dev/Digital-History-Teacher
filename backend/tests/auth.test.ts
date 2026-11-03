@@ -63,7 +63,7 @@ describe('Autentifikatsiya', () => {
   });
 
   it('juda katta so‘rov tanasi 413 bilan rad etiladi (500 emas)', async () => {
-    const res = await api().post('/api/v1/auth/login').set('Content-Type', 'application/json').send(`{"username":"${'a'.repeat(1_200_000)}"}`);
+    const res = await api().post('/api/v1/auth/login').set('Content-Type', 'application/json').send(`{"username":"${'a'.repeat(2_200_000)}"}`);
     expect(res.status).toBe(413);
   });
 

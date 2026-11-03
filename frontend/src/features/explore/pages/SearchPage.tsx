@@ -4,10 +4,10 @@ import { useSearchParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { PageHeader } from '@/components/common/PageHeader';
 import { QueryState } from '@/components/feedback/QueryState';
-import { ASSIGNMENT_TYPE, OBJECT_TYPE, SOURCE_TYPE, WORK_STATUS } from '@/lib/labels';
+import { OBJECT_TYPE, SOURCE_TYPE, WORK_STATUS } from '@/lib/labels';
+import { courseLabel } from '@/features/lesson-constructor/lessonForm';
 import { catalogService } from '@/services/catalog.service';
 import { exploreService } from '@/services/explore.service';
-import { fmtDate } from '@/utils/format';
 
 const TYPES = [
   { value: 'sources', label: 'Tarixiy manbalar' },
@@ -54,7 +54,7 @@ export default function SearchPage() {
               {r.sources.length > 0 && (
                 <Card title={`Tarixiy manbalar (${r.sources.length})`}>
                   <List dataSource={r.sources} renderItem={(s) => (
-                    <List.Item><List.Item.Meta title={<Link to={`/app/sources/${s.slug}`}>{s.title}</Link>} description={[SOURCE_TYPE[s.type], s.period?.name, s.dateLabel].filter(Boolean).join(' · ')} /></List.Item>
+                    <List.Item><List.Item.Meta title={<Link to={`/app/sources/${s.slug}`}>{s.title}</Link>} description={[SOURCE_TYPE[s.type], s.period?.name].filter(Boolean).join(' · ')} /></List.Item>
                   )} />
                 </Card>
               )}
@@ -65,17 +65,17 @@ export default function SearchPage() {
                   )} />
                 </Card>
               )}
-              {r.assignments.length > 0 && (
-                <Card title={`Topshiriqlar (${r.assignments.length})`}>
-                  <List dataSource={r.assignments} renderItem={(a) => (
-                    <List.Item><List.Item.Meta title={<Link to={`/app/assignments/${a.id}`}>{a.title}</Link>} description={`${ASSIGNMENT_TYPE[a.type]} · muddat: ${fmtDate(a.dueDate)}`} /></List.Item>
+              {r.tests.length > 0 && (
+                <Card title={`Testlar (${r.tests.length})`}>
+                  <List dataSource={r.tests} renderItem={(t) => (
+                    <List.Item><List.Item.Meta title={<Link to={`/app/assignments/${t.id}`}>{t.title}</Link>} description={`${t.source?.title ?? 'Umumiy test'} · ${t.questionCount} ta savol`} /></List.Item>
                   )} />
                 </Card>
               )}
               {r.lessons.length > 0 && (
                 <Card title={`Dars ishlanmalari (${r.lessons.length})`}>
                   <List dataSource={r.lessons} renderItem={(l) => (
-                    <List.Item><List.Item.Meta title={<Link to={`/app/lessons/${l.id}`}>{l.title}</Link>} description={`${l.gradeLevel}-sinf · ${l.author.fullName} · ${WORK_STATUS[l.status].label}`} /></List.Item>
+                    <List.Item><List.Item.Meta title={<Link to={`/app/lessons/${l.id}`}>{l.title}</Link>} description={`${courseLabel(l.gradeLevel)} · ${l.author.fullName} · ${WORK_STATUS[l.status].label}`} /></List.Item>
                   )} />
                 </Card>
               )}

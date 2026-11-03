@@ -47,7 +47,7 @@ const STANDARD_TASKS = (name: string) => [
   { kind: 'OBSERVATION' as const, prompt: `${name} modelini turli burchaklardan kuzating. Qaysi me’moriy elementlarni aniqladingiz?` },
   { kind: 'EVIDENCE' as const, prompt: 'Obyektning qaysi tafsilotlari uning qurilgan davri va vazifasi haqida dalil bo‘la oladi?' },
   { kind: 'COMPARISON' as const, prompt: 'Obyektni bog‘langan yozma yoki vizual manba bilan taqqoslang: nimalar mos keladi, nimalar farq qiladi?' },
-  { kind: 'LESSON_APPLICATION' as const, prompt: 'Ushbu obyekt asosida 8-sinf uchun 15 daqiqalik interaktiv mashg‘ulot g‘oyasini yozing (maqsad, topshiriq, baholash).' },
+  { kind: 'LESSON_APPLICATION' as const, prompt: 'Ushbu obyekt asosida 15 daqiqalik interaktiv mashg‘ulot g‘oyasini yozing (maqsad, topshiriq, baholash).' },
 ];
 
 export const OBJECTS_A: SeedObject[] = [

@@ -2,6 +2,7 @@ import { DownOutlined, HomeOutlined, LockOutlined, LogoutOutlined, MenuOutlined,
 import { Avatar, Button, Drawer, Dropdown, Grid, Tooltip } from 'antd';
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useSiteViewStore } from '@/features/auth/siteView.store';
 import { useAuth } from '@/features/auth/useAuth';
 import { usePlatform } from '@/hooks/usePlatform';
 import { ROLE } from '@/lib/labels';
@@ -28,6 +29,8 @@ const activePath = (path: string) =>
  */
 export const TopNavbar = () => {
   const { user, logout } = useAuth();
+  const staff = user?.role === 'ADMIN' || user?.role === 'TEACHER';
+  const setSiteView = useSiteViewStore((s) => s.setSiteView);
   const { name } = usePlatform();
   const { pathname } = useLocation();
   const screens = Grid.useBreakpoint();
@@ -124,7 +127,8 @@ export const TopNavbar = () => {
         items: [
           { key: 'who', label: <div className="py-1"><div className="font-medium">{user.fullName}</div><div className="text-xs text-muted">{ROLE[user.role]}</div></div>, disabled: true },
           { type: 'divider' },
-          { key: 'cabinet', icon: <HomeOutlined />, label: <Link to="/app">Kabinet</Link> },
+          // Xodim uchun — «Saytni ko'rish» rejimidan chiqib, boshqaruv paneliga qaytish
+          { key: 'cabinet', icon: <HomeOutlined />, label: <Link to="/app" onClick={() => setSiteView(false)}>{staff ? 'Boshqaruv paneli' : 'Kabinet'}</Link> },
           { key: 'profile', icon: <UserOutlined />, label: <Link to="/app/profile">Profil va portfolio</Link> },
           { type: 'divider' },
           { key: 'logout', icon: <LogoutOutlined />, label: 'Chiqish', onClick: () => void logout() },

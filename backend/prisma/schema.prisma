@@ -41,13 +41,6 @@ enum SourceType {
   ARCHAEOLOGICAL
 }
 
-/// Asl manba, ilmiy sharh va ta'lim uchun moslashtirilgan variant (hujjat, 1-modul)
-enum SourceVariantKind {
-  ORIGINAL
-  SCHOLARLY_COMMENTARY
-  EDUCATIONAL_ADAPTATION
-}
-
 enum VirtualObjectType {
   MODEL_3D
   TOUR_360
@@ -83,94 +76,6 @@ enum GroupKind {
   REGULAR
   EXPERIMENTAL
   CONTROL
-}
-
-enum AssignmentType {
-  SOURCE_COMPARISON
-  CHRONOLOGY
-  MAP_IDENTIFICATION
-  PERSONALITY_ANALYSIS
-  PROBLEM_QUESTIONS
-  INTERACTIVE_TASK_DESIGN
-  EVIDENCE_CONCLUSION
-  VIRTUAL_OBJECT_LESSON
-  SOURCE_ADAPTATION
-  LESSON_PLAN
-}
-
-enum AssignmentStatus {
-  DRAFT
-  PUBLISHED
-  ARCHIVED
-}
-
-enum SubmissionStatus {
-  NOT_STARTED
-  IN_PROGRESS
-  SUBMITTED
-  UNDER_REVIEW
-  RETURNED
-  GRADED
-}
-
-enum FeedbackDecision {
-  COMMENT
-  RETURN_FOR_REVISION
-  GRADE
-}
-
-enum DiagnosticStage {
-  INITIAL
-  INTERMEDIATE
-  FINAL
-}
-
-enum DiagnosticKind {
-  TEST
-  SURVEY
-  REFLECTION
-  /// Kompleks keys: manba tahlili + topshiriq tuzish + metodik qaror asosnomasi
-  CASE
-}
-
-enum QuestionType {
-  SINGLE_CHOICE
-  MULTIPLE_CHOICE
-  TEXT
-  LIKERT
-}
-
-enum AttemptStatus {
-  IN_PROGRESS
-  SUBMITTED
-  REVIEWED
-}
-
-/// Kompetensiya dalili (baholash usuli) turi
-enum EvidenceKind {
-  TEST
-  SURVEY
-  REFLECTION
-  SOURCE_ANALYSIS
-  PRACTICAL_TASK
-  LESSON_PLAN
-  PORTFOLIO
-  SELF_ASSESSMENT
-  EXPERT
-}
-
-enum AssessorRole {
-  AUTO
-  SELF
-  TEACHER
-  EXPERT
-}
-
-enum AssessmentStage {
-  INITIAL
-  INTERMEDIATE
-  FINAL
-  ONGOING
 }
 
 enum PortfolioItemType {
@@ -210,22 +115,12 @@ model User {
   memberships              GroupMembership[]
   createdSources           HistoricalSource[]      @relation("SourceCreator")
   createdObjects           VirtualObject[]         @relation("ObjectCreator")
-  analyses                 SourceAnalysis[]        @relation("AnalysisStudent")
-  reviewedAnalyses         SourceAnalysis[]        @relation("AnalysisReviewer")
-  comparisons              SourceComparison[]      @relation("ComparisonStudent")
-  reviewedComparisons      SourceComparison[]      @relation("ComparisonReviewer")
   virtualResponses         VirtualObjectResponse[]
   reviewedVirtualResponses VirtualObjectResponse[] @relation("VirtualResponseReviewer")
-  createdAssignments       Assignment[]            @relation("AssignmentCreator")
-  submissions              AssignmentSubmission[]
-  feedbacks                AssignmentFeedback[]
+  createdTests             Test[]                  @relation("TestCreator")
+  testAttempts             TestAttempt[]
   lessonPlans              LessonPlan[]            @relation("LessonAuthor")
   reviewedLessons          LessonPlan[]            @relation("LessonReviewer")
-  rubrics                  Rubric[]
-  createdDiagnostics       Diagnostic[]
-  diagnosticAttempts       DiagnosticAttempt[]
-  competenceRecords        CompetenceRecord[]      @relation("RecordStudent")
-  assessedRecords          CompetenceRecord[]      @relation("RecordAssessor")
   portfolio                Portfolio?
   reflections              ReflectionEntry[]
   mediaFiles               MediaFile[]
@@ -274,9 +169,8 @@ model Group {
   updatedAt    DateTime  @updatedAt
   deletedAt    DateTime?
 
-  teacher     User              @relation("GroupTeacher", fields: [teacherId], references: [id], onDelete: Restrict)
-  members     GroupMembership[]
-  assignments AssignmentGroup[]
+  teacher User              @relation("GroupTeacher", fields: [teacherId], references: [id], onDelete: Restrict)
+  members GroupMembership[]
 
   @@index([teacherId])
 }
@@ -352,12 +246,17 @@ model MediaFile {
   uploadedById String?  @db.Uuid
   createdAt    DateTime @default(now())
 
-  uploadedBy  User?              @relation(fields: [uploadedById], references: [id], onDelete: SetNull)
-  sources     HistoricalSource[]
-  sourceFiles SourceFile[]
+  uploadedBy          User?              @relation(fields: [uploadedById], references: [id], onDelete: SetNull)
+  sourceCovers        HistoricalSource[] @relation("SourceCover")
+  sourceLectures      HistoricalSource[] @relation("SourceLectureFile")
+  sourcePresentations HistoricalSource[] @relation("SourcePresentation")
+  sourceVideos        HistoricalSource[] @relation("SourceVideo")
+  tests               Test[]
 }
 
-// ─────────────────────── 1-modul: Manbalar kutubxonasi ───────────────────────
+// ─────────────────────── 1-modul: Manbalar kutubxonasi (ma'ruza mavzulari) ───────────────────────
+
+/// Kutubxonadagi har bir yozuv — bitta o'quv mavzusi: ma'ruza matni, taqdimot va video rolik
 
 model HistoricalSource {
   id                        String            @id @default(uuid()) @db.Uuid
@@ -392,6 +291,19 @@ model HistoricalSource {
   mediaFileId               String?           @db.Uuid
   latitude                  Float?
   longitude                 Float?
+  /// Ro'yxatdagi tartib (darslik bo'yicha mavzu ketma-ketligi)
+  sortOrder                 Int               @default(0)
+  /// Qaysi darslik va mavzu asosida (masalan: "O'zbekiston tarixi, I kitob · 12-mavzu")
+  bookLabel                 String?
+  /// Ma'ruza matni (Markdown) — sahifada o'qiladi, chop etiladi/PDF saqlanadi
+  lectureContent            String?
+  /// Ixtiyoriy: ma'ruzaning rasmiy fayli (DOCX/PDF) yuklab olish uchun
+  lectureFileId             String?           @db.Uuid
+  /// Mavzuga tegishli taqdimot (PPTX/PDF)
+  presentationFileId        String?           @db.Uuid
+  /// Video rolik: yuklangan fayl yoki YouTube havolasi
+  videoFileId               String?           @db.Uuid
+  videoUrl                  String?
   /// Demo yozuv — ma'lumotlarni admin/ekspert tekshirishi kerak
   isDemo                    Boolean           @default(false)
   status                    PublicationStatus @default(DRAFT)
@@ -400,37 +312,20 @@ model HistoricalSource {
   updatedAt                 DateTime          @updatedAt
   deletedAt                 DateTime?
 
-  period          HistoricalPeriod?      @relation(fields: [periodId], references: [id], onDelete: SetNull)
-  createdBy       User?                  @relation("SourceCreator", fields: [createdById], references: [id], onDelete: SetNull)
-  mediaFile       MediaFile?             @relation(fields: [mediaFileId], references: [id], onDelete: SetNull)
-  topics          SourceTopic[]
-  files           SourceFile[]
-  variants        SourceVariant[]
-  analyses        SourceAnalysis[]
-  comparisonItems SourceComparisonItem[]
-  virtualObjects  VirtualObjectSource[]
-  assignments     AssignmentSource[]
-  lessonResources LessonResource[]
-  diagnostics     Diagnostic[]
+  period           HistoricalPeriod?     @relation(fields: [periodId], references: [id], onDelete: SetNull)
+  createdBy        User?                 @relation("SourceCreator", fields: [createdById], references: [id], onDelete: SetNull)
+  mediaFile        MediaFile?            @relation("SourceCover", fields: [mediaFileId], references: [id], onDelete: SetNull)
+  lectureFile      MediaFile?            @relation("SourceLectureFile", fields: [lectureFileId], references: [id], onDelete: SetNull)
+  presentationFile MediaFile?            @relation("SourcePresentation", fields: [presentationFileId], references: [id], onDelete: SetNull)
+  videoFile        MediaFile?            @relation("SourceVideo", fields: [videoFileId], references: [id], onDelete: SetNull)
+  topics           SourceTopic[]
+  virtualObjects   VirtualObjectSource[]
+  lessonResources  LessonResource[]
+  tests            Test[]
 
   @@index([type, status])
   @@index([periodId])
   @@index([deletedAt])
-}
-
-/// O'qituvchi yuklagan o'quv materiallari (PDF, DOCX, PPTX, rasm) — talaba manba sahifasida ko'radi
-model SourceFile {
-  id          String   @id @default(uuid()) @db.Uuid
-  sourceId    String   @db.Uuid
-  mediaFileId String   @db.Uuid
-  sortOrder   Int      @default(0)
-  createdAt   DateTime @default(now())
-
-  source    HistoricalSource @relation(fields: [sourceId], references: [id], onDelete: Cascade)
-  mediaFile MediaFile        @relation(fields: [mediaFileId], references: [id], onDelete: Cascade)
-
-  @@unique([sourceId, mediaFileId])
-  @@index([sourceId, sortOrder])
 }
 
 model SourceTopic {
@@ -442,84 +337,6 @@ model SourceTopic {
 
   @@id([sourceId, topicId])
   @@index([topicId])
-}
-
-model SourceVariant {
-  id        String            @id @default(uuid()) @db.Uuid
-  sourceId  String            @db.Uuid
-  kind      SourceVariantKind
-  title     String
-  content   String
-  citation  String?
-  createdAt DateTime          @default(now())
-  updatedAt DateTime          @updatedAt
-
-  source HistoricalSource @relation(fields: [sourceId], references: [id], onDelete: Cascade)
-
-  @@index([sourceId, kind])
-}
-
-// ─────────────────────── 2-modul: Tahlil laboratoriyasi ───────────────────────
-
-model SourceAnalysis {
-  id             String     @id @default(uuid()) @db.Uuid
-  studentId      String     @db.Uuid
-  sourceId       String     @db.Uuid
-  /// Javoblar: savol kaliti -> matn. Savollar shabloni manba turiga bog'liq
-  answers        Json
-  status         WorkStatus @default(DRAFT)
-  teacherComment String?
-  /// O'qituvchi bahosi (0-100 foiz)
-  score          Float?
-  reviewedById   String?    @db.Uuid
-  submittedAt    DateTime?
-  reviewedAt     DateTime?
-  createdAt      DateTime   @default(now())
-  updatedAt      DateTime   @updatedAt
-
-  student    User             @relation("AnalysisStudent", fields: [studentId], references: [id], onDelete: Cascade)
-  source     HistoricalSource @relation(fields: [sourceId], references: [id], onDelete: Restrict)
-  reviewedBy User?            @relation("AnalysisReviewer", fields: [reviewedById], references: [id], onDelete: SetNull)
-
-  @@index([studentId, status])
-  @@index([sourceId])
-}
-
-model SourceComparison {
-  id             String     @id @default(uuid()) @db.Uuid
-  studentId      String     @db.Uuid
-  title          String
-  similarities   String     @default("")
-  differences    String     @default("")
-  evidence       String     @default("")
-  conclusion     String     @default("")
-  teachingUse    String     @default("")
-  status         WorkStatus @default(DRAFT)
-  teacherComment String?
-  score          Float?
-  reviewedById   String?    @db.Uuid
-  submittedAt    DateTime?
-  reviewedAt     DateTime?
-  createdAt      DateTime   @default(now())
-  updatedAt      DateTime   @updatedAt
-
-  student    User                   @relation("ComparisonStudent", fields: [studentId], references: [id], onDelete: Cascade)
-  reviewedBy User?                  @relation("ComparisonReviewer", fields: [reviewedById], references: [id], onDelete: SetNull)
-  items      SourceComparisonItem[]
-
-  @@index([studentId, status])
-}
-
-model SourceComparisonItem {
-  comparisonId String  @db.Uuid
-  sourceId     String  @db.Uuid
-  notes        String?
-  sortOrder    Int     @default(0)
-
-  comparison SourceComparison @relation(fields: [comparisonId], references: [id], onDelete: Cascade)
-  source     HistoricalSource @relation(fields: [sourceId], references: [id], onDelete: Restrict)
-
-  @@id([comparisonId, sourceId])
 }
 
 // ─────────────────────── 4-modul: Virtual muzey (3D va 360) ───────────────────────
@@ -555,12 +372,11 @@ model VirtualObject {
   updatedAt                 DateTime          @updatedAt
   deletedAt                 DateTime?
 
-  period          HistoricalPeriod?         @relation(fields: [periodId], references: [id], onDelete: SetNull)
-  createdBy       User?                     @relation("ObjectCreator", fields: [createdById], references: [id], onDelete: SetNull)
+  period          HistoricalPeriod?       @relation(fields: [periodId], references: [id], onDelete: SetNull)
+  createdBy       User?                   @relation("ObjectCreator", fields: [createdById], references: [id], onDelete: SetNull)
   sources         VirtualObjectSource[]
   tasks           VirtualObjectTask[]
   responses       VirtualObjectResponse[]
-  assignments     AssignmentVirtualObject[]
   lessonResources LessonResource[]
 
   @@index([type, status, isActive])
@@ -613,349 +429,53 @@ model VirtualObjectResponse {
   @@unique([studentId, virtualObjectId])
 }
 
-// ─────────────────────── 5-modul: Kompetensiyani baholash ───────────────────────
+// ─────────────────────── Topshiriqlar: fayl asosidagi test ───────────────────────
 
-model AssessmentComponent {
-  id         String   @id @default(uuid()) @db.Uuid
-  code       String   @unique
-  name       String
-  definition String
-  methods    String?
-  /// Umumiy ko'rsatkichdagi vazn — DASTLABKI konfiguratsiya
-  weight     Float    @default(1)
-  sortOrder  Int      @default(0)
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+/// O'qituvchi test faylini (PDF/DOCX) yuklaydi va javoblar kalitini belgilaydi.
+/// Talaba faylni o'qib, har bir savolga A/B/C/D javobini belgilaydi.
+model Test {
+  id            String    @id @default(uuid()) @db.Uuid
+  title         String
+  description   String?
+  /// Test qaysi mavzuga tegishli (kutubxonadagi mavzu)
+  sourceId      String?   @db.Uuid
+  fileId        String    @db.Uuid
+  questionCount Int
+  /// To'g'ri javoblar: ["A", "C", ...] — uzunligi questionCount ga teng
+  answerKey     Json
+  isPublished   Boolean   @default(true)
+  createdById   String?   @db.Uuid
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  deletedAt     DateTime?
 
-  criteria        AssessmentCriterion[]
-  evidenceWeights EvidenceWeight[]
-  records         CompetenceRecord[]
-  questions       DiagnosticQuestion[]
-  rubricCriteria  RubricCriterion[]
+  source    HistoricalSource? @relation(fields: [sourceId], references: [id], onDelete: SetNull)
+  file      MediaFile         @relation(fields: [fileId], references: [id], onDelete: Restrict)
+  createdBy User?             @relation("TestCreator", fields: [createdById], references: [id], onDelete: SetNull)
+  attempts  TestAttempt[]
+
+  @@index([sourceId])
+  @@index([deletedAt, isPublished])
 }
 
-model AssessmentCriterion {
-  id          String   @id @default(uuid()) @db.Uuid
-  componentId String   @db.Uuid
-  title       String
-  description String?
-  sortOrder   Int      @default(0)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  component  AssessmentComponent   @relation(fields: [componentId], references: [id], onDelete: Cascade)
-  indicators AssessmentIndicator[]
-
-  @@index([componentId])
-}
-
-model AssessmentIndicator {
-  id               String   @id @default(uuid()) @db.Uuid
-  criterionId      String   @db.Uuid
-  title            String
-  description      String?
-  /// Hujjat, 5-modul: daraja «aniq indikatorlar va ball mezonlari» orqali — Past=1, O'rta=2, Yuqori=3 ball
-  lowDescriptor    String   @default("")
-  mediumDescriptor String   @default("")
-  highDescriptor   String   @default("")
-  sortOrder        Int      @default(0)
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
-
-  criterion AssessmentCriterion @relation(fields: [criterionId], references: [id], onDelete: Cascade)
-
-  @@index([criterionId])
-}
-
-/// Past / O'rta / Yuqori — foiz chegaralari admin tomonidan sozlanadi
-model AssessmentLevel {
-  id          String   @id @default(uuid()) @db.Uuid
-  code        String   @unique
-  name        String
-  description String
-  minPercent  Float
-  maxPercent  Float
-  sortOrder   Int      @default(0)
-  updatedAt   DateTime @updatedAt
-}
-
-/// Komponent ichida dalil turining vazni
-model EvidenceWeight {
-  componentId  String       @db.Uuid
-  evidenceKind EvidenceKind
-  weight       Float
-
-  component AssessmentComponent @relation(fields: [componentId], references: [id], onDelete: Cascade)
-
-  @@id([componentId, evidenceKind])
-}
-
-/// Kompetensiya bo'yicha yagona dalil yozuvi (qaysi ish asosida — refType/refId)
-model CompetenceRecord {
-  id           String          @id @default(uuid()) @db.Uuid
-  studentId    String          @db.Uuid
-  componentId  String          @db.Uuid
-  stage        AssessmentStage @default(ONGOING)
-  evidenceKind EvidenceKind
-  assessorRole AssessorRole
-  assessorId   String?         @db.Uuid
-  /// 0-100 foiz
-  score        Float
-  note         String?
-  refType      String?
-  refId        String?         @db.Uuid
-  /// Indikatorlar bo'yicha baholash tafsiloti: [{ indicatorId, title, level, points }]
-  details      Json?
-  createdAt    DateTime        @default(now())
-
-  student   User                @relation("RecordStudent", fields: [studentId], references: [id], onDelete: Cascade)
-  assessor  User?               @relation("RecordAssessor", fields: [assessorId], references: [id], onDelete: SetNull)
-  component AssessmentComponent @relation(fields: [componentId], references: [id], onDelete: Cascade)
-
-  @@index([studentId, stage])
-  @@index([componentId])
-  @@index([refType, refId])
-}
-
-// ─────────────────────── Diagnostika ───────────────────────
-
-model Diagnostic {
-  id               String          @id @default(uuid()) @db.Uuid
-  title            String
-  description      String?
-  stage            DiagnosticStage
-  kind             DiagnosticKind
-  isActive         Boolean         @default(true)
-  timeLimitMinutes Int?
-  /// Kompleks keys-topshiriq uchun beriladigan tarixiy hujjat (5-modul misoli)
-  sourceId         String?         @db.Uuid
-  createdById      String?         @db.Uuid
-  createdAt        DateTime        @default(now())
-  updatedAt        DateTime        @updatedAt
-  deletedAt        DateTime?
-
-  createdBy User?                @relation(fields: [createdById], references: [id], onDelete: SetNull)
-  source    HistoricalSource?    @relation(fields: [sourceId], references: [id], onDelete: SetNull)
-  questions DiagnosticQuestion[]
-  attempts  DiagnosticAttempt[]
-
-  @@index([stage, isActive])
-}
-
-model DiagnosticQuestion {
-  id           String       @id @default(uuid()) @db.Uuid
-  diagnosticId String       @db.Uuid
-  componentId  String       @db.Uuid
-  type         QuestionType
-  prompt       String
-  /// Variantlar ro'yxati: id va text
-  options      Json?
-  /// To'g'ri javob id lari (faqat avtomatik tekshiriladigan savollar)
-  correct      Json?
-  points       Float        @default(1)
-  sortOrder    Int          @default(0)
-
-  diagnostic Diagnostic           @relation(fields: [diagnosticId], references: [id], onDelete: Cascade)
-  component  AssessmentComponent  @relation(fields: [componentId], references: [id], onDelete: Restrict)
-  responses  DiagnosticResponse[]
-
-  @@index([diagnosticId])
-}
-
-model DiagnosticAttempt {
-  id           String        @id @default(uuid()) @db.Uuid
-  diagnosticId String        @db.Uuid
-  studentId    String        @db.Uuid
-  status       AttemptStatus @default(IN_PROGRESS)
-  startedAt    DateTime      @default(now())
-  submittedAt  DateTime?
-  autoScore    Float?
-  maxAutoScore Float?
-
-  diagnostic Diagnostic           @relation(fields: [diagnosticId], references: [id], onDelete: Cascade)
-  student    User                 @relation(fields: [studentId], references: [id], onDelete: Cascade)
-  responses  DiagnosticResponse[]
-
-  @@index([studentId])
-  @@index([diagnosticId])
-}
-
-model DiagnosticResponse {
-  id             String   @id @default(uuid()) @db.Uuid
-  attemptId      String   @db.Uuid
-  questionId     String   @db.Uuid
-  answer         Json
-  isCorrect      Boolean?
-  score          Float?
-  teacherComment String?
-
-  attempt  DiagnosticAttempt  @relation(fields: [attemptId], references: [id], onDelete: Cascade)
-  question DiagnosticQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
-
-  @@unique([attemptId, questionId])
-}
-
-// ─────────────────────── 6-modul: Topshiriqlar ───────────────────────
-
-model Rubric {
-  id          String   @id @default(uuid()) @db.Uuid
-  title       String
-  description String?
-  createdById String?  @db.Uuid
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  createdBy   User?             @relation(fields: [createdById], references: [id], onDelete: SetNull)
-  criteria    RubricCriterion[]
-  assignments Assignment[]
-  lessonPlans LessonPlan[]
-}
-
-model RubricCriterion {
-  id          String  @id @default(uuid()) @db.Uuid
-  rubricId    String  @db.Uuid
-  title       String
-  description String?
-  maxScore    Float
-  /// Mezon qaysi kompetensiya komponentiga dalil bo'ladi
-  componentId String? @db.Uuid
-  sortOrder   Int     @default(0)
-
-  rubric    Rubric               @relation(fields: [rubricId], references: [id], onDelete: Cascade)
-  component AssessmentComponent? @relation(fields: [componentId], references: [id], onDelete: SetNull)
-  scores    CriterionScore[]
-
-  @@index([rubricId])
-}
-
-model Assignment {
-  id           String           @id @default(uuid()) @db.Uuid
-  title        String
-  scenario     String
-  instructions String?
-  type         AssignmentType
-  status       AssignmentStatus @default(DRAFT)
-  dueDate      DateTime?
-  maxScore     Float            @default(100)
-  rubricId     String?          @db.Uuid
-  evidenceKind EvidenceKind     @default(PRACTICAL_TASK)
-  /// 6-modul raqamli simulyatori: xronologik tartib yoki xaritada belgilash (to'g'ri javoblar bilan)
-  simulator    Json?
-  createdById  String?          @db.Uuid
-  createdAt    DateTime         @default(now())
-  updatedAt    DateTime         @updatedAt
-  deletedAt    DateTime?
-
-  rubric         Rubric?                   @relation(fields: [rubricId], references: [id], onDelete: SetNull)
-  createdBy      User?                     @relation("AssignmentCreator", fields: [createdById], references: [id], onDelete: SetNull)
-  groups         AssignmentGroup[]
-  sources        AssignmentSource[]
-  virtualObjects AssignmentVirtualObject[]
-  submissions    AssignmentSubmission[]
-  lessonPlans    LessonPlan[]
-
-  @@index([status])
-}
-
-model AssignmentGroup {
-  assignmentId String @db.Uuid
-  groupId      String @db.Uuid
-
-  assignment Assignment @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
-  group      Group      @relation(fields: [groupId], references: [id], onDelete: Cascade)
-
-  @@id([assignmentId, groupId])
-  @@index([groupId])
-}
-
-model AssignmentSource {
-  assignmentId String @db.Uuid
-  sourceId     String @db.Uuid
-
-  assignment Assignment       @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
-  source     HistoricalSource @relation(fields: [sourceId], references: [id], onDelete: Cascade)
-
-  @@id([assignmentId, sourceId])
-}
-
-model AssignmentVirtualObject {
-  assignmentId    String @db.Uuid
-  virtualObjectId String @db.Uuid
-
-  assignment    Assignment    @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
-  virtualObject VirtualObject @relation(fields: [virtualObjectId], references: [id], onDelete: Cascade)
-
-  @@id([assignmentId, virtualObjectId])
-}
-
-model AssignmentSubmission {
-  id              String           @id @default(uuid()) @db.Uuid
-  assignmentId    String           @db.Uuid
-  studentId       String           @db.Uuid
-  content         String           @default("")
-  lessonPlanId    String?          @db.Uuid
-  status          SubmissionStatus @default(IN_PROGRESS)
-  /// Simulyator javobi: { order: string[] } yoki { placements: { [placeId]: { lat, lng } } }
-  simulatorAnswer Json?
-  /// Avtomatik tekshiruv natijasi (0–100) va har bir element tafsiloti — o'qituvchiga tavsiya
-  autoScore       Float?
-  autoDetails     Json?
-  version         Int              @default(0)
-  score           Float?
-  submittedAt     DateTime?
-  gradedAt        DateTime?
-  createdAt       DateTime         @default(now())
-  updatedAt       DateTime         @updatedAt
-
-  assignment Assignment           @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
-  student    User                 @relation(fields: [studentId], references: [id], onDelete: Cascade)
-  lessonPlan LessonPlan?          @relation(fields: [lessonPlanId], references: [id], onDelete: SetNull)
-  revisions  SubmissionRevision[]
-  feedbacks  AssignmentFeedback[]
-
-  @@unique([assignmentId, studentId])
-  @@index([studentId, status])
-}
-
-model SubmissionRevision {
+/// Talabaning test natijasi — bitta test uchun bitta urinish (o'qituvchi o'chirsa, qayta topshiradi)
+model TestAttempt {
   id           String   @id @default(uuid()) @db.Uuid
-  submissionId String   @db.Uuid
-  version      Int
-  content      String
-  createdAt    DateTime @default(now())
+  testId       String   @db.Uuid
+  studentId    String   @db.Uuid
+  /// Talaba javoblari: ["A", null, "D", ...]
+  answers      Json
+  correctCount Int
+  total        Int
+  /// 0–100
+  percent      Float
+  submittedAt  DateTime @default(now())
 
-  submission AssignmentSubmission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+  test    Test @relation(fields: [testId], references: [id], onDelete: Cascade)
+  student User @relation(fields: [studentId], references: [id], onDelete: Cascade)
 
-  @@unique([submissionId, version])
-}
-
-model AssignmentFeedback {
-  id           String           @id @default(uuid()) @db.Uuid
-  submissionId String           @db.Uuid
-  authorId     String?          @db.Uuid
-  decision     FeedbackDecision
-  comment      String
-  version      Int
-  totalScore   Float?
-  createdAt    DateTime         @default(now())
-
-  submission AssignmentSubmission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
-  author     User?                @relation(fields: [authorId], references: [id], onDelete: SetNull)
-  scores     CriterionScore[]
-
-  @@index([submissionId])
-}
-
-model CriterionScore {
-  feedbackId  String  @db.Uuid
-  criterionId String  @db.Uuid
-  score       Float
-  comment     String?
-
-  feedback  AssignmentFeedback @relation(fields: [feedbackId], references: [id], onDelete: Cascade)
-  criterion RubricCriterion    @relation(fields: [criterionId], references: [id], onDelete: Cascade)
-
-  @@id([feedbackId, criterionId])
+  @@unique([testId, studentId])
+  @@index([studentId])
 }
 
 // ─────────────────────── 3-modul: Dars konstruktori ───────────────────────
@@ -983,13 +503,8 @@ model LessonPlan {
   methodicalRationale String     @default("")
   status              WorkStatus @default(DRAFT)
   currentVersion      Int        @default(1)
-  assignmentId        String?    @db.Uuid
   teacherComment      String?
   score               Float?
-  /// Ekspertizada qo'llangan rubrika (o'qituvchi belgilagan mezonlar)
-  rubricId            String?    @db.Uuid
-  /// Mezonlar bo'yicha ballar snapshot'i: [{ criterionId, title, maxScore, score, comment }]
-  criterionScores     Json?
   reviewedById        String?    @db.Uuid
   submittedAt         DateTime?
   reviewedAt          DateTime?
@@ -997,15 +512,12 @@ model LessonPlan {
   updatedAt           DateTime   @updatedAt
   deletedAt           DateTime?
 
-  topicRef    HistoricalTopic?       @relation(fields: [topicId], references: [id], onDelete: SetNull)
-  rubric      Rubric?                @relation(fields: [rubricId], references: [id], onDelete: SetNull)
-  author      User                   @relation("LessonAuthor", fields: [authorId], references: [id], onDelete: Cascade)
-  reviewedBy  User?                  @relation("LessonReviewer", fields: [reviewedById], references: [id], onDelete: SetNull)
-  assignment  Assignment?            @relation(fields: [assignmentId], references: [id], onDelete: SetNull)
-  stages      LessonStage[]
-  resources   LessonResource[]
-  versions    LessonPlanVersion[]
-  submissions AssignmentSubmission[]
+  topicRef   HistoricalTopic?    @relation(fields: [topicId], references: [id], onDelete: SetNull)
+  author     User                @relation("LessonAuthor", fields: [authorId], references: [id], onDelete: Cascade)
+  reviewedBy User?               @relation("LessonReviewer", fields: [reviewedById], references: [id], onDelete: SetNull)
+  stages     LessonStage[]
+  resources  LessonResource[]
+  versions   LessonPlanVersion[]
 
   @@index([authorId, status])
 }

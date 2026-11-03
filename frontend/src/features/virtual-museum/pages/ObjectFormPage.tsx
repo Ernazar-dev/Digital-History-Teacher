@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { Alert, Button, Form, Skeleton } from 'antd';
+import { Button, Form, Skeleton } from 'antd';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -11,17 +11,14 @@ import type { VirtualObject } from '@/types/api';
 import { ObjectFormFields } from '../components/ObjectFormFields';
 import { EMPTY_OBJECT, objectFormSchema, type ObjectFormValues } from '../objectForm.schema';
 
-const toForm = (o: VirtualObject): ObjectFormValues =>
-  ({
-    ...EMPTY_OBJECT,
-    ...Object.fromEntries(Object.entries(o).filter(([k]) => k in EMPTY_OBJECT)),
-    periodId: o.period?.id ?? null,
-    sourceIds: o.sources.map((s) => s.id),
-    tasks: o.tasks.map((t) => ({ kind: t.kind, prompt: t.prompt })),
-  }) as ObjectFormValues;
+const toForm = (o: VirtualObject): ObjectFormValues => ({
+  title: o.title,
+  externalUrl: o.externalUrl,
+  description: o.description,
+});
 
-const toPayload = (v: ObjectFormValues) =>
-  Object.fromEntries(Object.entries(v).map(([k, val]) => [k, val === '' ? null : val])) as ObjectFormValues;
+// Faqat shu uch maydon yuboriladi — obyektning boshqa ma'lumotlari (topshiriqlar va h.k.) o'zgarmaydi
+const toPayload = (v: ObjectFormValues): ObjectFormValues => ({ ...v });
 
 export default function ObjectFormPage() {
   const { id } = useParams();
@@ -48,13 +45,9 @@ export default function ObjectFormPage() {
   if (id && existing.isLoading) return <Skeleton active />;
   return (
     <>
-      <PageHeader title={id ? 'Virtual obyektni tahrirlash' : 'Yangi virtual obyekt'} />
-      <Alert
-        className="mb-6"
-        type="info"
-        showIcon
-        message="Embed xavfsizligi"
-        description="Faqat sketchfab.com va uzbekistan360.uz domenlaridan embed qabul qilinadi (server tomonida tekshiriladi). Sketchfab uchun model sahifasi manzilini «Tashqi URL»ga kiriting — embed manzili avtomatik hosil qilinadi."
+      <PageHeader
+        title={id ? 'Obyektni tahrirlash' : 'Yangi 3D model yoki 360° sayohat'}
+        description="Havolani qo‘ying va obyekt haqida yozing — qolganini tizim o‘zi to‘ldiradi."
       />
       <Form layout="vertical" component="form" onFinish={form.handleSubmit((v) => save.mutate(v))}>
         <ObjectFormFields form={form} />

@@ -6,7 +6,7 @@ import { asyncHandler } from '../../shared/utils/asyncHandler';
 import { currentUser, ok } from '../../shared/utils/http';
 import { progressService } from './progress.service';
 
-/** /progress — ball, daraja, yutuqlar, guruh reytingi va individual o'quv traektoriyasi */
+/** /progress — mavzular bo'yicha testlar va natijalar (o'quv yo'li) */
 export const progressRouter = Router();
 progressRouter.use(authenticate);
 
@@ -19,9 +19,4 @@ progressRouter.get(
   requireRole('ADMIN', 'TEACHER'),
   validate({ params: z.object({ studentId: z.string().uuid() }) }),
   asyncHandler(async (req, res) => ok(res, await progressService.get(currentUser(req), req.params.studentId))),
-);
-progressRouter.get(
-  '/groups/:groupId/leaderboard',
-  validate({ params: z.object({ groupId: z.string().uuid() }) }),
-  asyncHandler(async (req, res) => ok(res, await progressService.leaderboard(currentUser(req), req.params.groupId))),
 );

@@ -5,7 +5,7 @@ export const lessonFormSchema = z.object({
   title: z.string().trim().min(3, 'Sarlavha kamida 3 belgi'),
   topic: z.string().trim().min(2, 'Mavzuni kiriting'),
   topicId: z.string().nullable(),
-  gradeLevel: z.string().trim().min(1, 'Sinfni tanlang'),
+  gradeLevel: z.string().trim().min(1, 'Kursni tanlang'),
   durationMinutes: z.number({ invalid_type_error: 'Davomiylikni kiriting' }).int().min(5).max(240),
   goals: z.string(),
   objectives: z.string(),
@@ -17,7 +17,6 @@ export const lessonFormSchema = z.object({
   assessmentCriteria: z.string(),
   reflectionQuestions: z.string(),
   methodicalRationale: z.string(),
-  assignmentId: z.string().nullable(),
   stages: z.array(
     z.object({
       title: z.string().trim().min(1, 'Bosqich nomi'),
@@ -40,9 +39,9 @@ export const lessonFormSchema = z.object({
 export type LessonFormValues = z.infer<typeof lessonFormSchema>;
 
 export const EMPTY_LESSON: LessonFormValues = {
-  title: '', topic: '', topicId: null, gradeLevel: '8', durationMinutes: 45, goals: '', objectives: '', learningOutcomes: '',
+  title: '', topic: '', topicId: null, gradeLevel: '1', durationMinutes: 45, goals: '', objectives: '', learningOutcomes: '',
   problemQuestions: [], individualTasks: '', groupTasks: '', interactiveMethods: [], assessmentCriteria: '',
-  reflectionQuestions: '', methodicalRationale: '', assignmentId: null, stages: [], resources: [],
+  reflectionQuestions: '', methodicalRationale: '', stages: [], resources: [],
 };
 
 export const fromLesson = (l: LessonPlan): LessonFormValues => ({
@@ -50,7 +49,7 @@ export const fromLesson = (l: LessonPlan): LessonFormValues => ({
   objectives: l.objectives, learningOutcomes: l.learningOutcomes,
   problemQuestions: l.problemQuestions.map((text) => ({ text })), individualTasks: l.individualTasks,
   groupTasks: l.groupTasks, interactiveMethods: l.interactiveMethods, assessmentCriteria: l.assessmentCriteria,
-  reflectionQuestions: l.reflectionQuestions, methodicalRationale: l.methodicalRationale, assignmentId: l.assignmentId,
+  reflectionQuestions: l.reflectionQuestions, methodicalRationale: l.methodicalRationale,
   stages: l.stages.map(({ title, durationMinutes, teacherActivity, studentActivity, methods, resources }) => ({
     title, durationMinutes, teacherActivity, studentActivity, methods, resources,
   })),
@@ -72,7 +71,8 @@ export const METHOD_OPTIONS = [
   'Kuzatuv varag‘i', 'Manba bilan ishlash', 'Rolli o‘yin', 'Munozara', 'Virtual sayohat', 'Xronologik lenta', 'Keys-stadi',
 ].map((m) => ({ value: m, label: m }));
 
-export const GRADE_OPTIONS = ['5', '6', '7', '8', '9', '10', '11', 'Akademik litsey', 'Kasb-hunar'].map((g) => ({
-  value: g,
-  label: /^\d+$/.test(g) ? `${g}-sinf` : g,
-}));
+/** Oliy ta'lim: bakalavriat 1–4 kurslari */
+export const GRADE_OPTIONS = ['1', '2', '3', '4'].map((g) => ({ value: g, label: `${g}-kurs` }));
+
+/** Kurs yorlig'i; avvalgi yozuvlardagi boshqa qiymatlar o'zgarishsiz ko'rsatiladi */
+export const courseLabel = (g: string) => (['1', '2', '3', '4'].includes(g) ? `${g}-kurs` : g);

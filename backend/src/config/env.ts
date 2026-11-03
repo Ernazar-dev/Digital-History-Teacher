@@ -14,14 +14,14 @@ const envSchema = z.object({
   REFRESH_TOKEN_TTL_DAYS: z.coerce.number().int().positive().default(7),
   CORS_ORIGINS: z.string().default('http://localhost:5173'),
   EMBED_ALLOWED_HOSTS: z.string().default('sketchfab.com,uzbekistan360.uz'),
-  /** Auth endpointlari uchun IP bo'yicha 15 daqiqadagi maksimal urinishlar. Hisob bo'yicha alohida blok bor (loginGuard) — bu limit butun sinf bitta IP dan kirganda yetarli bo'lishi kerak */
+  /** Auth endpointlari uchun IP bo'yicha 15 daqiqadagi maksimal urinishlar. Hisob bo'yicha alohida blok bor (loginGuard) — bu limit butun guruh bitta IP dan kirganda yetarli bo'lishi kerak */
   AUTH_RATE_LIMIT_MAX: z.coerce.number().int().positive().default(100),
   UPLOAD_DIR: z.string().default('uploads'),
   /** Yuklangan fayllar qayerda saqlanadi: local — disk (UPLOAD_DIR), database — PostgreSQL (Render free kabi vaqtinchalik diskli hostinglar uchun) */
   STORAGE_DRIVER: z.enum(['local', 'database']).default('local'),
   /** Server oldidagi proxy'lar soni (Render: 1; frontend rewrite orqali kelganda ham IP to'g'ri aniqlanishi uchun sozlanadi) */
   TRUST_PROXY_HOPS: z.coerce.number().int().min(0).default(1),
-  UPLOAD_MAX_MB: z.coerce.number().positive().default(10),
+  UPLOAD_MAX_MB: z.coerce.number().positive().default(50),
   LOG_LEVEL: z.enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace', 'silent']).default('info'),
   /** Administrator hisobi (login + parol) — server ishga tushganda yaratiladi va paroli sinxronlanadi */
   ADMIN_USERNAME: optional.pipe(

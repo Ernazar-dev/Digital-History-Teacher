@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { httpUrl, optionalEmbedUrl, optionalHttpUrl, optionalText, paginationQuery } from '../../shared/validators/common';
-import { answersSchema, reviewSchema } from '../source-analysis/analysis.schemas';
+import { answersSchema, reviewSchema } from '../../shared/validators/work';
 import { publicationStatusEnum } from '../sources/sources.schemas';
 
 export const objectTypeEnum = z.enum(['MODEL_3D', 'TOUR_360', 'VIRTUAL_MUSEUM', 'OTHER']);
@@ -21,8 +21,9 @@ const coord = (min: number, max: number) => z.number().min(min).max(max).nullabl
 
 export const objectBodySchema = z.object({
   title: z.string().trim().min(2).max(300),
-  type: objectTypeEnum,
-  provider: providerEnum.default('OTHER'),
+  /** Berilmasa, havoladan aniqlanadi: Sketchfab → 3D model, Uzbekistan360 → 360° sayohat */
+  type: objectTypeEnum.optional(),
+  provider: providerEnum.optional(),
   periodId: z.string().uuid().nullable().optional(),
   periodLabel: optionalText(200),
   location: optionalText(300),

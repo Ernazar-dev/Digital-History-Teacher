@@ -1,28 +1,33 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
-import { Button, Pagination } from 'antd';
+import { Button, Input } from 'antd';
 import { Link } from 'react-router-dom';
 import { PageHeader } from '@/components/common/PageHeader';
 import { QueryState } from '@/components/feedback/QueryState';
 import { useAuth } from '@/features/auth/useAuth';
 import { useAreaPath } from '@/hooks/useAreaPath';
 import { useUrlState } from '@/hooks/useUrlState';
-import { sourcesService, type SourceFilters as F } from '@/services/catalog.service';
-import { CompareTray } from '../components/CompareTray';
+import { sourcesService } from '@/services/catalog.service';
+import type { SourceListItem } from '@/types/api';
 import { SourceCard } from '../components/SourceCard';
-import { SourceFilters } from '../components/SourceFilters';
-import { TopicBanner, TopicSections } from '../components/TopicSections';
+
+/** Mavzular darslik bo'yicha guruhlanadi: «O‘zbekiston tarixi, I kitob · 12-mavzu» → «O‘zbekiston tarixi, I kitob» */
+const groupByBook = (items: SourceListItem[]) => {
+  const groups = new Map<string, SourceListItem[]>();
+  for (const s of items) {
+    const book = s.bookLabel?.split(' · ')[0]?.trim() || 'Boshqa mavzular';
+    groups.set(book, [...(groups.get(book) ?? []), s]);
+  }
+  return [...groups.entries()];
+};
 
 export default function SourcesPage() {
-  const [filters, setFilters] = useUrlState<F & Record<string, string | number | undefined>>(['page']);
+  const [filters, setFilters] = useUrlState<{ q?: string }>([]);
   const { sources: base, inApp } = useAreaPath();
-  const { isStaff, isStudent } = useAuth();
-  const canCompare = inApp && isStudent;
-  const page = filters.page ?? 1;
-  const browsing = !filters.q && !filters.type && !filters.periodId && !filters.topicId && page === 1;
+  const { isStaff } = useAuth();
   const query = useQuery({
-    queryKey: ['sources', filters],
-    queryFn: () => sourcesService.list({ ...filters, page, pageSize: 12 }),
+    queryKey: ['sources', 'library', filters.q ?? ''],
+    queryFn: () => sourcesService.list({ q: filters.q, sort: 'order', pageSize: 100 }),
     placeholderData: keepPreviousData,
   });
 
@@ -30,29 +35,31 @@ export default function SourcesPage() {
     <>
       <PageHeader
         title="Raqamli tarixiy manbalar kutubxonasi"
-        description="Yozma, vizual, kartografik, audio-video va arxeologik manbalar — materialni oching va darsda foydalaning."
-        extra={
-          <>
-            {inApp && isStaff && <Link to="/app/admin/sources/new"><Button type="primary" icon={<PlusOutlined />}>Manba qo‘shish</Button></Link>}
-          </>
-        }
+        description="O‘zbekiston tarixi bo‘yicha o‘quv mavzulari. Har bir mavzuda — ma’ruza matni, taqdimot va video rolik."
+        extra={inApp && isStaff && <Link to="/app/admin/sources/new"><Button type="primary" icon={<PlusOutlined />}>Mavzu qo‘shish</Button></Link>}
       />
-      <SourceFilters value={filters} onChange={setFilters} />
-      {browsing && <TopicSections onSelect={(t) => setFilters({ topicId: t.id, periodId: t.periodId ?? undefined, page: 1 })} />}
-      {filters.topicId && <TopicBanner topicId={filters.topicId} onClear={() => setFilters({ topicId: undefined, periodId: undefined, page: 1 })} />}
-      <QueryState query={query} isEmpty={(d) => d.data.length === 0} empty="Mezonlarga mos manba topilmadi. Filtrlarni o‘zgartirib ko‘ring.">
+      <Input.Search
+        size="large"
+        allowClear
+        className="mb-8 max-w-xl"
+        placeholder="Mavzu yoki ma’ruza matnidan qidirish"
+        defaultValue={filters.q}
+        onSearch={(v) => setFilters({ q: v || undefined })}
+      />
+      <QueryState query={query} isEmpty={(d) => d.data.length === 0} empty="Mos mavzu topilmadi.">
         {(d) => (
-          <>
-            <div className="stagger grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-              {d.data.map((s) => <SourceCard key={s.id} s={s} base={base} canCompare={canCompare} />)}
-            </div>
-            <div className="mt-6 flex justify-center">
-              <Pagination current={page} pageSize={12} total={d.meta.total} showSizeChanger={false} onChange={(p) => setFilters({ page: p })} />
-            </div>
-          </>
+          <div className="space-y-10">
+            {groupByBook(d.data).map(([book, items]) => (
+              <section key={book} aria-label={book}>
+                <h2 className="font-serif-title mb-4 text-xl font-semibold text-ink">{book}</h2>
+                <div className="stagger grid gap-x-6 gap-y-10 sm:grid-cols-2 xl:grid-cols-3">
+                  {items.map((s) => <SourceCard key={s.id} s={s} base={base} />)}
+                </div>
+              </section>
+            ))}
+          </div>
         )}
       </QueryState>
-      {canCompare && <CompareTray />}
     </>
   );
 }

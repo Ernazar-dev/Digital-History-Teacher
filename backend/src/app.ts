@@ -1,3 +1,4 @@
+import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import express from 'express';
@@ -41,7 +42,10 @@ export const createApp = () => {
       credentials: true,
     }),
   );
-  app.use(express.json({ limit: '1mb' }));
+  // JSON javoblarni gzip bilan siqish (ma'ruza matnlari 4–6 barobar kichrayadi).
+  // Video/zip kabi siqilmaydigan fayllar va Range so'rovlari o'zgarishsiz uzatiladi.
+  app.use(compression({ filter: (req, res) => !req.headers.range && compression.filter(req, res) }));
+  app.use(express.json({ limit: '2mb' }));
   app.use(cookieParser());
   if (!env.isTest) {
     app.use(pinoHttp({ logger, autoLogging: { ignore: (req) => req.url === '/api/v1/health' } }));

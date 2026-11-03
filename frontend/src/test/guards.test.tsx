@@ -47,11 +47,11 @@ describe('Marshrut himoyasi va rolga mos navigatsiya', () => {
     const student = navFor('STUDENT').map((i) => i.key);
     const teacher = navFor('TEACHER').map((i) => i.key);
     const admin = navFor('ADMIN').map((i) => i.key);
-    expect(student).toContain('/app/competence');
-    expect(student).not.toContain('/app/review');
-    expect(student).not.toContain('admin');
-    expect(teacher).toContain('/app/review');
-    expect(teacher).not.toContain('admin');
-    expect(admin).toContain('admin');
+    expect(student).toContain('/app/assignments');
+    expect(student).not.toContain('/app/groups');
+    expect(student.some((k) => k.startsWith('/app/admin'))).toBe(false);
+    expect(teacher).toContain('/app/groups');
+    expect(teacher.some((k) => k.startsWith('/app/admin'))).toBe(false);
+    expect(admin).toContain('/app/admin/users');
   });
 });

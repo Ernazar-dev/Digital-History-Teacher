@@ -11,30 +11,24 @@ const S = await apiLogin(...C.student);
 const T = await apiLogin(...C.teacher);
 const src = (await get('/sources?pageSize=1', S))[0];
 const obj = (await get('/virtual-objects/registon-majmuasi-samarqand', S));
-const asg = (await get('/assignments', S))[0];
+const tests = await get('/tests', S);
+const test = tests[0];
 const lessons = await get('/lessons', S);
-const analyses = await get('/source-analyses', S);
-const comps = await get('/source-comparisons', S);
 const groups = await get('/groups', T);
-const diags = await get('/diagnostics', S);
-const attempt = diags.find((d) => d.myAttempt)?.myAttempt;
-const subs = await get('/submissions', T);
 const port = await get('/portfolios/me', S);
 const vresp = await get('/virtual-objects/responses/mine', S);
 const me = (await get('/auth/me', S));
 
 const ROUTES = {
-  guest: ['/', '/about', '/catalog/sources', `/catalog/sources/${src.slug}`, '/catalog/museum', `/catalog/museum/${obj.slug}`, '/login', '/register', '/forgot-password', '/nope'],
+  guest: ['/', '/about', '/catalog/sources', `/catalog/sources/${src.slug}`, '/catalog/museum', `/catalog/museum/${obj.slug}`, '/app/methodology', '/login', '/register', '/forgot-password', '/nope'],
   student: ['/app', '/app/sources', `/app/sources/${src.slug}`,
-    '/app/analysis', analyses[0] && `/app/analysis/${analyses[0].id}`, comps[0] && `/app/analysis/comparisons/${comps[0].id}`,
-    '/app/museum', `/app/museum/${obj.slug}`, '/app/explore', '/app/search?q=Samarqand', '/app/lessons', '/app/lessons/new', lessons[0] && `/app/lessons/${lessons[0].id}`, lessons[0] && `/app/lessons/${lessons[0].id}/edit`,
-    '/app/assignments', `/app/assignments/${asg.id}`, '/app/diagnostics', attempt && `/app/diagnostics/attempts/${attempt.id}`,
-    '/app/competence', '/app/portfolio', port.items[0] && `/app/portfolio/items/${port.items[0].id}`, '/app/profile', '/app/admin/users'],
-  teacher: ['/app', '/app/review', '/app/groups', `/app/groups/${groups[0].id}`, '/app/experiment', '/app/rubrics', '/app/assignments', '/app/assignments/new', `/app/assignments/${asg.id}/edit`,
-    subs.data?.[0] && `/app/submissions/${subs.data[0].id}`, subs[0] && `/app/submissions/${subs[0].id}`, '/app/diagnostics', '/app/diagnostics/new', `/app/diagnostics/${diags[0].id}/edit`,
-    `/app/competence/students/${me.id}`, `/app/portfolio/students/${me.id}`, vresp[0] && `/app/museum/responses/${vresp[0].id}`, '/app/admin/sources', '/app/admin/sources/new'],
+    '/app/museum', `/app/museum/${obj.slug}`, '/app/explore', '/app/methodology', '/app/search?q=Samarqand', '/app/lessons', '/app/lessons/new', lessons[0] && `/app/lessons/${lessons[0].id}`, lessons[0] && `/app/lessons/${lessons[0].id}/edit`,
+    '/app/assignments', test && `/app/assignments/${test.id}`, '/app/?tab=yol',
+    '/app/portfolio', port.items[0] && `/app/portfolio/items/${port.items[0].id}`, '/app/profile', '/app/admin/users'],
+  teacher: ['/app', '/app/groups', groups[0] && `/app/groups/${groups[0].id}`, '/app/assignments', '/app/assignments/new', test && `/app/assignments/${test.id}`, test && `/app/assignments/${test.id}/edit`,
+    `/app/progress/students/${me.id}`, `/app/portfolio/students/${me.id}`, vresp[0] && `/app/museum/responses/${vresp[0].id}`, '/app/admin/sources', '/app/admin/sources/new'],
   admin: ['/app', '/app/admin/users', '/app/admin/sources', `/app/admin/sources/${src.id}/edit`, '/app/admin/objects', '/app/admin/objects/new', `/app/admin/objects/${obj.id}/edit`,
-    '/app/admin/roles', '/app/admin/taxonomy', '/app/admin/assessment', '/app/admin/settings', '/app/admin/audit'],
+    '/app/admin/roles', '/app/admin/taxonomy', '/app/admin/settings', '/app/admin/audit'],
 };
 const CREDS = C;
 

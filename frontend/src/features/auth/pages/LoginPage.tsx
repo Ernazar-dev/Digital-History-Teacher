@@ -7,6 +7,7 @@ import { TextField } from '@/components/forms/fields';
 import { errorMessage } from '@/lib/http';
 import { authService } from '@/services/auth.service';
 import { useAuthStore } from '../auth.store';
+import { useSiteViewStore } from '../siteView.store';
 import { AuthShell } from '../components/AuthShell';
 import { loginSchema, type LoginForm } from '../schemas';
 import { safeNext } from '@/lib/safeNext';
@@ -19,6 +20,8 @@ export default function LoginPage() {
     mutationFn: authService.login,
     onSuccess: ({ user, accessToken }) => {
       useAuthStore.getState().setSession(user, accessToken);
+      // Xodim kirgach — sayt ko'rinishi emas, boshqaruv paneli ochiladi
+      useSiteViewStore.getState().setSiteView(false);
       const next = params.get('next');
       navigate(safeNext(next), { replace: true });
     },

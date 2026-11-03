@@ -25,7 +25,7 @@ export const StepBasics = ({ form }: { form: UseFormReturn<LessonFormValues> }) 
   const { options, topics, loading } = useTopicOptions();
   return (
     <>
-      <Hint items={['Qaysi sinf o‘quvchilari uchun dars tayyorlayapsiz va ularning yosh xususiyatlari qanday?', 'Mavzu o‘quv dasturining qaysi bo‘limiga mos keladi?']} />
+      <Hint items={['Dars qaysi kurs talabalari uchun va ularning tayyorgarlik darajasi qanday?', 'Mavzu o‘quv dasturining qaysi bo‘limiga mos keladi?']} />
       <div className="grid gap-x-6 md:grid-cols-2">
         <TextField control={form.control} name="title" label="Dars ishlanmasi sarlavhasi" required className="md:col-span-2" />
         <Controller
@@ -56,7 +56,7 @@ export const StepBasics = ({ form }: { form: UseFormReturn<LessonFormValues> }) 
           )}
         />
         <TextField control={form.control} name="topic" label="Tarix fanining mavzusi (dars mavzusi)" required />
-        <SelectField control={form.control} name="gradeLevel" label="Sinf yoki ta’lim darajasi" required options={GRADE_OPTIONS} />
+        <SelectField control={form.control} name="gradeLevel" label="Kurs" required options={GRADE_OPTIONS} />
         <NumberField control={form.control} name="durationMinutes" label="Davomiyligi (daqiqa)" min={5} max={240} required />
       </div>
     </>

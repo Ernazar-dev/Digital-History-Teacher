@@ -7,31 +7,27 @@ import { QueryState } from '@/components/feedback/QueryState';
 import { useAuth } from '@/features/auth/useAuth';
 import { useAreaPath } from '@/hooks/useAreaPath';
 import { useUrlState } from '@/hooks/useUrlState';
-import { OBJECT_TYPE, PROVIDER, toOptions } from '@/lib/labels';
-import { catalogService } from '@/services/catalog.service';
+import { OBJECT_TYPE, toOptions } from '@/lib/labels';
 import { museumService, type ObjectFilters } from '@/services/museum.service';
 
 export default function MuseumPage() {
   const [f, setF] = useUrlState<ObjectFilters & Record<string, string | number | undefined>>(['page']);
   const { museum, inApp } = useAreaPath();
   const { isAdmin } = useAuth();
-  const periods = useQuery({ queryKey: ['periods'], queryFn: catalogService.periods });
   const q = useQuery({ queryKey: ['objects', f], queryFn: () => museumService.list({ ...f, pageSize: 12 }), placeholderData: keepPreviousData });
 
   return (
     <>
       <PageHeader
         title="Virtual tarixiy sayohat va muzey"
-        description="Tarixiy obidalar va artefaktlarning 3D modellari hamda 360° virtual sayohatlari. Har bir obyekt kuzatuv savollari va metodik topshiriqlar bilan bog‘langan."
+        description="Tarixiy obidalar va artefaktlarning 3D modellari hamda 360° virtual sayohatlari."
         extra={
           inApp && isAdmin && <Link to="/app/admin/objects/new"><Button type="primary" icon={<PlusOutlined />}>Obyekt qo‘shish</Button></Link>
         }
       />
-      <div className="mb-6 grid gap-3 md:grid-cols-4">
-        <Input.Search placeholder="Obyekt yoki joy nomi" allowClear defaultValue={f.q} onSearch={(v) => setF({ q: v, page: 1 })} className="md:col-span-1" />
+      <div className="mb-6 grid gap-3 md:grid-cols-[2fr_1fr]">
+        <Input.Search placeholder="Obyekt nomi" allowClear defaultValue={f.q} onSearch={(v) => setF({ q: v, page: 1 })} />
         <Select allowClear placeholder="Turi" value={f.type} options={toOptions(OBJECT_TYPE)} onChange={(v) => setF({ type: v, page: 1 })} />
-        <Select allowClear placeholder="Manba platformasi" value={f.provider} options={toOptions(PROVIDER)} onChange={(v) => setF({ provider: v, page: 1 })} />
-        <Select allowClear placeholder="Tarixiy davr" value={f.periodId} options={periods.data?.map((p) => ({ value: p.id, label: p.name }))} onChange={(v) => setF({ periodId: v, page: 1 })} />
       </div>
       <QueryState query={q} isEmpty={(d) => d.data.length === 0} empty="Obyekt topilmadi">
         {(d) => (
@@ -58,12 +54,9 @@ export default function MuseumPage() {
                   >
                     <div className="mb-2 flex flex-wrap gap-1">
                       <Tag color={o.type === 'TOUR_360' ? 'purple' : 'blue'}>{OBJECT_TYPE[o.type]}</Tag>
-                      <Tag>{PROVIDER[o.provider]}</Tag>
                       {!o.isActive && <Tag color="red">Yashirilgan</Tag>}
                     </div>
                     <h3 className="m-0 text-base font-semibold text-ink">{o.title}</h3>
-                    <div className="mt-1 text-sm text-muted">{[o.location, o.periodLabel].filter(Boolean).join(' · ')}</div>
-                    <div className="mt-2 text-xs text-muted">{o._count?.tasks ?? 0} ta pedagogik topshiriq</div>
                   </Card>
                 </Link>
               ))}

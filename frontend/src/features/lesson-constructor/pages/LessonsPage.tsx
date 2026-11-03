@@ -8,6 +8,7 @@ import { StatusTag } from '@/components/common/StatusTag';
 import { QueryState } from '@/components/feedback/QueryState';
 import { useAuth } from '@/features/auth/useAuth';
 import { toOptions, WORK_STATUS } from '@/lib/labels';
+import { courseLabel } from '../lessonForm';
 import { lessonsService } from '@/services/learning.service';
 import type { WorkStatus } from '@/types/api';
 import { fmtDateTime } from '@/utils/format';
@@ -48,7 +49,7 @@ export default function LessonsPage() {
                   ),
                 },
                 { title: 'Mavzu', dataIndex: 'topic' },
-                { title: 'Sinf', width: 80, dataIndex: 'gradeLevel' },
+                { title: 'Kurs', width: 90, render: (_, l) => courseLabel(l.gradeLevel) },
                 ...(!isStudent ? [{ title: 'Muallif', width: 160, render: (_: unknown, l: (typeof d.data)[number]) => l.author.fullName }] : []),
                 { title: 'Holat', width: 200, render: (_, l) => <StatusTag map={WORK_STATUS} value={l.status} /> },
                 { title: 'Versiya', width: 80, dataIndex: 'currentVersion' },

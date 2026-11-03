@@ -1,4 +1,6 @@
 import L from 'leaflet';
+// Xarita stillari faqat xarita sahifasi ochilganda yuklanadi
+import 'leaflet/dist/leaflet.css';
 import { useEffect, useMemo, useRef } from 'react';
 import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet';
 import { Link } from 'react-router-dom';
@@ -67,7 +69,7 @@ const HistoryMap = ({ features, selectedKey, onSelect }: { features: MapFeature[
                 {f.thumbnailUrl && <img src={f.thumbnailUrl} alt="" className="mb-2 h-28 w-full rounded-lg object-cover" />}
                 <div className="text-[11px] font-semibold uppercase tracking-wider text-accent">{featureType(f)}</div>
                 <div className="mt-0.5 font-semibold leading-snug">{f.title}</div>
-                {(f.period || f.dateLabel) && <div className="mt-1 text-xs text-muted">{[f.period?.name, f.dateLabel].filter(Boolean).join(' · ')}</div>}
+                {f.period && <div className="mt-1 text-xs text-muted">{f.period.name}</div>}
                 <Link to={featureLink(f)} className="mt-2 inline-block text-sm font-medium">Batafsil →</Link>
               </div>
             </Popup>

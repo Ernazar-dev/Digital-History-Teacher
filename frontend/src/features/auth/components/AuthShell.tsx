@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 import { Ornament } from '@/components/motion/motion';
 import { usePlatform } from '@/hooks/usePlatform';
 
-const POINTS = ['Raqamli tarixiy manbalar kutubxonasi', 'Tanqidiy tahlil laboratoriyasi', '3D/360° virtual muzey', 'Elektron portfolio va kompetensiya profili'];
+const POINTS = ['Mavzular: ma’ruza, taqdimot va video', 'Testlar — natija darhol', '3D/360° virtual muzey', 'Elektron portfolio va o‘quv yo‘li'];
 
 /**
  * Kirish/ro'yxat sahifalari uchun ikki ustunli premium qobiq.

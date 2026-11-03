@@ -5,9 +5,9 @@ import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { ErrorBoundary } from '@/components/feedback/ErrorBoundary';
 import { PageLoader } from '@/components/feedback/PageLoader';
 import { useAuth } from '@/features/auth/useAuth';
-import { ROLE } from '@/lib/labels';
 import { Logo } from './Logo';
-import { navFor, SEGMENT_LABELS, type NavItem } from './navigation';
+import { breadcrumbItems } from './breadcrumbs';
+import { navFor, type NavItem } from './navigation';
 
 const SIDER_WIDTH = 272;
 
@@ -46,12 +46,7 @@ export const AppLayout = () => {
   const selected = activeKey(location.pathname, items);
   const isMobile = !screens.lg;
 
-  const crumbs = location.pathname.split('/').filter(Boolean);
-  const breadcrumb = crumbs.map((seg, i) => {
-    const path = `/${crumbs.slice(0, i + 1).join('/')}`;
-    const label = SEGMENT_LABELS[seg] ?? 'Batafsil';
-    return { title: i < crumbs.length - 1 ? <Link to={path}>{label}</Link> : label };
-  });
+  const breadcrumb = breadcrumbItems(location.pathname);
 
   const sider = (
     <div className="app-sider grain relative flex h-full flex-col overflow-hidden bg-midnight">
@@ -69,18 +64,7 @@ export const AppLayout = () => {
           className="!border-0 !bg-transparent"
         />
       </div>
-      {user && (
-        <div className="relative m-3 flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.04] p-3">
-          <Avatar className="shrink-0 !bg-[linear-gradient(135deg,#f3dd9e,#c29a45)] !font-semibold !text-midnight">{initials(user.fullName)}</Avatar>
-          <div className="min-w-0 flex-1">
-            <div className="truncate text-sm font-medium text-white">{user.fullName}</div>
-            <div className="text-xs text-accent-light/80">{ROLE[user.role]}</div>
-          </div>
-          <Tooltip title="Chiqish">
-            <Button type="text" size="small" icon={<LogoutOutlined />} onClick={() => void logout()} className="!text-white/60 hover:!bg-white/10 hover:!text-white" aria-label="Chiqish" />
-          </Tooltip>
-        </div>
-      )}
+      {/* Foydalanuvchi va «Chiqish» — yuqoridagi profil menyusida; sidebar pastida takrorlanmaydi */}
     </div>
   );
 
@@ -135,7 +119,7 @@ export const AppLayout = () => {
           </div>
         </Layout.Header>
         <Layout.Content className="mx-auto w-full max-w-7xl px-4 py-6 md:px-8 md:py-10">
-          {crumbs.length >= 3 && <Breadcrumb items={breadcrumb} className="no-print mb-5" />}
+          {breadcrumb.length >= 3 && <Breadcrumb items={breadcrumb} className="no-print mb-5" />}
           <ErrorBoundary key={location.pathname}>
             <Suspense fallback={<PageLoader />}>
               <div key={location.pathname} className="page-enter">

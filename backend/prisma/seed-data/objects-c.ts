@@ -61,7 +61,7 @@ export const OBJECTS_C: SeedObject[] = [
       { kind: 'OBSERVATION', prompt: 'Panoramada qaysi inshootlarni ko‘rdingiz? Ularning vazifasini taxmin qiling va asoslang.' },
       { kind: 'EVIDENCE', prompt: 'Shahar devorlari va darvozalari qanday tarixiy sharoit haqida guvohlik beradi?' },
       { kind: 'MATERIAL_CREATION', prompt: 'O‘quvchilar uchun «virtual sayohat yo‘riqnomasi»ni tuzing: 4 ta to‘xtash nuqtasi va har biri uchun savol.' },
-      { kind: 'LESSON_APPLICATION', prompt: 'Virtual sayohat asosida 7–8-sinf uchun 20 daqiqalik mashg‘ulot rejasini yozing.' },
+      { kind: 'LESSON_APPLICATION', prompt: 'Virtual sayohat asosida 20 daqiqalik mashg‘ulot rejasini yozing.' },
     ],
   },
   {

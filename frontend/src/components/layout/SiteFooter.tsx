@@ -9,7 +9,7 @@ const COLUMNS = [
     title: 'Manbalar',
     links: [
       { to: '/app/sources', label: 'Manbalar kutubxonasi' },
-      { to: '/app/analysis', label: 'Tahlil laboratoriyasi' },
+      { to: '/app/methodology', label: 'Metodika' },
     ],
   },
   {
@@ -45,7 +45,7 @@ export const SiteFooter = () => {
           <div>
             <Logo dark />
             <p className="mb-0 mt-5 max-w-sm text-sm leading-relaxed text-white/60">
-              {fullName || 'Bo‘lajak tarix o‘qituvchilarining metodik kompetensiyasini rivojlantirish raqamli ta’lim platformasi'}
+              {fullName || 'Bo‘lajak tarix o‘qituvchilarining metodik kompetensiyasini takomillashtirish raqamli ta’lim platformasi'}
             </p>
             <Link to="/about" className="group mt-6 inline-flex items-center gap-2 text-sm font-medium text-accent no-underline hover:text-accent-light">
               Platforma haqida <ArrowRightOutlined className="text-xs transition-transform duration-300 group-hover:translate-x-1" />

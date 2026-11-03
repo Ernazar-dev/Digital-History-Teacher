@@ -5,16 +5,15 @@ import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { PageHeader } from '@/components/common/PageHeader';
 import { QueryState } from '@/components/feedback/QueryState';
-import { CompetenceRadar } from '@/features/diagnostics/components/CompetenceChart';
 import { useNotify } from '@/hooks/useNotify';
 import { PORTFOLIO_TYPE } from '@/lib/labels';
 import { portfolioService } from '@/services/portfolio.service';
 import type { Portfolio, PortfolioItem } from '@/types/api';
-import { fmtDateTime, fmtPercent } from '@/utils/format';
+import { fmtDateTime } from '@/utils/format';
 import { CompareItemsModal } from '../components/CompareItemsModal';
 import { PortfolioFiles } from '../components/PortfolioFiles';
 import { ReflectionsCard } from '../components/ReflectionsCard';
-import { DiagnosticsCard, DynamicsCard, OutcomeCell, TeacherCommentsCard } from '../components/ProgressCards';
+import { OutcomeCell, TeacherCommentsCard } from '../components/ProgressCards';
 
 export default function PortfolioPage() {
   const { studentId } = useParams();
@@ -47,7 +46,7 @@ const PortfolioView = ({ p, own }: { p: Portfolio; own: boolean }) => {
           <>
             <Button icon={<DiffOutlined />} disabled={selected.length !== 2} onClick={() => setCompareOpen(true)}>Tanlanganlarni taqqoslash ({selected.length}/2)</Button>
             <Button icon={<PrinterOutlined />} onClick={() => window.print()}>Chop etish / PDF</Button>
-            {!own && <Link to={`/app/competence/students/${p.student.id}`}><Button>Kompetensiya profili</Button></Link>}
+            {!own && <Link to={`/app/progress/students/${p.student.id}`}><Button>Test natijalari</Button></Link>}
           </>
         }
       />
@@ -111,12 +110,6 @@ const PortfolioView = ({ p, own }: { p: Portfolio; own: boolean }) => {
               <PortfolioFiles studentId={p.student.id} />
             </Card>
           )}
-          <Card title="Joriy kompetensiya profili" extra={own && <Link to="/app/competence">Batafsil</Link>}>
-            <CompetenceRadar items={p.profile.components} height={260} />
-            <div className="text-center text-sm">Umumiy: <b>{fmtPercent(p.profile.overall)}</b> {p.profile.overallLevel && <Tag color="blue">{p.profile.overallLevel.name}</Tag>}</div>
-          </Card>
-          <DynamicsCard p={p} />
-          <DiagnosticsCard p={p} />
           <TeacherCommentsCard p={p} />
           <Card title="Tanlangan ishlar">
             {p.items.filter((i) => i.isFeatured).length === 0 ? (

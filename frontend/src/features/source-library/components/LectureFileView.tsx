@@ -1,0 +1,230 @@
+import { ArrowUpOutlined, DownloadOutlined, OrderedListOutlined } from '@ant-design/icons';
+import { Button, Spin, Tooltip } from 'antd';
+import { useEffect, useRef, useState } from 'react';
+import { sanitizeDom } from '@/lib/sanitizeDom';
+import type { MediaFileRef } from '@/types/api';
+import { fileKind, mediaFileUrl } from '../files';
+import { FileBadge } from './MaterialViewer';
+
+/** Shrift o'lchamlari (rem) — tanlov brauzerda eslab qolinadi */
+const SIZES = [0.9375, 1.0625, 1.1875, 1.3125];
+const SIZE_KEY = 'dht.lecture.size';
+const readSize = () => {
+  try {
+    const v = Number(localStorage.getItem(SIZE_KEY));
+    return SIZES.includes(v) ? v : SIZES[1];
+  } catch {
+    return SIZES[1];
+  }
+};
+
+interface Heading { id: string; text: string }
+
+const loadBuffer = async (id: string) => {
+  const res = await fetch(mediaFileUrl(id), { credentials: 'include' });
+  if (!res.ok) throw new Error(String(res.status));
+  return res.arrayBuffer();
+};
+
+/**
+ * Word hujjatini qog'oz sahifalari ko'rinishida emas, ekranga moslashadigan oqma matn qilib chizadi:
+ * sayt shrifti, qulay qator uzunligi, sahifa hoshiyalarisiz. Sarlavhalardan «Reja» tuziladi.
+ */
+const DocxReader = ({ file, size, onHeadings }: { file: MediaFileRef; size: number; onHeadings: (h: Heading[]) => void }) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const [state, setState] = useState<'loading' | 'ready' | 'error'>('loading');
+
+  useEffect(() => {
+    let alive = true;
+    const el = ref.current;
+    (async () => {
+      const [{ renderAsync }, buf] = await Promise.all([import('docx-preview'), loadBuffer(file.id)]);
+      if (!alive || !el) return;
+      await renderAsync(buf, el, undefined, {
+        className: 'docx',
+        inWrapper: false,
+        breakPages: false,
+        ignoreWidth: true,
+        ignoreHeight: true,
+        ignoreFonts: true,
+        ignoreLastRenderedPageBreak: true,
+        renderHeaders: false,
+        renderFooters: false,
+        renderFootnotes: true,
+      });
+      sanitizeDom(el);
+      // «Reja»: 1-darajali sarlavhalar (Word'dagi «Sarlavha 1» uslubi)
+      const heads = [...el.querySelectorAll<HTMLElement>('[class*="heading1" i]')]
+        .map((h, i) => ({ el: h, text: h.textContent?.trim() ?? '', id: `bolim-${i + 1}` }))
+        .filter((h) => h.text);
+      heads.forEach((h) => { h.el.id = h.id; });
+      if (alive) {
+        onHeadings(heads.map(({ id, text }) => ({ id, text })));
+        setState('ready');
+      }
+    })().catch(() => alive && setState('error'));
+    return () => {
+      alive = false;
+      if (el) el.innerHTML = '';
+    };
+  }, [file.id, onHeadings]);
+
+  return (
+    <>
+      {state === 'loading' && <div className="flex min-h-[40vh] items-center justify-center"><Spin size="large" tip="Ma’ruza ochilmoqda..." /></div>}
+      {state === 'error' && (
+        <div className="flex flex-col items-center gap-3 py-16 text-center text-muted">
+          <p className="m-0 max-w-sm">Ma’ruzani sahifada ko‘rsatib bo‘lmadi. Faylni yuklab olib oching.</p>
+          <a href={mediaFileUrl(file.id)} download={file.originalName}><Button icon={<DownloadOutlined />}>Yuklab olish</Button></a>
+        </div>
+      )}
+      <div ref={ref} className={`lecture-doc ${state === 'ready' ? '' : 'hidden'}`} style={{ fontSize: `${size}rem` }} />
+    </>
+  );
+};
+
+/** PDF brauzerning o'z ko'ruvchisida — ekran balandligiga moslab */
+const PdfReader = ({ file }: { file: MediaFileRef }) => {
+  const [src, setSrc] = useState<string | null>(null);
+  const [failed, setFailed] = useState(false);
+  useEffect(() => {
+    let url: string | null = null;
+    let alive = true;
+    loadBuffer(file.id)
+      .then((buf) => {
+        url = URL.createObjectURL(new Blob([buf], { type: 'application/pdf' }));
+        if (alive) setSrc(url);
+      })
+      .catch(() => alive && setFailed(true));
+    return () => {
+      alive = false;
+      if (url) URL.revokeObjectURL(url);
+    };
+  }, [file.id]);
+  if (failed) return <p className="py-16 text-center text-muted">PDF faylni ochib bo‘lmadi — uni yuklab oling.</p>;
+  if (!src) return <div className="flex min-h-[40vh] items-center justify-center"><Spin size="large" /></div>;
+  return <iframe title={file.originalName} src={src} className="block h-[calc(100vh-11rem)] min-h-[520px] w-full rounded-xl border border-solid border-line bg-white" />;
+};
+
+/** Ma'ruza fayli: tepada qisqa panel (fayl, shrift, yuklab olish), chapda reja, o'ngda o'qiladigan matn */
+export const LectureFileView = ({ file }: { file: MediaFileRef }) => {
+  const isDocx = fileKind(file) === 'docx';
+  const [size, setSize] = useState(readSize);
+  const [heads, setHeads] = useState<Heading[]>([]);
+  const [activeId, setActiveId] = useState<string | null>(null);
+  const [progress, setProgress] = useState(0);
+  const bodyRef = useRef<HTMLDivElement>(null);
+
+  const changeSize = (d: -1 | 1) => {
+    const next = SIZES[Math.min(SIZES.length - 1, Math.max(0, SIZES.indexOf(size) + d))];
+    setSize(next);
+    try {
+      localStorage.setItem(SIZE_KEY, String(next));
+    } catch {
+      /* brauzer xotirasi yopiq — faqat shu sahifada amal qiladi */
+    }
+  };
+
+  // O'qish progressi va joriy bo'lim
+  useEffect(() => {
+    if (!isDocx) return undefined;
+    const onScroll = () => {
+      const el = bodyRef.current;
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      const total = r.height - window.innerHeight * 0.6;
+      setProgress(Math.min(100, Math.max(0, ((-r.top + window.innerHeight * 0.2) / Math.max(total, 1)) * 100)));
+      const current = [...heads].reverse().find((h) => (document.getElementById(h.id)?.getBoundingClientRect().top ?? 1e9) < 140);
+      setActiveId(current?.id ?? heads[0]?.id ?? null);
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [heads, isDocx]);
+
+  const toc = heads.length > 1 && (
+    <nav aria-label="Ma’ruza rejasi">
+      <div className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-muted"><OrderedListOutlined /> Reja</div>
+      <ol className="m-0 list-none space-y-0.5 border-0 border-l-2 border-solid border-line p-0">
+        {heads.map((h) => {
+          const on = h.id === activeId;
+          return (
+            <li key={h.id}>
+              <a
+                href={`#${h.id}`}
+                aria-current={on ? 'location' : undefined}
+                className={`-ml-0.5 block border-0 border-l-2 border-solid py-1.5 pl-3 pr-2 text-sm leading-snug no-underline transition-colors ${
+                  on ? 'border-accent font-semibold text-primary' : 'border-transparent text-ink/75 hover:text-primary'
+                }`}
+              >
+                {h.text}
+              </a>
+            </li>
+          );
+        })}
+      </ol>
+    </nav>
+  );
+
+  return (
+    <div>
+      {isDocx && (
+        <div className="fixed inset-x-0 top-0 z-50 h-1" aria-hidden>
+          <div className="h-full bg-accent transition-[width] duration-150" style={{ width: `${progress}%` }} />
+        </div>
+      )}
+
+      <div className="sticky top-[4.5rem] z-10 mb-5 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-solid border-line bg-white/95 px-3 py-2 shadow-sm backdrop-blur md:px-4">
+        <FileBadge file={file} />
+        <span className="flex items-center gap-2">
+          {isDocx && (
+            <span className="flex items-center rounded-lg border border-solid border-line" role="group" aria-label="Shrift o‘lchami">
+              <Tooltip title="Kichikroq shrift">
+                <Button type="text" size="small" disabled={size === SIZES[0]} onClick={() => changeSize(-1)} aria-label="Shriftni kichraytirish">A−</Button>
+              </Tooltip>
+              <Tooltip title="Kattaroq shrift">
+                <Button type="text" size="small" disabled={size === SIZES[SIZES.length - 1]} onClick={() => changeSize(1)} aria-label="Shriftni kattalashtirish" className="!text-base">A+</Button>
+              </Tooltip>
+            </span>
+          )}
+          <a href={mediaFileUrl(file.id)} download={file.originalName}>
+            <Button type="primary" size="small" icon={<DownloadOutlined />}>Yuklab olish</Button>
+          </a>
+        </span>
+      </div>
+
+      {isDocx ? (
+        <div className={toc ? 'grid gap-8 lg:grid-cols-[220px_minmax(0,1fr)]' : ''}>
+          {toc && (
+            <aside className="hidden lg:block">
+              <div className="sticky top-36 max-h-[calc(100vh-10rem)] overflow-auto">{toc}</div>
+            </aside>
+          )}
+          <div ref={bodyRef} className="min-w-0">
+            {toc && (
+              <details className="mb-5 rounded-xl border border-solid border-line bg-canvas p-3 lg:hidden">
+                <summary className="cursor-pointer font-medium">Ma’ruza rejasi</summary>
+                <div className="mt-3">{toc}</div>
+              </details>
+            )}
+            <DocxReader file={file} size={size} onHeadings={setHeads} />
+          </div>
+        </div>
+      ) : (
+        <PdfReader file={file} />
+      )}
+
+      {isDocx && progress > 8 && (
+        <Button
+          shape="circle"
+          size="large"
+          type="primary"
+          icon={<ArrowUpOutlined />}
+          aria-label="Yuqoriga"
+          className="!fixed bottom-6 right-6 z-40 shadow-lift"
+          onClick={() => bodyRef.current?.scrollIntoView({ behavior: 'smooth' })}
+        />
+      )}
+    </div>
+  );
+};

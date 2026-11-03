@@ -4,7 +4,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Alert, Button, Card, Form, Progress, Select, Skeleton, Steps } from 'antd';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { PageHeader } from '@/components/common/PageHeader';
 import { StatusTag } from '@/components/common/StatusTag';
 import { useNotify } from '@/hooks/useNotify';
@@ -19,7 +19,7 @@ import { StepTasks } from '../components/StepTasks';
 import { EMPTY_LESSON, fromLesson, lessonFormSchema, toPayload, type LessonFormValues } from '../lessonForm';
 
 const STEPS = [
-  { title: 'Sinf va mavzu', C: StepBasics },
+  { title: 'Kurs va mavzu', C: StepBasics },
   { title: 'Maqsad va natijalar', C: StepGoals },
   { title: 'Tarixiy manbalar', C: StepResources },
   { title: 'Savollar va topshiriqlar', C: StepTasks },
@@ -30,7 +30,6 @@ const STEPS = [
 
 export default function LessonConstructorPage() {
   const { id } = useParams();
-  const [params] = useSearchParams();
   const navigate = useNavigate();
   const notify = useNotify();
   const qc = useQueryClient();
@@ -39,7 +38,7 @@ export default function LessonConstructorPage() {
   const existing = useQuery({ queryKey: ['lesson', id], queryFn: () => lessonsService.get(id!), enabled: Boolean(id) });
   const form = useForm<LessonFormValues>({
     resolver: zodResolver(lessonFormSchema),
-    defaultValues: { ...EMPTY_LESSON, assignmentId: params.get('assignmentId') },
+    defaultValues: EMPTY_LESSON,
   });
   useEffect(() => {
     if (existing.data) form.reset(fromLesson(existing.data));

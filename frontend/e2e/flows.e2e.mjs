@@ -60,16 +60,11 @@ const login = async (p, username, pw) => {
   await click(p, 'Saqlash'); await sleep(1500); await sleep(400);
   ok((await bodyText(p)).includes('2-versiya'), 'ikkinchi saqlash — 2-versiya yaratildi');
 
-  // C) Manba -> Tahlil qilish -> javob saqlash
-  await p.goto(BASE + '/app/sources/zafarnoma-sharafuddin-ali-yazdiy', { waitUntil: 'networkidle0' });
-  await click(p, 'Tahlil qilish'); await sleep(1500); await sleep(500);
-  ok(/\/app\/analysis\/[0-9a-f-]+$/.test(p.url()), 'tahlil muharriri ochildi');
-  await p.waitForSelector('#q-sourceType', { timeout: 15000 });
-  await p.type('#q-sourceType', 'Yozma manba — saroy solnomasi');
-  await click(p, 'Saqlash'); await sleep(1500); await sleep(300);
-  ok((await bodyText(p)).includes('Javoblar saqlandi'), 'tahlil javobi saqlandi');
-  await p.reload({ waitUntil: 'networkidle0' });
-  ok((await p.$eval('#q-sourceType', (e) => e.value)).includes('saroy solnomasi'), 'qayta yuklanganda javob saqlangan (sessiya refresh cookie orqali tiklandi)');
+  // C) Mavzu sahifasi: uch qism (ma'ruza, taqdimot, video) ko'rinadi
+  const first = (await (await fetch(BASE + '/api/v1/sources?pageSize=1&sort=order')).json()).data[0];
+  await p.goto(BASE + '/app/sources/' + first.slug, { waitUntil: 'networkidle0' });
+  const topicText = await bodyText(p);
+  ok(['Ma’ruza', 'Taqdimot', 'Video rolik'].every((t) => topicText.includes(t)), 'mavzu sahifasida ma’ruza, taqdimot va video qismlari bor');
 
   // D) 3D model lazy yuklash
   await p.goto(BASE + '/app/museum/bibixonim-masjidi', { waitUntil: 'networkidle0' });
@@ -79,15 +74,12 @@ const login = async (p, username, pw) => {
   ok(src === 'https://sketchfab.com/models/c830abac7e854e22b51b13b807f0c912/embed', '3D: bosilganda Sketchfab iframe yuklandi');
 }
 
-// E) O'qituvchi: navbatdan tahlilni ochib baholash
+// E) O'qituvchi: topshiriqlar (testlar) sahifasi
 {
   const p = await newPage();
   await login(p, ...CREDS.teacher);
-  await p.goto(BASE + '/app/review', { waitUntil: 'networkidle0' });
-  ok((await bodyText(p)).includes('Tekshiruv navbati'), 'o‘qituvchi: navbat sahifasi');
-  // Oxirgi seed talabasining topshirilgan tahlili bo'lmasa — tahlillar ro'yxati
-  await p.goto(BASE + '/app/analysis', { waitUntil: 'networkidle0' });
-  ok((await bodyText(p)).includes('Talaba'), 'o‘qituvchi tahlillar ro‘yxatida talaba ustuni bor');
+  await p.goto(BASE + '/app/assignments', { waitUntil: 'networkidle0' });
+  ok((await bodyText(p)).includes('Test yuklash'), 'o‘qituvchi: test yuklash tugmasi bor');
 }
 
 // F) Mobil ko'rinish

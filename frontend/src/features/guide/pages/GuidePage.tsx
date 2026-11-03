@@ -1,6 +1,6 @@
 import {
-  ArrowRightOutlined, BankOutlined, BookOutlined, BulbOutlined, CheckSquareOutlined, ExperimentOutlined,
-  HistoryOutlined, SettingOutlined, SolutionOutlined, TeamOutlined,
+  ArrowRightOutlined, BankOutlined, BookOutlined, BulbOutlined, CheckSquareOutlined, SettingOutlined,
+  SolutionOutlined, TeamOutlined,
 } from '@ant-design/icons';
 import { Button } from 'antd';
 import type { ReactNode } from 'react';
@@ -22,32 +22,19 @@ interface GuideSection {
 /** Platformani to'ldirish tartibi — yuqoridan pastga shu ketma-ketlikda bajarish qulay */
 const SECTIONS: GuideSection[] = [
   {
-    id: 'taxonomy',
-    icon: <HistoryOutlined />,
-    title: 'Davrlar va mavzular',
-    lead: 'Manbalar shu davr va mavzular bo‘yicha guruhlanadi — avval ularni tayyorlab oling.',
-    steps: [
-      '«Davrlar» ro‘yxatiga tarixiy davr qo‘shing (masalan: «Temuriylar davri»).',
-      '«Mavzular» ro‘yxatiga mavzu qo‘shing va uni davrga bog‘lang.',
-      'Keraksiz davr yoki mavzuni o‘chirish tugmasi bilan olib tashlang.',
-    ],
-    link: { to: '/app/admin/taxonomy', label: 'Davrlar va mavzularni ochish' },
-    adminOnly: true,
-  },
-  {
     id: 'sources',
     icon: <BookOutlined />,
-    title: 'Manba qo‘shish',
-    lead: 'Asosiy ish — materialni yuklash. O‘quvchi faylni manba sahifasida yuklab olmasdan ochib ko‘radi.',
+    title: 'Mavzu: ma’ruza, taqdimot, video',
+    lead: 'Kutubxonadagi har bir mavzu uch qismdan iborat. Fayllarni istalgan vaqtda qo‘shish yoki almashtirish mumkin.',
     steps: [
-      '«Manba nomi» va 1–3 gapdan iborat «Qisqacha tavsif»ni yozing.',
-      '«Manba turi», «Tarixiy davr» va (ixtiyoriy) «Mavzu»ni tanlang.',
-      '«O‘quv materiallari» maydoniga PDF, Word (.docx), PowerPoint (.pptx), rasm, audio yoki video fayllarni tashlang. Bir nechta fayl bo‘lsa, tartibini strelkalar bilan o‘zgartiring.',
-      'O‘ng tomonda muqova rasmini yuklang — u kutubxonadagi kartochkada ko‘rinadi.',
-      '«Saqlash»ni bosing. Manba darhol o‘quvchilarga ko‘rinadi.',
+      '«Mavzular» ro‘yxatidan kerakli mavzuni oching va «Tahrirlash»ni bosing (yoki «Yangi mavzu» qo‘shing).',
+      '«1. Ma’ruza» maydoniga matnni joylang. Bo‘lim sarlavhalarini «## » bilan boshlang — talabaga reja shulardan tuziladi. Xohlasangiz Word/PDF faylini ham biriktiring.',
+      '«2. Taqdimot» — PowerPoint (.pptx) yoki PDF faylni tashlang. Talaba uni sahifaning o‘zida ko‘radi.',
+      '«3. Video rolik» — YouTube havolasini qo‘ying (tavsiya etiladi) yoki MP4 fayl yuklang.',
+      '«Saqlash»ni bosing — o‘zgarishlar talabalarga darhol ko‘rinadi.',
     ],
-    tip: 'Eski .doc yoki .ppt fayllarni Word/PowerPoint’da «Saqlash sifatida» orqali .docx/.pptx (yoki PDF) qilib saqlang — shunda ular sahifada ochiladi.',
-    link: { to: '/app/admin/sources/new', label: 'Yangi manba qo‘shish' },
+    tip: 'Katta video fayllar serverni sekinlashtiradi — videoni YouTube’ga yuklab, havolasini qo‘yish qulayroq.',
+    link: { to: '/app/sources', label: 'Mavzularni ochish' },
   },
   {
     id: 'museum',
@@ -55,11 +42,9 @@ const SECTIONS: GuideSection[] = [
     title: 'Virtual muzey obyekti',
     lead: '3D model yoki 360° panorama — Sketchfab yoki Uzbekistan360 havolasi orqali qo‘shiladi.',
     steps: [
-      '«Nomi», «Obyekt turi» (3D model yoki 360° tur) va «Platforma»ni tanlang.',
-      '«Tavsif»ni yozing va «Tashqi manba URL» maydoniga model sahifasining havolasini qo‘ying (masalan, https://sketchfab.com/models/…).',
-      '«Preview rasm URL» — kartochkada ko‘rinadigan rasm havolasi.',
-      'Xohlasangiz, «Pedagogik topshiriqlar»ga kuzatuv savollarini qo‘shing va obyektni tegishli manbalarga bog‘lang.',
-      '«O‘quvchilarga ko‘rinadi» yoqilgan holda saqlang.',
+      '«Nomi»ni yozing.',
+      'Sketchfab (3D model) yoki Uzbekistan360 (360° sayohat) havolasini qo‘ying — turini tizim o‘zi aniqlaydi.',
+      '«Obyekt haqida ma’lumot»ni to‘ldiring va «Saqlash»ni bosing — obyekt darhol talabalarga ko‘rinadi.',
     ],
     link: { to: '/app/admin/objects/new', label: 'Yangi obyekt qo‘shish' },
     adminOnly: true,
@@ -68,7 +53,7 @@ const SECTIONS: GuideSection[] = [
     id: 'users',
     icon: <TeamOutlined />,
     title: 'Foydalanuvchilar va guruhlar',
-    lead: 'Talabalarni guruhlarga biriktirsangiz, topshiriq va diagnostikani butun guruhga bir bosishda berasiz.',
+    lead: 'Talabalarni guruhlarga biriktirsangiz, ularning test natijalarini guruh bo‘yicha kuzatasiz.',
     steps: [
       '«Foydalanuvchilar» bo‘limida «Yangi foydalanuvchi»: F.I.Sh., login, boshlang‘ich parol va rolni kiriting (talabalar o‘zi ham ro‘yxatdan o‘ta oladi).',
       '«Guruhlar» bo‘limida «Yangi guruh»: nomi va o‘quv yilini yozing.',
@@ -79,39 +64,29 @@ const SECTIONS: GuideSection[] = [
   {
     id: 'assignments',
     icon: <CheckSquareOutlined />,
-    title: 'Topshiriq berish',
-    lead: 'Manba yoki muzey obyekti asosida metodik topshiriq tuzib, guruhga yuboring.',
+    title: 'Test yuklash',
+    lead: 'Savollar yozilgan faylni yuklang va to‘g‘ri javoblarni belgilang — har bir savolni alohida kiritish shart emas.',
     steps: [
-      '«Sarlavha» va «Ko‘rsatmalar»ni yozing — talaba nima qilishi kerakligini aniq ko‘rsating.',
-      '«Guruhlar»ni, «Muddat» va «Maksimal ball»ni belgilang.',
-      'Kerak bo‘lsa, «Tarixiy manbalar» yoki «3D/360° obyektlar»ni biriktiring.',
-      '«Holati»ni «Nashr etilgan» qilib saqlang — topshiriq talabalarda paydo bo‘ladi.',
+      '«Test nomi»ni yozing va testni qaysi mavzuga tegishli ekanini tanlang.',
+      '«Test fayli»ga PDF yoki Word faylni tashlang (savollar va A, B, C, D variantlari bilan).',
+      '«Savollar soni»ni kiriting va har bir savol uchun to‘g‘ri javobni (A/B/C/D) belgilang. Tezroq: «Tez kiritish» maydoniga «ACBDA…» deb yozing.',
+      '«Saqlash»ni bosing. Talaba faylni o‘qib, javoblar varag‘ida belgilaydi va natijani darhol ko‘radi.',
+      'Test sahifasida natijalar jadvali bor; kerak bo‘lsa talabaga «qayta topshirish»ga ruxsat bering.',
     ],
-    link: { to: '/app/assignments/new', label: 'Yangi topshiriq' },
-  },
-  {
-    id: 'diagnostics',
-    icon: <ExperimentOutlined />,
-    title: 'Diagnostika (test)',
-    lead: 'Boshlang‘ich, oraliq va yakuniy diagnostika — kompetensiya o‘sishini o‘lchash uchun.',
-    steps: [
-      '«Nomi», «Bosqich» va «Turi»ni tanlang, kerak bo‘lsa vaqt chegarasini kiriting.',
-      '«Savollar» bo‘limida savollarni qo‘shing.',
-      '«Faol»ni yoqib saqlang.',
-    ],
-    link: { to: '/app/diagnostics/new', label: 'Yangi diagnostika' },
+    tip: 'Kalitda xato topsangiz, testni tahrirlab tuzating — oldin topshirgan talabalar natijasi avtomatik qayta hisoblanadi.',
+    link: { to: '/app/assignments/new', label: 'Test yuklash' },
   },
   {
     id: 'review',
     icon: <SolutionOutlined />,
-    title: 'Tekshirish va baholash',
-    lead: 'Talabalar topshirgan barcha ishlar bitta navbatda yig‘iladi.',
+    title: 'Dars ishlanmalarini tekshirish',
+    lead: 'Talabalar topshirgan dars ishlanmalari va muzey ishlari bosh sahifada «Tekshirilishi kerak» ro‘yxatida turadi.',
     steps: [
-      '«Tekshiruv navbati»dan ishni oching.',
+      'Bosh sahifadagi ro‘yxatdan ishni oching.',
       'Izoh yozing va ball qo‘ying yoki ishni qayta ishlashga qaytaring.',
       'Talaba natijani va izohingizni o‘z kabinetida ko‘radi.',
     ],
-    link: { to: '/app/review', label: 'Tekshiruv navbati' },
+    link: { to: '/app', label: 'Bosh sahifa' },
   },
   {
     id: 'settings',

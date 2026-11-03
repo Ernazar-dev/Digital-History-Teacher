@@ -1,0 +1,17 @@
+# Render free tarifida backend 15 daqiqa so'rovsiz qolsa uxlaydi va birinchi ochilish 30–60 soniya kutadi.
+# Bu ish oqimi har 10 daqiqada /health manziliga so'rov yuborib, serverni uyg'oq ushlab turadi.
+# (Bitta free web-servis oyiga ~744 soat ishlaydi — Render'ning 750 soatlik bepul limitiga sig'adi.)
+name: Backend keep-alive
+
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Ping backend health
+        run: curl -fsS --retry 3 --retry-delay 20 --max-time 90 https://dht-backend-uxob.onrender.com/api/v1/health

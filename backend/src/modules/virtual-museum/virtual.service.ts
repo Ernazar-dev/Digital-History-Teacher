@@ -18,12 +18,27 @@ export const visibleObjectWhere = (actor: Actor): Prisma.VirtualObjectWhereInput
  * Sketchfab: faqat rasmiy /models/<32 belgili ID>/embed formati (ID taxmin qilinmaydi —
  * model sahifasi URL'idan olinadi). Uzbekistan360: faqat uzbekistan360.uz domeni.
  */
+/** Havola domenidan platformani aniqlaydi */
+export const detectProvider = (url: string): 'SKETCHFAB' | 'UZBEKISTAN360' | 'OTHER' => {
+  try {
+    const host = new URL(url).hostname;
+    if (host === 'sketchfab.com' || host.endsWith('.sketchfab.com')) return 'SKETCHFAB';
+    if (host === 'uzbekistan360.uz' || host.endsWith('.uzbekistan360.uz')) return 'UZBEKISTAN360';
+  } catch {
+    /* noto'g'ri URL — validator alohida tekshiradi */
+  }
+  return 'OTHER';
+};
+const typeFor = (provider: string): 'MODEL_3D' | 'TOUR_360' | 'OTHER' => (provider === 'SKETCHFAB' ? 'MODEL_3D' : provider === 'UZBEKISTAN360' ? 'TOUR_360' : 'OTHER');
+
 export const resolveEmbed = (provider: string, externalUrl: string, embedUrl: string | null | undefined) => {
   let embed = embedUrl ?? null;
   if (provider === 'SKETCHFAB') {
     embed = embed ? sketchfabEmbedFromUrl(embed) : sketchfabEmbedFromUrl(externalUrl);
     if (embedUrl && !embed) throw AppError.badRequest('Sketchfab embed manzili noto‘g‘ri formatda');
   }
+  // Uzbekistan360 sahifasining o'zi embed qilinadi
+  if (provider === 'UZBEKISTAN360' && !embed) embed = externalUrl;
   if (provider === 'UZBEKISTAN360' && embed && !new URL(embed).hostname.endsWith('uzbekistan360.uz')) {
     throw AppError.badRequest('Uzbekistan360 uchun faqat uzbekistan360.uz manzili qabul qilinadi');
   }
@@ -82,10 +97,6 @@ export const virtualService = {
             },
           },
         },
-        assignments: {
-          where: { assignment: { deletedAt: null, status: 'PUBLISHED' } },
-          select: { assignment: { select: { id: true, title: true, type: true } } },
-        },
       },
     });
     if (!object) throw AppError.notFound('Virtual obyekt topilmadi');
@@ -98,14 +109,15 @@ export const virtualService = {
     return {
       ...object,
       sources: object.sources.map((s) => s.source),
-      assignments: object.assignments.map((a) => a.assignment),
       myResponse,
     };
   },
 
   async create(actor: Express.AuthUser, input: z.infer<typeof objectBodySchema>) {
-    const { sourceIds, tasks, ...data } = input;
-    const embedUrl = resolveEmbed(data.provider, data.externalUrl, data.embedUrl);
+    const { sourceIds, tasks, ...rest } = input;
+    const provider = rest.provider ?? detectProvider(rest.externalUrl);
+    const data = { ...rest, provider, type: rest.type ?? typeFor(provider) };
+    const embedUrl = resolveEmbed(provider, data.externalUrl, data.embedUrl);
     const slug = await uniqueSlug(data.title, async (s) => Boolean(await prisma.virtualObject.findUnique({ where: { slug: s } })));
     const object = await prisma.virtualObject.create({
       data: {
@@ -123,10 +135,13 @@ export const virtualService = {
   async update(actor: Express.AuthUser, id: string, input: z.infer<typeof updateObjectSchema>) {
     const existing = await prisma.virtualObject.findFirst({ where: { id, deletedAt: null } });
     if (!existing) throw AppError.notFound('Virtual obyekt topilmadi');
-    const { sourceIds, tasks, ...data } = input;
-    const provider = data.provider ?? existing.provider;
-    const externalUrl = data.externalUrl ?? existing.externalUrl;
-    const embedInput = data.embedUrl !== undefined ? data.embedUrl : existing.embedUrl;
+    const { sourceIds, tasks, ...rest } = input;
+    const externalUrl = rest.externalUrl ?? existing.externalUrl;
+    // Havola o'zgarsa — platforma, tur va embed qaytadan aniqlanadi
+    const urlChanged = rest.externalUrl !== undefined && rest.externalUrl !== existing.externalUrl;
+    const provider = rest.provider ?? (urlChanged ? detectProvider(externalUrl) : existing.provider);
+    const data = { ...rest, provider, ...(urlChanged && !rest.type ? { type: typeFor(provider) } : {}) };
+    const embedInput = rest.embedUrl !== undefined ? rest.embedUrl : urlChanged ? null : existing.embedUrl;
     const embedUrl = resolveEmbed(provider, externalUrl, embedInput);
     await prisma.$transaction(async (tx) => {
       await tx.virtualObject.update({ where: { id }, data: { ...data, embedUrl } });

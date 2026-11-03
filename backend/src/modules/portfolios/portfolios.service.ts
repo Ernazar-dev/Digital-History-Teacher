@@ -2,15 +2,11 @@ import type { z } from 'zod';
 import { prisma } from '../../config/prisma';
 import { AppError } from '../../shared/errors/AppError';
 import { assertCanAccessStudent } from '../../shared/utils/access';
-import { computeProfile } from '../assessments/competence.service';
 import { mediaService, PORTFOLIO_MIME_TYPES } from '../media/media.service';
 import { resolveRef } from './portfolio.resolve';
 import { resolveOutcomes } from './portfolio.summary';
 import { upsertPortfolioItem } from './portfolio.writer';
 import type { reflectionSchema } from './portfolios.schemas';
-
-/** Kompetensiya dinamikasi bosqichlari (hujjat, 7-modul: «kompetensiya darajasining dinamikasi») */
-const DYNAMICS_STAGES = ['INITIAL', 'INTERMEDIATE', 'FINAL'] as const;
 
 const buildPortfolio = async (studentId: string) => {
   const portfolio = await prisma.portfolio.upsert({
@@ -34,29 +30,14 @@ const buildPortfolio = async (studentId: string) => {
     sources: i.sourceIds.flatMap((id) => sourceMap.get(id) ?? []),
     outcome: outcomes.get(i.id)!,
   }));
-  const [reflections, profile, ...stageProfiles] = await Promise.all([
-    prisma.reflectionEntry.findMany({ where: { studentId }, orderBy: { createdAt: 'desc' } }),
-    computeProfile(studentId),
-    ...DYNAMICS_STAGES.map((s) => computeProfile(studentId, s)),
-  ]);
+  const reflections = await prisma.reflectionEntry.findMany({ where: { studentId }, orderBy: { createdAt: 'desc' } });
 
-  // Hujjat, 7-modul: oraliq va yakuniy test natijalari, o'qituvchi izohlari va kompetensiya dinamikasi
-  const diagnostics = items
-    .filter((i) => i.refType === 'DiagnosticAttempt')
-    .map((i) => ({ itemId: i.id, title: i.title, stage: i.outcome.stage ?? null, status: i.outcome.status, percent: i.outcome.percent, date: i.updatedAt }));
   const teacherComments = items
     .filter((i) => i.outcome.teacherComment)
     .sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime())
     .slice(0, 12)
     .map((i) => ({ itemId: i.id, title: i.title, type: i.type, comment: i.outcome.teacherComment!, percent: i.outcome.percent, date: i.updatedAt }));
-  const dynamics = stageProfiles.map((p, idx) => ({
-    stage: DYNAMICS_STAGES[idx],
-    overall: p.overall,
-    level: p.overallLevel,
-    components: p.components.map((c) => ({ code: c.code, name: c.name, score: c.score })),
-  }));
-
-  return { ...portfolio, items, reflections, profile, dynamics, diagnostics, teacherComments };
+  return { ...portfolio, items, reflections, teacherComments };
 };
 
 export const portfoliosService = {

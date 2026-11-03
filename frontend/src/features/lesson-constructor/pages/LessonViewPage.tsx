@@ -1,9 +1,9 @@
 import { EditOutlined, PrinterOutlined } from '@ant-design/icons';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { Alert, Button } from 'antd';
+import { Button } from 'antd';
 import { Link, useParams } from 'react-router-dom';
 import { PageHeader } from '@/components/common/PageHeader';
-import { TeacherVerdict } from '@/components/common/ReviewPanel';
+import { ReviewPanel, TeacherVerdict } from '@/components/common/ReviewPanel';
 import { StatusTag } from '@/components/common/StatusTag';
 import { QueryState } from '@/components/feedback/QueryState';
 import { useAuth } from '@/features/auth/useAuth';
@@ -12,7 +12,6 @@ import { WORK_STATUS } from '@/lib/labels';
 import { lessonsService, type LessonReviewInput } from '@/services/learning.service';
 import { fmtDateTime } from '@/utils/format';
 import { LessonDocument } from '../components/LessonDocument';
-import { LessonReviewPanel, LessonRubricResult } from '../components/LessonReviewPanel';
 
 export default function LessonViewPage() {
   const { id = '' } = useParams();
@@ -46,11 +45,9 @@ export default function LessonViewPage() {
           {l.reviewedBy && l.reviewedAt && (
             <p className="no-print -mt-3 text-sm text-muted">Ekspert: {l.reviewedBy.fullName} · {fmtDateTime(l.reviewedAt)}</p>
           )}
-          <LessonRubricResult l={l} />
-          {l.assignment && <Alert className="no-print" type="info" showIcon message={<>Topshiriq doirasida: <Link to={`/app/assignments/${l.assignment.id}`}>{l.assignment.title}</Link></>} />}
           <LessonDocument l={l} />
           {isStaff && l.author.id !== user?.id && ['SUBMITTED', 'UNDER_REVIEW'].includes(l.status) && (
-            <LessonReviewPanel l={l} loading={review.isPending} onSubmit={(v) => review.mutate(v)} />
+            <ReviewPanel title="Dars ishlanmasi ekspertizasi" loading={review.isPending} onSubmit={(v) => review.mutate(v)} />
           )}
         </div>
       )}

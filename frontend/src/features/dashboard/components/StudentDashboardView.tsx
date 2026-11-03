@@ -1,64 +1,62 @@
-import { CheckSquareOutlined, FolderOpenOutlined, TrophyOutlined } from '@ant-design/icons';
-import { Card, Empty, List, Tag } from 'antd';
+import { BookOutlined, CheckSquareOutlined, RiseOutlined, TrophyOutlined } from '@ant-design/icons';
+import { Button, Card, Empty, List } from 'antd';
 import { Link } from 'react-router-dom';
-import { StatusTag } from '@/components/common/StatusTag';
-import { CompetenceRadar } from '@/features/diagnostics/components/CompetenceChart';
-import { ASSIGNMENT_TYPE, PORTFOLIO_TYPE, SUBMISSION_STATUS } from '@/lib/labels';
+import { percentColor } from '@/features/tests/pages/TestPage';
+import { PORTFOLIO_TYPE } from '@/lib/labels';
 import type { StudentDashboard } from '@/services/dashboard.service';
 import type { PortfolioItemType } from '@/types/api';
-import { fmtDate, fmtDateTime, fmtPercent, isOverdue } from '@/utils/format';
+import { fmtDateTime, fmtPercent } from '@/utils/format';
 import { StatCard } from './StatCard';
 
 export const StudentDashboardView = ({ d }: { d: StudentDashboard }) => (
   <div className="space-y-6">
     <div className="stagger grid gap-4 sm:grid-cols-3">
-      <StatCard title="Davom etayotgan topshiriqlar" value={d.assignmentStats.active} icon={<CheckSquareOutlined />} to="/app/assignments" />
-      <StatCard title="Baholangan topshiriqlar" value={`${d.assignmentStats.graded} / ${d.assignmentStats.total}`} icon={<TrophyOutlined />} />
-      <StatCard title="Portfolio elementlari" value={d.portfolio.total} icon={<FolderOpenOutlined />} to="/app/profile" />
+      <StatCard title="Bajarilmagan testlar" value={d.testStats.total - d.testStats.done} icon={<CheckSquareOutlined />} to="/app/assignments" />
+      <StatCard title="Topshirilgan testlar" value={`${d.testStats.done} / ${d.testStats.total}`} icon={<TrophyOutlined />} to="/app?tab=yol" />
+      <StatCard title="O‘rtacha natija" value={fmtPercent(d.testStats.averagePercent)} icon={<RiseOutlined />} to="/app?tab=yol" />
     </div>
-    <div className="grid gap-6 xl:grid-cols-[1.4fr_1fr]">
-      <Card title="Davom etayotgan topshiriqlar" extra={<Link to="/app/assignments">Barchasi</Link>}>
+    <div className="grid gap-6 xl:grid-cols-2">
+      <Card title="Bajarilishi kerak bo‘lgan testlar" extra={<Link to="/app/assignments">Barchasi</Link>}>
         <List
-          dataSource={d.activeAssignments}
-          locale={{ emptyText: <Empty description="Faol topshiriqlar yo‘q" /> }}
-          renderItem={(a) => (
-            <List.Item extra={<StatusTag map={SUBMISSION_STATUS} value={a.status} />}>
+          dataSource={d.pendingTests}
+          locale={{ emptyText: <Empty description="Barcha testlar topshirilgan" /> }}
+          renderItem={(t) => (
+            <List.Item extra={<Link to={`/app/assignments/${t.id}`}><Button type="primary" size="small">Boshlash</Button></Link>}>
               <List.Item.Meta
-                title={<Link to={`/app/assignments/${a.id}`}>{a.title}</Link>}
-                description={
-                  <span>
-                    {ASSIGNMENT_TYPE[a.type]} · Muddat:{' '}
-                    <span className={isOverdue(a.dueDate) ? 'text-red-700' : ''}>{fmtDate(a.dueDate)}</span>
-                  </span>
-                }
+                title={<Link to={`/app/assignments/${t.id}`}>{t.title}</Link>}
+                description={`${t.source?.title ?? 'Umumiy test'} · ${t.questionCount} ta savol`}
               />
             </List.Item>
           )}
         />
       </Card>
-      <Card title="Kompetensiya komponentlari" extra={<Link to="/app/competence">Batafsil</Link>}>
-        <CompetenceRadar items={d.competence.components} height={240} />
-        <div className="mt-2 text-center text-sm text-muted">
-          Umumiy ko‘rsatkich: <b>{fmtPercent(d.competence.overall)}</b>{' '}
-          {d.competence.level && <Tag color="blue">{d.competence.level.name}</Tag>}
-        </div>
-      </Card>
-    </div>
-    <div className="grid gap-6 lg:grid-cols-2">
-      <Card title="Yaqin muddatlar (14 kun)">
+      <Card title="So‘nggi natijalar" extra={<Link to="/app?tab=yol">O‘quv yo‘lim</Link>}>
         <List
-          size="small"
-          dataSource={d.upcomingDeadlines}
-          locale={{ emptyText: 'Yaqin muddatlar yo‘q' }}
-          renderItem={(a) => (
-            <List.Item>
-              <Link to={`/app/assignments/${a.id}`}>{a.title}</Link>
-              <span className="text-muted">{fmtDate(a.dueDate)}</span>
+          dataSource={d.recentResults}
+          locale={{ emptyText: <Empty description="Hali test topshirilmagan" /> }}
+          renderItem={(t) => (
+            <List.Item extra={<b style={{ color: percentColor(t.attempt.percent) }}>{t.attempt.correctCount}/{t.attempt.total}</b>}>
+              <List.Item.Meta
+                title={<Link to={`/app/assignments/${t.id}`}>{t.title}</Link>}
+                description={fmtDateTime(t.attempt.submittedAt)}
+              />
             </List.Item>
           )}
         />
       </Card>
-      <Card title="Oxirgi faoliyat">
+    </div>
+    <div className="grid gap-6 lg:grid-cols-2">
+      <Card>
+        <div className="flex items-center gap-4">
+          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary-soft text-2xl text-primary"><BookOutlined /></span>
+          <div className="min-w-0 flex-1">
+            <div className="font-semibold">Manbalar kutubxonasi</div>
+            <div className="text-sm text-muted">Mavzular bo‘yicha ma’ruza, taqdimot va video roliklar</div>
+          </div>
+          <Link to="/app/sources"><Button>Ochish</Button></Link>
+        </div>
+      </Card>
+      <Card title="Oxirgi faoliyat" size="small">
         <List
           size="small"
           dataSource={d.recentActivity}
@@ -74,20 +72,5 @@ export const StudentDashboardView = ({ d }: { d: StudentDashboard }) => (
         />
       </Card>
     </div>
-    {d.recentFeedback.length > 0 && (
-      <Card title="O‘qituvchining so‘nggi izohlari">
-        <List
-          dataSource={d.recentFeedback}
-          renderItem={(f) => (
-            <List.Item extra={<span className="text-muted">{fmtDateTime(f.createdAt)}</span>}>
-              <List.Item.Meta
-                title={<Link to={`/app/assignments/${f.submission.assignment.id}`}>{f.submission.assignment.title}</Link>}
-                description={<span className="prose-text">{f.comment}</span>}
-              />
-            </List.Item>
-          )}
-        />
-      </Card>
-    )}
   </div>
 );

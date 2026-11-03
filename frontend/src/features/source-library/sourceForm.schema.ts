@@ -1,24 +1,30 @@
 import { z } from 'zod';
+import { youtubeEmbedUrl } from './files';
 
 const fileRef = z.object({ id: z.string(), originalName: z.string(), mimeType: z.string(), size: z.number() });
 
 /**
- * O'qituvchi uchun soddalashtirilgan forma: bir nechta asosiy maydon + muqova rasmi + o'quv materiallari.
- * Batafsil ilmiy maydonlar (ishonchlilik, variantlar va h.k.) formada yo'q — tahrirlashda ular o'zgarmaydi.
+ * Mavzu formasi: asosiy ma'lumot + uch qism (ma'ruza, taqdimot, video).
+ * Fayllar keyinroq ham yuklanishi mumkin — hech biri majburiy emas.
  */
 export const sourceFormSchema = z.object({
-  title: z.string().trim().min(2, 'Manba nomini kiriting').max(300),
+  title: z.string().trim().min(2, 'Mavzu nomini kiriting').max(300),
   summary: z.string().trim().min(10, 'Qisqa tavsif kamida 10 belgi bo‘lsin').max(1000),
-  type: z.enum(['WRITTEN', 'VISUAL', 'MAP', 'AUDIO', 'VIDEO', 'ARCHAEOLOGICAL']),
-  periodId: z.string().nullable().optional(),
-  topicIds: z.array(z.string()),
+  lectureFile: fileRef.nullable(),
+  presentationFile: fileRef.nullable(),
+  videoFile: fileRef.nullable(),
+  videoUrl: z
+    .string()
+    .trim()
+    .max(2000)
+    .refine((v) => !v || Boolean(youtubeEmbedUrl(v)), 'YouTube havolasini kiriting (masalan: https://youtu.be/...)'),
   cover: fileRef.nullable(),
-  files: z.array(fileRef).max(15, 'Ko‘pi bilan 15 ta fayl'),
 });
 
 export type SourceFormValues = z.infer<typeof sourceFormSchema>;
 export type UploadedFile = z.infer<typeof fileRef>;
 
 export const EMPTY_SOURCE: SourceFormValues = {
-  title: '', summary: '', type: 'WRITTEN', periodId: null, topicIds: [], cover: null, files: [],
+  title: '', summary: '',
+  lectureFile: null, presentationFile: null, videoFile: null, videoUrl: '', cover: null,
 };

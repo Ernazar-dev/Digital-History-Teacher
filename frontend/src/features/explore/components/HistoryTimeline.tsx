@@ -28,7 +28,7 @@ const PeriodCard = ({ p, onShowOnMap }: { p: TimelinePeriod; onShowOnMap?: () =>
             {p.sources.map((s) => (
               <li key={s.id} className="leading-snug">
                 <Link to={`/app/sources/${s.slug}`}>{s.title}</Link>
-                <span className="text-muted"> — {SOURCE_TYPE[s.type]}{s.dateLabel ? `, ${s.dateLabel}` : ''}</span>
+                <span className="text-muted"> — {SOURCE_TYPE[s.type]}</span>
               </li>
             ))}
           </ul>

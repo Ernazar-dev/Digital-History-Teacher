@@ -33,36 +33,6 @@ export const userWithToken = async (role: Role) => {
   return { user, token: await tokenFor(user.username), auth: { Authorization: `Bearer ${await tokenFor(user.username)}` } };
 };
 
-/** Hujjatdagi 4 komponent va 3 daraja — minimal baholash konfiguratsiyasi */
-export const ensureAssessmentConfig = async () => {
-  const comps = [
-    { code: 'MOTIVATIONAL', weights: { SURVEY: 0.5, REFLECTION: 0.3, SELF_ASSESSMENT: 0.2 } },
-    { code: 'COGNITIVE', weights: { TEST: 0.5, SOURCE_ANALYSIS: 0.5 } },
-    { code: 'ACTIVITY', weights: { PRACTICAL_TASK: 0.4, LESSON_PLAN: 0.6 } },
-    { code: 'REFLECTIVE', weights: { SELF_ASSESSMENT: 0.3, EXPERT: 0.3, REFLECTION: 0.2, PORTFOLIO: 0.2 } },
-  ];
-  for (const [i, c] of comps.entries()) {
-    const existing = await prisma.assessmentComponent.findUnique({ where: { code: c.code } });
-    if (existing) continue;
-    await prisma.assessmentComponent.create({
-      data: {
-        code: c.code, name: c.code, definition: `${c.code} ta'rifi`, sortOrder: i,
-        evidenceWeights: { create: Object.entries(c.weights).map(([k, w]) => ({ evidenceKind: k as never, weight: w })) },
-      },
-    });
-  }
-  if ((await prisma.assessmentLevel.count()) === 0) {
-    await prisma.assessmentLevel.createMany({
-      data: [
-        { code: 'LOW', name: 'Past', description: 'past', minPercent: 0, maxPercent: 54.9, sortOrder: 0 },
-        { code: 'MEDIUM', name: 'O‘rta', description: 'o‘rta', minPercent: 55, maxPercent: 79.9, sortOrder: 1 },
-        { code: 'HIGH', name: 'Yuqori', description: 'yuqori', minPercent: 80, maxPercent: 100, sortOrder: 2 },
-      ],
-    });
-  }
-  return Object.fromEntries((await prisma.assessmentComponent.findMany()).map((c) => [c.code, c.id]));
-};
-
 export const createSource = async (overrides: Record<string, unknown> = {}) => {
   counter += 1;
   return prisma.historicalSource.create({

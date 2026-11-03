@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import type { User } from '@/types/api';
+import { useSiteViewStore } from './siteView.store';
 
 /**
  * Sessiya holati. Access token faqat XOTIRADA saqlanadi (XSS orqali localStorage'dan
@@ -47,6 +48,8 @@ export const useAuthStore = create<AuthState>((set) => ({
   setUser: (user) => set({ user }),
   clear: () => {
     setSessionHint(false);
+    // Keyingi kirishda xodim yana boshqaruv paneliga tushadi
+    useSiteViewStore.getState().setSiteView(false);
     set({ user: null, accessToken: null });
   },
   markInitialized: () => set({ initialized: true }),

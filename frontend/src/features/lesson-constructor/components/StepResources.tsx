@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Alert, Button, Card, Empty, Input, Select, Tag } from 'antd';
 import { useState } from 'react';
 import { useFieldArray, type UseFormReturn } from 'react-hook-form';
-import { SourcePicker } from '@/features/source-analysis/components/SourcePicker';
+import { SourcePicker } from '@/features/source-library/components/SourcePicker';
 import { museumService } from '@/services/museum.service';
 import { sourcesService } from '@/services/catalog.service';
 import type { LessonFormValues } from '../lessonForm';
@@ -50,7 +50,7 @@ export const StepResources = ({ form }: { form: UseFormReturn<LessonFormValues> 
           onAddObject={(id, label) => append({ sourceId: null, virtualObjectId: id, purpose: '', label })}
         />
       ) : (
-        <Alert className="mb-6" type="info" showIcon message="«Sinf va mavzu» qadamida katalogdagi mavzuni tanlasangiz, shu yerda unga oid manbalar taklif qilinadi." />
+        <Alert className="mb-6" type="info" showIcon message="«Kurs va mavzu» qadamida katalogdagi mavzuni tanlasangiz, shu yerda unga oid manbalar taklif qilinadi." />
       )}
       <div className="mb-6 grid gap-4 lg:grid-cols-2">
         <Card size="small" title="Boshqa manbani qidirib qo‘shish">

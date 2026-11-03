@@ -1,6 +1,6 @@
-import { beforeAll, describe, expect, it } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { prisma } from '../src/config/prisma';
-import { api, createSource, ensureAssessmentConfig, userWithToken } from './helpers';
+import { api, createSource, userWithToken } from './helpers';
 
 /** Hujjatdagi 3-modul bandlarining qolgan qismi: vazifalar, topshiriqlar, metodlar, asosnoma */
 const COMPLETION = {
@@ -20,10 +20,6 @@ const ready = async () => {
 };
 
 describe('Dars konstruktori', () => {
-  beforeAll(async () => {
-    await ensureAssessmentConfig();
-  });
-
   it('yaratish, versiyalash, to‘liqlik tekshiruvi, topshirish va ekspertiza', async () => {
     const { student, teacher } = await ready();
     const source = await createSource();
@@ -74,14 +70,13 @@ describe('Dars konstruktori', () => {
     const self = await api().post(`/api/v1/lessons/${id}/review`).set(student.auth).send({ decision: 'ACCEPT', comment: 'ok', score: 100 });
     expect(self.status).toBe(403);
     const review = await api().post(`/api/v1/lessons/${id}/review`).set(teacher.auth).send({
-      decision: 'ACCEPT', comment: 'Metodik jihatdan asoslangan', score: 75, reflectiveScore: 60,
+      decision: 'ACCEPT', comment: 'Metodik jihatdan asoslangan', score: 75,
     });
     expect(review.body.data.status).toBe('REVIEWED');
-    const records = await prisma.competenceRecord.findMany({ where: { refId: id } });
-    expect(records.map((r) => r.evidenceKind).sort()).toEqual(['EXPERT', 'LESSON_PLAN']);
+    expect(review.body.data.score).toBe(75);
   });
 
-  it('katalog mavzusi bog‘lanadi; ekspertiza o‘qituvchi rubrikasi mezonlari bo‘yicha hisoblanadi', async () => {
+  it('katalog mavzusi bog‘lanadi; manba maqsadi majburiy; qaytarish va qabul qilish', async () => {
     const { student, teacher } = await ready();
     const topic = await prisma.historicalTopic.create({ data: { name: 'Jadidchilik', slug: `jadid-${Date.now()}` } });
     const source = await createSource();
@@ -103,32 +98,10 @@ describe('Dars konstruktori', () => {
     await api().patch(`/api/v1/lessons/${id}`).set(student.auth).send({ resources: [{ sourceId: source.id, purpose: 'Dalil manbasi' }] });
     expect((await api().post(`/api/v1/lessons/${id}/submit`).set(student.auth)).status).toBe(200);
 
-    const rubric = await api().post('/api/v1/assignments/rubrics').set(teacher.auth).send({
-      title: 'Dars ishlanmasi mezonlari',
-      criteria: [{ title: 'Manbalardan foydalanish', maxScore: 10 }, { title: 'Metodik asoslanganlik', maxScore: 10 }],
-    });
-    expect(rubric.status).toBe(201);
-    const [c1, c2] = rubric.body.data.criteria;
-
-    const incomplete = await api().post(`/api/v1/lessons/${id}/review`).set(teacher.auth).send({
-      decision: 'ACCEPT', comment: 'Baho', rubricId: rubric.body.data.id, criterionScores: [{ criterionId: c1.id, score: 8 }],
-    });
-    expect(incomplete.status).toBe(422);
-    const over = await api().post(`/api/v1/lessons/${id}/review`).set(teacher.auth).send({
-      decision: 'ACCEPT', comment: 'Baho', rubricId: rubric.body.data.id,
-      criterionScores: [{ criterionId: c1.id, score: 11 }, { criterionId: c2.id, score: 5 }],
-    });
-    expect(over.status).toBe(422);
-
-    const review = await api().post(`/api/v1/lessons/${id}/review`).set(teacher.auth).send({
-      decision: 'ACCEPT', comment: 'Mezonlar bo‘yicha baholandi', rubricId: rubric.body.data.id,
-      criterionScores: [{ criterionId: c1.id, score: 8, comment: 'Yaxshi' }, { criterionId: c2.id, score: 6 }],
-    });
-    expect(review.status).toBe(200);
-    expect(review.body.data.score).toBe(70);
-    expect(review.body.data.rubric.id).toBe(rubric.body.data.id);
-    expect(review.body.data.criterionScores).toHaveLength(2);
-    const evidence = await prisma.competenceRecord.findFirst({ where: { refId: id, evidenceKind: 'LESSON_PLAN' } });
-    expect(evidence?.score).toBe(70);
+    const noScore = await api().post(`/api/v1/lessons/${id}/review`).set(teacher.auth).send({ decision: 'ACCEPT', comment: 'Baho' });
+    expect(noScore.status).toBe(400);
+    const returned = await api().post(`/api/v1/lessons/${id}/review`).set(teacher.auth).send({ decision: 'RETURN', comment: 'Bosqichlarni aniqlashtiring' });
+    expect(returned.body.data.status).toBe('RETURNED');
+    expect(returned.body.data.score).toBeNull();
   });
 });

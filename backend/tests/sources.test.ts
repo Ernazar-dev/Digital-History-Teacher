@@ -21,35 +21,49 @@ describe('Embed URL xavfsizligi', () => {
   });
 });
 
-describe('Manbalar kutubxonasi', () => {
-  it('admin CRUD, variantlar va ruxsat etilmagan embed domeni', async () => {
+describe('Manbalar kutubxonasi: ma’ruza mavzulari', () => {
+  it('mavzu: ma’ruza matni, taqdimot va video (fayl yoki YouTube)', async () => {
     const admin = await userWithToken('ADMIN');
-    const bad = await api().post('/api/v1/sources').set(admin.auth).send({
-      title: 'Embed test', summary: 'Embed tekshiruvi uchun manba', type: 'VISUAL', embedUrl: 'https://evil.example/frame',
+    const pptx = Buffer.concat([Buffer.from([0x50, 0x4b, 0x03, 0x04]), Buffer.alloc(64)]);
+    const pres = await api().post('/api/v1/media').set(admin.auth)
+      .attach('file', pptx, { filename: 'taqdimot.pptx', contentType: 'application/vnd.openxmlformats-officedocument.presentationml.presentation' });
+    expect(pres.status).toBe(201);
+
+    const notYoutube = await api().post('/api/v1/sources').set(admin.auth).send({
+      title: 'Video xatosi', summary: 'Faqat YouTube havolasi qabul qilinadi', videoUrl: 'https://evil.example/video',
     });
-    expect(bad.status).toBe(400);
+    expect(notYoutube.status).toBe(400);
 
     const created = await api().post('/api/v1/sources').set(admin.auth).send({
-      title: 'Sinov solnomasi', summary: 'Sinov uchun solnoma tavsifi', type: 'WRITTEN', status: 'PUBLISHED',
+      title: 'Sinov mavzusi', summary: 'Ma’ruza, taqdimot va videoli mavzu', bookLabel: 'I kitob · 12-mavzu', sortOrder: 5,
+      lectureContent: '# Reja – 1. Kirish', presentationFileId: pres.body.data.id, videoUrl: 'https://www.youtube.com/watch?v=abc123',
       yearFrom: 1400, yearTo: 1450,
-      variants: [
-        { kind: 'ORIGINAL', title: 'Asl matn', content: 'Asl matn parchasi' },
-        { kind: 'EDUCATIONAL_ADAPTATION', title: 'Moslashtirilgan', content: 'Soddalashtirilgan matn' },
-      ],
     });
     expect(created.status).toBe(201);
-    expect(created.body.data.variants).toHaveLength(2);
+    expect(created.body.data).toMatchObject({ type: 'WRITTEN', status: 'PUBLISHED', lectureContent: '# Reja – 1. Kirish' });
+    expect(created.body.data.presentationFile.originalName).toBe('taqdimot.pptx');
     const id = created.body.data.id;
 
-    const list = await api().get('/api/v1/sources').query({ q: 'Sinov solnomasi', type: 'WRITTEN' });
-    expect(list.body.data.some((s: { id: string }) => s.id === id)).toBe(true);
-    expect(list.body.meta.total).toBeGreaterThanOrEqual(1);
+    // Ro'yxatda ma'ruza matni yuborilmaydi, faqat belgisi
+    const list = await api().get('/api/v1/sources').query({ q: 'Sinov mavzusi' });
+    const row = list.body.data.find((s: { id: string }) => s.id === id);
+    expect(row).toMatchObject({ hasLecture: true, bookLabel: 'I kitob · 12-mavzu' });
+    expect(row.lectureContent).toBeUndefined();
 
-    const upd = await api().patch(`/api/v1/sources/${id}`).set(admin.auth).send({ limitations: 'Yangi cheklov' });
-    expect(upd.body.data.limitations).toBe('Yangi cheklov');
+    const missing = await api().patch(`/api/v1/sources/${id}`).set(admin.auth).send({ videoFileId: '00000000-0000-4000-8000-000000000000' });
+    expect(missing.status).toBe(400);
+    const upd = await api().patch(`/api/v1/sources/${id}`).set(admin.auth).send({ videoUrl: null, lectureContent: 'Yangi matn' });
+    expect(upd.body.data).toMatchObject({ videoUrl: null, lectureContent: 'Yangi matn' });
+
+    // Administrator o'z ma'ruza faylini yuklasa — tayyor matn o'rniga shu fayl ko'rsatiladi
+    const docx = await api().post('/api/v1/media').set(admin.auth)
+      .attach('file', pptx, { filename: 'maruza.docx', contentType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
+    expect(docx.status).toBe(201);
+    const replaced = await api().patch(`/api/v1/sources/${id}`).set(admin.auth).send({ lectureFileId: docx.body.data.id });
+    expect(replaced.body.data).toMatchObject({ lectureContent: null, lectureFile: { originalName: 'maruza.docx' } });
 
     const badYears = await api().post('/api/v1/sources').set(admin.auth).send({
-      title: 'Yil xatosi', summary: 'Yillar tartibi notogri', type: 'WRITTEN', yearFrom: 1500, yearTo: 1400,
+      title: 'Yil xatosi', summary: 'Yillar tartibi notogri', yearFrom: 1500, yearTo: 1400,
     });
     expect(badYears.status).toBe(400);
 
@@ -57,49 +71,11 @@ describe('Manbalar kutubxonasi', () => {
     expect((await api().get(`/api/v1/sources/${id}`)).status).toBe(404);
   });
 
-  it('o‘qituvchi o‘quv materialini (DOCX/PDF) yuklab manbaga biriktiradi', async () => {
+  it('o‘qituvchi faqat o‘z mavzusini tahrirlaydi; talaba mavzu qo‘sha olmaydi', async () => {
     const teacher = await userWithToken('TEACHER');
-    const docx = Buffer.concat([Buffer.from([0x50, 0x4b, 0x03, 0x04]), Buffer.alloc(64)]);
-    const up = await api().post('/api/v1/media').set(teacher.auth)
-      .attach('file', docx, { filename: 'dars.docx', contentType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
-    expect(up.status).toBe(201);
-    const pdf = await api().post('/api/v1/media').set(teacher.auth)
-      .attach('file', Buffer.from('%PDF-1.4 test'), { filename: 'manba.pdf', contentType: 'application/pdf' });
-    expect(pdf.status).toBe(201);
-
-    const created = await api().post('/api/v1/sources').set(teacher.auth).send({
-      title: 'Material sinovi', summary: 'Yuklangan material bilan manba', type: 'WRITTEN', fileIds: [up.body.data.id, pdf.body.data.id],
-    });
-    expect(created.status).toBe(201);
-    expect(created.body.data.files.map((f: { originalName: string }) => f.originalName)).toEqual(['dars.docx', 'manba.pdf']);
-
-    const url = `/api/v1/sources/${created.body.data.id}`;
-    const upd = await api().patch(url).set(teacher.auth).send({ fileIds: [pdf.body.data.id] });
-    expect(upd.body.data.files).toHaveLength(1);
-
-    const missing = await api().patch(url).set(teacher.auth)
-      .send({ fileIds: ['00000000-0000-4000-8000-000000000000'] });
-    expect(missing.status).toBe(400);
-  });
-
-  it('taqqoslash ishi (2-modul) uchun manbalar', async () => {
     const student = await userWithToken('STUDENT');
-    const a = await createSource();
-    const b = await createSource();
-    const cmp = await api().post('/api/v1/source-comparisons').set(student.auth).send({ title: 'Ikki manba', sourceIds: [a.id, b.id] });
-    expect(cmp.status).toBe(201);
-    expect(cmp.body.data.items.map((i: { sourceId: string }) => i.sourceId)).toEqual([a.id, b.id]);
-  });
-
-  it('amaliy topshiriqlar saqlanadi, 3D/360 manba turi emas', async () => {
-    const admin = await userWithToken('ADMIN');
-    const tasks = 'Hududni aniqlang\nLegendani izohlang';
-    const res = await api().post('/api/v1/sources').set(admin.auth).send({
-      title: 'Topshiriqli manba', summary: 'Amaliy topshiriqlar tekshiruvi', type: 'MAP', status: 'PUBLISHED', practicalTasks: tasks,
-    });
-    expect(res.status).toBe(201);
-    expect((await api().get(`/api/v1/sources/${res.body.data.slug}`)).body.data.practicalTasks).toBe(tasks);
-    const bad = await api().post('/api/v1/sources').set(admin.auth).send({ title: '3D manba', summary: '3D turi rad etilishi kerak', type: 'MODEL_3D' });
-    expect(bad.status).toBe(400);
+    const other = await createSource();
+    expect((await api().patch(`/api/v1/sources/${other.id}`).set(teacher.auth).send({ title: 'Boshqa nom' })).status).toBe(403);
+    expect((await api().post('/api/v1/sources').set(student.auth).send({ title: 'Talaba mavzusi', summary: 'Ruxsat etilmasligi kerak' })).status).toBe(403);
   });
 });

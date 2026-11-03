@@ -3,7 +3,6 @@ import type { z } from 'zod';
 import { prisma } from '../../config/prisma';
 import { AppError } from '../../shared/errors/AppError';
 import { assertCanAccessStudent, studentScope } from '../../shared/utils/access';
-import { COMPONENT, componentIdByCode, recordEvidence } from '../assessments/competence.service';
 import { upsertPortfolioItem } from '../portfolios/portfolio.writer';
 import type { responseReviewSchema, responseSchema } from './virtual.schemas';
 
@@ -92,35 +91,20 @@ export const responsesService = {
 
   get: getAccessible,
 
-  /** O'qituvchi bahosi faoliyatli-metodik komponentga amaliy topshiriq dalili sifatida yoziladi */
+  /** O'qituvchi ishni qabul qiladi (ball bilan) yoki izoh bilan qaytaradi */
   async review(actor: Express.AuthUser, id: string, input: z.infer<typeof responseReviewSchema>) {
     const existing = await getAccessible(actor, id);
     if (!['SUBMITTED', 'UNDER_REVIEW'].includes(existing.status)) throw AppError.badRequest('Ish topshirilmagan');
-    return prisma.$transaction(async (tx) => {
-      const updated = await tx.virtualObjectResponse.update({
-        where: { id },
-        data: {
-          status: input.decision === 'ACCEPT' ? 'REVIEWED' : 'RETURNED',
-          teacherComment: input.comment,
-          score: input.decision === 'ACCEPT' ? input.score : null,
-          reviewedById: actor.id,
-          reviewedAt: new Date(),
-        },
-        include,
-      });
-      const componentId = await componentIdByCode(COMPONENT.ACTIVITY, tx);
-      if (input.decision === 'ACCEPT' && input.score !== undefined && componentId) {
-        await recordEvidence(
-          {
-            studentId: existing.studentId, componentId, evidenceKind: 'PRACTICAL_TASK',
-            assessorRole: actor.role === 'ADMIN' ? 'EXPERT' : 'TEACHER', assessorId: actor.id,
-            score: input.score, note: `Virtual obyekt: ${existing.virtualObject.title}`,
-            refType: 'VirtualObjectResponse', refId: id,
-          },
-          tx,
-        );
-      }
-      return updated;
+    return prisma.virtualObjectResponse.update({
+      where: { id },
+      data: {
+        status: input.decision === 'ACCEPT' ? 'REVIEWED' : 'RETURNED',
+        teacherComment: input.comment,
+        score: input.decision === 'ACCEPT' ? input.score : null,
+        reviewedById: actor.id,
+        reviewedAt: new Date(),
+      },
+      include,
     });
   },
 };

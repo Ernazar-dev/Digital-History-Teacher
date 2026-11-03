@@ -13,42 +13,56 @@ export const P = {
   Guide: lazy(() => import('@/features/guide/pages/GuidePage')),
   Sources: lazy(() => import('@/features/source-library/pages/SourcesPage')),
   SourceDetail: lazy(() => import('@/features/source-library/pages/SourceDetailPage')),
-  AdminSources: lazy(() => import('@/features/source-library/pages/AdminSourcesPage')),
   SourceForm: lazy(() => import('@/features/source-library/pages/SourceFormPage')),
-  Analysis: lazy(() => import('@/features/source-analysis/pages/AnalysisHomePage')),
-  AnalysisEditor: lazy(() => import('@/features/source-analysis/pages/AnalysisEditorPage')),
-  ComparisonEditor: lazy(() => import('@/features/source-analysis/pages/ComparisonEditorPage')),
+  Tests: lazy(() => import('@/features/tests/pages/TestsPage')),
+  TestPage: lazy(() => import('@/features/tests/pages/TestPage')),
+  TestForm: lazy(() => import('@/features/tests/pages/TestFormPage')),
+  Methodology: lazy(() => import('@/features/methodology/pages/MethodologyPage')),
   Museum: lazy(() => import('@/features/virtual-museum/pages/MuseumPage')),
   Object: lazy(() => import('@/features/virtual-museum/pages/ObjectPage')),
   ResponseReview: lazy(() => import('@/features/virtual-museum/pages/ResponseReviewPage')),
-  AdminObjects: lazy(() => import('@/features/virtual-museum/pages/AdminObjectsPage')),
   ObjectForm: lazy(() => import('@/features/virtual-museum/pages/ObjectFormPage')),
   Explore: lazy(() => import('@/features/explore/pages/ExplorePage')),
   Search: lazy(() => import('@/features/explore/pages/SearchPage')),
   Lessons: lazy(() => import('@/features/lesson-constructor/pages/LessonsPage')),
   LessonConstructor: lazy(() => import('@/features/lesson-constructor/pages/LessonConstructorPage')),
   LessonView: lazy(() => import('@/features/lesson-constructor/pages/LessonViewPage')),
-  Assignments: lazy(() => import('@/features/assignments/pages/AssignmentsPage')),
-  AssignmentDetail: lazy(() => import('@/features/assignments/pages/AssignmentDetailPage')),
-  AssignmentForm: lazy(() => import('@/features/assignments/pages/AssignmentFormPage')),
-  SubmissionReview: lazy(() => import('@/features/assignments/pages/SubmissionReviewPage')),
-  ReviewQueue: lazy(() => import('@/features/assignments/pages/ReviewQueuePage')),
-  Rubrics: lazy(() => import('@/features/assignments/pages/RubricsPage')),
-  Diagnostics: lazy(() => import('@/features/diagnostics/pages/DiagnosticsPage')),
-  DiagnosticTake: lazy(() => import('@/features/diagnostics/pages/DiagnosticTakePage')),
-  Attempt: lazy(() => import('@/features/diagnostics/pages/AttemptPage')),
-  DiagnosticForm: lazy(() => import('@/features/diagnostics/pages/DiagnosticFormPage')),
-  Competence: lazy(() => import('@/features/diagnostics/pages/CompetencePage')),
-  Experiment: lazy(() => import('@/features/diagnostics/pages/ExperimentPage')),
   Portfolio: lazy(() => import('@/features/portfolio/pages/PortfolioPage')),
   Progress: lazy(() => import('@/features/progress/pages/ProgressPage')),
   PortfolioItem: lazy(() => import('@/features/portfolio/pages/PortfolioItemPage')),
   Users: lazy(() => import('@/features/administration/pages/UsersPage')),
-  Roles: lazy(() => import('@/features/administration/pages/RolesPage')),
   Groups: lazy(() => import('@/features/administration/pages/GroupsPage')),
   GroupDetail: lazy(() => import('@/features/administration/pages/GroupDetailPage')),
   Taxonomy: lazy(() => import('@/features/administration/pages/TaxonomyPage')),
-  AssessmentConfig: lazy(() => import('@/features/administration/pages/AssessmentConfigPage')),
   Settings: lazy(() => import('@/features/administration/pages/SettingsPage')),
-  Audit: lazy(() => import('@/features/administration/pages/AuditPage')),
+};
+
+/**
+ * Eng ko'p ochiladigan sahifalar kodi — sayt ochilib bo'lgach, brauzer bo'sh turganda oldindan yuklanadi.
+ * Shunda menyudan bosilganda «Yuklanmoqda...» kutilmaydi (import() bir xil modulni qayta yuklamaydi).
+ */
+const COMMON_PAGES = [
+  () => import('@/features/dashboard/pages/DashboardPage'),
+  () => import('@/features/source-library/pages/SourcesPage'),
+  () => import('@/features/source-library/pages/SourceDetailPage'),
+  () => import('@/features/virtual-museum/pages/MuseumPage'),
+  () => import('@/features/virtual-museum/pages/ObjectPage'),
+  () => import('@/features/tests/pages/TestsPage'),
+  () => import('@/features/tests/pages/TestPage'),
+  () => import('@/features/lesson-constructor/pages/LessonsPage'),
+  () => import('@/features/methodology/pages/MethodologyPage'),
+  () => import('@/features/auth/pages/LoginPage'),
+];
+
+export const prefetchCommonPages = () => {
+  const conn = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
+  // Trafikni tejash rejimida yoki juda sekin (2G) tarmoqda oldindan yuklanmaydi
+  if (conn?.saveData || /(^|-)2g$/.test(conn?.effectiveType ?? '')) return;
+  const run = () => {
+    // Birma-bir yuklanadi — asosiy sahifa so'rovlari bilan raqobat qilmasligi uchun
+    COMMON_PAGES.reduce((p, load) => p.then(() => load().then(() => undefined, () => undefined)), Promise.resolve());
+  };
+  const idle = (window as Window & { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number }).requestIdleCallback;
+  if (idle) idle(run, { timeout: 4000 });
+  else setTimeout(run, 2000);
 };

@@ -6,7 +6,7 @@ import type { createGroupSchema, updateGroupSchema } from './groups.schemas';
 
 const groupInclude = {
   teacher: { select: { id: true, fullName: true, username: true, email: true } },
-  _count: { select: { members: true, assignments: true } },
+  _count: { select: { members: true } },
 } satisfies Prisma.GroupInclude;
 
 /** O'qituvchi faqat o'z guruhini boshqaradi, admin — barchasini */

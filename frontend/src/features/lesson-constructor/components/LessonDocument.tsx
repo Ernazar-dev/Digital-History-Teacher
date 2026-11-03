@@ -1,5 +1,6 @@
 import { Descriptions, Table, Tag } from 'antd';
 import type { LessonPlan } from '@/types/api';
+import { courseLabel } from '../lessonForm';
 
 const Block = ({ title, text }: { title: string; text?: string | null }) =>
   text ? (
@@ -17,7 +18,7 @@ export const LessonDocument = ({ l }: { l: LessonPlan }) => (
       <h2 className="font-serif-title m-0 mt-1 text-2xl">{l.title}</h2>
       <Descriptions size="small" column={{ xs: 1, sm: 2, md: 4 }} className="mt-3">
         <Descriptions.Item label="Mavzu">{l.topic}</Descriptions.Item>
-        <Descriptions.Item label="Sinf">{l.gradeLevel}</Descriptions.Item>
+        <Descriptions.Item label="Kurs">{courseLabel(l.gradeLevel)}</Descriptions.Item>
         <Descriptions.Item label="Davomiyligi">{l.durationMinutes} daqiqa</Descriptions.Item>
         <Descriptions.Item label="Muallif">{l.author.fullName}</Descriptions.Item>
       </Descriptions>
@@ -32,7 +33,6 @@ export const LessonDocument = ({ l }: { l: LessonPlan }) => (
           <li key={r.id} className="mb-1">
             <b>{r.source?.title ?? r.virtualObject?.title}</b>
             {r.virtualObject && <Tag className="ml-2">3D/360°</Tag>}
-            {(r.source?.license || r.virtualObject?.license) && <span className="text-sm text-muted"> — litsenziya: {r.source?.license ?? r.virtualObject?.license}</span>}
             {r.purpose && <div className="text-sm">Maqsadi: {r.purpose}</div>}
           </li>
         ))}

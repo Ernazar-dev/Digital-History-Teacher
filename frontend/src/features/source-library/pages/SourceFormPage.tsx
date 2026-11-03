@@ -1,4 +1,4 @@
-import { FileTextOutlined, PictureOutlined, SendOutlined } from '@ant-design/icons';
+import { BookOutlined, FilePptOutlined, FileTextOutlined, PictureOutlined, PlayCircleOutlined } from '@ant-design/icons';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Button, Form, Skeleton } from 'antd';
@@ -6,48 +6,41 @@ import { useEffect, type ReactNode } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import { PageHeader } from '@/components/common/PageHeader';
-import { SelectField, TextAreaField, TextField } from '@/components/forms/fields';
+import { TextAreaField, TextField } from '@/components/forms/fields';
 import { useNotify } from '@/hooks/useNotify';
-import { SOURCE_TYPE, toOptions } from '@/lib/labels';
-import { catalogService, sourcesService } from '@/services/catalog.service';
+import { sourcesService, type SourceInput } from '@/services/catalog.service';
 import type { Source } from '@/types/api';
-import { CoverUpload, FilesUpload } from '../components/MaterialsUpload';
-import { fileKind } from '../files';
+import { CoverUpload, SingleFileUpload } from '../components/MaterialsUpload';
+import { LECTURE_FILE_ACCEPT, PRESENTATION_ACCEPT, VIDEO_ACCEPT } from '../files';
 import { EMPTY_SOURCE, sourceFormSchema, type SourceFormValues } from '../sourceForm.schema';
 
-/** Avvalgi (eski formadagi) rasm bo'lmagan asosiy fayl ham materiallar ro'yxatiga o'tkaziladi */
-const toForm = (s: Source): SourceFormValues => {
-  const coverIsImage = s.mediaFile && fileKind(s.mediaFile) === 'image';
-  const legacy = s.mediaFile && !coverIsImage && !s.files.some((f) => f.id === s.mediaFile!.id) ? [s.mediaFile] : [];
-  return {
-    title: s.title,
-    summary: s.summary,
-    type: s.type,
-    periodId: s.period?.id ?? null,
-    topicIds: s.topics.map((t) => t.id),
-    cover: coverIsImage ? s.mediaFile : null,
-    files: [...legacy, ...s.files],
-  };
-};
-
-const toPayload = (v: SourceFormValues) => ({
-  title: v.title,
-  summary: v.summary,
-  type: v.type,
-  periodId: v.periodId ?? null,
-  topicIds: v.topicIds,
-  // Manba doim nashr etilgan holatda — saqlanishi bilan o'quvchilarga ko'rinadi
-  status: 'PUBLISHED' as const,
-  mediaFileId: v.cover?.id ?? null,
-  fileIds: v.files.map((f) => f.id),
+const toForm = (s: Source): SourceFormValues => ({
+  title: s.title,
+  summary: s.summary,
+  lectureFile: s.lectureFile,
+  presentationFile: s.presentationFile,
+  videoFile: s.videoFile,
+  videoUrl: s.videoUrl ?? '',
+  cover: s.mediaFile?.mimeType.startsWith('image/') ? s.mediaFile : null,
 });
 
-const Section = ({ step, title, hint, icon, children }: { step: number; title: string; hint?: string; icon: ReactNode; children: ReactNode }) => (
+const toPayload = (v: SourceFormValues): SourceInput => ({
+  title: v.title,
+  summary: v.summary,
+  lectureFileId: v.lectureFile?.id ?? null,
+  presentationFileId: v.presentationFile?.id ?? null,
+  videoFileId: v.videoFile?.id ?? null,
+  videoUrl: v.videoUrl || null,
+  mediaFileId: v.cover?.id ?? null,
+  // Mavzu saqlanishi bilan talabalarga ko'rinadi
+  status: 'PUBLISHED',
+});
+
+const Section = ({ title, hint, icon, children }: { title: string; hint?: string; icon: ReactNode; children: ReactNode }) => (
   <section className="rounded-2xl border border-solid border-line bg-white p-5 md:p-6">
     <header className="mb-5 flex items-start gap-3">
       <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-primary-soft text-primary">{icon}</span>
       <div>
-        <div className="text-xs font-semibold uppercase tracking-wide text-muted">{step}-qadam</div>
         <h2 className="m-0 text-base font-semibold">{title}</h2>
         {hint && <p className="m-0 mt-1 text-sm text-muted">{hint}</p>}
       </div>
@@ -62,12 +55,7 @@ export default function SourceFormPage() {
   const notify = useNotify();
   const qc = useQueryClient();
   const existing = useQuery({ queryKey: ['source', id], queryFn: () => sourcesService.get(id!), enabled: Boolean(id) });
-  const periods = useQuery({ queryKey: ['periods'], queryFn: catalogService.periods });
-  const topics = useQuery({ queryKey: ['topics'], queryFn: () => catalogService.topics() });
-  const form = useForm<SourceFormValues>({
-    resolver: zodResolver(sourceFormSchema),
-    defaultValues: EMPTY_SOURCE,
-  });
+  const form = useForm<SourceFormValues>({ resolver: zodResolver(sourceFormSchema), defaultValues: EMPTY_SOURCE });
   const { control } = form;
 
   useEffect(() => {
@@ -79,10 +67,10 @@ export default function SourceFormPage() {
     onSuccess: (s) => {
       qc.invalidateQueries({ queryKey: ['sources'] });
       qc.invalidateQueries({ queryKey: ['source'] });
-      notify.success('Manba saqlandi');
+      notify.success('Mavzu saqlandi');
       navigate(`/app/sources/${s.slug}`);
     },
-    onError: (e) => notify.error(e, 'Manba saqlanmadi'),
+    onError: (e) => notify.error(e, 'Mavzu saqlanmadi'),
   });
 
   if (id && existing.isLoading) return <Skeleton active />;
@@ -90,34 +78,38 @@ export default function SourceFormPage() {
   return (
     <>
       <PageHeader
-        title={id ? 'Manbani tahrirlash' : 'Yangi manba qo‘shish'}
-        description="Nomini yozing, materialni (PDF, Word, PowerPoint yoki rasm) yuklang — o‘quvchilar uni manba sahifasida darhol ochib ko‘radi."
+        title={id ? 'Mavzuni tahrirlash' : 'Yangi mavzu'}
+        description="Mavzu uch qismdan iborat: ma’ruza, taqdimot va video rolik. Fayllarni hozir yoki keyinroq yuklashingiz mumkin."
       />
       <Form layout="vertical" component="form" onFinish={form.handleSubmit((v) => save.mutate(v))}>
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
           <div className="min-w-0 space-y-6">
-            <Section step={1} title="Asosiy ma’lumot" icon={<FileTextOutlined />}>
-              <TextField control={control} name="title" label="Manba nomi" required placeholder="Masalan: Amir Temur tuzuklari" />
-              <TextAreaField control={control} name="summary" label="Qisqacha tavsif" required rows={3} maxLength={1000} placeholder="Manba nima haqida, darsda qanday foydalaniladi — 1–3 gap" />
-              <div className="grid gap-x-4 md:grid-cols-3">
-                <SelectField control={control} name="type" label="Manba turi" required options={toOptions(SOURCE_TYPE)} />
-                <SelectField control={control} name="periodId" label="Tarixiy davr" allowClear placeholder="Tanlang" loading={periods.isLoading} options={periods.data?.map((p) => ({ value: p.id, label: p.name })) ?? []} />
-                <SelectField control={control} name="topicIds" label="Mavzu" mode="multiple" placeholder="Ixtiyoriy" loading={topics.isLoading} options={topics.data?.map((t) => ({ value: t.id, label: t.name })) ?? []} />
-              </div>
+            <Section title="Asosiy ma’lumot" icon={<FileTextOutlined />}>
+              <TextField control={control} name="title" label="Mavzu nomi" required placeholder="Masalan: Amir Temur hukmronligi davrida o‘zbek davlatchiligi" />
+              <TextAreaField control={control} name="summary" label="Qisqacha tavsif" required rows={2} maxLength={1000} placeholder="Mavzuda nimalar o‘rganiladi — 1–2 gap" />            </Section>
+
+            <Section title="1. Ma’ruza" hint="Ma’ruza faylini yuklang — talaba uni sahifaning o‘zida o‘qiydi va yuklab oladi." icon={<BookOutlined />}>
+              <Controller control={control} name="lectureFile" render={({ field }) => (
+                <SingleFileUpload value={field.value} onChange={field.onChange} accept={LECTURE_FILE_ACCEPT} hint="Word (.docx) yoki PDF" />
+              )} />
             </Section>
 
-            <Section step={2} title="O‘quv materiallari" hint="O‘quvchi bu fayllarni manba sahifasida yuklab olmasdan ko‘ra oladi. Tartibini strelkalar bilan o‘zgartiring." icon={<SendOutlined />}>
-              <Controller control={control} name="files" render={({ field, fieldState }) => (
-                <>
-                  <FilesUpload value={field.value} onChange={field.onChange} />
-                  {fieldState.error && <div className="mt-2 text-sm text-red-600">{fieldState.error.message}</div>}
-                </>
+            <Section title="2. Taqdimot" hint="Mavzu bo‘yicha taqdimot — talaba sahifaning o‘zida ko‘radi" icon={<FilePptOutlined />}>
+              <Controller control={control} name="presentationFile" render={({ field }) => (
+                <SingleFileUpload value={field.value} onChange={field.onChange} accept={PRESENTATION_ACCEPT} hint="PowerPoint (.pptx) yoki PDF" />
+              )} />
+            </Section>
+
+            <Section title="3. Video rolik" hint="YouTube havolasini qo‘ying (tavsiya etiladi) yoki MP4 fayl yuklang" icon={<PlayCircleOutlined />}>
+              <TextField control={control} name="videoUrl" label="YouTube havolasi" placeholder="https://www.youtube.com/watch?v=..." />
+              <Controller control={control} name="videoFile" render={({ field }) => (
+                <SingleFileUpload value={field.value} onChange={field.onChange} accept={VIDEO_ACCEPT} hint="yoki video fayl · MP4" />
               )} />
             </Section>
           </div>
 
           <aside className="space-y-6 lg:sticky lg:top-24 lg:self-start">
-            <Section step={3} title="Muqova rasmi" hint="Kutubxonada kartochka ustida ko‘rinadi" icon={<PictureOutlined />}>
+            <Section title="Afisha rasmi" hint="Kartochkada va mavzu sahifasi tepasida ko‘rinadi (ixtiyoriy)" icon={<PictureOutlined />}>
               <Controller control={control} name="cover" render={({ field }) => <CoverUpload value={field.value} onChange={field.onChange} />} />
             </Section>
           </aside>

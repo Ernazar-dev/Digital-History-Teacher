@@ -1,9 +1,9 @@
 import { Breadcrumb } from 'antd';
 import { Suspense, useEffect } from 'react';
-import { Link, Outlet, useLocation } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import { ErrorBoundary } from '@/components/feedback/ErrorBoundary';
 import { PageLoader } from '@/components/feedback/PageLoader';
-import { SEGMENT_LABELS } from './navigation';
+import { breadcrumbItems } from './breadcrumbs';
 import { SiteFooter } from './SiteFooter';
 import { TopNavbar } from './TopNavbar';
 
@@ -26,11 +26,7 @@ export const StudentLayout = () => {
         {showCrumbs && (
           <Breadcrumb
             className="no-print mb-5"
-            items={crumbs.map((seg, i) => {
-              const path = `/${crumbs.slice(0, i + 1).join('/')}`;
-              const label = SEGMENT_LABELS[seg] ?? 'Batafsil';
-              return { title: i < crumbs.length - 1 ? <Link to={path}>{label}</Link> : label };
-            })}
+            items={breadcrumbItems(location.pathname)}
           />
         )}
         <ErrorBoundary key={location.pathname}>

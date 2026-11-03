@@ -58,7 +58,6 @@ export default function GroupsPage() {
                 { title: 'O‘quv yili', dataIndex: 'academicYear' },
                 { title: 'O‘qituvchi', render: (_, g) => g.teacher.fullName },
                 { title: 'Talabalar', render: (_, g) => g._count.members },
-                { title: 'Topshiriqlar', render: (_, g) => g._count.assignments },
               ]}
             />
           )}

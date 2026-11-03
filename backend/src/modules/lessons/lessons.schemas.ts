@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { paginationQuery } from '../../shared/validators/common';
-import { workStatusEnum } from '../source-analysis/analysis.schemas';
+import { workStatusEnum } from '../../shared/validators/work';
 
 const text = (max = 10000) => z.string().max(max).default('');
 
@@ -39,7 +39,6 @@ export const lessonBodySchema = z.object({
   assessmentCriteria: text(),
   reflectionQuestions: text(),
   methodicalRationale: text(),
-  assignmentId: z.string().uuid().nullable().optional(),
   stages: z.array(stageSchema).max(20).default([]),
   resources: z.array(resourceSchema).max(30).default([]),
 });
@@ -58,23 +57,10 @@ export const lessonReviewSchema = z
   .object({
     decision: z.enum(['RETURN', 'ACCEPT']),
     comment: z.string().trim().min(2).max(5000),
-    /// Dars ishlanmasi ekspertizasi — faoliyatli-metodik komponent bahosi (0–100)
     score: z.number().min(0).max(100).optional(),
-    /// Ixtiyoriy: metodik qarorlar asosnomasi bo'yicha refleksiv komponent bahosi
-    reflectiveScore: z.number().min(0).max(100).optional(),
-    /// O'qituvchi belgilagan mezonlar (rubrika) bo'yicha baholash — berilsa, ball shu mezonlardan hisoblanadi
-    rubricId: z.string().uuid().optional(),
-    criterionScores: z
-      .array(z.object({ criterionId: z.string().uuid(), score: z.number().min(0), comment: z.string().trim().max(2000).optional() }))
-      .max(30)
-      .optional(),
   })
-  .refine((v) => !v.criterionScores || Boolean(v.rubricId), {
-    message: 'Mezonlar bo‘yicha baholashda rubrika tanlanishi shart',
-    path: ['rubricId'],
-  })
-  .refine((v) => v.decision === 'RETURN' || v.score !== undefined || Boolean(v.criterionScores?.length), {
-    message: 'Qabul qilishda ball yoki mezonlar bo‘yicha baho kiritilishi shart',
+  .refine((v) => v.decision === 'RETURN' || v.score !== undefined, {
+    message: 'Qabul qilishda ball (0–100) kiritilishi shart',
     path: ['score'],
   });
 

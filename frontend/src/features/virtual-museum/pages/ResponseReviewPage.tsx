@@ -40,7 +40,7 @@ export default function ResponseReviewPage() {
             <div className="prose-text rounded bg-canvas p-3">{r.activityDesign || '—'}</div>
           </Card>
           {['SUBMITTED', 'UNDER_REVIEW'].includes(r.status) && (
-            <ReviewPanel loading={review.isPending} onSubmit={(v) => review.mutate(v)} componentHint="Baho «Faoliyatli-metodik» komponentga «Amaliy topshiriq» dalili sifatida yoziladi." />
+            <ReviewPanel loading={review.isPending} onSubmit={(v) => review.mutate(v)} />
           )}
         </div>
       )}

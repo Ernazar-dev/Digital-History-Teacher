@@ -1,51 +1,53 @@
 import { prisma } from '../../config/prisma';
-import { computeProfile } from '../assessments/competence.service';
-import { studentAssignmentWhere } from '../assignments/assignments.service';
-import { reviewQueue } from './review-queue.service';
+import { studentScope } from '../../shared/utils/access';
 
 const DAY = 24 * 60 * 60 * 1000;
+
+/** O'qituvchi ko'rib chiqishi kerak bo'lgan ishlar: dars ishlanmalari va virtual obyekt javoblari */
+const pendingReviews = async (actor: Express.AuthUser) => {
+  const scope = await studentScope(actor);
+  const waiting = { in: ['SUBMITTED', 'UNDER_REVIEW'] as ('SUBMITTED' | 'UNDER_REVIEW')[] };
+  const [lessons, virtual] = await Promise.all([
+    prisma.lessonPlan.findMany({
+      where: { status: waiting, authorId: scope, deletedAt: null, NOT: { authorId: actor.id } },
+      select: { id: true, title: true, submittedAt: true, author: { select: { id: true, fullName: true } } },
+    }),
+    prisma.virtualObjectResponse.findMany({
+      where: { status: waiting, studentId: scope },
+      select: { id: true, submittedAt: true, student: { select: { id: true, fullName: true } }, virtualObject: { select: { title: true, slug: true } } },
+    }),
+  ]);
+  return [
+    ...lessons.map((l) => ({ kind: 'LESSON' as const, id: l.id, title: `Dars: ${l.title}`, student: l.author, submittedAt: l.submittedAt, slug: null })),
+    ...virtual.map((v) => ({ kind: 'VIRTUAL' as const, id: v.id, title: `Virtual obyekt: ${v.virtualObject.title}`, student: v.student, submittedAt: v.submittedAt, slug: v.virtualObject.slug })),
+  ].sort((a, b) => (a.submittedAt?.getTime() ?? 0) - (b.submittedAt?.getTime() ?? 0));
+};
 
 /** Barcha ko'rsatkichlar faqat ma'lumotlar bazasidagi real yozuvlardan hisoblanadi */
 export const dashboardService = {
   async student(actor: Express.AuthUser) {
-    const assignments = await prisma.assignment.findMany({
-      where: studentAssignmentWhere(actor.id),
-      select: {
-        id: true, title: true, type: true, dueDate: true,
-        submissions: { where: { studentId: actor.id }, select: { status: true, score: true } },
-      },
-      orderBy: { dueDate: { sort: 'asc', nulls: 'last' } },
-    });
-    const withStatus = assignments.map(({ submissions, ...a }) => ({ ...a, status: submissions[0]?.status ?? 'NOT_STARTED', score: submissions[0]?.score ?? null }));
-    const active = withStatus.filter((a) => ['NOT_STARTED', 'IN_PROGRESS', 'RETURNED'].includes(a.status));
-    const now = Date.now();
-    const upcoming = active.filter((a) => a.dueDate && a.dueDate.getTime() >= now && a.dueDate.getTime() <= now + 14 * DAY);
-
-    const [portfolio, profile, recentFeedback] = await Promise.all([
-      prisma.portfolio.findUnique({ where: { studentId: actor.id }, include: { items: { orderBy: { updatedAt: 'desc' } } } }),
-      computeProfile(actor.id),
-      prisma.assignmentFeedback.findMany({
-        where: { submission: { studentId: actor.id } },
-        take: 5,
+    const [tests, portfolio] = await Promise.all([
+      prisma.test.findMany({
+        where: { deletedAt: null, isPublished: true },
+        select: {
+          id: true, title: true, questionCount: true, createdAt: true,
+          source: { select: { title: true, slug: true } },
+          attempts: { where: { studentId: actor.id }, select: { percent: true, correctCount: true, total: true, submittedAt: true } },
+        },
         orderBy: { createdAt: 'desc' },
-        select: { id: true, comment: true, decision: true, createdAt: true, submission: { select: { assignment: { select: { id: true, title: true } } } } },
       }),
+      prisma.portfolio.findUnique({ where: { studentId: actor.id }, include: { items: { orderBy: { updatedAt: 'desc' }, take: 6 } } }),
     ]);
-    const itemCounts: Record<string, number> = {};
-    for (const i of portfolio?.items ?? []) itemCounts[i.type] = (itemCounts[i.type] ?? 0) + 1;
-
+    const done = tests.filter((t) => t.attempts.length);
+    const average = done.length ? Math.round((done.reduce((s, t) => s + t.attempts[0].percent, 0) / done.length) * 10) / 10 : null;
     return {
-      activeAssignments: active.slice(0, 8),
-      upcomingDeadlines: upcoming,
-      assignmentStats: {
-        total: withStatus.length,
-        graded: withStatus.filter((a) => a.status === 'GRADED').length,
-        active: active.length,
-      },
-      recentActivity: (portfolio?.items ?? []).slice(0, 6).map((i) => ({ id: i.id, type: i.type, title: i.title, updatedAt: i.updatedAt })),
-      recentFeedback,
-      portfolio: { total: portfolio?.items.length ?? 0, byType: itemCounts },
-      competence: { overall: profile.overall, level: profile.overallLevel, components: profile.components.map((c) => ({ code: c.code, name: c.name, score: c.score, level: c.level })) },
+      pendingTests: tests.filter((t) => !t.attempts.length).slice(0, 8).map(({ attempts: _a, ...t }) => t),
+      recentResults: done
+        .sort((a, b) => b.attempts[0].submittedAt.getTime() - a.attempts[0].submittedAt.getTime())
+        .slice(0, 5)
+        .map(({ attempts, ...t }) => ({ ...t, attempt: attempts[0] })),
+      testStats: { total: tests.length, done: done.length, averagePercent: average },
+      recentActivity: (portfolio?.items ?? []).map((i) => ({ id: i.id, type: i.type, title: i.title, updatedAt: i.updatedAt })),
     };
   },
 
@@ -56,63 +58,46 @@ export const dashboardService = {
       orderBy: { createdAt: 'desc' },
     });
     const studentIds = [...new Set(groups.flatMap((g) => g.members.map((m) => m.studentId)))];
-    const queue = await reviewQueue(actor);
-    const assignments = await prisma.assignment.findMany({
-      where: { deletedAt: null, ...(actor.role === 'TEACHER' ? { createdById: actor.id } : {}) },
-      select: { id: true, title: true, status: true, dueDate: true, submissions: { select: { status: true } } },
-      orderBy: { createdAt: 'desc' },
-      take: 10,
-    });
-    const groupStats = await Promise.all(
-      groups.map(async (g) => {
-        const profiles = await Promise.all(g.members.map((m) => computeProfile(m.studentId)));
-        const scored = profiles.map((p) => p.overall).filter((x): x is number => x !== null);
-        return {
-          id: g.id, name: g.name, kind: g.kind, members: g._count.members,
-          averageOverall: scored.length ? Math.round((scored.reduce((a, b) => a + b, 0) / scored.length) * 10) / 10 : null,
-          assessedStudents: scored.length,
-        };
+    const [queue, tests] = await Promise.all([
+      pendingReviews(actor),
+      prisma.test.findMany({
+        where: { deletedAt: null, ...(actor.role === 'TEACHER' ? { createdById: actor.id } : {}) },
+        select: { id: true, title: true, isPublished: true, questionCount: true, _count: { select: { attempts: true } } },
+        orderBy: { createdAt: 'desc' },
+        take: 10,
       }),
-    );
+    ]);
     return {
-      groups: groupStats,
+      groups: groups.map((g) => ({ id: g.id, name: g.name, kind: g.kind, members: g._count.members })),
       totalStudents: studentIds.length,
       pendingReviewCount: queue.length,
       pendingReviews: queue.slice(0, 8),
-      assignments: assignments.map(({ submissions, ...a }) => {
-        const counts: Record<string, number> = {};
-        for (const s of submissions) counts[s.status] = (counts[s.status] ?? 0) + 1;
-        return { ...a, counts, total: submissions.length };
-      }),
+      tests: tests.map(({ _count, ...t }) => ({ ...t, attemptCount: _count.attempts })),
     };
   },
 
   async admin() {
     const since = new Date(Date.now() - 30 * DAY);
-    const [usersByRole, usersByStatus, sourcesByStatus, objects, assignments, submissions, attempts, lessons, analyses, recentAudit, activity] =
-      await Promise.all([
-        prisma.user.groupBy({ by: ['role'], where: { deletedAt: null }, _count: true }),
-        prisma.user.groupBy({ by: ['status'], where: { deletedAt: null }, _count: true }),
-        prisma.historicalSource.groupBy({ by: ['status'], where: { deletedAt: null }, _count: true }),
-        prisma.virtualObject.groupBy({ by: ['type'], where: { deletedAt: null }, _count: true }),
-        prisma.assignment.count({ where: { deletedAt: null } }),
-        prisma.assignmentSubmission.count({ where: { status: { notIn: ['NOT_STARTED', 'IN_PROGRESS'] } } }),
-        prisma.diagnosticAttempt.count({ where: { status: { not: 'IN_PROGRESS' } } }),
-        prisma.lessonPlan.count({ where: { deletedAt: null } }),
-        prisma.sourceAnalysis.count(),
-        prisma.auditLog.findMany({ take: 10, orderBy: { createdAt: 'desc' }, include: { actor: { select: { fullName: true } } } }),
-        prisma.$queryRaw<{ day: Date; count: bigint }[]>`
-          SELECT date_trunc('day', "updatedAt") AS day, COUNT(*)::bigint AS count
-          FROM "PortfolioItem" WHERE "updatedAt" >= ${since}
-          GROUP BY 1 ORDER BY 1`,
-      ]);
+    const [usersByRole, usersByStatus, topics, objects, tests, attempts, lessons, recentAudit, activity] = await Promise.all([
+      prisma.user.groupBy({ by: ['role'], where: { deletedAt: null }, _count: true }),
+      prisma.user.groupBy({ by: ['status'], where: { deletedAt: null }, _count: true }),
+      prisma.historicalSource.count({ where: { deletedAt: null } }),
+      prisma.virtualObject.groupBy({ by: ['type'], where: { deletedAt: null }, _count: true }),
+      prisma.test.count({ where: { deletedAt: null } }),
+      prisma.testAttempt.count(),
+      prisma.lessonPlan.count({ where: { deletedAt: null } }),
+      prisma.auditLog.findMany({ take: 10, orderBy: { createdAt: 'desc' }, include: { actor: { select: { fullName: true } } } }),
+      prisma.$queryRaw<{ day: Date; count: bigint }[]>`
+        SELECT date_trunc('day', "submittedAt") AS day, COUNT(*)::bigint AS count
+        FROM "TestAttempt" WHERE "submittedAt" >= ${since}
+        GROUP BY 1 ORDER BY 1`,
+    ]);
     const toMap = <T extends { _count: number }>(rows: T[], key: keyof T) =>
       Object.fromEntries(rows.map((r) => [String(r[key]), r._count]));
     return {
       users: { byRole: toMap(usersByRole, 'role'), byStatus: toMap(usersByStatus, 'status') },
-      sources: toMap(sourcesByStatus, 'status'),
       virtualObjects: toMap(objects, 'type'),
-      counts: { assignments, submissions, diagnosticAttempts: attempts, lessonPlans: lessons, sourceAnalyses: analyses },
+      counts: { topics, tests, testAttempts: attempts, lessonPlans: lessons },
       activity: activity.map((a) => ({ day: a.day, count: Number(a.count) })),
       recentAudit,
     };

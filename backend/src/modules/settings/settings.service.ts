@@ -5,7 +5,7 @@ import { prisma } from '../../config/prisma';
 export const SETTING_DEFAULTS = {
   'platform.name': 'Digital History Teacher',
   'platform.fullName':
-    'Raqamli tarixiy manbalar asosida bo‘lajak tarix fani o‘qituvchilarining metodik kompetensiyasini rivojlantirish elektron ta’lim platformasi',
+    'Raqamli tarixiy manbalar asosida bo‘lajak tarix fani o‘qituvchilarining metodik kompetensiyasini takomillashtirish elektron ta’lim platformasi',
   'platform.description':
     'Bo‘lajak tarix o‘qituvchilari uchun raqamli tarixiy manbalarni izlash, tanqidiy tahlil qilish va ular asosida dars loyihalash muhiti.',
   'platform.logoUrl': '',

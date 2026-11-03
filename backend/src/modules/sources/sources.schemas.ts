@@ -1,66 +1,75 @@
 import { z } from 'zod';
-import { optionalEmbedUrl, optionalHttpUrl, optionalText, paginationQuery } from '../../shared/validators/common';
+import { httpUrl, optionalHttpUrl, optionalText, paginationQuery } from '../../shared/validators/common';
 
 export const sourceTypeEnum = z.enum(['WRITTEN', 'VISUAL', 'MAP', 'AUDIO', 'VIDEO', 'ARCHAEOLOGICAL']);
 export const publicationStatusEnum = z.enum(['DRAFT', 'REVIEWED', 'PUBLISHED']);
-export const variantKindEnum = z.enum(['ORIGINAL', 'SCHOLARLY_COMMENTARY', 'EDUCATIONAL_ADAPTATION']);
 
 export const listSourcesQuery = paginationQuery.extend({
   q: z.string().trim().max(200).optional(),
   type: sourceTypeEnum.optional(),
   periodId: z.string().uuid().optional(),
   topicId: z.string().uuid().optional(),
-  format: z.string().trim().max(50).optional(),
   status: publicationStatusEnum.optional(),
-  sort: z.enum(['newest', 'oldest', 'title', 'year']).default('newest'),
+  sort: z.enum(['order', 'newest', 'title']).default('order'),
 });
 
-const variantSchema = z.object({
-  kind: variantKindEnum,
-  title: z.string().trim().min(2).max(300),
-  content: z.string().trim().min(1).max(50000),
-  citation: optionalText(2000),
-});
+const YOUTUBE_HOSTS = new Set(['youtube.com', 'www.youtube.com', 'm.youtube.com', 'youtu.be', 'www.youtube-nocookie.com']);
+
+/** Video rolik havolasi — faqat YouTube (sahifaga xavfsiz joylashtiriladi) */
+const youtubeUrl = z
+  .union([
+    httpUrl.refine((v) => {
+      try {
+        return YOUTUBE_HOSTS.has(new URL(v).hostname);
+      } catch {
+        return false;
+      }
+    }, 'Faqat YouTube havolasi qabul qilinadi'),
+    z.literal(''),
+    z.null(),
+  ])
+  .optional()
+  .transform((v) => (v ? v : null));
 
 const year = z.number().int().min(-10000).max(2100).nullable().optional();
 const coord = (min: number, max: number) => z.number().min(min).max(max).nullable().optional();
+const fileId = z.string().uuid().nullable().optional();
 
+/** Kutubxonadagi mavzu: ma'ruza matni, taqdimot va video rolik */
 export const sourceBodySchema = z
   .object({
     title: z.string().trim().min(2).max(300),
     summary: z.string().trim().min(10).max(1000),
-    description: optionalText(),
-    type: sourceTypeEnum,
-    format: optionalText(50),
+    type: sourceTypeEnum.default('WRITTEN'),
     periodId: z.string().uuid().nullable().optional(),
     topicIds: z.array(z.string().uuid()).max(30).default([]),
+    bookLabel: optionalText(300),
+    /** Berilmasa, yangi mavzu ro'yxat oxiriga qo'yiladi */
+    sortOrder: z.number().int().min(0).max(10000).optional(),
     dateLabel: optionalText(100),
     yearFrom: year,
     yearTo: year,
-    author: optionalText(300),
-    origin: optionalText(2000),
-    repository: optionalText(500),
-    originalUrl: optionalHttpUrl,
-    license: optionalText(300),
-    copyright: optionalText(1000),
-    reliabilityNotes: optionalText(),
-    limitations: optionalText(),
-    notes: optionalText(),
-    teachingUse: optionalText(),
-    methodicalRecommendations: optionalText(),
-    practicalTasks: optionalText(5000),
+    /** Ma'ruza matni (Markdown) — 15–20 betlik matn sig'adi */
+    lectureContent: optionalText(400_000),
     references: optionalText(5000),
-    mediaUrl: optionalHttpUrl,
-    embedUrl: optionalEmbedUrl,
-    mediaFileId: z.string().uuid().nullable().optional(),
-    /** O'quv materiallari (PDF/DOCX/PPTX/rasm) — tartib bo'yicha */
-    fileIds: z.array(z.string().uuid()).max(15).transform((a) => [...new Set(a)]).optional(),
+    mediaFileId: fileId,
+    lectureFileId: fileId,
+    presentationFileId: fileId,
+    videoFileId: fileId,
+    videoUrl: youtubeUrl,
+    /** Afisha rasmi: tashqi havola yoki platformadagi /covers/... rasmi (yuklangan rasm bo'lsa — mediaFileId ustun) */
+    mediaUrl: z
+      .union([z.string().trim().regex(/^\/covers\/[\w.-]+\.(jpe?g|png|webp)$/i), optionalHttpUrl])
+      .optional()
+      .transform((v) => v || null),
+    /** Afisha rasmi muallifi va litsenziyasi */
+    license: optionalText(500),
+    /** Afisha rasmi sahifasi (manba) */
+    originalUrl: optionalHttpUrl,
     latitude: coord(-90, 90),
     longitude: coord(-180, 180),
-    isDemo: z.boolean().default(false),
-    // Manba saqlanishi bilan o'quvchilarga ko'rinadi
+    // Mavzu saqlanishi bilan talabalarga ko'rinadi
     status: publicationStatusEnum.default('PUBLISHED'),
-    variants: z.array(variantSchema).max(20).default([]),
   })
   .refine((v) => v.yearFrom == null || v.yearTo == null || v.yearFrom <= v.yearTo, {
     message: 'Boshlanish yili tugash yilidan katta bo‘lmasligi kerak',

@@ -1,6 +1,6 @@
 # Digital History Teacher
 
-**Raqamli tarixiy manbalar asosida bo‘lajak tarix fani o‘qituvchilarining metodik kompetensiyasini rivojlantirish elektron ta’lim platformasi.**
+**Raqamli tarixiy manbalar asosida bo‘lajak tarix fani o‘qituvchilarining metodik kompetensiyasini takomillashtirish elektron ta’lim platformasi.**
 
 PhD dissertatsiyasi («Рақамли тарихий манбалар асосида бўлажак тарих фани ўқитувчиларининг методик компетенциясини такомиллаштириш») doirasida ishlab chiqilgan ishchi veb-platforma. Konseptual asos — `Платформа_яратиш_буйича_тавсиялар.docx`.
 

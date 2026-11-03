@@ -1,6 +1,6 @@
 import {
-  AimOutlined, ArrowRightOutlined, BankOutlined, BarChartOutlined, BookOutlined, CaretRightFilled, ExperimentOutlined, FileTextOutlined,
-  GlobalOutlined, SearchOutlined, UserOutlined,
+  ArrowRightOutlined, BankOutlined, BookOutlined, BulbOutlined, CaretRightFilled, CheckSquareOutlined, ExperimentOutlined,
+  FileTextOutlined, GlobalOutlined, UserOutlined,
 } from '@ant-design/icons';
 import { useQuery } from '@tanstack/react-query';
 import { Button } from 'antd';
@@ -87,23 +87,22 @@ const HeroArch = ({ featured }: { featured?: Pick<VirtualObject, 'slug' | 'title
 };
 
 const MODULE_ICONS: Record<number, ReactNode> = {
-  1: <BookOutlined />, 2: <SearchOutlined />, 3: <FileTextOutlined />, 4: <BankOutlined />,
-  5: <BarChartOutlined />, 6: <AimOutlined />, 7: <UserOutlined />,
+  1: <BookOutlined />, 2: <FileTextOutlined />, 3: <BankOutlined />, 4: <CheckSquareOutlined />, 5: <BulbOutlined />, 6: <UserOutlined />,
 };
 
-/** Yettita modul — hero ostidagi ingichka chiziqlar bilan ajratilgan qator */
+/** Modullar — hero ostidagi ingichka chiziqlar bilan ajratilgan qator */
 const ModuleStrip = () => (
   <section className="border-0 border-y border-solid border-line bg-white/70">
     <div className={`${CONTAINER} flex items-stretch gap-6 py-7`}>
       <div className="hidden shrink-0 flex-col justify-between lg:flex">
         <span className="text-[11px] font-semibold uppercase leading-relaxed tracking-[0.25em] text-ink">
-          7 ta
+          {MODULES.length} ta
           <br />
           modul
         </span>
         <span className="h-10 w-px bg-accent" aria-hidden />
       </div>
-      <ol className="m-0 flex flex-1 list-none snap-x overflow-x-auto p-0 pb-1 lg:grid lg:grid-cols-7 lg:overflow-visible lg:pb-0">
+      <ol className="m-0 flex flex-1 list-none snap-x overflow-x-auto p-0 pb-1 lg:grid lg:grid-cols-6 lg:overflow-visible lg:pb-0">
         {MODULES.map((m, i) => (
           <Reveal as="li" key={m.n} delay={i * 70} className="min-w-[190px] snap-start border-0 border-l border-solid border-line px-5 first:border-l-0 lg:min-w-0 lg:first:border-l">
             <Link to={m.to} className="group block no-underline">
@@ -120,7 +119,7 @@ const ModuleStrip = () => (
 
 const ADVANTAGES = [
   { icon: <GlobalOutlined />, title: 'Zamonaviy texnologiyalar', text: '3D modellar, 360° panoramalar va interaktiv xarita' },
-  { icon: <ExperimentOutlined />, title: 'Ilmiy yondashuv', text: 'Metodik kompetensiyaning to‘rt komponentli modeli asosida' },
+  { icon: <ExperimentOutlined />, title: 'Darslik asosida', text: 'O‘zbekiston tarixi darsligining tanlangan mavzulari bo‘yicha ma’ruzalar' },
 ];
 
 /** To'q ko'k bo'lim: platformaning afzalliklari va muzeydan bitta obyekt (bazadan) */
@@ -187,7 +186,7 @@ const useStepper = (count: number, step = 450) => {
   return { ref, active };
 };
 
-/** Sakkiz qadamli metodik yo'l — bitta ekranga sig'adigan 4×2 to'r */
+/** Sakkiz qadamda mavzuni o'zlashtirish — bitta ekranga sig'adigan 4×2 to'r */
 const ChainSection = () => {
   const { ref, active } = useStepper(CHAIN.length);
   const progress = active < 0 ? 0 : ((active + 1) / CHAIN.length) * 100;
@@ -196,9 +195,9 @@ const ChainSection = () => {
       <div ref={ref} className={`${CONTAINER} flex flex-col justify-center py-14 lg:min-h-[calc(100dvh-64px)]`}>
         <div className="mb-10 grid items-end gap-6 lg:grid-cols-[1fr_auto]">
           <div>
-            <h2 className="font-serif-title m-0 text-3xl font-bold md:text-[44px]">Sakkiz qadamli metodik yo‘l</h2>
+            <h2 className="font-serif-title m-0 text-3xl font-bold md:text-[44px]">Sakkiz qadamda mavzuni o‘zlashtirish</h2>
             <p className="mb-0 mt-3 max-w-prose text-muted">
-              Platforma tayyor dars bermaydi — manbani topishdan refleksiyagacha har bir qarorni o‘zingiz qabul qilasiz.
+              Mavzuni tanlashdan test natijasigacha — har bir qadam platformaning o‘zida.
             </p>
           </div>
           <div className="font-serif-title text-muted" aria-hidden>

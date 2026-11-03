@@ -52,10 +52,13 @@ export default defineConfig(({ mode }) => {
       chunkSizeWarningLimit: 1200,
       rollupOptions: {
         output: {
-          manualChunks: {
-            react: ['react', 'react-dom', 'react-router-dom'],
-            charts: ['recharts'],
-            map: ['leaflet', 'react-leaflet'],
+          // Faqat React yadrosi alohida (uzoq keshlanadi). Grafiklar, xarita, pptx/docx ko'ruvchilar
+          // o'zlari kerak bo'lgan sahifa bilan avtomatik yuklanadi — dastlabki ochilishga qo'shilmaydi.
+          // (Oldingi obyekt ko'rinishidagi manualChunks umumiy kichik paketlarni «charts» bo'lagiga
+          // tortib, 386 KB grafik kutubxonasini har bir sahifada yuklatayotgan edi.)
+          manualChunks: (id) => {
+            if (/[\\/]node_modules[\\/](react|react-dom|react-router|react-router-dom|scheduler)[\\/]/.test(id)) return 'react';
+            return undefined;
           },
         },
       },

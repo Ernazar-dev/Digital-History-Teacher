@@ -1,6 +1,6 @@
-import { beforeAll, describe, expect, it } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { prisma } from '../src/config/prisma';
-import { api, ensureAssessmentConfig, userWithToken } from './helpers';
+import { api, userWithToken } from './helpers';
 
 const UID = 'af54f5280eb249beb6501eab4769c351';
 const base = {
@@ -9,10 +9,6 @@ const base = {
 };
 
 describe('Virtual muzey (3D/360°)', () => {
-  beforeAll(async () => {
-    await ensureAssessmentConfig();
-  });
-
   it('Sketchfab embed URL model sahifasidan hosil qilinadi, begona domen rad etiladi', async () => {
     const admin = await userWithToken('ADMIN');
     const ok = await api().post('/api/v1/virtual-objects').set(admin.auth).send({ ...base, externalUrl: `https://sketchfab.com/3d-models/registan-${UID}` });
@@ -29,6 +25,26 @@ describe('Virtual muzey (3D/360°)', () => {
 
     const teacher = await userWithToken('TEACHER');
     expect((await api().post('/api/v1/virtual-objects').set(teacher.auth).send({ ...base, externalUrl: `https://sketchfab.com/models/${UID}` })).status).toBe(403);
+  });
+
+  it('soddalashtirilgan forma: faqat nom, havola va tavsif — tur/platforma/embed havoladan aniqlanadi, boshqa ma’lumot saqlanadi', async () => {
+    const admin = await userWithToken('ADMIN');
+    const simple = { title: 'Oddiy obyekt', description: 'Obyekt haqida qisqa ma’lumot' };
+
+    const model = await api().post('/api/v1/virtual-objects').set(admin.auth).send({ ...simple, externalUrl: `https://sketchfab.com/3d-models/ark-${UID}` });
+    expect(model.status).toBe(201);
+    expect(model.body.data).toMatchObject({ type: 'MODEL_3D', provider: 'SKETCHFAB', embedUrl: `https://sketchfab.com/models/${UID}/embed` });
+
+    const tour = await api().post('/api/v1/virtual-objects').set(admin.auth).send({ ...simple, title: 'Oddiy 360', externalUrl: 'https://uzbekistan360.uz/uz/tour/registan' });
+    expect(tour.status).toBe(201);
+    expect(tour.body.data).toMatchObject({ type: 'TOUR_360', provider: 'UZBEKISTAN360', embedUrl: 'https://uzbekistan360.uz/uz/tour/registan' });
+
+    // Tahrirda havola o'zgarsa tur qayta aniqlanadi; formada yo'q maydonlar (topshiriqlar) o'chmaydi
+    const withTasks = await api().post('/api/v1/virtual-objects').set(admin.auth).send({ ...base, title: 'Topshiriqli', externalUrl: `https://sketchfab.com/models/${UID}` });
+    const edited = await api().patch(`/api/v1/virtual-objects/${withTasks.body.data.id}`).set(admin.auth).send({ title: 'Yangi nom', externalUrl: 'https://uzbekistan360.uz/uz/tour/ark', description: 'Yangilangan ma’lumot matni' });
+    expect(edited.status).toBe(200);
+    expect(edited.body.data).toMatchObject({ title: 'Yangi nom', type: 'TOUR_360', provider: 'UZBEKISTAN360', embedUrl: 'https://uzbekistan360.uz/uz/tour/ark' });
+    expect(edited.body.data.tasks).toHaveLength(1);
   });
 
   it('yashirilgan obyekt talabaga ko‘rinmaydi; talaba ishi topshiriladi va portfolioga tushadi', async () => {
@@ -60,7 +76,6 @@ describe('Virtual muzey (3D/360°)', () => {
     expect(review.status).toBe(200);
     expect(review.body.data.score).toBe(70);
     expect(review.body.data.reviewedBy.id).toBe(admin.user.id);
-    const rec = await prisma.competenceRecord.findFirst({ where: { refId: submitted.body.data.id } });
-    expect(rec?.evidenceKind).toBe('PRACTICAL_TASK');
+    expect(review.body.data.status).toBe('REVIEWED');
   });
 });

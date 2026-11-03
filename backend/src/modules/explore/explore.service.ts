@@ -1,27 +1,26 @@
 import type { Prisma } from '@prisma/client';
 import { prisma } from '../../config/prisma';
-import { studentAssignmentWhere } from '../assignments/assignments.service';
 import { visibleSourceWhere } from '../sources/sources.service';
 import { visibleObjectWhere } from '../virtual-museum/virtual.service';
 
 type Actor = Express.AuthUser | undefined;
 const contains = (q: string) => ({ contains: q, mode: 'insensitive' as const });
 
-export const SEARCH_TYPES = ['sources', 'objects', 'assignments', 'lessons', 'periods', 'topics'] as const;
+export const SEARCH_TYPES = ['sources', 'objects', 'tests', 'lessons', 'periods', 'topics'] as const;
 export type SearchType = (typeof SEARCH_TYPES)[number];
 
 export const exploreService = {
-  /** Umumiy qidiruv: manbalar, 3D/360° obyektlar, topshiriqlar, dars ishlanmalari, davr va mavzular */
+  /** Umumiy qidiruv: mavzular, 3D/360° obyektlar, testlar, dars ishlanmalari, davr va mavzular */
   async search(actor: Actor, q: string, types: SearchType[], periodId?: string) {
     const want = (t: SearchType) => types.length === 0 || types.includes(t);
     const take = 10;
     const period = periodId ? { periodId } : {};
 
-    const [sources, objects, assignments, lessons, periods, topics] = await Promise.all([
+    const [sources, objects, tests, lessons, periods, topics] = await Promise.all([
       want('sources')
         ? prisma.historicalSource.findMany({
-            where: { ...visibleSourceWhere(actor), ...period, OR: [{ title: contains(q) }, { summary: contains(q) }, { author: contains(q) }] },
-            select: { id: true, title: true, slug: true, type: true, summary: true, dateLabel: true, status: true, period: { select: { name: true } } },
+            where: { ...visibleSourceWhere(actor), ...period, OR: [{ title: contains(q) }, { summary: contains(q) }, { bookLabel: contains(q) }] },
+            select: { id: true, title: true, slug: true, type: true, summary: true, dateLabel: true, bookLabel: true, status: true, period: { select: { name: true } } },
             take,
           })
         : [],
@@ -32,15 +31,14 @@ export const exploreService = {
             take,
           })
         : [],
-      want('assignments') && actor
-        ? prisma.assignment.findMany({
+      want('tests') && actor
+        ? prisma.test.findMany({
             where: {
-              AND: [
-                actor.role === 'STUDENT' ? studentAssignmentWhere(actor.id) : { deletedAt: null },
-                { OR: [{ title: contains(q) }, { scenario: contains(q) }] },
-              ],
+              deletedAt: null,
+              ...(actor.role === 'STUDENT' ? { isPublished: true } : {}),
+              OR: [{ title: contains(q) }, { description: contains(q) }],
             },
-            select: { id: true, title: true, type: true, status: true, dueDate: true },
+            select: { id: true, title: true, questionCount: true, source: { select: { title: true } } },
             take,
           })
         : [],
@@ -66,7 +64,7 @@ export const exploreService = {
           })
         : [],
     ]);
-    return { sources, objects, assignments, lessons, periods, topics };
+    return { sources, objects, tests, lessons, periods, topics };
   },
 
   /** Xarita: faqat haqiqiy koordinatasi kiritilgan obyektlar (koordinatalar o'ylab topilmaydi) */

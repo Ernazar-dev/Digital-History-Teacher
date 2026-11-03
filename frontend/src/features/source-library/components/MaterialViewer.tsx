@@ -1,5 +1,5 @@
 import {
-  DownloadOutlined, ExpandOutlined, FileImageOutlined, FileOutlined, FilePdfOutlined, FilePptOutlined,
+  DownloadOutlined, ExpandOutlined, ExportOutlined, FileImageOutlined, FileOutlined, FilePdfOutlined, FilePptOutlined,
   FileWordOutlined, PlayCircleOutlined, SoundOutlined,
 } from '@ant-design/icons';
 import { Button, Image, Spin } from 'antd';
@@ -156,6 +156,11 @@ export const MaterialViewer = ({ files }: { files: MediaFileRef[] }) => {
         <div className="flex flex-wrap items-center justify-between gap-3 border-0 border-b border-solid border-line bg-white px-4 py-3">
           <FileBadge file={active} />
           <div className="flex gap-2">
+            {['pdf', 'image', 'video'].includes(fileKind(active)) && (
+              <a href={mediaFileUrl(active.id)} target="_blank" rel="noreferrer">
+                <Button icon={<ExportOutlined />} aria-label="Yangi oynada ochish"><span className="hidden sm:inline">Yangi oynada</span></Button>
+              </a>
+            )}
             <Button icon={<ExpandOutlined />} onClick={() => stageRef.current?.requestFullscreen?.()} aria-label="To‘liq ekranda ochish">
               <span className="hidden sm:inline">To‘liq ekran</span>
             </Button>

@@ -1,63 +1,57 @@
-import {
-  ArrowRightOutlined, AudioOutlined, BankOutlined, CheckOutlined, DiffOutlined, EnvironmentOutlined, FileTextOutlined,
-  PictureOutlined, VideoCameraOutlined,
-} from '@ant-design/icons';
-import { Button, Tooltip } from 'antd';
+import { ArrowRightOutlined, BookOutlined, FilePptOutlined, PlayCircleOutlined } from '@ant-design/icons';
+import { Tooltip } from 'antd';
 import type { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
-import { SOURCE_TYPE } from '@/lib/labels';
-import type { SourceListItem, SourceType } from '@/types/api';
-import { useCompareStore } from '../compare.store';
-import { mediaFileUrl } from '../files';
+import type { SourceListItem } from '@/types/api';
+import { coverOf } from '../files';
 
-const isImage = (url: string | null) => Boolean(url && /\.(png|jpe?g|webp|gif)(\?.*)?$/i.test(url));
+/** Mavzu raqami: bookLabel oxiridagi «12-mavzu» qismi */
+export const topicNumber = (label: string | null) => /(\d+)-mavzu/.exec(label ?? '')?.[1] ?? null;
 
-const TYPE_ICON: Record<SourceType, ReactNode> = {
-  WRITTEN: <FileTextOutlined />, VISUAL: <PictureOutlined />, MAP: <EnvironmentOutlined />, AUDIO: <AudioOutlined />,
-  VIDEO: <VideoCameraOutlined />, ARCHAEOLOGICAL: <BankOutlined />,
-};
+const Has = ({ on, icon, label }: { on: boolean; icon: ReactNode; label: string }) => (
+  <Tooltip title={on ? label : `${label} hali qo‘shilmagan`}>
+    <span
+      aria-label={on ? label : `${label} hali yo‘q`}
+      className={`flex h-8 w-8 items-center justify-center rounded-full text-sm backdrop-blur ${on ? 'bg-white/90 text-primary' : 'bg-black/30 text-white/50'}`}
+    >
+      {icon}
+    </span>
+  </Tooltip>
+);
 
-/** Bosh sahifadagi «Meros» kartochkalari uslubida: katta rasm, oltin turkum yozuvi, serif sarlavha */
-export const SourceCard = ({ s, base, canCompare }: { s: SourceListItem; base: string; canCompare?: boolean }) => {
-  const { ids, toggle } = useCompareStore();
-  const selected = ids.includes(s.id);
+/** Bosh sahifadagi «Meros» kartochkalari uslubida: katta afisha, oltin davr yozuvi, serif sarlavha, strelka */
+export const SourceCard = ({ s, base }: { s: SourceListItem; base: string }) => {
   const href = `${base}/${s.slug}`;
-  const coverUrl = s.mediaFile?.mimeType.startsWith('image/') ? mediaFileUrl(s.mediaFile.id) : isImage(s.mediaUrl) ? s.mediaUrl : null;
+  const n = topicNumber(s.bookLabel);
+  const cover = coverOf(s);
 
   return (
-    <article className="group flex h-full min-w-0 flex-col overflow-hidden rounded-2xl border border-solid border-line bg-white transition-shadow duration-300 hover:shadow-lift">
-      <Link to={href} className="relative block aspect-[16/10] overflow-hidden bg-primary-soft" tabIndex={-1} aria-hidden>
-        {/* object-top: portret va miniatyuralarda yuz ko'rinsin (markazdan kesilsa kiyim qoladi) */}
-        {coverUrl ? (
-          <img src={coverUrl} alt="" loading="lazy" className="h-full w-full object-cover object-top transition-transform duration-[1200ms] ease-premium group-hover:scale-105" />
+    <Link to={href} className="group flex h-full flex-col no-underline">
+      <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-primary-soft">
+        {cover ? (
+          <img src={cover} alt="" loading="lazy" className="h-full w-full object-cover object-[50%_30%] transition-transform duration-[1200ms] ease-premium group-hover:scale-105" />
         ) : (
-          <div className="pattern-girih flex h-full w-full items-center justify-center text-5xl text-primary/40">{TYPE_ICON[s.type]}</div>
+          <div className="pattern-girih flex h-full w-full items-center justify-center text-6xl text-primary/30"><BookOutlined /></div>
         )}
-        {s.period && (
-          <span className="absolute left-4 top-4 max-w-[calc(100%-2rem)] truncate rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-primary backdrop-blur">
-            {s.period.name}
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/55 via-black/0 to-black/0" aria-hidden />
+        {n && (
+          <span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-primary backdrop-blur">
+            {n}-mavzu
           </span>
         )}
-      </Link>
-      <div className="flex min-w-0 flex-1 flex-col p-5">
-        <div className="text-xs font-medium uppercase tracking-wider text-accent">{SOURCE_TYPE[s.type]}</div>
-        <Link to={href} className="mt-1 no-underline">
-          <h3 className="font-serif-title m-0 text-lg font-semibold leading-snug text-ink transition-colors group-hover:text-primary">{s.title}</h3>
-        </Link>
-        <p className="mb-4 mt-2 line-clamp-2 flex-1 text-sm leading-relaxed text-muted">{s.summary}</p>
-        <div className="flex items-center justify-between gap-2">
-          <Link to={href} className="inline-flex items-center gap-2 text-sm font-medium no-underline">
-            Ochish <ArrowRightOutlined className="transition-transform duration-300 group-hover:translate-x-1" />
-          </Link>
-          {canCompare && (
-            <Tooltip title="Taqqoslash ishi uchun tanlash (2–4 ta)">
-              <Button size="small" type={selected ? 'primary' : 'default'} icon={selected ? <CheckOutlined /> : <DiffOutlined />} onClick={() => toggle(s.id)}>
-                {selected ? 'Tanlandi' : 'Taqqoslash'}
-              </Button>
-            </Tooltip>
-          )}
-        </div>
+        <span className="absolute bottom-4 left-4 flex gap-1.5">
+          <Has on={Boolean(s.hasLecture)} icon={<BookOutlined />} label="Ma’ruza" />
+          <Has on={Boolean(s.presentationFileId)} icon={<FilePptOutlined />} label="Taqdimot" />
+          <Has on={Boolean(s.videoUrl || s.videoFileId)} icon={<PlayCircleOutlined />} label="Video" />
+        </span>
       </div>
-    </article>
+      <div className="mt-4 flex flex-1 items-start justify-between gap-4">
+        <div className="min-w-0">
+          <h3 className="font-serif-title m-0 mt-1 text-lg font-semibold leading-snug text-ink transition-colors group-hover:text-primary">{s.title}</h3>
+          <p className="mb-0 mt-2 line-clamp-2 text-sm leading-relaxed text-muted">{s.summary}</p>
+        </div>
+        <ArrowRightOutlined className="mt-6 shrink-0 text-primary transition-transform duration-300 group-hover:translate-x-1" />
+      </div>
+    </Link>
   );
 };

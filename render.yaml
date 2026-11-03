@@ -10,7 +10,7 @@ services:
     rootDir: backend
     # Dev-paketlar (prisma, typescript, tsx) build uchun kerak — NODE_ENV=production bo'lsa ham o'rnatiladi.
     # Migratsiyalar har deployda qo'llanadi; boshlang'ich ma'lumotlar faqat baza bo'sh bo'lganda yuklanadi.
-    buildCommand: npm ci --include=dev && npx prisma generate && npm run build && npx prisma migrate deploy && npm run db:seed:if-empty
+    buildCommand: npm ci --include=dev && npx prisma generate && npm run build && npx prisma migrate deploy && npm run db:seed:if-empty && npm run db:seed:lectures
     startCommand: npm start
     healthCheckPath: /api/v1/health
     autoDeploy: true
@@ -40,7 +40,7 @@ services:
       - key: TRUST_PROXY_HOPS
         value: "2"
       - key: UPLOAD_MAX_MB
-        value: "10"
+        value: "50"
       - key: LOG_LEVEL
         value: info
       - key: API_DOCS_ENABLED
@@ -71,3 +71,10 @@ services:
       - path: /assets/*
         name: Cache-Control
         value: public, max-age=31536000, immutable
+      # Mavzu rasmlari va logotip — nomi o'zgarmaydi, shuning uchun 7 kun keshlanadi
+      - path: /covers/*
+        name: Cache-Control
+        value: public, max-age=604800
+      - path: /logo.png
+        name: Cache-Control
+        value: public, max-age=604800

@@ -2,7 +2,7 @@ import { CheckOutlined, EyeOutlined, PlusOutlined } from '@ant-design/icons';
 import { useQuery } from '@tanstack/react-query';
 import { Button, Card, Drawer, Empty, Skeleton, Tag } from 'antd';
 import { useState } from 'react';
-import { SourcePreview } from '@/features/source-analysis/components/SourcePreview';
+import { SourcePreview } from '@/features/source-library/components/SourcePreview';
 import { OBJECT_TYPE, SOURCE_TYPE } from '@/lib/labels';
 import { catalogService, sourcesService } from '@/services/catalog.service';
 import { museumService } from '@/services/museum.service';
@@ -57,7 +57,6 @@ export const TopicMaterials = ({ topicId, addedSourceIds, addedObjectIds, onAddS
               <div key={s.id} className="flex flex-col gap-2 rounded-lg border border-solid border-line p-3">
                 <div className="flex flex-wrap items-center gap-2">
                   <Tag color="blue" className="m-0">{SOURCE_TYPE[s.type]}</Tag>
-                  {s.dateLabel && <span className="text-xs text-muted">{s.dateLabel}</span>}
                 </div>
                 <b className="leading-snug">{s.title}</b>
                 <p className="m-0 line-clamp-2 text-sm text-muted">{s.summary}</p>

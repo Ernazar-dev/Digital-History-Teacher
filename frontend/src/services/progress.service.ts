@@ -1,20 +1,16 @@
 import { getData } from './api';
 
-export interface Achievement { code: string; title: string; description: string; earned: boolean; current: number; target: number }
-export interface TrajectoryStep { priority: number; kind: 'RETURNED' | 'ASSIGNMENT' | 'DIAGNOSTIC' | 'COMPONENT'; title: string; reason: string; link: string; due?: string | null }
+export interface ProgressAttempt { correctCount: number; total: number; percent: number; submittedAt: string }
+export interface ProgressTest { id: string; title: string; questionCount: number; attempt: ProgressAttempt | null }
 export interface Progress {
-  points: number; workPoints: number; reviewedCount: number;
-  level: { index: number; name: string; points: number; nextName: string | null; nextAt: number | null };
-  achievements: Achievement[]; trajectory: TrajectoryStep[]; groups: { id: string; name: string }[];
-}
-export interface Leaderboard {
-  group: { id: string; name: string };
-  rows: { studentId: string; name: string; isMe: boolean; points: number; level: string; achievements: number; rank: number }[];
+  summary: { testsTotal: number; testsDone: number; averagePercent: number | null };
+  topics: { id: string; title: string; slug: string; bookLabel: string | null; tests: ProgressTest[] }[];
+  otherTests: ProgressTest[];
+  groups: { id: string; name: string }[];
 }
 
-/** O'yin elementlari (ball, daraja, yutuqlar, reyting) va individual o'quv traektoriyasi */
+/** O'quv yo'li: mavzular tartibida testlar va natijalar */
 export const progressService = {
   mine: () => getData<Progress>('/progress/me'),
   student: (studentId: string) => getData<Progress>(`/progress/students/${studentId}`),
-  leaderboard: (groupId: string) => getData<Leaderboard>(`/progress/groups/${groupId}/leaderboard`),
 };
