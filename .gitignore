@@ -38,3 +38,6 @@ frontend/src/assets/logo DHT.png
 
 # ── Mijoz/dissertatsiya hujjatlari — ochiq repoga chiqmasin ──
 *.docx
+
+# ── Ishchi materiallar (darslik PDF, metodik hujjatlar) — faqat lokal, repoga chiqmaydi ──
+material/
