@@ -9,7 +9,7 @@ import { randomUUID } from 'node:crypto';
 import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { PrismaClient } from '@prisma/client';
-import { storage } from '../src/modules/media/storage';
+import { driverFor, storage } from '../src/modules/media/storage';
 import { LECTURES } from './seed-data/lectures';
 import { PERIODS } from './seed-data/periods';
 
@@ -37,6 +37,21 @@ const attachLectureFile = async (prisma: PrismaClient, slug: string, title: stri
     },
   });
   return media.id;
+};
+
+/**
+ * Biriktirilgan fayl yozuvi bor, lekin mazmuni saqlash joyida yo'qmi (masalan, Render'ning vaqtinchalik diskida
+ * `local` drayver bilan yozilgan fayl qayta ishga tushganda o'chib ketgan).
+ */
+const isFileLost = async (prisma: PrismaClient, mediaFileId: string) => {
+  const file = await prisma.mediaFile.findUnique({ where: { id: mediaFileId }, select: { storage: true, storageKey: true } });
+  if (!file) return true;
+  try {
+    (await driverFor(file.storage).read(file.storageKey)).destroy();
+    return false;
+  } catch {
+    return true;
+  }
 };
 
 export const seedLectures = async (prisma: PrismaClient, adminId: string | null) => {
@@ -70,8 +85,9 @@ export const seedLectures = async (prisma: PrismaClient, adminId: string | null)
       else await prisma.historicalSource.create({ data });
       created += 1;
     } else {
-      // Ma'ruza fayli faqat bo'sh bo'lsa biriktiriladi — administrator yuklagan fayl almashtirilmaydi
-      const lectureFileId = existing.lectureFileId ? null : await attachLectureFile(prisma, l.slug, existing.title, adminId);
+      // Ma'ruza fayli faqat bo'sh yoki mazmuni yo'qolgan bo'lsa biriktiriladi — ishlayotgan administrator fayli almashtirilmaydi
+      const needsFile = !existing.lectureFileId || (await isFileLost(prisma, existing.lectureFileId));
+      const lectureFileId = needsFile ? await attachLectureFile(prisma, l.slug, existing.title, adminId) : null;
       const data = {
         ...(lectureFileId ? { lectureFileId } : {}),
         // Matn faqat ma'ruza umuman bo'lmasa qo'yiladi — administrator o'z faylini yuklagan bo'lsa, tayyor matn qaytarilmaydi
