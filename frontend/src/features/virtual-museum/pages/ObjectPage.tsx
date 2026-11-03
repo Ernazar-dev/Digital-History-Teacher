@@ -7,6 +7,7 @@ import { PageHeader } from '@/components/common/PageHeader';
 import { Section } from '@/components/common/Section';
 import { DeleteButton } from '@/components/common/DeleteButton';
 import { QueryState } from '@/components/feedback/QueryState';
+import { useSiteViewStore } from '@/features/auth/siteView.store';
 import { useAuth } from '@/features/auth/useAuth';
 import { useAreaPath } from '@/hooks/useAreaPath';
 import { OBJECT_TYPE } from '@/lib/labels';
@@ -22,6 +23,7 @@ export default function ObjectPage() {
 /** Obyekt sahifasi — admin panelda kiritiladigan uch narsa: nomi, 3D/360° ko'rinishi va obyekt haqida ma'lumot */
 const ObjectView = ({ o }: { o: VirtualObject }) => {
   const { isAdmin } = useAuth();
+  const siteView = useSiteViewStore((s) => s.siteView);
   const { inApp } = useAreaPath();
 
   return (
@@ -29,7 +31,7 @@ const ObjectView = ({ o }: { o: VirtualObject }) => {
       <PageHeader
         title={o.title}
         tag={<Tag color="blue">{OBJECT_TYPE[o.type]}</Tag>}
-        extra={inApp && isAdmin && (
+        extra={inApp && isAdmin && !siteView && (
           <span className="flex gap-2">
             <Link to={`/app/admin/objects/${o.id}/edit`}><Button icon={<EditOutlined />}>Tahrirlash</Button></Link>
             <DeleteButton what="Obyekt" onDelete={() => museumService.remove(o.id)} invalidate={['objects', 'object']} backTo="/app/museum" />

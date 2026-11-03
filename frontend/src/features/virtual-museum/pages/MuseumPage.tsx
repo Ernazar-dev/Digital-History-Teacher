@@ -4,6 +4,7 @@ import { Button, Card, Input, Pagination, Select, Tag } from 'antd';
 import { Link } from 'react-router-dom';
 import { PageHeader } from '@/components/common/PageHeader';
 import { QueryState } from '@/components/feedback/QueryState';
+import { useSiteViewStore } from '@/features/auth/siteView.store';
 import { useAuth } from '@/features/auth/useAuth';
 import { useAreaPath } from '@/hooks/useAreaPath';
 import { useUrlState } from '@/hooks/useUrlState';
@@ -14,6 +15,7 @@ export default function MuseumPage() {
   const [f, setF] = useUrlState<ObjectFilters & Record<string, string | number | undefined>>(['page']);
   const { museum, inApp } = useAreaPath();
   const { isAdmin } = useAuth();
+  const siteView = useSiteViewStore((s) => s.siteView);
   const q = useQuery({ queryKey: ['objects', f], queryFn: () => museumService.list({ ...f, pageSize: 12 }), placeholderData: keepPreviousData });
 
   return (
@@ -22,7 +24,7 @@ export default function MuseumPage() {
         title="Virtual tarixiy sayohat va muzey"
         description="Tarixiy obidalar va artefaktlarning 3D modellari hamda 360° virtual sayohatlari."
         extra={
-          inApp && isAdmin && <Link to="/app/admin/objects/new"><Button type="primary" icon={<PlusOutlined />}>Obyekt qo‘shish</Button></Link>
+          inApp && isAdmin && !siteView && <Link to="/app/admin/objects/new"><Button type="primary" icon={<PlusOutlined />}>Obyekt qo‘shish</Button></Link>
         }
       />
       <div className="mb-6 grid gap-3 md:grid-cols-[2fr_1fr]">

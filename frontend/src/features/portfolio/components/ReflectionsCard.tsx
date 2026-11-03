@@ -23,7 +23,7 @@ export const ReflectionsCard = ({ items, editable }: { items: Reflection[]; edit
   return (
     <Card title="Refleksiv yozuvlar">
       {editable && (
-        <div className="no-print mb-4 space-y-2">
+        <div className="mb-4 space-y-2">
           <Input placeholder="Sarlavha (masalan: 1-haftadagi tahlil ishim haqida)" value={title} onChange={(e) => setTitle(e.target.value)} />
           <Input.TextArea rows={3} placeholder="Nimani o‘rgandim? Qaysi metodik qarorim o‘zini oqladi yoki oqlamadi? Keyingi safar nimani o‘zgartiraman?" value={content} onChange={(e) => setContent(e.target.value)} />
           <Button type="primary" disabled={title.trim().length < 2 || content.trim().length < 10} loading={add.isPending} onClick={() => add.mutate()}>Qo‘shish</Button>

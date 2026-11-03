@@ -37,7 +37,7 @@ export const SiteFooter = () => {
     : [{ to: '/login', label: 'Kirish' }, { to: '/register', label: 'Ro‘yxatdan o‘tish' }];
 
   return (
-    <footer className="no-print relative bg-midnight text-white">
+    <footer className="relative bg-midnight text-white">
       {/* Yuqori oltin chiziq — footer boshlanganini aniq ko'rsatadi */}
       <div className="h-px bg-gradient-to-r from-transparent via-accent/70 to-transparent" aria-hidden />
       <div className="mx-auto max-w-7xl px-4 pb-8 pt-14 md:px-8">

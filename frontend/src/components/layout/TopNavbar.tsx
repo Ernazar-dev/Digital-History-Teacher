@@ -166,7 +166,7 @@ export const TopNavbar = () => {
   return (
     <>
       <header
-        className={`no-print sticky top-0 z-30 border-b bg-white/90 backdrop-blur-md transition-shadow duration-300 ${
+        className={`sticky top-0 z-30 border-b bg-white/90 backdrop-blur-md transition-shadow duration-300 ${
           scrolled ? 'border-line shadow-[0_6px_24px_-18px_rgba(11,21,48,0.35)]' : 'border-transparent'
         }`}
       >

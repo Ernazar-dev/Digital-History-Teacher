@@ -5,6 +5,7 @@ import { useState, type ReactNode } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { PageHeader } from '@/components/common/PageHeader';
 import { QueryState } from '@/components/feedback/QueryState';
+import { useSiteViewStore } from '@/features/auth/siteView.store';
 import { useAuth } from '@/features/auth/useAuth';
 import { MaterialViewer } from '@/features/source-library/components/MaterialViewer';
 import { useNotify } from '@/hooks/useNotify';
@@ -15,7 +16,10 @@ import { AnswerSheet } from '../components/AnswerSheet';
 
 export default function TestPage() {
   const { id = '' } = useParams();
-  const { isStaff } = useAuth();
+  const { isStaff: staff } = useAuth();
+  // Saytni ko'rish rejimida test talaba ko'rinishida ochiladi
+  const siteView = useSiteViewStore((s) => s.siteView);
+  const isStaff = staff && !siteView;
   const query = useQuery({ queryKey: ['test', id], queryFn: () => testsService.get(id) });
   return <QueryState query={query}>{(t) => (isStaff ? <StaffView t={t} /> : <StudentView t={t} />)}</QueryState>;
 }
@@ -111,6 +115,7 @@ const StudentView = ({ t }: { t: Test }) => {
 };
 
 const StaffView = ({ t }: { t: Test }) => {
+  const siteView = useSiteViewStore((s) => s.siteView);
   const notify = useNotify();
   const qc = useQueryClient();
   const results = useQuery({ queryKey: ['test-results', t.id], queryFn: () => testsService.results(t.id) });
@@ -127,7 +132,7 @@ const StaffView = ({ t }: { t: Test }) => {
 
   return (
     <>
-      <Header t={t} extra={<Link to={`/app/assignments/${t.id}/edit`}><Button icon={<EditOutlined />}>Tahrirlash</Button></Link>} />
+      <Header t={t} extra={!siteView && <Link to={`/app/assignments/${t.id}/edit`}><Button icon={<EditOutlined />}>Tahrirlash</Button></Link>} />
       {!t.isPublished && <Alert type="info" showIcon className="mb-6" message="Test yashirilgan — talabalar uni ko‘rmaydi." />}
       <Card
         className="mb-6"

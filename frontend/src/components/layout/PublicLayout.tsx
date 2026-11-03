@@ -36,7 +36,7 @@ export const PublicLayout = () => {
             ? ''
             : isAuth
               ? 'flex min-h-[calc(100dvh-64px)] w-full items-center justify-center px-4 py-6'
-              : 'mx-auto w-full max-w-7xl px-4 py-10 md:px-8'
+              : 'mx-auto w-full max-w-7xl px-4 py-5 md:px-8 md:py-6'
         }
       >
         <ErrorBoundary key={location.pathname}>

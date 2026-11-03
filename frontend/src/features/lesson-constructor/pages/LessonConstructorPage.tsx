@@ -84,7 +84,7 @@ export default function LessonConstructorPage() {
         title={id ? 'Dars ishlanmasini tahrirlash' : 'Interaktiv tarix darsi konstruktori'}
         tag={existing.data && <StatusTag map={WORK_STATUS} value={existing.data.status} />}
         description="Platforma tayyor dars bermaydi: har bir bosqichda metodik qarorni o‘zingiz qabul qilasiz va asoslaysiz."
-        extra={id && <Link to={`/app/lessons/${id}`}><Button icon={<EyeOutlined />}>Ko‘rish / chop etish</Button></Link>}
+        extra={id && <Link to={`/app/lessons/${id}`}><Button icon={<EyeOutlined />}>Ko‘rish</Button></Link>}
       />
       {existing.data?.teacherComment && existing.data.status === 'RETURNED' && (
         <Alert className="mb-4" type="warning" showIcon message="O‘qituvchi izohi" description={existing.data.teacherComment} />

@@ -1,4 +1,4 @@
-import { DiffOutlined, PrinterOutlined, StarFilled, StarOutlined } from '@ant-design/icons';
+import { DiffOutlined, StarFilled, StarOutlined } from '@ant-design/icons';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Button, Card, Input, Segmented, Table, Tag } from 'antd';
 import { useState } from 'react';
@@ -45,7 +45,6 @@ const PortfolioView = ({ p, own }: { p: Portfolio; own: boolean }) => {
         extra={
           <>
             <Button icon={<DiffOutlined />} disabled={selected.length !== 2} onClick={() => setCompareOpen(true)}>Tanlanganlarni taqqoslash ({selected.length}/2)</Button>
-            <Button icon={<PrinterOutlined />} onClick={() => window.print()}>Chop etish / PDF</Button>
             {!own && <Link to={`/app/progress/students/${p.student.id}`}><Button>Test natijalari</Button></Link>}
           </>
         }
@@ -56,14 +55,14 @@ const PortfolioView = ({ p, own }: { p: Portfolio; own: boolean }) => {
             {own ? (
               <>
                 <Input.TextArea rows={3} value={summary} onChange={(e) => setSummary(e.target.value)} placeholder="O‘zingiz, kasbiy maqsadlaringiz va portfolio haqida qisqacha" />
-                <Button className="no-print mt-2" size="small" loading={saveSummary.isPending} onClick={() => saveSummary.mutate()}>Saqlash</Button>
+                <Button className="mt-2" size="small" loading={saveSummary.isPending} onClick={() => saveSummary.mutate()}>Saqlash</Button>
               </>
             ) : (
               <p className="prose-text m-0">{p.summary || '—'}</p>
             )}
           </Card>
-          <Card title="Ishlar" extra={<span className="no-print hidden text-sm text-muted md:inline">Avvalgi va keyingi ishni taqqoslash uchun ikkitasini belgilang</span>}>
-            <div className="no-print mb-4 max-w-full overflow-x-auto pb-1">
+          <Card title="Ishlar" extra={<span className="hidden text-sm text-muted md:inline">Avvalgi va keyingi ishni taqqoslash uchun ikkitasini belgilang</span>}>
+            <div className="mb-4 max-w-full overflow-x-auto pb-1">
               <Segmented
                 value={type}
                 onChange={(v) => setType(String(v))}

@@ -4,6 +4,7 @@ import { Button, Card, Popconfirm, Space, Table, Tag } from 'antd';
 import { Link } from 'react-router-dom';
 import { PageHeader } from '@/components/common/PageHeader';
 import { QueryState } from '@/components/feedback/QueryState';
+import { useSiteViewStore } from '@/features/auth/siteView.store';
 import { useAuth } from '@/features/auth/useAuth';
 import { useNotify } from '@/hooks/useNotify';
 import { testsService } from '@/services/learning.service';
@@ -12,7 +13,10 @@ import { fmtDate } from '@/utils/format';
 import { percentColor } from './TestPage';
 
 export default function TestsPage() {
-  const { isStaff } = useAuth();
+  const { isStaff: staff } = useAuth();
+  // Saytni ko'rish rejimida sahifa talaba ko'rinishida chiqadi
+  const siteView = useSiteViewStore((s) => s.siteView);
+  const isStaff = staff && !siteView;
   const query = useQuery({ queryKey: ['tests'], queryFn: testsService.list });
   return (
     <>
@@ -72,6 +76,7 @@ const StudentList = ({ items }: { items: TestListItem[] }) => {
 
 const StaffList = ({ items }: { items: TestListItem[] }) => {
   const { user, isAdmin } = useAuth();
+  const siteView = useSiteViewStore((s) => s.siteView);
   const notify = useNotify();
   const qc = useQueryClient();
   const remove = useMutation({
@@ -100,7 +105,7 @@ const StaffList = ({ items }: { items: TestListItem[] }) => {
             title: '',
             width: 100,
             render: (_, t) =>
-              (isAdmin || t.createdById === user?.id) && (
+              !siteView && (isAdmin || t.createdById === user?.id) && (
                 <Space>
                   <Link to={`/app/assignments/${t.id}/edit`}><Button size="small" icon={<EditOutlined />} aria-label="Tahrirlash" /></Link>
                   <Popconfirm title="Testni o‘chirasizmi?" okText="Ha" cancelText="Yo‘q" onConfirm={() => remove.mutate(t.id)}>

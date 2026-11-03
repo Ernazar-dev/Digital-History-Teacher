@@ -15,7 +15,7 @@ export const ReviewPanel = ({
   const invalid = comment.trim().length < 2 || (decision === 'ACCEPT' && score === null);
 
   return (
-    <Card title={title} className="no-print border-accent">
+    <Card title={title} className="border-accent">
       <Radio.Group value={decision} onChange={(e) => setDecision(e.target.value)} className="mb-4" optionType="button" buttonStyle="solid">
         <Radio.Button value="ACCEPT">Qabul qilish va baholash</Radio.Button>
         <Radio.Button value="RETURN">Qayta ishlashga qaytarish</Radio.Button>

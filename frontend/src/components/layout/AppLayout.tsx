@@ -71,7 +71,7 @@ export const AppLayout = () => {
   return (
     <Layout className="min-h-screen">
       {!isMobile && (
-        <Layout.Sider width={SIDER_WIDTH} className="no-print !fixed inset-y-0 left-0 z-30 shadow-[8px_0_40px_-20px_rgba(11,21,48,0.6)]">
+        <Layout.Sider width={SIDER_WIDTH} className="!fixed inset-y-0 left-0 z-30 shadow-[8px_0_40px_-20px_rgba(11,21,48,0.6)]">
           {sider}
         </Layout.Sider>
       )}
@@ -79,7 +79,7 @@ export const AppLayout = () => {
         {sider}
       </Drawer>
       <Layout style={{ marginLeft: isMobile ? 0 : SIDER_WIDTH }}>
-        <Layout.Header className="glass no-print sticky top-0 z-20 flex items-center gap-3 border-b border-line/80 !px-4 md:!px-8">
+        <Layout.Header className="glass sticky top-0 z-20 flex items-center gap-3 border-b border-line/80 !px-4 md:!px-8">
           {isMobile && <Button type="text" icon={<MenuOutlined />} onClick={() => setDrawer(true)} aria-label="Menyuni ochish" />}
           <Input.Search
             placeholder="Manbalar, obyektlar, topshiriqlar bo‘yicha qidiruv"
@@ -119,7 +119,7 @@ export const AppLayout = () => {
           </div>
         </Layout.Header>
         <Layout.Content className="mx-auto w-full max-w-7xl px-4 py-6 md:px-8 md:py-10">
-          {breadcrumb.length >= 3 && <Breadcrumb items={breadcrumb} className="no-print mb-5" />}
+          {breadcrumb.length >= 3 && <Breadcrumb items={breadcrumb} className="mb-5" />}
           <ErrorBoundary key={location.pathname}>
             <Suspense fallback={<PageLoader />}>
               <div key={location.pathname} className="page-enter">

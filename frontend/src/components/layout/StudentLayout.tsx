@@ -22,10 +22,10 @@ export const StudentLayout = () => {
     <div className="flex min-h-screen flex-col bg-canvas">
       <TopNavbar />
 
-      <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-6 md:px-8 md:py-10">
+      <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-4 md:px-8 md:py-6">
         {showCrumbs && (
           <Breadcrumb
-            className="no-print mb-5"
+            className="mb-4"
             items={breadcrumbItems(location.pathname)}
           />
         )}

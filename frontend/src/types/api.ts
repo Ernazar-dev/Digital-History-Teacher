@@ -48,7 +48,7 @@ export interface Source extends SourceListItem {
   mediaFile: MediaFileRef | null; lectureFile: MediaFileRef | null; presentationFile: MediaFileRef | null; videoFile: MediaFileRef | null;
   lectureFileId: string | null;
   tests: { id: string; title: string; questionCount: number }[];
-  virtualObjects: (Ref & { thumbnailUrl: string | null })[];
+  virtualObjects: (Ref & { slug: string; type: ObjectType; thumbnailUrl: string | null; periodLabel: string | null; location: string | null })[];
 }
 
 export interface VirtualTask { id: string; kind: TaskKind; prompt: string; sortOrder: number }

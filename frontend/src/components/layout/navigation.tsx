@@ -74,6 +74,6 @@ export const SEGMENT_LABELS: Record<string, string> = {
   lessons: 'Dars konstruktori', assignments: 'Topshiriqlar', portfolio: 'Portfolio', groups: 'Guruhlar',
   admin: 'Administrator', users: 'Foydalanuvchilar', objects: 'Virtual obyektlar', taxonomy: 'Davrlar va mavzular',
   settings: 'Sozlamalar', new: 'Yangi', edit: 'Tahrirlash',
-  search: 'Qidiruv', guide: 'Qo‘llanma', profile: 'Profil', print: 'Chop etish',
+  search: 'Qidiruv', guide: 'Qo‘llanma', profile: 'Profil',
   items: 'Element', students: 'Talaba', responses: 'Talaba ishi', progress: 'O‘quv yo‘li',
 };

@@ -4,15 +4,15 @@ import { courseLabel } from '../lessonForm';
 
 const Block = ({ title, text }: { title: string; text?: string | null }) =>
   text ? (
-    <div className="print-break mb-5">
+    <div className="mb-5">
       <h3 className="mb-1 text-base font-semibold text-primary">{title}</h3>
       <p className="prose-text m-0">{text}</p>
     </div>
   ) : null;
 
-/** Dars ishlanmasining chop etishga mos (PDF) hujjat ko'rinishi */
+/** Dars ishlanmasining hujjat ko'rinishi */
 export const LessonDocument = ({ l }: { l: LessonPlan }) => (
-  <div className="print-page rounded-lg border border-line bg-white p-6 shadow-sm md:p-10">
+  <div className="rounded-lg border border-line bg-white p-6 shadow-sm md:p-10">
     <div className="mb-6 border-b border-line pb-4">
       <div className="text-sm uppercase tracking-wide text-accent">Dars ishlanmasi · {l.currentVersion}-versiya</div>
       <h2 className="font-serif-title m-0 mt-1 text-2xl">{l.title}</h2>
@@ -26,7 +26,7 @@ export const LessonDocument = ({ l }: { l: LessonPlan }) => (
     <Block title="Maqsad" text={l.goals} />
     <Block title="Vazifalar" text={l.objectives} />
     <Block title="O‘quv natijalari" text={l.learningOutcomes} />
-    <div className="print-break mb-5">
+    <div className="mb-5">
       <h3 className="mb-2 text-base font-semibold text-primary">Tarixiy manbalar va virtual obyektlar</h3>
       <ol className="m-0 pl-5">
         {l.resources.map((r) => (
@@ -39,7 +39,7 @@ export const LessonDocument = ({ l }: { l: LessonPlan }) => (
       </ol>
     </div>
     {l.problemQuestions.length > 0 && (
-      <div className="print-break mb-5">
+      <div className="mb-5">
         <h3 className="mb-2 text-base font-semibold text-primary">Muammoli savollar</h3>
         <ol className="m-0 pl-5">{l.problemQuestions.map((q) => <li key={q}>{q}</li>)}</ol>
       </div>
@@ -52,7 +52,7 @@ export const LessonDocument = ({ l }: { l: LessonPlan }) => (
         {l.interactiveMethods.map((m) => <Tag key={m}>{m}</Tag>)}
       </div>
     )}
-    <div className="print-break mb-5">
+    <div className="mb-5">
       <h3 className="mb-2 text-base font-semibold text-primary">Dars bosqichlari</h3>
       <Table
         size="small"

@@ -773,31 +773,3 @@ body {
   }
 }
 
-/* Chop etish (PDF) ko'rinishi: faqat asosiy kontent */
-@media print {
-  .no-print,
-  .ant-layout-sider,
-  .ant-layout-header,
-  .ant-breadcrumb {
-    display: none !important;
-  }
-  .ant-layout,
-  .ant-layout-content {
-    background: #fff !important;
-    padding: 0 !important;
-    margin: 0 !important;
-  }
-  .print-page {
-    box-shadow: none !important;
-    border: none !important;
-  }
-  .print-break {
-    page-break-inside: avoid;
-  }
-  .page-enter,
-  .reveal {
-    animation: none !important;
-    opacity: 1 !important;
-    transform: none !important;
-  }
-}

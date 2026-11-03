@@ -5,11 +5,12 @@
 
 export type MethodCategory = 'manba' | 'muammo' | 'vizual' | 'interaktiv';
 
-export const CATEGORIES: Record<MethodCategory, { label: string; tone: string }> = {
-  manba: { label: 'Manbalar bilan ishlash', tone: 'bg-blue-50 text-blue-700' },
-  muammo: { label: 'Muammoli o‘qitish', tone: 'bg-amber-50 text-amber-700' },
-  vizual: { label: 'Vizual va makon', tone: 'bg-emerald-50 text-emerald-700' },
-  interaktiv: { label: 'Interaktiv va loyiha', tone: 'bg-violet-50 text-violet-700' },
+/** tone — yorliq (chip) rangi; bar — kartochka ustidagi yo'nalish chizig'i */
+export const CATEGORIES: Record<MethodCategory, { label: string; tone: string; bar: string }> = {
+  manba: { label: 'Manbalar bilan ishlash', tone: 'bg-blue-50 text-blue-700', bar: 'bg-blue-500' },
+  muammo: { label: 'Muammoli o‘qitish', tone: 'bg-amber-50 text-amber-700', bar: 'bg-amber-500' },
+  vizual: { label: 'Vizual va makon', tone: 'bg-emerald-50 text-emerald-700', bar: 'bg-emerald-500' },
+  interaktiv: { label: 'Interaktiv va loyiha', tone: 'bg-violet-50 text-violet-700', bar: 'bg-violet-500' },
 };
 
 /** Platformadagi bo'lim — metodni qo'llashda yordam beradi */

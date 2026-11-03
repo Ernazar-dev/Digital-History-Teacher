@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 
 /** Bir xil ko'rinishdagi kontent bo'limi */
 export const Section = ({ title, extra, children, className = '' }: { title?: ReactNode; extra?: ReactNode; children: ReactNode; className?: string }) => (
-  <Card title={title} extra={extra} className={`print-break shadow-sm ${className}`} styles={{ body: { padding: 20 } }}>
+  <Card title={title} extra={extra} className={`shadow-sm ${className}`} styles={{ body: { padding: 20 } }}>
     {children}
   </Card>
 );

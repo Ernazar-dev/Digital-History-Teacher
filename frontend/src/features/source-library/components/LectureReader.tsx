@@ -79,7 +79,7 @@ export const LectureReader = ({ content, title }: { content: string; title?: str
   }, [plan]);
 
   const toc = plan.length > 1 && (
-    <nav aria-label="Ma’ruza rejasi" className="no-print">
+    <nav aria-label="Ma’ruza rejasi">
       <div className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-muted">
         <OrderedListOutlined /> Reja
       </div>
@@ -107,11 +107,11 @@ export const LectureReader = ({ content, title }: { content: string; title?: str
   return (
     <div>
       {/* Ingichka o'qish progressi — ekran tepasida */}
-      <div className="no-print fixed inset-x-0 top-0 z-50 h-1 bg-transparent" aria-hidden>
+      <div className="fixed inset-x-0 top-0 z-50 h-1 bg-transparent" aria-hidden>
         <div className="h-full bg-accent transition-[width] duration-150" style={{ width: `${progress}%` }} />
       </div>
 
-      <div className="no-print sticky top-[4.5rem] z-10 mb-6 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-solid border-line bg-white/95 px-4 py-2 shadow-sm backdrop-blur">
+      <div className="sticky top-[4.5rem] z-10 mb-6 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-solid border-line bg-white/95 px-4 py-2 shadow-sm backdrop-blur">
         <span className="text-sm text-muted">≈ {pages} bet · {minutes} daqiqa · <b className="text-ink">{Math.round(progress)}%</b> o‘qildi</span>
         <span className="flex flex-wrap items-center gap-2">
           <span className="flex items-center rounded-lg border border-solid border-line" role="group" aria-label="Shrift o‘lchami">
@@ -134,7 +134,7 @@ export const LectureReader = ({ content, title }: { content: string; title?: str
         </aside>
         <div className="min-w-0">
           {toc && (
-            <details className="no-print mb-6 rounded-xl border border-solid border-line bg-canvas p-3 lg:hidden">
+            <details className="mb-6 rounded-xl border border-solid border-line bg-canvas p-3 lg:hidden">
               <summary className="cursor-pointer font-medium">Ma’ruza rejasi</summary>
               <div className="mt-3">{toc}</div>
             </details>
@@ -152,7 +152,7 @@ export const LectureReader = ({ content, title }: { content: string; title?: str
           type="primary"
           icon={<ArrowUpOutlined />}
           aria-label="Yuqoriga"
-          className="no-print !fixed bottom-6 right-6 z-40 shadow-lift"
+          className="!fixed bottom-6 right-6 z-40 shadow-lift"
           onClick={() => articleRef.current?.scrollIntoView({ behavior: 'smooth' })}
         />
       )}

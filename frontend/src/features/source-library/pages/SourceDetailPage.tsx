@@ -1,5 +1,5 @@
 import {
-  ArrowLeftOutlined, BookOutlined, CheckSquareOutlined, EditOutlined, FilePptOutlined, PlayCircleOutlined, RightOutlined,
+  ArrowLeftOutlined, BookOutlined, CheckSquareOutlined, CompassOutlined, EditOutlined, FilePptOutlined, PlayCircleOutlined, RightOutlined,
 } from '@ant-design/icons';
 import { useQuery } from '@tanstack/react-query';
 import { Button, Tag } from 'antd';
@@ -7,9 +7,11 @@ import type { ReactNode } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router-dom';
 import { DeleteButton } from '@/components/common/DeleteButton';
 import { QueryState } from '@/components/feedback/QueryState';
+import { useSiteViewStore } from '@/features/auth/siteView.store';
 import { useAuth } from '@/features/auth/useAuth';
 import { useAreaPath } from '@/hooks/useAreaPath';
 import { sourcesService } from '@/services/catalog.service';
+import { OBJECT_TYPE } from '@/lib/labels';
 import type { Source } from '@/types/api';
 import { LectureFileView } from '../components/LectureFileView';
 import { LectureReader } from '../components/LectureReader';
@@ -22,7 +24,7 @@ export default function SourceDetailPage() {
   return <QueryState query={query}>{(s) => <TopicView s={s} />}</QueryState>;
 }
 
-type PartKey = 'maruza' | 'taqdimot' | 'video' | 'test';
+type PartKey = 'maruza' | 'taqdimot' | 'video' | 'virtual' | 'test';
 interface Part { key: PartKey; label: string; icon: ReactNode; hint: string; ready: boolean }
 
 const wordsToPages = (text: string | null) => (text ? Math.max(1, Math.round(text.split(/\s+/).length / 300)) : 0);
@@ -33,7 +35,7 @@ const Hero = ({ s, cover, back, editTo }: { s: Source; cover: string | null; bac
     {cover && <img src={cover} alt="" className="absolute inset-0 h-full w-full object-cover object-[50%_30%] opacity-60" />}
     <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/45 to-black/20" aria-hidden />
     <div className="relative flex min-h-[260px] flex-col justify-between gap-6 p-6 md:min-h-[340px] md:p-10">
-      <div className="no-print flex items-center justify-between gap-3">
+      <div className="flex items-center justify-between gap-3">
         <Link to={back} className="inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1.5 text-sm text-white no-underline backdrop-blur hover:bg-white/25">
           <ArrowLeftOutlined /> Mavzular
         </Link>
@@ -65,9 +67,11 @@ const Pending = ({ text, editTo }: { text: string; editTo: string | null }) => (
 
 const TopicView = ({ s }: { s: Source }) => {
   const { user, isStaff, isAdmin } = useAuth();
-  const { sources: back } = useAreaPath();
+  const { sources: back, museum } = useAreaPath();
   const [params, setParams] = useSearchParams();
-  const canEdit = isAdmin || (isStaff && s.createdBy?.id === user?.id);
+  const siteView = useSiteViewStore((st) => st.siteView);
+  // Saytni ko'rish rejimida tahrirlash/o'chirish ko'rsatilmaydi — bular boshqaruv panelida bajariladi
+  const canEdit = !siteView && (isAdmin || (isStaff && s.createdBy?.id === user?.id));
   const editTo = canEdit ? `/app/admin/sources/${s.id}/edit` : null;
   const video = youtubeEmbedUrl(s.videoUrl);
   const pages = wordsToPages(s.lectureContent);
@@ -76,6 +80,10 @@ const TopicView = ({ s }: { s: Source }) => {
     { key: 'maruza', label: 'Ma’ruza', icon: <BookOutlined />, ready: Boolean(s.lectureContent || s.lectureFile), hint: s.lectureFile ? 'O‘qish va yuklab olish' : s.lectureContent ? `≈ ${pages} bet matn` : 'Tez orada' },
     { key: 'taqdimot', label: 'Taqdimot', icon: <FilePptOutlined />, ready: Boolean(s.presentationFile), hint: s.presentationFile ? 'Slaydlar' : 'Tez orada' },
     { key: 'video', label: 'Video rolik', icon: <PlayCircleOutlined />, ready: Boolean(video || s.videoFile), hint: video || s.videoFile ? 'Tomosha qilish' : 'Tez orada' },
+    // 3D model / 360° sayohat bo'limi faqat mavzuga obyekt biriktirilgan bo'lsa chiqadi
+    ...(s.virtualObjects.length
+      ? [{ key: 'virtual' as const, label: '3D / 360°', icon: <CompassOutlined />, ready: true, hint: `${s.virtualObjects.length} ta obyekt` }]
+      : []),
     ...(s.tests.length ? [{ key: 'test' as const, label: 'Test', icon: <CheckSquareOutlined />, ready: true, hint: `${s.tests.length} ta test` }] : []),
   ];
   const requested = params.get('qism') as PartKey | null;
@@ -94,7 +102,9 @@ const TopicView = ({ s }: { s: Source }) => {
       <div
         role="tablist"
         aria-label="Mavzu qismlari"
-        className={`no-print mb-6 grid gap-3 ${parts.length === 4 ? 'grid-cols-2 md:grid-cols-4' : 'grid-cols-3'}`}
+        className={`mb-6 grid gap-3 ${
+          parts.length >= 5 ? 'grid-cols-2 lg:grid-cols-5' : parts.length === 4 ? 'grid-cols-2 md:grid-cols-4' : 'grid-cols-3'
+        }`}
       >
         {parts.map((p) => {
           const on = p.key === active;
@@ -154,6 +164,31 @@ const TopicView = ({ s }: { s: Source }) => {
           ) : (
             <Pending text="Video rolik hali qo‘shilmagan." editTo={editTo} />
           ))}
+
+        {active === 'virtual' && (
+          <div>
+            <p className="mb-4 mt-0 text-muted">
+              Mavzuga oid yodgorliklar va arxeologik topilmalarning 3D modellari hamda 360° sayohatlari. Obyektni ochib, aylantirib ko‘ring va topshiriqlarni bajaring.
+            </p>
+            <ul className="m-0 grid list-none gap-4 p-0 sm:grid-cols-2 lg:grid-cols-3">
+              {s.virtualObjects.map((o) => (
+                <li key={o.id}>
+                  <Link to={`${museum}/${o.slug}`} className="group flex h-full flex-col overflow-hidden rounded-2xl border border-solid border-line bg-white no-underline transition-shadow hover:shadow-lift">
+                    <div className="relative aspect-[16/10] bg-primary-soft">
+                      {o.thumbnailUrl && <img src={o.thumbnailUrl} alt="" loading="lazy" className="h-full w-full object-cover" />}
+                      <Tag color="blue" className="!absolute left-3 top-3 m-0">{OBJECT_TYPE[o.type]}</Tag>
+                    </div>
+                    <div className="flex flex-1 flex-col gap-1 p-4">
+                      <span className="font-semibold leading-snug text-ink group-hover:text-primary">{o.title}</span>
+                      <span className="text-xs text-muted">{[o.location, o.periodLabel].filter(Boolean).join(' · ')}</span>
+                      <span className="mt-auto flex items-center gap-1 pt-2 text-sm font-medium text-primary">Ko‘rish <RightOutlined /></span>
+                    </div>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
         {active === 'test' && (
           <div>

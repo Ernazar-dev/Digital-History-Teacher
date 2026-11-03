@@ -1,4 +1,4 @@
-import { EditOutlined, PrinterOutlined } from '@ant-design/icons';
+import { EditOutlined } from '@ant-design/icons';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Button } from 'antd';
 import { Link, useParams } from 'react-router-dom';
@@ -6,6 +6,7 @@ import { PageHeader } from '@/components/common/PageHeader';
 import { ReviewPanel, TeacherVerdict } from '@/components/common/ReviewPanel';
 import { StatusTag } from '@/components/common/StatusTag';
 import { QueryState } from '@/components/feedback/QueryState';
+import { useSiteViewStore } from '@/features/auth/siteView.store';
 import { useAuth } from '@/features/auth/useAuth';
 import { useNotify } from '@/hooks/useNotify';
 import { WORK_STATUS } from '@/lib/labels';
@@ -16,6 +17,7 @@ import { LessonDocument } from '../components/LessonDocument';
 export default function LessonViewPage() {
   const { id = '' } = useParams();
   const { user, isStaff } = useAuth();
+  const siteView = useSiteViewStore((s) => s.siteView);
   const qc = useQueryClient();
   const notify = useNotify();
   const q = useQuery({ queryKey: ['lesson', id], queryFn: () => lessonsService.get(id) });
@@ -34,19 +36,18 @@ export default function LessonViewPage() {
             tag={<StatusTag map={WORK_STATUS} value={l.status} />}
             extra={
               <>
-                <Button icon={<PrinterOutlined />} onClick={() => window.print()}>Chop etish / PDF</Button>
                 {l.author.id === user?.id && ['DRAFT', 'RETURNED'].includes(l.status) && (
                   <Link to={`/app/lessons/${l.id}/edit`}><Button type="primary" icon={<EditOutlined />}>Tahrirlash</Button></Link>
                 )}
               </>
             }
           />
-          <div className="no-print"><TeacherVerdict comment={l.teacherComment} score={l.score} status={l.status} /></div>
+          <div><TeacherVerdict comment={l.teacherComment} score={l.score} status={l.status} /></div>
           {l.reviewedBy && l.reviewedAt && (
-            <p className="no-print -mt-3 text-sm text-muted">Ekspert: {l.reviewedBy.fullName} · {fmtDateTime(l.reviewedAt)}</p>
+            <p className="-mt-3 text-sm text-muted">Ekspert: {l.reviewedBy.fullName} · {fmtDateTime(l.reviewedAt)}</p>
           )}
           <LessonDocument l={l} />
-          {isStaff && l.author.id !== user?.id && ['SUBMITTED', 'UNDER_REVIEW'].includes(l.status) && (
+          {isStaff && !siteView && l.author.id !== user?.id && ['SUBMITTED', 'UNDER_REVIEW'].includes(l.status) && (
             <ReviewPanel title="Dars ishlanmasi ekspertizasi" loading={review.isPending} onSubmit={(v) => review.mutate(v)} />
           )}
         </div>

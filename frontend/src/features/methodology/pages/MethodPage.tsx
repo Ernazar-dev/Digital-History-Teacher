@@ -1,19 +1,26 @@
-import { AimOutlined, ArrowLeftOutlined, ArrowRightOutlined, BookOutlined, BulbOutlined, OrderedListOutlined, PrinterOutlined } from '@ant-design/icons';
-import { Button } from 'antd';
+import { AimOutlined, ArrowLeftOutlined, ArrowRightOutlined, BookOutlined, BulbOutlined, CheckCircleFilled, OrderedListOutlined } from '@ant-design/icons';
 import type { ReactNode } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { CATEGORIES, METHODS } from '../methods';
 import { TOOLS } from '../tools';
 
-const Block = ({ icon, title, children }: { icon: ReactNode; title: string; children: ReactNode }) => (
-  <section className="rounded-2xl border border-solid border-line bg-white p-5 md:p-7">
-    <h2 className="m-0 mb-4 flex items-center gap-3 text-lg font-semibold">
-      <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary-soft text-primary">{icon}</span>
+const pad = (n: number) => String(n).padStart(2, '0');
+
+const Block = ({ id, icon, title, children }: { id: string; icon: ReactNode; title: string; children: ReactNode }) => (
+  <section id={id} className="scroll-mt-24 rounded-2xl border border-solid border-line bg-white p-5 shadow-card md:p-8">
+    <h2 className="font-serif-title m-0 mb-5 flex items-center gap-3 text-xl font-semibold">
+      <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-soft text-lg text-primary">{icon}</span>
       {title}
     </h2>
     {children}
   </section>
 );
+
+const SECTIONS = [
+  { id: 'maqsad', label: 'Metodning maqsadi' },
+  { id: 'misol', label: 'Amaliy misol' },
+  { id: 'tartib', label: 'Bajarish tartibi' },
+];
 
 /** Bitta metod: maqsad, amaliy misol, bajarish tartibi (bosqichlar) va platformada qo'llash */
 export default function MethodPage() {
@@ -31,58 +38,87 @@ export default function MethodPage() {
   }
   const prev = METHODS[i - 1];
   const next = METHODS[i + 1];
+  const cat = CATEGORIES[m.category];
 
   return (
     <article>
-      <Link to="/app/methodology" className="no-print mb-6 inline-flex items-center gap-2 text-sm text-muted no-underline hover:text-primary">
+      <Link to="/app/methodology" className="mb-5 inline-flex items-center gap-2 text-sm text-muted no-underline hover:text-primary">
         <ArrowLeftOutlined /> Barcha metodlar
       </Link>
 
-      <header className="mb-8">
-        <div className="flex flex-wrap items-center gap-2 text-sm">
-          <span className={`rounded-full px-2.5 py-1 text-xs font-medium ${CATEGORIES[m.category].tone}`}>{CATEGORIES[m.category].label}</span>
-          <span className="text-muted">Metod {m.n} / {METHODS.length}</span>
+      {/* Sarlavha bloki */}
+      <header className="relative mb-8 overflow-hidden rounded-3xl bg-gradient-to-br from-midnight to-primary px-6 py-8 text-white md:px-10 md:py-12">
+        <div className="pattern-girih pointer-events-none absolute inset-0 opacity-60" aria-hidden />
+        <span className="font-serif-title pointer-events-none absolute -right-2 -top-6 select-none text-[9rem] font-bold leading-none text-white/10 md:text-[13rem]" aria-hidden>
+          {pad(m.n)}
+        </span>
+        <div className="relative">
+          <div className="flex flex-wrap items-center gap-3 text-sm">
+            <span className="rounded-full bg-white/15 px-3 py-1 text-xs font-medium backdrop-blur">{cat.label}</span>
+            <span className="text-white/70">Metod {m.n} / {METHODS.length}</span>
+          </div>
+          <h1 className="font-serif-title m-0 mt-4 max-w-3xl text-3xl font-bold leading-tight md:text-[42px]">{m.title}</h1>
+          <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-white/85">
+            <span className="flex items-center gap-2"><OrderedListOutlined /> {m.steps.length} bosqich</span>
+            <span className="flex items-center gap-2"><BulbOutlined /> Misol: «{m.exampleTopic}»</span>
+          </div>
         </div>
-        <h1 className="font-serif-title m-0 mt-3 max-w-4xl text-3xl font-bold leading-tight md:text-[40px]">{m.title}</h1>
       </header>
 
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
         <div className="min-w-0 space-y-6">
-          <Block icon={<AimOutlined />} title="Metodning maqsadi">
-            <p className="m-0 text-[16px] leading-relaxed text-ink">{m.goal}</p>
+          <Block id="maqsad" icon={<AimOutlined />} title="Metodning maqsadi">
+            <p className="m-0 border-0 border-l-4 border-solid border-accent pl-5 text-[17px] leading-relaxed text-ink">{m.goal}</p>
           </Block>
 
-          <Block icon={<BulbOutlined />} title="Amaliy misol">
+          <Block id="misol" icon={<BulbOutlined />} title="Amaliy misol">
             <div className="mb-4 inline-block rounded-lg bg-accent-soft px-3 py-1.5 text-sm font-medium text-ink">Mavzu: «{m.exampleTopic}»</div>
-            <p className="m-0 leading-relaxed text-ink">{m.example}</p>
+            <p className="m-0 text-[16px] leading-relaxed text-ink">{m.example}</p>
             {m.exampleItems && (
-              <ul className="mb-0 mt-3 space-y-1.5 pl-5 text-ink">
-                {m.exampleItems.map((t) => <li key={t}>{t}</li>)}
+              <ul className="m-0 mt-4 list-none space-y-2 p-0">
+                {m.exampleItems.map((t) => (
+                  <li key={t} className="flex items-start gap-3 rounded-xl bg-canvas px-4 py-3 text-ink">
+                    <CheckCircleFilled className="mt-1 shrink-0 text-primary" />
+                    <span className="leading-relaxed">{t}</span>
+                  </li>
+                ))}
               </ul>
             )}
             {m.question && (
-              <blockquote className="m-0 mt-4 rounded-r-xl border-0 border-l-4 border-solid border-accent bg-canvas px-5 py-4 font-serif-title text-[17px] italic leading-relaxed text-ink">
+              <blockquote className="font-serif-title m-0 mt-5 rounded-r-2xl border-0 border-l-4 border-solid border-accent bg-accent-soft/60 px-6 py-5 text-[18px] italic leading-relaxed text-ink">
                 «{m.question}»
               </blockquote>
             )}
           </Block>
 
-          <Block icon={<OrderedListOutlined />} title="Bajarish tartibi">
-            <ol className="m-0 list-none p-0">
+          <Block id="tartib" icon={<OrderedListOutlined />} title="Bajarish tartibi">
+            <ol className="m-0 list-none space-y-3 p-0">
               {m.steps.map((s, k) => (
-                <li key={s} className="relative flex gap-4 pb-5 last:pb-0">
-                  {/* Bosqichlarni bog'lovchi chiziq */}
-                  {k < m.steps.length - 1 && <span className="absolute left-[17px] top-9 h-[calc(100%-2.25rem)] w-px bg-line" aria-hidden />}
-                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-bold text-white">{k + 1}</span>
-                  <p className="m-0 pt-1.5 leading-relaxed text-ink">{s}</p>
+                <li key={s} className="relative flex gap-4 rounded-xl border border-solid border-line bg-canvas/60 p-4 transition-colors hover:border-primary/30 hover:bg-white md:p-5">
+                  <span className="font-serif-title flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary text-base font-bold text-white shadow-sm">{k + 1}</span>
+                  <div className="min-w-0 pt-0.5">
+                    <div className="text-xs font-semibold uppercase tracking-wider text-accent">{k + 1}-bosqich</div>
+                    <p className="m-0 mt-1 leading-relaxed text-ink">{s}</p>
+                  </div>
                 </li>
               ))}
             </ol>
           </Block>
         </div>
 
-        <aside className="no-print space-y-6 lg:sticky lg:top-24 lg:self-start">
-          <section className="rounded-2xl border border-solid border-line bg-white p-5">
+        <aside className="space-y-6 lg:sticky lg:top-24 lg:self-start">
+          <nav className="hidden rounded-2xl border border-solid border-line bg-white p-5 shadow-card lg:block" aria-label="Metod bo‘limlari">
+            <h2 className="m-0 mb-3 text-xs font-semibold uppercase tracking-wider text-muted">Bo‘limlar</h2>
+            <ul className="m-0 list-none space-y-0.5 p-0">
+              {SECTIONS.map((s) => (
+                <li key={s.id}>
+                  <a href={`#${s.id}`} className="block rounded-lg px-3 py-2 text-sm text-ink no-underline transition-colors hover:bg-canvas hover:text-primary">{s.label}</a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <section className="rounded-2xl border border-solid border-line bg-white p-5 shadow-card">
             <h2 className="m-0 mb-1 text-base font-semibold">Platformada qo‘llash</h2>
             <p className="m-0 mb-4 text-sm text-muted">Metod uchun kerakli materiallar shu yerda</p>
             {m.topic && (
@@ -106,21 +142,20 @@ export default function MethodPage() {
               ))}
             </div>
           </section>
-          <Button block icon={<PrinterOutlined />} onClick={() => window.print()}>Chop etish</Button>
         </aside>
       </div>
 
-      <nav className="no-print mt-10 grid gap-4 sm:grid-cols-2" aria-label="Boshqa metodlar">
+      <nav className="mt-10 grid gap-4 sm:grid-cols-2" aria-label="Boshqa metodlar">
         {prev ? (
-          <Link to={`/app/methodology/${prev.slug}`} className="rounded-2xl border border-solid border-line bg-white p-4 no-underline transition-colors hover:border-primary/40">
-            <span className="flex items-center gap-2 text-xs text-muted"><ArrowLeftOutlined /> Oldingi metod</span>
-            <span className="mt-1 block font-medium leading-snug text-ink">{prev.title}</span>
+          <Link to={`/app/methodology/${prev.slug}`} className="group rounded-2xl border border-solid border-line bg-white p-5 no-underline shadow-card transition-all hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-lift">
+            <span className="flex items-center gap-2 text-xs text-muted"><ArrowLeftOutlined className="transition-transform group-hover:-translate-x-1" /> Oldingi metod · {pad(prev.n)}</span>
+            <span className="font-serif-title mt-1.5 block text-base font-semibold leading-snug text-ink">{prev.title}</span>
           </Link>
         ) : <span />}
         {next && (
-          <Link to={`/app/methodology/${next.slug}`} className="rounded-2xl border border-solid border-line bg-white p-4 text-right no-underline transition-colors hover:border-primary/40">
-            <span className="flex items-center justify-end gap-2 text-xs text-muted">Keyingi metod <ArrowRightOutlined /></span>
-            <span className="mt-1 block font-medium leading-snug text-ink">{next.title}</span>
+          <Link to={`/app/methodology/${next.slug}`} className="group rounded-2xl border border-solid border-line bg-white p-5 text-right no-underline shadow-card transition-all hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-lift">
+            <span className="flex items-center justify-end gap-2 text-xs text-muted">Keyingi metod · {pad(next.n)} <ArrowRightOutlined className="transition-transform group-hover:translate-x-1" /></span>
+            <span className="font-serif-title mt-1.5 block text-base font-semibold leading-snug text-ink">{next.title}</span>
           </Link>
         )}
       </nav>

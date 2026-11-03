@@ -1,4 +1,4 @@
-import { ArrowRightOutlined, OrderedListOutlined } from '@ant-design/icons';
+import { ArrowRightOutlined, BulbOutlined, OrderedListOutlined, SearchOutlined } from '@ant-design/icons';
 import { Input } from 'antd';
 import { Link } from 'react-router-dom';
 import { PageHeader } from '@/components/common/PageHeader';
@@ -12,33 +12,44 @@ const matches = (m: Method, q: string) =>
 
 const pad = (n: number) => String(n).padStart(2, '0');
 
-const MethodCard = ({ m }: { m: Method }) => (
-  <Link
-    to={`/app/methodology/${m.slug}`}
-    className="group flex h-full flex-col rounded-2xl border border-solid border-line bg-white p-5 no-underline transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-lift md:p-6"
-  >
-    <div className="flex items-start justify-between gap-3">
-      <span className="font-serif-title text-4xl font-bold leading-none text-primary/25 transition-colors group-hover:text-primary">{pad(m.n)}</span>
-      <span className={`rounded-full px-2.5 py-1 text-xs font-medium ${CATEGORIES[m.category].tone}`}>{CATEGORIES[m.category].label}</span>
-    </div>
-    <h2 className="font-serif-title m-0 mt-4 text-lg font-semibold leading-snug text-ink">{m.title}</h2>
-    <p className="m-0 mt-2 line-clamp-3 text-sm leading-relaxed text-muted">{m.goal}</p>
-    <div className="mt-4 rounded-xl bg-canvas px-3 py-2 text-[13px] leading-snug text-ink/80">
-      <span className="font-medium text-ink">Misol: </span>«{m.exampleTopic}»
-    </div>
-    <div className="mt-auto flex items-center justify-between gap-3 pt-5 text-[13px] text-muted">
-      <span className="flex items-center gap-1.5">
-        <OrderedListOutlined /> {m.steps.length} bosqich
-      </span>
-      <span className="flex items-center gap-2">
-        {m.tools.map((t) => (
-          <span key={t} title={TOOLS[t].label} className="text-base opacity-60">{TOOLS[t].icon}</span>
-        ))}
-        <ArrowRightOutlined className="ml-1 text-primary transition-transform group-hover:translate-x-1" />
-      </span>
-    </div>
-  </Link>
-);
+const MethodCard = ({ m }: { m: Method }) => {
+  const cat = CATEGORIES[m.category];
+  return (
+    <Link
+      to={`/app/methodology/${m.slug}`}
+      className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-solid border-line bg-white p-5 no-underline shadow-card transition-all duration-300 ease-premium hover:-translate-y-1 hover:border-primary/30 hover:shadow-lift md:p-6"
+    >
+      <span className={`absolute inset-x-0 top-0 h-1 ${cat.bar}`} aria-hidden />
+
+      <div className="flex items-start justify-between gap-3">
+        <span className="font-serif-title text-5xl font-bold leading-none text-primary/15 transition-colors duration-300 group-hover:text-accent">{pad(m.n)}</span>
+        <span className={`rounded-full px-2.5 py-1 text-xs font-medium ${cat.tone}`}>{cat.label}</span>
+      </div>
+
+      <h2 className="font-serif-title m-0 mt-5 text-[19px] font-semibold leading-snug text-ink transition-colors group-hover:text-primary">{m.title}</h2>
+      <p className="m-0 mt-2.5 line-clamp-3 text-sm leading-relaxed text-muted">{m.goal}</p>
+
+      <div className="mt-5 flex items-start gap-2.5 rounded-xl bg-canvas px-3.5 py-3 text-[13px] leading-snug text-ink/80">
+        <BulbOutlined className="mt-0.5 shrink-0 text-accent" />
+        <span><span className="font-medium text-ink">Misol: </span>«{m.exampleTopic}»</span>
+      </div>
+
+      <div className="mt-auto flex items-center justify-between gap-3 border-0 border-t border-solid border-line pt-4 text-[13px] text-muted">
+        <span className="flex items-center gap-1.5">
+          <OrderedListOutlined /> {m.steps.length} bosqich
+        </span>
+        <span className="flex items-center gap-2.5">
+          {m.tools.map((t) => (
+            <span key={t} title={TOOLS[t].label} className="text-base text-primary/60">{TOOLS[t].icon}</span>
+          ))}
+          <span className="flex h-7 w-7 items-center justify-center rounded-full bg-primary-soft text-primary transition-colors group-hover:bg-primary group-hover:text-white">
+            <ArrowRightOutlined className="text-xs" />
+          </span>
+        </span>
+      </div>
+    </Link>
+  );
+};
 
 /** Metodika — tarix darslarida raqamli manbalar bilan ishlash metodlari: qidiruv, yo'nalish bo'yicha saralash va kartochkalar */
 export default function MethodologyPage() {
@@ -47,8 +58,8 @@ export default function MethodologyPage() {
   const q = filters.q?.trim() ?? '';
   const list = METHODS.filter((m) => (!cat || m.category === cat) && (!q || matches(m, q)));
   const chip = (on: boolean) =>
-    `cursor-pointer rounded-full border border-solid px-4 py-1.5 text-sm font-medium transition-colors ${
-      on ? 'border-primary bg-primary text-white' : 'border-line bg-white text-ink hover:border-primary/50'
+    `cursor-pointer rounded-full border border-solid px-4 py-2 text-sm font-medium transition-colors ${
+      on ? 'border-primary bg-primary text-white shadow-sm' : 'border-line bg-white text-ink hover:border-primary/50'
     }`;
 
   return (
@@ -56,37 +67,39 @@ export default function MethodologyPage() {
       <PageHeader
         title="Metodika"
         description="Tarix darslarida raqamli manbalar bilan ishlash metodlari. Har bir metodda — maqsad, amaliy misol, bosqichma-bosqich bajarish tartibi va uni platformada qo‘llash yo‘li."
+        extra={
+          <Input.Search
+            allowClear
+            size="large"
+            className="w-full md:w-[24rem]"
+            placeholder="Metod, mavzu yoki bosqich bo‘yicha"
+            defaultValue={filters.q}
+            onSearch={(v) => setFilters({ q: v || undefined })}
+            aria-label="Metodlardan qidirish"
+          />
+        }
       />
 
-      <div className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-        <div className="flex flex-wrap gap-2" role="group" aria-label="Yo‘nalish bo‘yicha saralash">
-          <button type="button" className={chip(!cat)} aria-pressed={!cat} onClick={() => setFilters({ yo: undefined })}>
-            Hammasi <span className="opacity-60">{METHODS.length}</span>
+      <div className="mb-8 flex flex-wrap items-center gap-2" role="group" aria-label="Yo‘nalish bo‘yicha saralash">
+        <button type="button" className={chip(!cat)} aria-pressed={!cat} onClick={() => setFilters({ yo: undefined })}>
+          Hammasi <span className="opacity-60">{METHODS.length}</span>
+        </button>
+        {(Object.keys(CATEGORIES) as MethodCategory[]).map((k) => (
+          <button key={k} type="button" className={chip(cat === k)} aria-pressed={cat === k} onClick={() => setFilters({ yo: k })}>
+            <span className={`mr-2 inline-block h-2 w-2 rounded-full ${CATEGORIES[k].bar}`} aria-hidden />
+            {CATEGORIES[k].label} <span className="opacity-60">{METHODS.filter((m) => m.category === k).length}</span>
           </button>
-          {(Object.keys(CATEGORIES) as MethodCategory[]).map((k) => (
-            <button key={k} type="button" className={chip(cat === k)} aria-pressed={cat === k} onClick={() => setFilters({ yo: k })}>
-              {CATEGORIES[k].label} <span className="opacity-60">{METHODS.filter((m) => m.category === k).length}</span>
-            </button>
-          ))}
-        </div>
-        <Input.Search
-          allowClear
-          size="large"
-          className="lg:max-w-xs"
-          placeholder="Metod, mavzu yoki bosqich bo‘yicha"
-          defaultValue={filters.q}
-          onSearch={(v) => setFilters({ q: v || undefined })}
-          aria-label="Metodlardan qidirish"
-        />
+        ))}
       </div>
 
       {list.length ? (
-        <div className="stagger grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+        <div className="stagger grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
           {list.map((m) => <MethodCard key={m.slug} m={m} />)}
         </div>
       ) : (
-        <div className="rounded-2xl border border-dashed border-line bg-white px-6 py-16 text-center text-muted">
-          Mos metod topilmadi.{' '}
+        <div className="flex flex-col items-center gap-3 rounded-2xl border border-dashed border-line bg-white px-6 py-16 text-center text-muted">
+          <SearchOutlined className="text-3xl text-primary/40" />
+          <span>Mos metod topilmadi.</span>
           <button type="button" className="cursor-pointer border-0 bg-transparent p-0 font-medium text-primary" onClick={() => setFilters({ q: undefined, yo: undefined })}>
             Filtrni tozalash
           </button>
