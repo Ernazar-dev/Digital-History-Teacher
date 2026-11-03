@@ -38,6 +38,8 @@ frontend/src/assets/logo DHT.png
 
 # ── Mijoz/dissertatsiya hujjatlari — ochiq repoga chiqmasin ──
 *.docx
+# Ma'ruza fayllari platformaga seed orqali yuklanadi — deployda kerak
+!backend/prisma/seed-data/lectures/*.docx
 
 # ── Ishchi materiallar (darslik PDF, metodik hujjatlar) — faqat lokal, repoga chiqmaydi ──
 material/
