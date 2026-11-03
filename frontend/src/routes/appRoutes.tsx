@@ -26,6 +26,7 @@ export const appRoutes: RouteObject[] = [
   { path: 'museum/:id', element: <P.Object /> },
   { path: 'explore', element: <P.Explore /> },
   { path: 'methodology', element: <P.Methodology /> },
+  { path: 'methodology/:slug', element: <P.Method /> },
   { path: 'lessons', element: auth(<P.Lessons />) },
   { path: 'lessons/new', element: auth(<P.LessonConstructor />) },
   { path: 'lessons/:id/edit', element: auth(<P.LessonConstructor />) },

@@ -18,6 +18,7 @@ export const P = {
   TestPage: lazy(() => import('@/features/tests/pages/TestPage')),
   TestForm: lazy(() => import('@/features/tests/pages/TestFormPage')),
   Methodology: lazy(() => import('@/features/methodology/pages/MethodologyPage')),
+  Method: lazy(() => import('@/features/methodology/pages/MethodPage')),
   Museum: lazy(() => import('@/features/virtual-museum/pages/MuseumPage')),
   Object: lazy(() => import('@/features/virtual-museum/pages/ObjectPage')),
   ResponseReview: lazy(() => import('@/features/virtual-museum/pages/ResponseReviewPage')),
