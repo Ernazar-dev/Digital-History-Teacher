@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { PageHeader } from '@/components/common/PageHeader';
 import { SingleFileUpload } from '@/features/source-library/components/MaterialsUpload';
-import { MaterialViewer } from '@/features/source-library/components/MaterialViewer';
 import { TEST_FILE_ACCEPT } from '@/features/source-library/files';
 import type { UploadedFile } from '@/features/source-library/sourceForm.schema';
 import { useNotify } from '@/hooks/useNotify';
@@ -113,8 +112,7 @@ export default function TestFormPage() {
           </Card>
 
           <Card title="Test fayli">
-            <SingleFileUpload value={file} onChange={setFile} accept={TEST_FILE_ACCEPT} hint="PDF yoki Word (.docx) — savollar va A, B, C, D variantlari yozilgan fayl" />
-            {file && <div className="mt-4"><MaterialViewer files={[file]} /></div>}
+            <SingleFileUpload value={file} onChange={setFile} accept={TEST_FILE_ACCEPT} hint="PDF yoki Word (.docx) — savollar va A, B, C, D variantlari yozilgan fayl" preview />
           </Card>
         </div>
 

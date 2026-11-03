@@ -90,20 +90,20 @@ export default function SourceFormPage() {
 
             <Section title="1. Ma’ruza" hint="Ma’ruza faylini yuklang — talaba uni sahifaning o‘zida o‘qiydi va yuklab oladi." icon={<BookOutlined />}>
               <Controller control={control} name="lectureFile" render={({ field }) => (
-                <SingleFileUpload value={field.value} onChange={field.onChange} accept={LECTURE_FILE_ACCEPT} hint="Word (.docx) yoki PDF" />
+                <SingleFileUpload value={field.value} onChange={field.onChange} accept={LECTURE_FILE_ACCEPT} hint="Word (.docx) yoki PDF" preview />
               )} />
             </Section>
 
             <Section title="2. Taqdimot" hint="Mavzu bo‘yicha taqdimot — talaba sahifaning o‘zida ko‘radi" icon={<FilePptOutlined />}>
               <Controller control={control} name="presentationFile" render={({ field }) => (
-                <SingleFileUpload value={field.value} onChange={field.onChange} accept={PRESENTATION_ACCEPT} hint="PowerPoint (.pptx) yoki PDF" />
+                <SingleFileUpload value={field.value} onChange={field.onChange} accept={PRESENTATION_ACCEPT} hint="PowerPoint (.pptx) yoki PDF" preview />
               )} />
             </Section>
 
             <Section title="3. Video rolik" hint="YouTube havolasini qo‘ying (tavsiya etiladi) yoki MP4 fayl yuklang" icon={<PlayCircleOutlined />}>
               <TextField control={control} name="videoUrl" label="YouTube havolasi" placeholder="https://www.youtube.com/watch?v=..." />
               <Controller control={control} name="videoFile" render={({ field }) => (
-                <SingleFileUpload value={field.value} onChange={field.onChange} accept={VIDEO_ACCEPT} hint="yoki video fayl · MP4" />
+                <SingleFileUpload value={field.value} onChange={field.onChange} accept={VIDEO_ACCEPT} hint="yoki video fayl · MP4" preview />
               )} />
             </Section>
           </div>
