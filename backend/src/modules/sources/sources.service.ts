@@ -4,6 +4,7 @@ import { prisma } from '../../config/prisma';
 import { AppError } from '../../shared/errors/AppError';
 import { buildMeta } from '../../shared/utils/http';
 import { uniqueSlug } from '../../shared/utils/slug';
+import { visibleObjectWhere } from '../virtual-museum/virtual.service';
 import type { listSourcesQuery, sourceBodySchema, updateSourceSchema } from './sources.schemas';
 
 type Actor = Express.AuthUser | undefined;
@@ -111,8 +112,9 @@ export const sourcesService = {
           orderBy: { createdAt: 'asc' },
         },
         virtualObjects: {
-          where: { virtualObject: { deletedAt: null, isActive: true } },
-          select: { virtualObject: { select: { id: true, title: true, slug: true, type: true, thumbnailUrl: true } } },
+          // Talabaga faqat nashr etilgan va faol obyektlar ko'rsatiladi
+          where: { virtualObject: { ...visibleObjectWhere(actor), isActive: true } },
+          select: { virtualObject: { select: { id: true, title: true, slug: true, type: true, thumbnailUrl: true, periodLabel: true, location: true } } },
         },
       },
     });

@@ -20,7 +20,8 @@
     "db:reset": "prisma migrate reset --force",
     "db:seed:if-empty": "tsx prisma/seed-if-empty.ts",
     "storage:import": "tsx prisma/import-uploads.ts",
-    "db:seed:lectures": "tsx prisma/seed-lectures.ts"
+    "db:seed:lectures": "tsx prisma/seed-lectures.ts",
+    "db:seed:objects": "tsx prisma/seed-objects.ts"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"

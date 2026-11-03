@@ -56,4 +56,33 @@ describe('13 ta ma’ruza mavzusi (seed)', () => {
     expect(fixed.lectureFileId).not.toBe(one.lectureFileId);
     expect((await api().get(`/api/v1/media/${fixed.lectureFileId}`)).status).toBe(200);
   });
+
+  it('ma’ruza yangilanganda avvalgi seed nusxasi almashtiriladi, administrator fayli esa saqlanadi', async () => {
+    await seedLectures(prisma, null);
+    const [a, b] = await prisma.historicalSource.findMany({
+      where: { slug: { in: [LECTURES[0].slug, LECTURES[1].slug] } },
+      include: { lectureFile: true },
+      orderBy: { sortOrder: 'asc' },
+    });
+
+    // a — eski seed nusxasi: nomi seed nomi bilan bir xil, mazmuni esa tayyor Word fayldan farq qiladi
+    await storage.remove(a.lectureFile!.storageKey);
+    await storage.save(a.lectureFile!.storageKey, Buffer.from('PK old version'));
+    // b — administrator fayli: boshqa nom, mazmuni ham boshqa
+    const customKey = `admin-${b.id}.docx`;
+    await storage.save(customKey, Buffer.from('PK admin version'));
+    const custom = await prisma.mediaFile.create({
+      data: { originalName: 'Mening ma’ruzam.docx', storageKey: customKey, storage: storage.name, mimeType: a.lectureFile!.mimeType, size: 16 },
+    });
+    await prisma.historicalSource.update({ where: { id: b.id }, data: { lectureFileId: custom.id } });
+
+    await seedLectures(prisma, null);
+
+    const after = await prisma.historicalSource.findUniqueOrThrow({ where: { id: a.id } });
+    expect(after.lectureFileId).not.toBe(a.lectureFileId);
+    expect(await prisma.mediaFile.findUnique({ where: { id: a.lectureFileId! } })).toBeNull();
+    expect((await api().get(`/api/v1/media/${after.lectureFileId}`)).status).toBe(200);
+    expect((await prisma.historicalSource.findUniqueOrThrow({ where: { id: b.id } })).lectureFileId).toBe(custom.id);
+    await storage.remove(customKey);
+  });
 });
