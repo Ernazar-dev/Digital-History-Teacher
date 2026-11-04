@@ -1,0 +1,12 @@
+{
+  "name": "digital-history-teacher",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Ildiz paketi: Render'da backend/ va frontend/ bitta servisda ishlaydi. Ishga tushirish buyrug'i ildizdan ham ishlashi uchun.",
+  "scripts": {
+    "start": "cd backend && npm start"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
