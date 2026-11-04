@@ -47,9 +47,10 @@ services:
       # Render free diski vaqtinchalik — yuklangan fayllar bazada saqlanadi
       - key: STORAGE_DRIVER
         value: database
-      # Brauzer → Render proxy → backend: bitta proxy
+      # Mijoz → Cloudflare → Render ichki proxy → backend (x-forwarded-for: mijoz, cloudflare, 10.x).
+      # Haqiqiy mijoz IP'si (rate limit uchun) 3-sakrashda — 1 bo'lsa hamma bitta ichki IP bo'lib qoladi
       - key: TRUST_PROXY_HOPS
-        value: "1"
+        value: "3"
       - key: UPLOAD_MAX_MB
         value: "50"
       - key: LOG_LEVEL
