@@ -10,9 +10,11 @@ services:
     # Frontend ham, backend ham shu repodan quriladi (rootDir yo'q — ikkala papka kerak).
     # Dev-paketlar (prisma, typescript, tsx, vite) build uchun kerak — NODE_ENV=production bo'lsa ham o'rnatiladi.
     # Migratsiyalar har deployda qo'llanadi; boshlang'ich ma'lumotlar faqat baza bo'sh bo'lganda yuklanadi.
-    # Frontend build xotirasi cheklangan (512 MB) free tarifga sig'ishi uchun Node heap cheklanadi.
+    # Frontend (vite build) ~900 MB heap talab qiladi — Render free build konteyneriga sig'maydi (OOM).
+    # Shuning uchun yig'ilgan frontend/dist repoda saqlanadi (`npm run build:frontend`, keyin commit);
+    # dist yo'q bo'lsagina Render o'zi quradi.
     buildCommand: >-
-      cd frontend && npm ci --include=dev && NODE_OPTIONS=--max-old-space-size=460 npm run build
+      cd frontend && { [ -f dist/index.html ] || { npm ci --include=dev && npm run build; }; }
       && cd ../backend && npm ci --include=dev && npx prisma generate && npm run build
       && npx prisma migrate deploy && npm run db:seed:if-empty && npm run db:seed:lectures && npm run db:seed:objects
     startCommand: cd backend && npm start

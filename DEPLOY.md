@@ -64,6 +64,18 @@ git push -u origin main
 Tekshirish: `https://dht-backend.onrender.com` ochiladi, `https://dht-backend.onrender.com/api/v1/health` → `{"data":{"status":"ok"...}}`.
 Administrator sifatida kiring → **Sozlamalar** da logotip, nom va boshqa ma'lumotlarni to'ldiring → **Guruhlar** yarating.
 
+## 3a. Frontend yangilash (muhim)
+
+Vite build ~900 MB xotira talab qiladi — Render free build konteyneriga sig'maydi (OOM). Shuning uchun yig'ilgan `frontend/dist` **repoda saqlanadi**,
+Render uni qurmaydi (faqat `dist` yo'q bo'lsa quradi). Frontend kodini o'zgartirgach, push qilishdan oldin:
+
+```bash
+npm run build:frontend   # ildiz papkadan; frontend/dist yangilanadi
+git add frontend/dist
+```
+
+`dist` ni yangilamasdan push qilsangiz — sayt eski frontend bilan qoladi (backend o'zgarishlari esa darhol ishlaydi).
+
 ## 4. Free tarif cheklovlari (bilib qo'ying)
 
 - **Backend 15 daqiqa ishlatilmasa "uxlaydi".** Keyingi birinchi so'rov ~30–60 soniya kutadi, keyin odatdagidek tez.

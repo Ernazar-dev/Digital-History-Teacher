@@ -4,7 +4,8 @@
   "private": true,
   "description": "Ildiz paketi: Render'da backend/ va frontend/ bitta servisda ishlaydi. Ishga tushirish buyrug'i ildizdan ham ishlashi uchun.",
   "scripts": {
-    "start": "cd backend && npm start"
+    "start": "cd backend && npm start",
+    "build:frontend": "cd frontend && npm run build"
   },
   "engines": {
     "node": ">=22"

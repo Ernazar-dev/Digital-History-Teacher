@@ -1,0 +1,1 @@
+import{h as m,r as o}from"./react-B-hu5P_j.js";const p=(n=[])=>{const[r,c]=m(),u=o.useMemo(()=>{const s={};return r.forEach((e,t)=>{s[t]=n.includes(t)?Number(e):e}),s},[r]),l=o.useCallback(s=>{const e=new URLSearchParams(r);Object.entries(s).forEach(([t,a])=>{a==null||a===""?e.delete(t):e.set(t,String(a))}),c(e,{replace:!0})},[r,c]);return[u,l]};export{p as u};

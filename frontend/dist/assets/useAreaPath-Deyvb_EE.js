@@ -1,0 +1,1 @@
+import{u as t}from"./react-B-hu5P_j.js";const o=()=>{const{pathname:a}=t(),s=a.startsWith("/app");return{inApp:s,sources:s?"/app/sources":"/catalog/sources",museum:s?"/app/museum":"/catalog/museum"}};export{o as u};

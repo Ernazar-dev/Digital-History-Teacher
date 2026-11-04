@@ -1,0 +1,1 @@
+import{aj as a,cK as i,l as t}from"./index-BinmMl67.js";const c=()=>{const{message:e,notification:r}=a.useApp();return{success:s=>e.success(s),error:(s,o="Amal bajarilmadi")=>{s instanceof i||r.error({message:o,description:t(s),placement:"topRight"})},info:s=>e.info(s)}};export{c as u};

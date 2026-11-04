@@ -1,6 +1,9 @@
 # ── Paketlar va build natijalari ──
 node_modules/
 dist/
+# Frontend dist repoga kiradi: Render free build konteyneri vite build uchun (~900 MB heap) yetmaydi.
+# Frontendni o'zgartirgach: `npm run build:frontend` (ildizdan) → dist ni commit qiling.
+!/frontend/dist/
 coverage/
 *.tsbuildinfo
 .vite/
