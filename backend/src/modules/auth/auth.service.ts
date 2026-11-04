@@ -3,7 +3,7 @@ import type { User } from '@prisma/client';
 import type { z } from 'zod';
 import { env } from '../../config/env';
 import { prisma } from '../../config/prisma';
-import { signAccessToken } from '../../middleware/auth';
+import { invalidateAuthUser, signAccessToken } from '../../middleware/auth';
 import { AppError } from '../../shared/errors/AppError';
 import { loginGuard } from '../../shared/security/loginGuard';
 import { hashPassword, verifyPassword } from '../../shared/utils/password';
@@ -152,6 +152,7 @@ export const authService = {
   async updateProfile(userId: string, data: { fullName?: string; email?: string | null; institution?: string | null }) {
     if (data.email) await assertUnique(null, data.email, userId);
     const user = await prisma.user.update({ where: { id: userId }, data });
+    invalidateAuthUser(userId);
     return publicUser(user);
   },
 

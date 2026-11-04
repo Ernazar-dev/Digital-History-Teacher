@@ -1,3 +1,5 @@
+import fs from 'node:fs';
+import path from 'node:path';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
@@ -18,21 +20,23 @@ export const createApp = () => {
   // Reverse proxy (nginx / Render) ortida to'g'ri IP aniqlash uchun — proxy'lar soni env'dan
   app.set('trust proxy', env.TRUST_PROXY_HOPS);
 
-  app.use(
-    helmet({
-      contentSecurityPolicy: {
-        directives: {
-          defaultSrc: ["'self'"],
-          // Swagger UI uchun inline stil/skriptlar
-          scriptSrc: ["'self'", "'unsafe-inline'"],
-          styleSrc: ["'self'", "'unsafe-inline'"],
-          imgSrc: ["'self'", 'data:', 'https:'],
-          frameAncestors: ["'none'"],
-        },
+  // API javoblari uchun qat'iy CSP. Frontend sahifalari (backend ularni bersa) o'zining <meta> CSP'si bilan
+  // ishlaydi (Google Fonts, https iframe, blob: worker kerak) — shuning uchun ularga helmet CSP qo'yilmaydi.
+  const apiHelmet = helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        // Swagger UI uchun inline stil/skriptlar
+        scriptSrc: ["'self'", "'unsafe-inline'"],
+        styleSrc: ["'self'", "'unsafe-inline'"],
+        imgSrc: ["'self'", 'data:', 'https:'],
+        frameAncestors: ["'none'"],
       },
-      crossOriginResourcePolicy: { policy: 'same-site' },
-    }),
-  );
+    },
+    crossOriginResourcePolicy: { policy: 'same-site' },
+  });
+  const pageHelmet = helmet({ contentSecurityPolicy: false });
+  app.use((req, res, next) => (req.path.startsWith('/api') ? apiHelmet : pageHelmet)(req, res, next));
   app.use(
     cors({
       origin: (origin, cb) => {
@@ -59,6 +63,27 @@ export const createApp = () => {
     app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(openApiDocument, { customSiteTitle: 'Digital History Teacher API' }));
   }
   app.use('/api/v1', apiRouter);
+
+  // Yig'ilgan frontend (Vite dist) — bitta servis, bitta origin: alohida proxy hop'i va CORS kerak emas
+  const distDir = env.FRONTEND_DIST_DIR ? path.resolve(env.FRONTEND_DIST_DIR) : null;
+  if (distDir && fs.existsSync(path.join(distDir, 'index.html'))) {
+    const WEEK = 7 * 24 * 3600;
+    app.use(
+      express.static(distDir, {
+        index: false,
+        setHeaders: (res, filePath) => {
+          // Vite fayl nomiga hash qo'shadi — /assets abadiy keshlanadi; qolgan statiklar 7 kun
+          if (/[\\/]assets[\\/]/.test(filePath)) res.setHeader('Cache-Control', `public, max-age=${365 * 24 * 3600}, immutable`);
+          else res.setHeader('Cache-Control', `public, max-age=${WEEK}`);
+        },
+      }),
+    );
+    // SPA: /api dan tashqari barcha GET yo'llar index.html ga (har deployda yangi — keshlanmaydi)
+    app.get(/^\/(?!api(\/|$)).*/, (_req, res) => {
+      res.setHeader('Cache-Control', 'no-cache');
+      res.sendFile(path.join(distDir, 'index.html'));
+    });
+  }
 
   app.use(notFoundHandler);
   app.use(errorHandler);

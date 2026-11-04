@@ -46,11 +46,19 @@ mediaRouter.get(
     if (await prisma.portfolioItem.findFirst({ where: { refType: 'MediaFile', refId: req.params.id }, select: { id: true } })) {
       throw AppError.notFound('Fayl topilmadi');
     }
+    // Fayl id bo'yicha o'zgarmas (yangi yuklash — yangi id), shuning uchun id ETag vazifasini bajaradi:
+    // brauzer qayta so'rasa baytlar bazadan o'qilmaydi (StoredFile.data og'ir).
+    const etag = `"${req.params.id}"`;
+    res.setHeader('ETag', etag);
+    res.setHeader('Cache-Control', 'public, max-age=604800');
+    if (req.headers['if-none-match'] === etag) {
+      res.status(304).end();
+      return;
+    }
     const { file, stream } = await mediaService.getForDownload(req.params.id);
     res.setHeader('Content-Type', file.mimeType);
     res.setHeader('X-Content-Type-Options', 'nosniff');
     res.setHeader('Content-Disposition', `inline; filename*=UTF-8''${encodeURIComponent(file.originalName)}`);
-    res.setHeader('Cache-Control', 'public, max-age=86400');
     stream.pipe(res);
   }),
 );

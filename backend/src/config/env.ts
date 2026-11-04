@@ -7,7 +7,12 @@ const flag = z.enum(['true', 'false']).optional();
 const envSchema = z.object({
   NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
   PORT: z.coerce.number().int().positive().default(4000),
+  /** To'g'ridan-to'g'ri ulanish — migratsiya va seed uchun (build bosqichi) */
   DATABASE_URL: z.string().min(1),
+  /** Ixtiyoriy: Neon pooled (-pooler) manzili. Ko'rsatilsa, ishlayotgan server shu orqali ulanadi (ulanish kechikishi kamayadi) */
+  DATABASE_POOLED_URL: optional,
+  /** Ixtiyoriy: yig'ilgan frontend (dist) papkasi. Ko'rsatilsa, backend SPA'ni ham o'zi beradi (alohida frontend servis va /api proxy'si kerak emas) */
+  FRONTEND_DIST_DIR: optional,
   JWT_ACCESS_SECRET: z.string().min(32, 'JWT_ACCESS_SECRET kamida 32 belgi bo‘lishi kerak'),
   JWT_REFRESH_SECRET: z.string().min(32, 'JWT_REFRESH_SECRET kamida 32 belgi bo‘lishi kerak'),
   JWT_ACCESS_TTL: z.string().default('15m'),

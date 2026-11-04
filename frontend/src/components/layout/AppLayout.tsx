@@ -120,7 +120,7 @@ export const AppLayout = () => {
         </Layout.Header>
         <Layout.Content className="mx-auto w-full max-w-7xl px-4 py-6 md:px-8 md:py-10">
           {breadcrumb.length >= 3 && <Breadcrumb items={breadcrumb} className="mb-5" />}
-          <ErrorBoundary key={location.pathname}>
+          <ErrorBoundary resetKey={location.pathname}>
             <Suspense fallback={<PageLoader />}>
               <div key={location.pathname} className="page-enter">
                 <Outlet />

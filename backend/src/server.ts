@@ -18,9 +18,11 @@ const server = app.listen(env.PORT, () => {
 });
 
 // Sekin so'rovlar (slowloris) bilan ulanishlarni band qilishga qarshi
-server.headersTimeout = 20_000;
+// keepAliveTimeout proxy (Render) ning bo'sh turish vaqtidan uzun bo'lishi kerak — aks holda proxy
+// serveri yopgan ulanishga so'rov yuborib 502 oladi va har safar yangi ulanish ochiladi. headersTimeout undan katta.
+server.keepAliveTimeout = 65_000;
+server.headersTimeout = 66_000;
 server.requestTimeout = 120_000;
-server.keepAliveTimeout = 5_000;
 
 const shutdown = async (signal: string) => {
   logger.info(`${signal} qabul qilindi, server to‘xtatilmoqda...`);

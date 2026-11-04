@@ -39,7 +39,7 @@ export const PublicLayout = () => {
               : 'mx-auto w-full max-w-7xl px-4 py-5 md:px-8 md:py-6'
         }
       >
-        <ErrorBoundary key={location.pathname}>
+        <ErrorBoundary resetKey={location.pathname}>
           <Suspense fallback={<PageLoader />}>
             <div key={location.pathname} className={isLanding ? '' : isAuth ? 'page-enter w-full' : 'page-enter'}>
               <Outlet />

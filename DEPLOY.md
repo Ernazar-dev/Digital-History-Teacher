@@ -1,16 +1,15 @@
-# Deploy: GitHub → Render (free) + Neon (PostgreSQL)
+# Deploy: GitHub → Render (free, bitta servis) + Neon (PostgreSQL)
 
 Tuzilma:
 
 | Qism | Qayerda | Tarif |
 |---|---|---|
-| Frontend (React, static) | Render **Static Site** — `dht-frontend` | Free |
-| Backend (Express + Prisma) | Render **Web Service** — `dht-backend` | Free |
+| Backend + Frontend (Express + Prisma; React `dist` ni ham backend beradi) | Render **Web Service** — `dht-backend` | Free |
 | Ma'lumotlar bazasi | **Neon** PostgreSQL | Free |
 | Yuklangan fayllar | Neon bazasida (`StoredFile` jadvali) | — |
 
-Brauzer faqat frontend manzilini ko'radi: `/api/*` so'rovlarini frontend backendga uzatadi (rewrite).
-Shu sababli cookie (login sessiyasi) va CORS bilan muammo bo'lmaydi. Hammasi `render.yaml` da yozilgan.
+Brauzer faqat bitta manzilni ko'radi: sahifalar ham, `/api/*` ham bitta servisdan keladi (`FRONTEND_DIST_DIR`).
+Alohida proxy/rewrite hop'i yo'q — sahifadan sahifaga o'tish tezroq; cookie (login sessiyasi) va CORS bilan muammo ham bo'lmaydi. Hammasi `render.yaml` da yozilgan.
 
 ---
 
@@ -30,7 +29,9 @@ git push -u origin main
 ## 2. Neon — baza
 
 1. <https://neon.tech> → **New project** → Region: **AWS Europe Central (Frankfurt)** (Render backend ham shu yerda).
-2. **Connect** oynasida **Pooled connection** ni **o'chiring** (Prisma migratsiyalari uchun to'g'ridan-to'g'ri ulanish kerak).
+2. **Connect** oynasidan ikkita manzil oling:
+   - **Pooled connection o'chiq** — `DATABASE_URL` (migratsiya va seed uchun to'g'ridan-to'g'ri ulanish);
+   - **Pooled connection yoqiq** (host `...-pooler...`) — `DATABASE_POOLED_URL` (ishlayotgan server uchun: ulanishlar qayta ochilmaydi, sahifalar tezroq).
 3. Connection string'ni nusxalang va oxiriga `&connect_timeout=15` qo'shing:
    ```
    postgresql://USER:PAROL@ep-xxxx.eu-central-1.aws.neon.tech/neondb?sslmode=require&connect_timeout=15
@@ -40,15 +41,16 @@ git push -u origin main
 ## 3. Render — servislar
 
 1. <https://render.com> → GitHub bilan kiring → **New → Blueprint** → repozitoriyni tanlang.
-   Render `render.yaml` ni o'qib, ikkala servisni o'zi yaratadi.
+   Render `render.yaml` ni o'qib, servisni o'zi yaratadi (frontend ham shu servisda quriladi).
 2. So'ralgan qiymatlarni kiriting (`dht-backend` uchun):
 
    | O'zgaruvchi | Qiymat |
    |---|---|
-   | `DATABASE_URL` | Neon connection string (2-bosqich) |
+   | `DATABASE_URL` | Neon to'g'ridan-to'g'ri connection string (2-bosqich) |
+   | `DATABASE_POOLED_URL` | Neon pooled (`-pooler`) connection string (2-bosqich) |
    | `ADMIN_USERNAME` | administrator logini, masalan `admin` |
    | `ADMIN_PASSWORD` | kuchli parol (kamida 10 belgi, `change-me` bilan boshlanmasin) |
-   | `CORS_ORIGINS` | frontend manzili: `https://dht-frontend.onrender.com` |
+   | `CORS_ORIGINS` | servisning o'z manzili: `https://dht-backend.onrender.com` |
 
    `JWT_*` kalitlarini Render o'zi yaratadi.
 3. **Apply** → birinchi deploy boshlanadi (backend ~5–8 daqiqa). Backend build vaqtida o'zi:
@@ -56,11 +58,10 @@ git push -u origin main
    - baza **bo'sh bo'lsa** — boshlang'ich ma'lumotlarni (davrlar, manbalar, muzey obyektlari) yuklaydi.
      Keyingi deploylarda bu qadam o'tkazib yuboriladi — administrator tahrirlari saqlanadi;
    - administrator hisobini `ADMIN_*` qiymatlari asosida yaratadi.
-4. **Muhim:** agar `dht-backend` nomi band bo'lib, Render boshqa manzil bergan bo'lsa
-   (masalan `dht-backend-x1y2.onrender.com`), `render.yaml` dagi rewrite manzilini shunga almashtirib push qiling
-   (yoki Render → `dht-frontend` → **Redirects/Rewrites** da o'zgartiring). `CORS_ORIGINS` ham frontendning haqiqiy manzili bo'lsin.
+4. **Muhim:** Render boshqa manzil bergan bo'lsa (masalan `dht-backend-x1y2.onrender.com`), `CORS_ORIGINS` ni shu haqiqiy manzilga o'zgartiring.
+5. **Eski sozlamadan o'tish** (avval alohida `dht-frontend` static sayt bo'lgan bo'lsa): Blueprint'ni qayta sinxronlang (yoki `dht-backend` da *Root Directory* ni bo'sh qoldirib, build/start buyruqlarini `render.yaml` dagidek qo'ying), `DATABASE_POOLED_URL` va `FRONTEND_DIST_DIR=../frontend/dist` ni qo'shing, `TRUST_PROXY_HOPS=1` qiling. Sayt endi `dht-backend` manzilida ochiladi; eski `dht-frontend` ni o'chirishingiz mumkin.
 
-Tekshirish: `https://dht-frontend.onrender.com` ochiladi, `https://dht-frontend.onrender.com/api/v1/health` → `{"data":{"status":"ok"...}}`.
+Tekshirish: `https://dht-backend.onrender.com` ochiladi, `https://dht-backend.onrender.com/api/v1/health` → `{"data":{"status":"ok"...}}`.
 Administrator sifatida kiring → **Sozlamalar** da logotip, nom va boshqa ma'lumotlarni to'ldiring → **Guruhlar** yarating.
 
 ## 4. Free tarif cheklovlari (bilib qo'ying)
@@ -73,7 +74,7 @@ Administrator sifatida kiring → **Sozlamalar** da logotip, nom va boshqa ma'lu
 
 ## 5. Yangilash
 
-Kodni o'zgartirib `git push` qilsangiz, Render ikkala servisni avtomatik qayta deploy qiladi.
+Kodni o'zgartirib `git push` qilsangiz, Render servisni avtomatik qayta deploy qiladi.
 Yangi migratsiyalar avtomatik qo'llanadi.
 
 ## 6. (Ixtiyoriy) Lokal ma'lumotlarni Neon'ga ko'chirish

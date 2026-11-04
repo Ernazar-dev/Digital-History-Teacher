@@ -1,6 +1,7 @@
 import type { Prisma } from '@prisma/client';
 import type { z } from 'zod';
 import { prisma } from '../../config/prisma';
+import { invalidateAuthUser } from '../../middleware/auth';
 import { AppError } from '../../shared/errors/AppError';
 import { buildMeta } from '../../shared/utils/http';
 import { hashPassword } from '../../shared/utils/password';
@@ -117,6 +118,7 @@ export const usersService = {
       }
       return updated;
     });
+    invalidateAuthUser(id);
     return publicUser(user);
   },
 
@@ -135,6 +137,7 @@ export const usersService = {
         data: { revokedAt: new Date() },
       }),
     ]);
+    invalidateAuthUser(id);
   },
 
   async resetPassword(id: string, password: string) {

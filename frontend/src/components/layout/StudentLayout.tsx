@@ -29,7 +29,7 @@ export const StudentLayout = () => {
             items={breadcrumbItems(location.pathname)}
           />
         )}
-        <ErrorBoundary key={location.pathname}>
+        <ErrorBoundary resetKey={location.pathname}>
           <Suspense fallback={<PageLoader />}>
             <div key={location.pathname} className="page-enter">
               <Outlet />

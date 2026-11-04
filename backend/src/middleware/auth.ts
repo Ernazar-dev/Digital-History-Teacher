@@ -16,6 +16,20 @@ const extractToken = (req: Request): string | null => {
   return header.slice(7).trim() || null;
 };
 
+/**
+ * Faol foydalanuvchi qisqa muddat xotirada saqlanadi: sahifada 3–5 ta so'rov ketadi va har biri uchun
+ * bazaga borish (Render ↔ Neon tarmog'i) sahifani sekinlashtirardi. Bitta jarayon ishlaydi, shuning uchun
+ * rol/holat/profil o'zgarganda invalidateAuthUser() keshni darhol tozalaydi; TTL — qo'shimcha xavfsizlik.
+ */
+const AUTH_CACHE_TTL_MS = 15_000;
+const AUTH_CACHE_MAX = 500;
+const authCache = new Map<string, { user: Express.AuthUser; expires: number }>();
+
+export const invalidateAuthUser = (userId?: string) => {
+  if (userId) authCache.delete(userId);
+  else authCache.clear();
+};
+
 const resolveUser = async (token: string): Promise<Express.AuthUser> => {
   let payload: AccessPayload;
   try {
@@ -23,13 +37,21 @@ const resolveUser = async (token: string): Promise<Express.AuthUser> => {
   } catch {
     throw AppError.unauthorized('Sessiya muddati tugagan yoki token yaroqsiz');
   }
-  // Bloklangan/o'chirilgan foydalanuvchi darhol kirish huquqini yo'qotadi
+  const cached = authCache.get(payload.sub);
+  if (cached && cached.expires > Date.now()) return cached.user;
+  // Bloklangan/o'chirilgan foydalanuvchi kirish huquqini yo'qotadi (kesh invalidateAuthUser bilan tozalanadi)
   const user = await prisma.user.findFirst({
     where: { id: payload.sub, deletedAt: null },
     select: { id: true, role: true, username: true, fullName: true, status: true },
   });
-  if (!user || user.status !== 'ACTIVE') throw AppError.unauthorized('Hisob faol emas');
-  return { id: user.id, role: user.role, username: user.username, fullName: user.fullName };
+  if (!user || user.status !== 'ACTIVE') {
+    authCache.delete(payload.sub);
+    throw AppError.unauthorized('Hisob faol emas');
+  }
+  const resolved = { id: user.id, role: user.role, username: user.username, fullName: user.fullName };
+  if (authCache.size >= AUTH_CACHE_MAX) authCache.clear();
+  authCache.set(user.id, { user: resolved, expires: Date.now() + AUTH_CACHE_TTL_MS });
+  return resolved;
 };
 
 /** Majburiy autentifikatsiya */
