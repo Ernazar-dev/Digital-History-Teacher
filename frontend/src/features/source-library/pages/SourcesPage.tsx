@@ -39,18 +39,18 @@ export default function SourcesPage() {
         title="Raqamli tarixiy manbalar kutubxonasi"
         description="O‘zbekiston tarixi bo‘yicha o‘quv mavzulari. Har bir mavzuda — ma’ruza matni, taqdimot va video rolik."
         extra={
-          <>
+          <div className="flex w-full flex-col gap-3 sm:flex-row sm:items-center md:w-auto">
             <Input.Search
               size="large"
               allowClear
-              className="w-full md:w-[26rem]"
+              className="w-full sm:flex-1 md:w-[24rem] md:flex-none"
               placeholder="Mavzu yoki ma’ruza matnidan qidirish"
               aria-label="Mavzu qidirish"
               defaultValue={filters.q}
               onSearch={(v) => setFilters({ q: v || undefined })}
             />
-            {inApp && isStaff && !siteView && <Link to="/app/admin/sources/new"><Button size="large" type="primary" icon={<PlusOutlined />}>Mavzu qo‘shish</Button></Link>}
-          </>
+            {inApp && isStaff && !siteView && <Link to="/app/admin/sources/new" className="shrink-0"><Button size="large" type="primary" icon={<PlusOutlined />} className="w-full sm:w-auto">Mavzu qo‘shish</Button></Link>}
+          </div>
         }
       />
       <QueryState query={query} isEmpty={(d) => d.data.length === 0} empty="Mos mavzu topilmadi.">
