@@ -773,3 +773,36 @@ body {
   }
 }
 
+
+/* Sahifa yuklanish spinneri (4 nuqta) */
+.page-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  width: 100%;
+}
+.dot-spin {
+  position: relative;
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  transform: rotate(45deg);
+  animation: dot-spin-rotate 1.2s linear infinite;
+}
+.dot-spin i {
+  position: absolute;
+  display: block;
+  width: 14px;
+  height: 14px;
+  border-radius: 100%;
+  background: currentColor;
+  opacity: 0.3;
+  animation: dot-spin-blink 1s linear infinite alternate;
+}
+.dot-spin i:nth-child(1) { top: 0; left: 0; }
+.dot-spin i:nth-child(2) { top: 0; right: 0; animation-delay: 0.4s; }
+.dot-spin i:nth-child(3) { right: 0; bottom: 0; animation-delay: 0.8s; }
+.dot-spin i:nth-child(4) { bottom: 0; left: 0; animation-delay: 1.2s; }
+@keyframes dot-spin-rotate { to { transform: rotate(405deg); } }
+@keyframes dot-spin-blink { to { opacity: 1; } }
