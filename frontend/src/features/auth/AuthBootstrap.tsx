@@ -1,6 +1,6 @@
-import { Spin } from 'antd';
 import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
+import { PageLoader } from '@/components/feedback/PageLoader';
 import { refreshSession } from '@/lib/http';
 import { hasSessionHint, useAuthStore } from './auth.store';
 
@@ -18,8 +18,8 @@ export const AuthBootstrap = () => {
 
   if (!initialized && hasSessionHint()) {
     return (
-      <div className="flex min-h-screen items-center justify-center">
-        <Spin size="large" tip="Yuklanmoqda..." fullscreen />
+      <div className="min-h-screen bg-white">
+        <PageLoader />
       </div>
     );
   }
