@@ -25,7 +25,7 @@ const SECTIONS: GuideSection[] = [
     id: 'sources',
     icon: <BookOutlined />,
     title: 'Mavzu: ma’ruza, taqdimot, video',
-    lead: 'Kutubxonadagi har bir mavzu uch qismdan iborat. Fayllarni istalgan vaqtda qo‘shish yoki almashtirish mumkin.',
+    lead: 'Har bir mavzu uch qismdan iborat. Fayllarni istalgan vaqtda qo‘shish yoki almashtirish mumkin.',
     steps: [
       '«Mavzular» ro‘yxatidan kerakli mavzuni oching va «Tahrirlash»ni bosing (yoki «Yangi mavzu» qo‘shing).',
       '«1. Ma’ruza» maydoniga matnni joylang. Bo‘lim sarlavhalarini «## » bilan boshlang — talabaga reja shulardan tuziladi. Xohlasangiz Word/PDF faylini ham biriktiring.',

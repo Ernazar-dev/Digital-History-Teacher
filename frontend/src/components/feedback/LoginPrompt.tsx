@@ -51,7 +51,7 @@ export const GuestGate = ({ title = 'Bu bo‘lim shaxsiy kabinetda' }: { title?:
     </p>
     <AuthButtons />
     <p className="mb-0 mt-6 text-sm text-muted">
-      Yoki hozircha <Link to="/app/sources">manbalar kutubxonasi</Link>, <Link to="/app/museum">virtual muzey</Link> va{' '}
+      Yoki hozircha <Link to="/app/sources">manbalar</Link>, <Link to="/app/museum">virtual muzey</Link> va{' '}
       <Link to="/app/explore">vaqt chizig‘i</Link>ni ko‘rib chiqing.
     </p>
   </div>

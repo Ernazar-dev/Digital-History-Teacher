@@ -2,6 +2,7 @@ import { ArrowUpOutlined, DownloadOutlined, OrderedListOutlined } from '@ant-des
 import { App, Button, Tooltip } from 'antd';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { downloadLectureDocx } from '@/lib/lectureDocx';
+import { DocSearch } from './DocSearch';
 import { Markdown, parseMarkdown } from '@/lib/markdown';
 
 /** Taxminiy hajm: kitob sahifasida ~300 so'z, o'qish tezligi ~180 so'z/daqiqa */
@@ -26,7 +27,7 @@ const readSize = () => {
  * Ma'ruza matni: chapda reja (joriy bo'lim belgilanadi), o'ngda kitobdek o'qiladigan matn.
  * Tepada o'qish progressi, shrift o'lchamini o'zgartirish va ma'ruzani Word (.docx) qilib yuklab olish tugmalari.
  */
-export const LectureReader = ({ content, title }: { content: string; title?: string }) => {
+export const LectureReader = ({ content, title, initialQuery = '' }: { content: string; title?: string; initialQuery?: string }) => {
   const blocks = useMemo(() => parseMarkdown(content), [content]);
   const { message } = App.useApp();
   const [saving, setSaving] = useState(false);
@@ -114,6 +115,7 @@ export const LectureReader = ({ content, title }: { content: string; title?: str
       <div className="sticky top-[4.5rem] z-10 mb-6 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-solid border-line bg-white/95 px-4 py-2 shadow-sm backdrop-blur">
         <span className="text-sm text-muted">≈ {pages} bet · {minutes} daqiqa · <b className="text-ink">{Math.round(progress)}%</b> o‘qildi</span>
         <span className="flex flex-wrap items-center gap-2">
+          <DocSearch rootRef={articleRef} ready initial={initialQuery} />
           <span className="flex items-center rounded-lg border border-solid border-line" role="group" aria-label="Shrift o‘lchami">
             <Tooltip title="Kichikroq shrift">
               <Button type="text" size="small" disabled={size === SIZES[0]} onClick={() => changeSize(-1)} aria-label="Shriftni kichraytirish">A−</Button>

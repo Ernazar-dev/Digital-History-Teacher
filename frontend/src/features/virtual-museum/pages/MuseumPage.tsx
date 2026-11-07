@@ -8,7 +8,7 @@ import { useSiteViewStore } from '@/features/auth/siteView.store';
 import { useAuth } from '@/features/auth/useAuth';
 import { useAreaPath } from '@/hooks/useAreaPath';
 import { useUrlState } from '@/hooks/useUrlState';
-import { OBJECT_TYPE, toOptions } from '@/lib/labels';
+import { OBJECT_TYPE, PROVIDER, toOptions } from '@/lib/labels';
 import { museumService, type ObjectFilters } from '@/services/museum.service';
 
 export default function MuseumPage() {
@@ -59,6 +59,7 @@ export default function MuseumPage() {
                       {!o.isActive && <Tag color="red">Yashirilgan</Tag>}
                     </div>
                     <h3 className="m-0 text-base font-semibold text-ink">{o.title}</h3>
+                    {o.provider !== 'OTHER' && <div className="mt-1 text-xs text-muted">Manba: {PROVIDER[o.provider]}</div>}
                   </Card>
                 </Link>
               ))}

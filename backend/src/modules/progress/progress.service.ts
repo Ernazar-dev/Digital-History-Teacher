@@ -10,7 +10,12 @@ export const progressService = {
     await assertCanAccessStudent(actor, studentId);
     const [topics, attempts, otherTests, groups] = await Promise.all([
       prisma.historicalSource.findMany({
-        where: { deletedAt: null, status: 'PUBLISHED' },
+        // Tarixiy kitoblar (sahifa matni bor) faqat testi bo'lsa o'quv yo'lida chiqadi — aks holda bo'sh qator bo'lardi
+        where: {
+          deletedAt: null,
+          status: 'PUBLISHED',
+          OR: [{ pages: { none: {} } }, { tests: { some: { deletedAt: null, isPublished: true } } }],
+        },
         select: {
           id: true, title: true, slug: true, bookLabel: true,
           tests: { where: { deletedAt: null, isPublished: true }, select: { id: true, title: true, questionCount: true }, orderBy: { createdAt: 'asc' } },

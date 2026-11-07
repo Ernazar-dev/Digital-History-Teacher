@@ -11,12 +11,12 @@ import { defineConfig, loadEnv, type Plugin } from 'vite';
 const cspPlugin = (apiOrigin: string): Plugin => {
   const csp = [
     "default-src 'self'",
-    "script-src 'self'",
+    "script-src 'self' https://www.googletagmanager.com",
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
     "font-src 'self' data: https://fonts.gstatic.com",
     "img-src 'self' data: blob: https:",
     "media-src 'self' blob: https:",
-    `connect-src 'self' blob:${apiOrigin ? ` ${apiOrigin}` : ''}`,
+    `connect-src 'self' blob:${apiOrigin ? ` ${apiOrigin}` : ''} https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com`,
     "frame-src 'self' blob: https:",
     "worker-src 'self' blob:",
     "object-src 'none'",

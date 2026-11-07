@@ -16,7 +16,7 @@ import { SourceCard } from '../components/SourceCard';
 const groupByBook = (items: SourceListItem[]) => {
   const groups = new Map<string, SourceListItem[]>();
   for (const s of items) {
-    const book = s.bookLabel?.split(' · ')[0]?.trim() || 'Boshqa mavzular';
+    const book = s.bookLabel?.split(' · ')[0]?.trim() ?? '';
     groups.set(book, [...(groups.get(book) ?? []), s]);
   }
   return [...groups.entries()];
@@ -36,7 +36,7 @@ export default function SourcesPage() {
   return (
     <>
       <PageHeader
-        title="Raqamli tarixiy manbalar kutubxonasi"
+        title="Raqamli tarixiy manbalar"
         description="O‘zbekiston tarixi bo‘yicha o‘quv mavzulari. Har bir mavzuda — ma’ruza matni, taqdimot va video rolik."
         extra={
           <div className="flex w-full flex-col gap-3 sm:flex-row sm:items-center md:w-auto">
@@ -57,10 +57,11 @@ export default function SourcesPage() {
         {(d) => (
           <div className="space-y-10">
             {groupByBook(d.data).map(([book, items]) => (
-              <section key={book} aria-label={book}>
-                <h2 className="font-serif-title mb-4 text-xl font-semibold text-ink">{book}</h2>
+              <section key={book || 'other'} aria-label={book || undefined}>
+                {/* Darslik/guruh nomi bo'lmagan mavzular sarlavhasiz chiqadi */}
+                {book && <h2 className="font-serif-title mb-4 text-xl font-semibold text-ink">{book}</h2>}
                 <div className="stagger grid gap-x-6 gap-y-10 sm:grid-cols-2 xl:grid-cols-3">
-                  {items.map((s) => <SourceCard key={s.id} s={s} base={base} />)}
+                  {items.map((s) => <SourceCard key={s.id} s={s} base={base} q={filters.q} />)}
                 </div>
               </section>
             ))}

@@ -46,3 +46,7 @@ frontend/src/assets/logo DHT.png
 
 # ── Ishchi materiallar (darslik PDF, metodik hujjatlar) — faqat lokal, repoga chiqmaydi ──
 material/
+
+# Katta video chiqishlari (GitHub limiti 100 MB)
+video/**/out/
+*.mp4

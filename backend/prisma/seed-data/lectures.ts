@@ -1,9 +1,9 @@
 /**
- * Manbalar kutubxonasidagi 13 ta o'quv mavzusi.
+ * Manbalar bo'limidagi 13 ta o'quv mavzusi.
  * Asos: «O‘zbekiston tarixi» darsligi — I kitob (12–16-mavzular) va II kitob (1–8-mavzular).
  * Ma'ruza matni `lectures/<slug>.md` faylida (Markdown). Taqdimot va video admin paneldan yuklanadi.
  */
-const BOOK_1 = 'O‘zbekiston tarixi, I kitob';
+const BOOK_1 = 'O‘zbekiston tarixi, I kitob (A.S.Sagdullayev)';
 const BOOK_2 = 'O‘zbekiston tarixi, II kitob (B.J. Eshov, A.A. Odilov)';
 
 export interface SeedLecture {

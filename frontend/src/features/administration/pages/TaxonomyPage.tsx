@@ -77,7 +77,7 @@ export default function TaxonomyPage() {
     <>
       <PageHeader
         title="Davrlar va mavzular"
-        description="Kutubxonadagi manbalar shu tartib bo‘yicha guruhlanadi. Har bir davr ichiga uning mavzularini qo‘shing."
+        description="Manbalar shu tartib bo‘yicha guruhlanadi. Har bir davr ichiga uning mavzularini qo‘shing."
         extra={<Button type="primary" icon={<PlusOutlined />} onClick={() => setDraft(EMPTY_PERIOD)}>Yangi davr</Button>}
       />
 

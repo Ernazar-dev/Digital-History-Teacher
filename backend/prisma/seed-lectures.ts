@@ -85,6 +85,9 @@ const isFileLost = async (prisma: PrismaClient, mediaFileId: string) => {
   }
 };
 
+/** Shu mavzuning avvalgi seed'dagi darslik yozuvlari: «… I kitob · 12-mavzu» va «… I kitob, A.S.Sagdullayev · 12-mavzu» */
+const staleBookLabels = (label: string) => [label.replace(' (A.S.Sagdullayev)', ''), label.replace(' (A.S.Sagdullayev)', ', A.S.Sagdullayev')];
+
 export const seedLectures = async (prisma: PrismaClient, adminId: string | null) => {
   const periods = new Map<string, string>();
   for (const p of PERIODS) {
@@ -125,6 +128,8 @@ export const seedLectures = async (prisma: PrismaClient, adminId: string | null)
         ...(lectureFileId ? { lectureFileId } : {}),
         // Matn faqat ma'ruza umuman bo'lmasa qo'yiladi — administrator o'z faylini yuklagan bo'lsa, tayyor matn qaytarilmaydi
         ...(!existing.lectureContent && !existing.lectureFileId && lectureContent ? { lectureContent } : {}),
+        // Darslik yozuvi avvalgi seed qiymati bo'lsa (muallifsiz yoki vergulli) — yangi ko'rinishga o'tkaziladi; admin tahriri o'zgarmaydi
+        ...(existing.bookLabel && existing.bookLabel !== l.bookLabel && staleBookLabels(l.bookLabel).includes(existing.bookLabel) ? { bookLabel: l.bookLabel } : {}),
         // Afisha bo'sh yoki avvalgi tashqi (Wikimedia) havola bo'lsa — platformadagi nusxa qo'yiladi
         ...(!existing.mediaFileId && (!existing.mediaUrl || existing.mediaUrl.startsWith('https://upload.wikimedia.org/')) && existing.mediaUrl !== cover.mediaUrl ? cover : {}),
       };

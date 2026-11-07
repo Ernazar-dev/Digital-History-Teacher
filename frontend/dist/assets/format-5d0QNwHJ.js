@@ -1,1 +1,0 @@
-import{A as a}from"./index-BinmMl67.js";const m=t=>t?a(t).format("DD.MM.YYYY"):"—",s=t=>t?a(t).format("DD.MM.YYYY HH:mm"):"—",e=t=>t==null?"—":`${Math.round(t*10)/10}%`,r=t=>t==null?"":t<0?`mil. avv. ${-t}`:String(t),f=t=>t<1024*1024?`${Math.max(1,Math.round(t/1024))} KB`:`${(t/1024/1024).toFixed(1)} MB`;export{m as a,e as b,f as c,s as f,r as y};

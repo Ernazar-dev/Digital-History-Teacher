@@ -37,6 +37,8 @@ export interface SourceListItem {
   dateLabel: string | null; yearFrom: number | null; yearTo: number | null;
   status: PublicationStatus; mediaFileId: string | null; mediaFile?: { id: string; mimeType: string } | null; mediaUrl: string | null;
   presentationFileId: string | null; videoFileId: string | null; videoUrl: string | null; hasLecture?: boolean;
+  /** Kitob muallifi (tarixiy asarlar uchun) */
+  author?: string | null;
   latitude: number | null; longitude: number | null; createdAt: string; updatedAt: string;
   period: { id: string; name: string } | null; topics: { id: string; name: string }[];
 }
@@ -47,6 +49,8 @@ export interface Source extends SourceListItem {
   createdBy: { id: string; fullName: string } | null;
   mediaFile: MediaFileRef | null; lectureFile: MediaFileRef | null; presentationFile: MediaFileRef | null; videoFile: MediaFileRef | null;
   lectureFileId: string | null;
+  /** Tarixiy kitob bo'lsa — qidiriladigan sahifalar soni (ro'yxat qidiruvi uchun), aks holda 0 */
+  pageCount: number;
   tests: { id: string; title: string; questionCount: number }[];
   virtualObjects: (Ref & { slug: string; type: ObjectType; thumbnailUrl: string | null; periodLabel: string | null; location: string | null })[];
 }

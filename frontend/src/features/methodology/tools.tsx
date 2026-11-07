@@ -4,7 +4,7 @@ import type { MethodTool } from './methods';
 
 /** Metodni qo'llashda ishlatiladigan platforma bo'limlari */
 export const TOOLS: Record<MethodTool, { label: string; desc: string; icon: ReactNode; to: string }> = {
-  sources: { label: 'Manbalar kutubxonasi', desc: 'Ma’ruza, taqdimot va video', icon: <BookOutlined />, to: '/app/sources' },
+  sources: { label: 'Manbalar', desc: 'Ma’ruza, taqdimot va video', icon: <BookOutlined />, to: '/app/sources' },
   museum: { label: 'Virtual muzey', desc: '3D modellar va 360° panoramalar', icon: <BankOutlined />, to: '/app/museum' },
   explore: { label: 'Xarita va vaqt chizig‘i', desc: 'Tarixiy joylar va sanalar', icon: <GlobalOutlined />, to: '/app/explore' },
   lessons: { label: 'Dars konstruktori', desc: 'Metod asosida dars loyihasi', icon: <BuildOutlined />, to: '/app/lessons' },

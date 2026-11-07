@@ -377,6 +377,10 @@ export const OBJECTS_D: SeedObject[] = [
 
 /** Mavzu slug'i → unga biriktiriladigan obyekt slug'lari (yangi va avvaldan mavjud obyektlar) */
 export const TOPIC_OBJECTS: Record<string, string[]> = {
+  // Tarixiy kitoblar (seed-books.ts): asarda tilga olingan joy va yodgorliklar
+  'kitob-buxoro-tarixi': ['buxoro-tarixiy-markazi-360-demo', 'kalon-minorasi-buxoro'],
+  'kitob-zafarnoma': ['gur-amir-maqbarasi', 'oqsaroy-shahrisabz', 'shahrisabz-temur-maqbarasi', 'registon-majmuasi-samarqand'],
+  'kitob-shajarai-turk': ['xiva-ichan-qala-360', 'kalta-minor-xiva'],
   'amir-temur-davlati': [
     'gur-amir-maqbarasi', 'gur-amir-360', 'bibixonim-masjidi', 'oqsaroy-shahrisabz', 'hazrati-imom-majmuasi-shahrisabz',
     'shahrisabz-temur-maqbarasi', 'shahrisabz-jahongir-maqbarasi', 'shahrisabz-havodan-360', 'yassaviy-maqbarasi-turkiston',

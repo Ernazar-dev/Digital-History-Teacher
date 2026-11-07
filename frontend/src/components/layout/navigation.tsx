@@ -16,7 +16,7 @@ export const NAV: NavItem[] = [
   { key: '/app', label: 'Bosh sahifa', icon: <DashboardOutlined />, roles: ALL },
   { key: '/app/guide', label: 'Qo‘llanma', icon: <QuestionCircleOutlined />, roles: STAFF },
 
-  { key: '/app/sources', label: 'Manbalar kutubxonasi', icon: <BookOutlined />, roles: ALL, section: 'Kontent' },
+  { key: '/app/sources', label: 'Manbalar', icon: <BookOutlined />, roles: ALL, section: 'Kontent' },
   { key: '/app/museum', label: 'Virtual muzey', icon: <BankOutlined />, roles: ALL, section: 'Kontent' },
   { key: '/app/explore', label: 'Xarita va vaqt chizig‘i', icon: <GlobalOutlined />, roles: ALL, section: 'Kontent' },
   { key: '/app/methodology', label: 'Metodika', icon: <BulbOutlined />, roles: ALL, section: 'Kontent' },

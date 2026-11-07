@@ -48,7 +48,7 @@ const Hero = ({ s, cover, back, editTo }: { s: Source; cover: string | null; bac
       </div>
       <div className="max-w-3xl">
         <div className="text-xs font-semibold uppercase tracking-[0.2em] text-accent-light">
-          {s.bookLabel?.split(' · ')[1]}
+          {s.bookLabel?.split(' · ')[1] ?? s.author}
         </div>
         <h1 className="font-serif-title m-0 mt-3 text-3xl font-bold leading-tight text-white md:text-[42px]">{s.title}</h1>
         <p className="mb-0 mt-3 max-w-2xl text-[15px] leading-relaxed text-white/80">{s.summary}</p>
@@ -75,9 +75,12 @@ const TopicView = ({ s }: { s: Source }) => {
   const editTo = canEdit ? `/app/admin/sources/${s.id}/edit` : null;
   const video = youtubeEmbedUrl(s.videoUrl);
   const pages = wordsToPages(s.lectureContent);
+  // Tarixiy kitob: bo'laklarga bo'linmaydi — kitobning o'zi (Word) birinchi qism; qolgan qismlar mavzulardagidek
+  const isBook = s.pageCount > 0;
+  const initialQuery = params.get('izlash') ?? '';
 
   const parts: Part[] = [
-    { key: 'maruza', label: 'Ma’ruza', icon: <BookOutlined />, ready: Boolean(s.lectureContent || s.lectureFile), hint: s.lectureFile ? 'O‘qish va yuklab olish' : s.lectureContent ? `≈ ${pages} bet matn` : 'Tez orada' },
+    { key: 'maruza', label: isBook ? 'Kitob' : 'Ma’ruza', icon: <BookOutlined />, ready: Boolean(s.lectureContent || s.lectureFile), hint: s.lectureFile ? (isBook ? 'O‘qish, qidirish, yuklab olish' : 'O‘qish va yuklab olish') : s.lectureContent ? `≈ ${pages} bet matn` : 'Tez orada' },
     { key: 'taqdimot', label: 'Taqdimot', icon: <FilePptOutlined />, ready: Boolean(s.presentationFile), hint: s.presentationFile ? 'Slaydlar' : 'Tez orada' },
     { key: 'video', label: 'Video rolik', icon: <PlayCircleOutlined />, ready: Boolean(video || s.videoFile), hint: video || s.videoFile ? 'Tomosha qilish' : 'Tez orada' },
     // 3D model / 360° sayohat bo'limi faqat mavzuga obyekt biriktirilgan bo'lsa chiqadi
@@ -99,6 +102,7 @@ const TopicView = ({ s }: { s: Source }) => {
     <div>
       <Hero s={s} cover={coverOf(s)} back={back} editTo={editTo} />
 
+      {parts.length > 1 && (
       <div
         role="tablist"
         aria-label="Mavzu qismlari"
@@ -132,14 +136,15 @@ const TopicView = ({ s }: { s: Source }) => {
           );
         })}
       </div>
+      )}
 
       <section role="tabpanel" id={`panel-${active}`} aria-labelledby={`tab-${active}`} className="rounded-3xl border border-solid border-line bg-white p-4 md:p-8">
         {/* Ma'ruza — bitta: yuklangan fayl bo'lsa o'sha ko'rsatiladi, bo'lmasa tayyor matn */}
         {active === 'maruza' &&
           (s.lectureFile ? (
-            <LectureFileView file={s.lectureFile} />
+            <LectureFileView file={s.lectureFile} initialQuery={initialQuery} />
           ) : s.lectureContent ? (
-            <LectureReader content={s.lectureContent} title={s.title} />
+            <LectureReader content={s.lectureContent} title={s.title} initialQuery={initialQuery} />
           ) : (
             <Pending text="Ma’ruza matni tez orada qo‘shiladi." editTo={editTo} />
           ))}

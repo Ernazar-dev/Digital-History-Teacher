@@ -1,1 +1,0 @@
-import{j as s}from"./react-B-hu5P_j.js";import{T as a}from"./index-C83ETCtA.js";const c=({map:t,value:o})=>{const r=t[o]??{label:o,color:"default"};return s.jsx(a,{color:r.color,children:r.label})};export{c as S};

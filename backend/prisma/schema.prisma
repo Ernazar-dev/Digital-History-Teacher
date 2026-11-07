@@ -254,7 +254,7 @@ model MediaFile {
   tests               Test[]
 }
 
-// ─────────────────────── 1-modul: Manbalar kutubxonasi (ma'ruza mavzulari) ───────────────────────
+// ─────────────────────── 1-modul: Manbalar (ma'ruza mavzulari) ───────────────────────
 
 /// Kutubxonadagi har bir yozuv — bitta o'quv mavzusi: ma'ruza matni, taqdimot va video rolik
 
@@ -319,6 +319,8 @@ model HistoricalSource {
   presentationFile MediaFile?            @relation("SourcePresentation", fields: [presentationFileId], references: [id], onDelete: SetNull)
   videoFile        MediaFile?            @relation("SourceVideo", fields: [videoFileId], references: [id], onDelete: SetNull)
   topics           SourceTopic[]
+  /// Kitob (PDF) bo'lsa — sahifalar matni, qidiruv uchun
+  pages            SourcePage[]
   virtualObjects   VirtualObjectSource[]
   lessonResources  LessonResource[]
   tests            Test[]
@@ -326,6 +328,19 @@ model HistoricalSource {
   @@index([type, status])
   @@index([periodId])
   @@index([deletedAt])
+}
+
+/// Kitob PDF'ining bitta sahifasi matni (qidiruv natijasi shu sahifaga yo'naltiradi)
+model SourcePage {
+  id       String @id @default(uuid()) @db.Uuid
+  sourceId String @db.Uuid
+  /// PDF ko'ruvchidagi sahifa raqami (1 dan)
+  page     Int
+  text     String
+
+  source HistoricalSource @relation(fields: [sourceId], references: [id], onDelete: Cascade)
+
+  @@unique([sourceId, page])
 }
 
 model SourceTopic {

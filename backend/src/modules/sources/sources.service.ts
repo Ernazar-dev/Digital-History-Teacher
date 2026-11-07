@@ -1,4 +1,4 @@
-import type { Prisma } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import type { z } from 'zod';
 import { prisma } from '../../config/prisma';
 import { AppError } from '../../shared/errors/AppError';
@@ -17,7 +17,7 @@ export const visibleSourceWhere = (actor: Actor): Prisma.HistoricalSourceWhereIn
 const fileSelect = { select: { id: true, originalName: true, mimeType: true, size: true } } as const;
 
 const listSelect = {
-  id: true, title: true, slug: true, summary: true, type: true, dateLabel: true, bookLabel: true, sortOrder: true,
+  id: true, title: true, slug: true, summary: true, author: true, type: true, dateLabel: true, bookLabel: true, sortOrder: true,
   yearFrom: true, yearTo: true, status: true, createdAt: true, updatedAt: true, latitude: true, longitude: true,
   mediaFileId: true, mediaFile: { select: { id: true, mimeType: true } }, mediaUrl: true,
   presentationFileId: true, videoFileId: true, videoUrl: true,
@@ -44,6 +44,29 @@ const withLectureFlag = async <T extends { id: string }>(rows: T[]) => {
   });
   const has = new Set(withText.map((r) => r.id));
   return rows.map((r) => ({ ...r, hasLecture: has.has(r.id) }));
+};
+
+/**
+ * Qidiruvda barcha apostrof ko'rinishlari (' ‘ ’ ʻ ʼ ` ´) bir xil sanaladi: foydalanuvchi «O'zbekiston» deb yozsa ham
+ * matndagi «O‘zbekiston» (yoki «Oʻzbekiston») topiladi. Belgilar birma-bir almashadi — matn uzunligi va o'rinlari saqlanadi.
+ */
+const APOS_FROM = '‘’ʻʼ`´′';
+export const foldApostrophes = (text: string) => text.replace(/[‘’ʻʼ`´′]/g, "'");
+const foldSql = (col: Prisma.Sql) => Prisma.sql`translate(${col}, ${APOS_FROM}, ${"'".repeat(APOS_FROM.length)})`;
+const likeOf = (q: string) => `%${foldApostrophes(q).replace(/[\\%_]/g, (ch) => `\\${ch}`)}%`;
+
+/** Qidiruv so'rovi mos keladigan mavzu va kitoblar (sarlavha, tavsif, ma'ruza matni, kitob sahifalari) */
+export const searchIds = async (q: string) => {
+  const like = likeOf(q);
+  const hit = (col: Prisma.Sql) => Prisma.sql`${foldSql(col)} ILIKE ${like}`;
+  const rows = await prisma.$queryRaw<{ id: string }[]>(Prisma.sql`
+    SELECT s."id" FROM "HistoricalSource" s
+    WHERE s."deletedAt" IS NULL AND (
+      ${hit(Prisma.sql`s."title"`)} OR ${hit(Prisma.sql`s."summary"`)} OR ${hit(Prisma.sql`COALESCE(s."bookLabel", '')`)}
+      OR ${hit(Prisma.sql`COALESCE(s."author", '')`)} OR ${hit(Prisma.sql`COALESCE(s."lectureContent", '')`)}
+      OR EXISTS (SELECT 1 FROM "SourcePage" p WHERE p."sourceId" = s."id" AND ${hit(Prisma.sql`p."text"`)})
+    )`);
+  return rows.map((r) => r.id);
 };
 
 const assertCanEdit = async (actor: Express.AuthUser, id: string) => {
@@ -74,12 +97,7 @@ export const sourcesService = {
     if (q.topicId) where.topics = { some: { topicId: q.topicId } };
     if (q.status && isStaff(actor)) where.status = q.status;
     if (q.q) {
-      where.OR = [
-        { title: { contains: q.q, mode: 'insensitive' } },
-        { summary: { contains: q.q, mode: 'insensitive' } },
-        { bookLabel: { contains: q.q, mode: 'insensitive' } },
-        { lectureContent: { contains: q.q, mode: 'insensitive' } },
-      ];
+      where.id = { in: await searchIds(q.q) };
     }
     const [total, rows] = await prisma.$transaction([
       prisma.historicalSource.count({ where }),
@@ -119,7 +137,8 @@ export const sourcesService = {
       },
     });
     if (!source) throw AppError.notFound('Mavzu topilmadi');
-    return { ...flattenTopics(source), virtualObjects: source.virtualObjects.map((v) => v.virtualObject) };
+    const pageCount = await prisma.sourcePage.count({ where: { sourceId: source.id } });
+    return { ...flattenTopics(source), pageCount, virtualObjects: source.virtualObjects.map((v) => v.virtualObject) };
   },
 
   async create(actor: Express.AuthUser, input: z.infer<typeof sourceBodySchema>) {

@@ -1,5 +1,6 @@
 import { afterAll, describe, expect, it } from 'vitest';
 import { prisma } from '../src/config/prisma';
+import { seedBooks } from '../prisma/seed-books';
 import { seedLectures } from '../prisma/seed-lectures';
 import { seedTopicObjects } from '../prisma/seed-objects';
 import { OBJECTS_D, TOPIC_OBJECTS } from '../prisma/seed-data/objects-d';
@@ -31,6 +32,7 @@ describe('mavzularga biriktirilgan 3D / 360° obyektlar', () => {
 
   it('obyektlar yaratiladi, mavzularga biriktiriladi, takroran ishga tushganda ko‘paymaydi va talabaga ko‘rinadi', async () => {
     await seedLectures(prisma, null);
+    await seedBooks(prisma, null);
     const first = await seedTopicObjects(prisma, null);
     expect(first.created).toBe(OBJECTS_D.length);
     expect(first.linked).toBeGreaterThan(0);
@@ -42,5 +44,9 @@ describe('mavzularga biriktirilgan 3D / 360° obyektlar', () => {
     expect(res.status).toBe(200);
     const objects = res.body.data.virtualObjects as { slug: string }[];
     expect(objects.map((o) => o.slug)).toEqual(expect.arrayContaining(['kalta-minor-xiva', 'ota-darvoza-xiva', 'islomxoja-minorasi-xiva']));
+
+    // Tarixiy kitoblar ham muzey obyektlariga bog'lanadi
+    const book = await api().get('/api/v1/sources/kitob-zafarnoma');
+    expect((book.body.data.virtualObjects as { slug: string }[]).map((o) => o.slug)).toContain('shahrisabz-temur-maqbarasi');
   });
 });

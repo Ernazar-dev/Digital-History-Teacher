@@ -85,4 +85,19 @@ describe('13 ta ma’ruza mavzusi (seed)', () => {
     expect((await prisma.historicalSource.findUniqueOrThrow({ where: { id: b.id } })).lectureFileId).toBe(custom.id);
     await storage.remove(customKey);
   });
+
+  it('I kitob mavzulari muallif bilan yoziladi; avvalgi seed yozuvi yangilanadi, admin tahriri esa saqlanadi', async () => {
+    await seedLectures(prisma, null);
+    const first = LECTURES[0];
+    const row = () => prisma.historicalSource.findUniqueOrThrow({ where: { slug: first.slug } });
+    expect((await row()).bookLabel).toBe('O‘zbekiston tarixi, I kitob (A.S.Sagdullayev) · 12-mavzu');
+
+    await prisma.historicalSource.update({ where: { slug: first.slug }, data: { bookLabel: 'O‘zbekiston tarixi, I kitob · 12-mavzu' } });
+    await seedLectures(prisma, null);
+    expect((await row()).bookLabel).toBe('O‘zbekiston tarixi, I kitob (A.S.Sagdullayev) · 12-mavzu');
+
+    await prisma.historicalSource.update({ where: { slug: first.slug }, data: { bookLabel: 'Admin yozgan darslik · 12-mavzu' } });
+    await seedLectures(prisma, null);
+    expect((await row()).bookLabel).toBe('Admin yozgan darslik · 12-mavzu');
+  });
 });

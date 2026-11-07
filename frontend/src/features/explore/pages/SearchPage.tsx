@@ -54,7 +54,7 @@ export default function SearchPage() {
               {r.sources.length > 0 && (
                 <Card title={`Tarixiy manbalar (${r.sources.length})`}>
                   <List dataSource={r.sources} renderItem={(s) => (
-                    <List.Item><List.Item.Meta title={<Link to={`/app/sources/${s.slug}`}>{s.title}</Link>} description={[SOURCE_TYPE[s.type], s.period?.name].filter(Boolean).join(' · ')} /></List.Item>
+                    <List.Item><List.Item.Meta title={<Link to={`/app/sources/${s.slug}?izlash=${encodeURIComponent(q)}`}>{s.title}</Link>} description={[s.author, SOURCE_TYPE[s.type], s.period?.name].filter(Boolean).join(' · ')} /></List.Item>
                   )} />
                 </Card>
               )}

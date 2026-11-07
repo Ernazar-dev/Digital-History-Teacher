@@ -34,7 +34,7 @@ Platforma pedagogik zanjir bo‘yicha ishlaydi:
 
 | # | Modul (hujjat bo‘yicha) | Platformadagi bo‘lim | Asosiy imkoniyatlar |
 |---|---|---|---|
-| 1 | Raqamli tarixiy manbalar kutubxonasi | `/app/sources`, ochiq: `/catalog/sources` | **mavzu bo‘limlari** (masalan, «Buxoro amirligi tarixi» — shu mavzudagi barcha turdagi manbalar), qidiruv, davr/mavzu/tur filtri, saralash, saqlash, **asl manba / ilmiy sharh / ta’limiy moslashtirish** alohida variantlar, ishonchlilik va cheklovlar, litsenziya, raqamli nusxa (rasm, audio, video), **manba asosidagi amaliy topshiriqlar**, 2–4 manbani tanlab 2-moduldagi taqqoslash ishini boshlash. 3D/360° obyektlar manba turi emas — ular 4-modulda |
+| 1 | Raqamli tarixiy manbalar | `/app/sources`, ochiq: `/catalog/sources` | **mavzu bo‘limlari** (masalan, «Buxoro amirligi tarixi» — shu mavzudagi barcha turdagi manbalar), qidiruv, davr/mavzu/tur filtri, saralash, saqlash, **asl manba / ilmiy sharh / ta’limiy moslashtirish** alohida variantlar, ishonchlilik va cheklovlar, litsenziya, raqamli nusxa (rasm, audio, video), **manba asosidagi amaliy topshiriqlar**, 2–4 manbani tanlab 2-moduldagi taqqoslash ishini boshlash. 3D/360° obyektlar manba turi emas — ular 4-modulda |
 | 2 | Tahlil laboratoriyasi | `/app/analysis` | manba turiga moslashgan 12+ savol (yozma, vizual, xarita, audio, video, arxeologik), qoralama → topshirish → o‘qituvchi ko‘rib chiqishi, taqqoslash ishlari |
 | 3 | Interaktiv dars konstruktori | `/app/lessons` | 7 bosqichli forma (12 talab qilingan qadam), bosqichlar va vaqt nazorati, versiya tarixi, chop etish/PDF; tayyor dars berilmaydi — faqat yo‘naltiruvchi savollar |
 | 4 | Virtual sayohat va muzey (3D/360°) | `/app/museum`, ochiq: `/catalog/museum` | Sketchfab 3D (lazy embed), Uzbekistan360 panoramalari, fallback, kuzatuv/dalil/taqqoslash topshiriqlari, talaba ishi → portfolio |
@@ -145,7 +145,7 @@ Seed nimalarni yaratadi: 5 tarixiy davr, 11 mavzu (tavsifli bo‘limlar), 16 man
 > Demo o‘qituvchi va 3 talaba: `DEMO_*` o‘zgaruvchilari, faqat `SEED_DEMO_USERS=true` va `NODE_ENV≠production` bo‘lganda yaratiladi.
 > Birinchi 2 talaba tajriba guruhiga, uchinchisi nazorat guruhiga qo‘shiladi.
 
-**Asosiy ssenariyni sinab ko‘rish:** birinchi demo talaba bilan kiring → «Manbalar kutubxonasi»da «Zafarnoma»ni oching → «Tahlil qilish» → savollarga javob berib topshiring → «Virtual muzey»da Bibixonim masjidi 3D modelini yuklang va kuzatuv javoblarini topshiring → «Topshiriqlar»da 15 daqiqalik mashg‘ulot topshirig‘ini bajaring → «Dars konstruktori»da ishlanma yarating → «Diagnostika»da boshlang‘ich testni bajaring → «Portfolio» va «Kompetensiya» sahifalarida natijalarni ko‘ring. So‘ng demo o‘qituvchi bilan kirib «Tekshiruv navbati»dan ishlarni qaytaring yoki rubrika bo‘yicha baholang — talaba portfoliosi va kompetensiya profili yangilanadi.
+**Asosiy ssenariyni sinab ko‘rish:** birinchi demo talaba bilan kiring → «Manbalar»da «Zafarnoma»ni oching → «Tahlil qilish» → savollarga javob berib topshiring → «Virtual muzey»da Bibixonim masjidi 3D modelini yuklang va kuzatuv javoblarini topshiring → «Topshiriqlar»da 15 daqiqalik mashg‘ulot topshirig‘ini bajaring → «Dars konstruktori»da ishlanma yarating → «Diagnostika»da boshlang‘ich testni bajaring → «Portfolio» va «Kompetensiya» sahifalarida natijalarni ko‘ring. So‘ng demo o‘qituvchi bilan kirib «Tekshiruv navbati»dan ishlarni qaytaring yoki rubrika bo‘yicha baholang — talaba portfoliosi va kompetensiya profili yangilanadi.
 
 ## Testlar va sifat nazorati
 
@@ -199,7 +199,7 @@ Seed’dagi Sketchfab modellari Global Digital Heritage hisobidan Sketchfab ochi
 
 ## Yangi manba va topshiriq qo‘shish
 
-- **Manba**: «Manbalar kutubxonasi → Manba qo‘shish» (o‘qituvchi yoki admin). Asl matn, ilmiy sharh va o‘quvchilar uchun moslashtirilgan variantni alohida «variant» sifatida kiriting; ishonchlilik, cheklovlar, litsenziya va asl manba havolasini to‘ldiring. Tekshirilmagan ma’lumotlar uchun **«Demo yozuv»** belgisini qo‘ying. O‘qituvchi qoralama/tekshirilgan holatda saqlaydi, **nashr etish — faqat admin**.
+- **Manba**: «Manbalar → Manba qo‘shish» (o‘qituvchi yoki admin). Asl matn, ilmiy sharh va o‘quvchilar uchun moslashtirilgan variantni alohida «variant» sifatida kiriting; ishonchlilik, cheklovlar, litsenziya va asl manba havolasini to‘ldiring. Tekshirilmagan ma’lumotlar uchun **«Demo yozuv»** belgisini qo‘ying. O‘qituvchi qoralama/tekshirilgan holatda saqlaydi, **nashr etish — faqat admin**.
 - **Topshiriq**: «Topshiriqlar → Yangi topshiriq» — pedagogik vaziyat, turi, muddat, guruhlar, manbalar va 3D/360° obyektlar, rubrika va kompetensiya dalili turi. Rubrika mezonlarini «Rubrikalar» bo‘limida komponentlarga bog‘lang.
 - **Diagnostika**: «Diagnostika → Yangi diagnostika» — bosqich (boshlang‘ich/oraliq/yakuniy), tur, savollar (har biri komponentga bog‘lanadi). Urinishlar boshlangach savollar bloklanadi (taqqoslanuvchanlik uchun).
 

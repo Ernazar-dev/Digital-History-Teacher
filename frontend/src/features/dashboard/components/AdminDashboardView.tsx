@@ -28,6 +28,7 @@ export const AdminDashboardView = ({ d }: { d: AdminDashboard }) => (
       <Card title="Katalog">
         <Descriptions column={1} size="small">
           <Descriptions.Item label="Mavzular">{d.counts.topics}</Descriptions.Item>
+          <Descriptions.Item label="Tarixiy kitoblar">{d.counts.books}</Descriptions.Item>
           {Object.entries(d.virtualObjects).map(([k, v]) => <Descriptions.Item key={k} label={OBJECT_TYPE[k as ObjectType]}>{v}</Descriptions.Item>)}
         </Descriptions>
       </Card>

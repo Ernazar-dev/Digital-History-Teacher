@@ -1,9 +1,10 @@
 import { ArrowUpOutlined, DownloadOutlined, OrderedListOutlined } from '@ant-design/icons';
 import { Button, Spin, Tooltip } from 'antd';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { sanitizeDom } from '@/lib/sanitizeDom';
 import type { MediaFileRef } from '@/types/api';
 import { fileKind, mediaFileUrl } from '../files';
+import { DocSearch } from './DocSearch';
 import { FileBadge } from './MaterialViewer';
 
 /** Shrift o'lchamlari (rem) — tanlov brauzerda eslab qolinadi */
@@ -53,6 +54,22 @@ const DocxReader = ({ file, size, onHeadings }: { file: MediaFileRef; size: numb
         renderFootnotes: true,
       });
       sanitizeDom(el);
+      // Matn boshidagi ortiqcha bo'sh joy (bo'sh abzatslar, sahifa uzilishi, tepadan katta masofa) olib tashlanadi — hamma fayllar uchun
+      for (const p of Array.from(el.querySelectorAll('p'))) {
+        if (p.textContent?.trim() || p.querySelector('img,svg,table')) {
+          p.style.marginTop = '0';
+          p.style.paddingTop = '0';
+          break;
+        }
+        p.remove();
+      }
+      el.querySelectorAll('br[style*="page-break"]').forEach((br) => br.remove());
+      // Word sahifasining tepa/past hoshiyasi (≈2 sm) ekranda bo'sh joy bo'lib qolmasin
+      el.querySelectorAll<HTMLElement>('section.docx').forEach((sec) => {
+        sec.style.paddingTop = '0';
+        sec.style.paddingBottom = '0';
+        sec.style.minHeight = '0';
+      });
       // «Reja»: 1-darajali sarlavhalar (Word'dagi «Sarlavha 1» uslubi)
       const heads = [...el.querySelectorAll<HTMLElement>('[class*="heading1" i]')]
         .map((h, i) => ({ el: h, text: h.textContent?.trim() ?? '', id: `bolim-${i + 1}` }))
@@ -107,10 +124,17 @@ const PdfReader = ({ file }: { file: MediaFileRef }) => {
 };
 
 /** Ma'ruza fayli: tepada qisqa panel (fayl, shrift, yuklab olish), chapda reja, o'ngda o'qiladigan matn */
-export const LectureFileView = ({ file }: { file: MediaFileRef }) => {
+/** `initialQuery` — ro'yxatdagi qidiruvdan kelgan so'z: Word hujjat ochilgach shu so'z darhol topiladi */
+export const LectureFileView = ({ file, initialQuery = '' }: { file: MediaFileRef; initialQuery?: string }) => {
   const isDocx = fileKind(file) === 'docx';
   const [size, setSize] = useState(readSize);
   const [heads, setHeads] = useState<Heading[]>([]);
+  const [docReady, setDocReady] = useState(false);
+  const docRef = useRef<HTMLDivElement>(null);
+  const onLoaded = useCallback((h: Heading[]) => {
+    setHeads(h);
+    setDocReady(true);
+  }, []);
   const [activeId, setActiveId] = useState<string | null>(null);
   const [progress, setProgress] = useState(0);
   const bodyRef = useRef<HTMLDivElement>(null);
@@ -176,7 +200,8 @@ export const LectureFileView = ({ file }: { file: MediaFileRef }) => {
 
       <div className="sticky top-[4.5rem] z-10 mb-5 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-solid border-line bg-white/95 px-3 py-2 shadow-sm backdrop-blur md:px-4">
         <FileBadge file={file} />
-        <span className="flex items-center gap-2">
+        <span className="flex flex-wrap items-center gap-2">
+          {isDocx && <DocSearch rootRef={docRef} ready={docReady} initial={initialQuery} />}
           {isDocx && (
             <span className="flex items-center rounded-lg border border-solid border-line" role="group" aria-label="Shrift o‘lchami">
               <Tooltip title="Kichikroq shrift">
@@ -207,7 +232,9 @@ export const LectureFileView = ({ file }: { file: MediaFileRef }) => {
                 <div className="mt-3">{toc}</div>
               </details>
             )}
-            <DocxReader file={file} size={size} onHeadings={setHeads} />
+            <div ref={docRef}>
+              <DocxReader file={file} size={size} onHeadings={onLoaded} />
+            </div>
           </div>
         </div>
       ) : (

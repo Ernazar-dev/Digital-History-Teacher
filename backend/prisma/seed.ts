@@ -11,6 +11,7 @@ import { OBJECTS_C } from './seed-data/objects-c';
 import { PERIODS, TOPICS } from './seed-data/periods';
 import { ensureAdmin } from '../src/modules/auth/admin-bootstrap';
 import { seedDemo } from './seed-demo';
+import { seedBooks } from './seed-books';
 import { seedLectures } from './seed-lectures';
 
 const prisma = new PrismaClient();
@@ -69,6 +70,8 @@ async function main() {
 
   const lectures = await seedLectures(prisma, admin?.id ?? null);
   console.log(`Ma’ruza mavzulari: ${lectures.created} ta yaratildi.`);
+  const books = await seedBooks(prisma, admin?.id ?? null);
+  console.log(`Kitoblar: ${books.created} ta yaratildi.`);
   // Muzey obyektlari eski manbalarga bog'lanmaydi (kutubxonada endi faqat ma'ruza mavzulari)
   const objects = await seedObjects(periods, new Map(), admin?.id ?? null);
 

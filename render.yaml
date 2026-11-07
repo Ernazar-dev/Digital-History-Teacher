@@ -16,7 +16,7 @@ services:
     buildCommand: >-
       cd frontend && { [ -f dist/index.html ] || { npm ci --include=dev && npm run build; }; }
       && cd ../backend && npm ci --include=dev && npx prisma generate && npm run build
-      && npx prisma migrate deploy && npm run db:seed:if-empty && npm run db:seed:lectures && npm run db:seed:objects
+      && npx prisma migrate deploy && npm run db:seed:if-empty && npm run db:seed:lectures && npm run db:seed:books && npm run db:seed:objects
     startCommand: cd backend && npm start
     healthCheckPath: /api/v1/health
     autoDeploy: true

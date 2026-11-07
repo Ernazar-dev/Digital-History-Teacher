@@ -78,10 +78,11 @@ export const dashboardService = {
 
   async admin() {
     const since = new Date(Date.now() - 30 * DAY);
-    const [usersByRole, usersByStatus, topics, objects, tests, attempts, lessons, recentAudit, activity] = await Promise.all([
+    const [usersByRole, usersByStatus, topics, books, objects, tests, attempts, lessons, recentAudit, activity] = await Promise.all([
       prisma.user.groupBy({ by: ['role'], where: { deletedAt: null }, _count: true }),
       prisma.user.groupBy({ by: ['status'], where: { deletedAt: null }, _count: true }),
-      prisma.historicalSource.count({ where: { deletedAt: null } }),
+      prisma.historicalSource.count({ where: { deletedAt: null, pages: { none: {} } } }),
+      prisma.historicalSource.count({ where: { deletedAt: null, pages: { some: {} } } }),
       prisma.virtualObject.groupBy({ by: ['type'], where: { deletedAt: null }, _count: true }),
       prisma.test.count({ where: { deletedAt: null } }),
       prisma.testAttempt.count(),
@@ -97,7 +98,7 @@ export const dashboardService = {
     return {
       users: { byRole: toMap(usersByRole, 'role'), byStatus: toMap(usersByStatus, 'status') },
       virtualObjects: toMap(objects, 'type'),
-      counts: { topics, tests, testAttempts: attempts, lessonPlans: lessons },
+      counts: { topics, books, tests, testAttempts: attempts, lessonPlans: lessons },
       activity: activity.map((a) => ({ day: a.day, count: Number(a.count) })),
       recentAudit,
     };

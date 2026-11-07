@@ -1,6 +1,6 @@
 import type { Prisma } from '@prisma/client';
 import { prisma } from '../../config/prisma';
-import { visibleSourceWhere } from '../sources/sources.service';
+import { searchIds, visibleSourceWhere } from '../sources/sources.service';
 import { visibleObjectWhere } from '../virtual-museum/virtual.service';
 
 type Actor = Express.AuthUser | undefined;
@@ -19,8 +19,9 @@ export const exploreService = {
     const [sources, objects, tests, lessons, periods, topics] = await Promise.all([
       want('sources')
         ? prisma.historicalSource.findMany({
-            where: { ...visibleSourceWhere(actor), ...period, OR: [{ title: contains(q) }, { summary: contains(q) }, { bookLabel: contains(q) }] },
-            select: { id: true, title: true, slug: true, type: true, summary: true, dateLabel: true, bookLabel: true, status: true, period: { select: { name: true } } },
+            // Mavzu/kitob nomi, muallifi va to'liq matni bo'yicha (apostrof ko'rinishlariga e'tiborsiz)
+            where: { ...visibleSourceWhere(actor), ...period, id: { in: await searchIds(q) } },
+            select: { id: true, title: true, slug: true, type: true, summary: true, author: true, dateLabel: true, bookLabel: true, status: true, period: { select: { name: true } } },
             take,
           })
         : [],

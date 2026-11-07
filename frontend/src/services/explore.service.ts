@@ -2,7 +2,7 @@ import type { ObjectType, Period, SourceType, WorkStatus } from '@/types/api';
 import { cleanParams, getData } from './api';
 
 export interface SearchResults {
-  sources: { id: string; title: string; slug: string; type: SourceType; summary: string; dateLabel: string | null; period: { name: string } | null }[];
+  sources: { id: string; title: string; slug: string; type: SourceType; summary: string; author: string | null; dateLabel: string | null; period: { name: string } | null }[];
   objects: { id: string; title: string; slug: string; type: ObjectType; location: string | null; thumbnailUrl: string | null }[];
   tests: { id: string; title: string; questionCount: number; source: { title: string } | null }[];
   lessons: { id: string; title: string; topic: string; gradeLevel: string; status: WorkStatus; author: { fullName: string } }[];

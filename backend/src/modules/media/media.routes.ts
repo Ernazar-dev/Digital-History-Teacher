@@ -1,3 +1,4 @@
+import { Readable } from 'node:stream';
 import { Router } from 'express';
 import multer from 'multer';
 import { env } from '../../config/env';
@@ -11,6 +12,32 @@ import { audit } from '../../shared/utils/audit';
 import { created, currentUser, noContent } from '../../shared/utils/http';
 import { uuidParam } from '../../shared/validators/common';
 import { ALLOWED_MIME_TYPES, mediaService } from './media.service';
+
+/**
+ * «Range: bytes=boshi-oxiri» sarlavhasi → [boshi, oxiri]. Sarlavha yo'q yoki tushunarsiz bo'lsa null (butun fayl beriladi),
+ * fayl chegarasidan tashqarida bo'lsa 'invalid' (416).
+ */
+export const parseRange = (header: string | undefined, size: number): [number, number] | 'invalid' | null => {
+  if (!header || !header.startsWith('bytes=') || header.includes(',')) return null;
+  const [from, to, ...rest] = header.slice(6).trim().split('-');
+  if (rest.length || (from === '' && !to) || !/^[0-9]*$/.test(from) || !/^[0-9]*$/.test(to ?? '')) return null;
+  const start = from === '' ? Math.max(0, size - Number(to)) : Number(from);
+  const end = from === '' || !to ? size - 1 : Math.min(Number(to), size - 1);
+  return start > end || start >= size ? 'invalid' : [start, end];
+};
+
+/** Oqimdan faqat [start, end] baytlarni ajratib beradi; kerakli joyga yetgach manba oqimini to'xtatadi */
+async function* sliceBytes(source: Readable, start: number, end: number) {
+  let pos = 0;
+  for await (const chunk of source) {
+    const buf = Buffer.from(chunk);
+    const from = Math.max(start - pos, 0);
+    const to = Math.min(end - pos + 1, buf.length);
+    pos += buf.length;
+    if (to > from) yield buf.subarray(from, to);
+    if (pos > end) break;
+  }
+}
 
 const upload = multer({
   storage: multer.memoryStorage(),
@@ -59,6 +86,24 @@ mediaRouter.get(
     res.setHeader('Content-Type', file.mimeType);
     res.setHeader('X-Content-Type-Options', 'nosniff');
     res.setHeader('Content-Disposition', `inline; filename*=UTF-8''${encodeURIComponent(file.originalName)}`);
+    // Video/audio'ni oldinga-orqaga surish (seek) uchun Range so'rovlari qo'llanadi
+    res.setHeader('Accept-Ranges', 'bytes');
+    const range = parseRange(req.headers.range, file.size);
+    if (range === 'invalid') {
+      stream.destroy();
+      res.setHeader('Content-Range', `bytes */${file.size}`);
+      res.status(416).end();
+      return;
+    }
+    if (range) {
+      const [start, end] = range;
+      res.status(206);
+      res.setHeader('Content-Range', `bytes ${start}-${end}/${file.size}`);
+      res.setHeader('Content-Length', String(end - start + 1));
+      Readable.from(sliceBytes(stream, start, end)).pipe(res);
+      return;
+    }
+    res.setHeader('Content-Length', String(file.size));
     stream.pipe(res);
   }),
 );

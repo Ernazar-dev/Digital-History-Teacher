@@ -50,7 +50,7 @@ export const StudentDashboardView = ({ d }: { d: StudentDashboard }) => (
         <div className="flex items-center gap-4">
           <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary-soft text-2xl text-primary"><BookOutlined /></span>
           <div className="min-w-0 flex-1">
-            <div className="font-semibold">Manbalar kutubxonasi</div>
+            <div className="font-semibold">Manbalar</div>
             <div className="text-sm text-muted">Mavzular bo‘yicha ma’ruza, taqdimot va video roliklar</div>
           </div>
           <Link to="/app/sources"><Button>Ochish</Button></Link>

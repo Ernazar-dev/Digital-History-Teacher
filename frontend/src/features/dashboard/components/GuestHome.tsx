@@ -8,7 +8,7 @@ import { OBJECT_TYPE } from '@/lib/labels';
 import { museumService } from '@/services/museum.service';
 
 const OPEN = [
-  { to: '/app/sources', icon: <BookOutlined />, title: 'Manbalar kutubxonasi', text: 'Yozma, vizual, kartografik va arxeologik manbalar — metodik tavsiyalari bilan.' },
+  { to: '/app/sources', icon: <BookOutlined />, title: 'Manbalar', text: 'Yozma, vizual, kartografik va arxeologik manbalar — metodik tavsiyalari bilan.' },
   { to: '/app/museum', icon: <BankOutlined />, title: 'Virtual muzey', text: '3D modellar va 360° panoramalar orqali tarixiy obidalarni yaqindan ko‘ring.' },
   { to: '/app/explore', icon: <GlobalOutlined />, title: 'Xarita va vaqt chizig‘i', text: 'Davrlar, joylar va manbalarni bir-biriga bog‘lab ko‘ring.' },
 ];

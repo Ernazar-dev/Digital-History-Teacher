@@ -11,7 +11,7 @@ export const CHAIN = [
 ];
 
 export const MODULES = [
-  { n: 1, short: 'Manbalar kutubxonasi', brief: 'Mavzular: ma’ruza, taqdimot va video', title: 'Raqamli tarixiy manbalar kutubxonasi', text: 'O‘zbekiston tarixi bo‘yicha 13 ta o‘quv mavzusi — har birida ma’ruza matni, taqdimot va video rolik.', to: '/app/sources' },
+  { n: 1, short: 'Manbalar', brief: 'Mavzular: ma’ruza, taqdimot va video', title: 'Raqamli tarixiy manbalar', text: 'O‘zbekiston tarixi bo‘yicha 13 ta o‘quv mavzusi — har birida ma’ruza matni, taqdimot va video rolik — hamda Avesto, Buxoro tarixi, Zafarnoma, Boburnoma, Shajarai turk kabi tarixiy asarlar.', to: '/app/sources' },
   { n: 2, short: 'Dars konstruktori', brief: 'Manba asosida dars loyihasini yarating', title: 'Interaktiv tarix darsi konstruktori', text: 'Kurs, mavzu, maqsad, manbalar, muammoli savollar, metodlar, bosqichlar va baholash mezonlarini mustaqil loyihalash.', to: '/app/lessons' },
   { n: 3, short: 'Virtual muzey va xarita', brief: '3D modellar, 360° panoramalar va interaktiv xarita', title: 'Virtual tarixiy sayohat va muzey', text: 'Sketchfab 3D modellari va Uzbekistan360 panoramalari asosida kuzatuv, dalil va mashg‘ulot topshiriqlari.', to: '/app/museum' },
   { n: 4, short: 'Topshiriqlar', brief: 'Testlar: faylni o‘qing, javobni belgilang', title: 'Topshiriqlar va baholash', text: 'O‘qituvchi test faylini yuklaydi va javoblar kalitini belgilaydi; talaba faylni o‘qib, A–D javoblarni belgilaydi va natijani darhol ko‘radi.', to: '/app/assignments' },

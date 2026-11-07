@@ -23,7 +23,7 @@ export interface AdminDashboard {
   role: 'ADMIN';
   users: { byRole: Record<string, number>; byStatus: Record<string, number> };
   virtualObjects: Record<string, number>;
-  counts: { topics: number; tests: number; testAttempts: number; lessonPlans: number };
+  counts: { topics: number; books: number; tests: number; testAttempts: number; lessonPlans: number };
   activity: { day: string; count: number }[];
   recentAudit: { id: string; action: string; entity: string; createdAt: string; actor: { fullName: string } | null }[];
   teaching: TeacherDashboardData;

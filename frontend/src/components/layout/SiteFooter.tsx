@@ -8,7 +8,7 @@ const COLUMNS = [
   {
     title: 'Manbalar',
     links: [
-      { to: '/app/sources', label: 'Manbalar kutubxonasi' },
+      { to: '/app/sources', label: 'Manbalar' },
       { to: '/app/methodology', label: 'Metodika' },
     ],
   },

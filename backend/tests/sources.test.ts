@@ -21,7 +21,7 @@ describe('Embed URL xavfsizligi', () => {
   });
 });
 
-describe('Manbalar kutubxonasi: ma’ruza mavzulari', () => {
+describe('Manbalar: ma’ruza mavzulari', () => {
   it('mavzu: ma’ruza matni, taqdimot va video (fayl yoki YouTube)', async () => {
     const admin = await userWithToken('ADMIN');
     const pptx = Buffer.concat([Buffer.from([0x50, 0x4b, 0x03, 0x04]), Buffer.alloc(64)]);

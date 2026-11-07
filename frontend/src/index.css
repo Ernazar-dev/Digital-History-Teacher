@@ -59,6 +59,16 @@ body {
   white-space: pre-line;
 }
 /* Ma'ruza matni: kitob sahifasidek o'qiladigan tipografiya */
+/* Ma'ruza ichidan qidirish: topilgan so'zlar (CSS Custom Highlight API) */
+::highlight(doc-search) {
+  background-color: #fde68a;
+  color: inherit;
+}
+::highlight(doc-search-active) {
+  background-color: #f59e0b;
+  color: #111;
+}
+
 .lecture {
   max-width: 72ch;
   font-size: 1.0625rem;
