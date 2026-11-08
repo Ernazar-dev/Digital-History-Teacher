@@ -43,6 +43,8 @@ frontend/src/assets/logo DHT.png
 *.docx
 # Ma'ruza fayllari platformaga seed orqali yuklanadi — deployda kerak
 !backend/prisma/seed-data/lectures/*.docx
+# Tarixiy kitoblar (Word) ham seed orqali yuklanadi — deployda kerak
+!backend/prisma/seed-data/books/*.docx
 
 # ── Ishchi materiallar (darslik PDF, metodik hujjatlar) — faqat lokal, repoga chiqmaydi ──
 material/
