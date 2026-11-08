@@ -102,12 +102,17 @@ const TopicView = ({ s }: { s: Source }) => {
     <div>
       <Hero s={s} cover={coverOf(s)} back={back} editTo={editTo} />
 
-      {parts.length > 1 && (
       <div
         role="tablist"
         aria-label="Mavzu qismlari"
         className={`mb-6 grid gap-3 ${
-          parts.length >= 5 ? 'grid-cols-2 lg:grid-cols-5' : parts.length === 4 ? 'grid-cols-2 md:grid-cols-4' : 'grid-cols-3'
+          parts.length >= 5
+            ? 'grid-cols-2 lg:grid-cols-5'
+            : parts.length === 4
+              ? 'grid-cols-2 md:grid-cols-4'
+              : parts.length === 1
+                ? 'grid-cols-1 sm:max-w-sm'
+                : 'grid-cols-3'
         }`}
       >
         {parts.map((p) => {
@@ -136,7 +141,6 @@ const TopicView = ({ s }: { s: Source }) => {
           );
         })}
       </div>
-      )}
 
       <section role="tabpanel" id={`panel-${active}`} aria-labelledby={`tab-${active}`} className="rounded-3xl border border-solid border-line bg-white p-4 md:p-8">
         {/* Ma'ruza — bitta: yuklangan fayl bo'lsa o'sha ko'rsatiladi, bo'lmasa tayyor matn */}
