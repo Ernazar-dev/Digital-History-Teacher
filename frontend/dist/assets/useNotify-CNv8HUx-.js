@@ -1,0 +1,1 @@
+import{ak as t,cK as i,j as a,t as n}from"./index-DWErdv14.js";const p=()=>{const{message:e,notification:r}=t.useApp();return{success:s=>e.success(s),error:(s,o=n.t("errors.actionFailed"))=>{s instanceof i||r.error({message:o,description:a(s),placement:"topRight"})},info:s=>e.info(s)}};export{p as u};

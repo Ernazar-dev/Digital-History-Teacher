@@ -1,1 +1,0 @@
-import{z as a,t as o}from"./index-OAZsU8fl.js";const m=t=>t?a(t).format("DD.MM.YYYY"):"—",e=t=>t?a(t).format("DD.MM.YYYY HH:mm"):"—",r=t=>t==null?"—":`${Math.round(t*10)/10}%`,n=t=>t==null?"":t<0?o.t("common.yearBC",{y:-t}):String(t),c=t=>t<1024*1024?`${Math.max(1,Math.round(t/1024))} KB`:`${(t/1024/1024).toFixed(1)} MB`;export{m as a,r as b,c,e as f,n as y};

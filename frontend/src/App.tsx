@@ -37,8 +37,7 @@ export const App = () => {
       <ConfigProvider theme={antTheme} locale={ANT_LOCALE[lang]}>
         <AntApp>
           <QueryClientProvider client={queryClient}>
-            {/* key: til almashganda butun sahifa qayta chiziladi — t() ishlatilgan har bir joy yangi tilda chiqadi */}
-            <RouterProvider key={lang} router={router} future={{ v7_startTransition: true }} />
+            <RouterProvider router={router} future={{ v7_startTransition: true }} />
           </QueryClientProvider>
         </AntApp>
       </ConfigProvider>
