@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Button, Select } from 'antd';
 import { useState } from 'react';
 import { useNotify } from '@/hooks/useNotify';
+import i18n from '@/i18n';
 import { groupsService, usersService } from '@/services/people.service';
 
 /** Faol talabalarni qidirib guruhga biriktirish */
@@ -18,7 +19,7 @@ export const AddMembers = ({ groupId, existing }: { groupId: string; existing: s
       qc.invalidateQueries({ queryKey: ['group', groupId] });
       qc.invalidateQueries({ queryKey: ['group-summary', groupId] });
       setIds([]);
-      notify.success('Talabalar biriktirildi');
+      notify.success(i18n.t('users.attached'));
     },
     onError: (e) => notify.error(e),
   });
@@ -27,7 +28,7 @@ export const AddMembers = ({ groupId, existing }: { groupId: string; existing: s
       <Select
         mode="multiple"
         className="min-w-[280px] flex-1"
-        placeholder="Talabalarni qidiring"
+        placeholder={i18n.t('users.addPh')}
         filterOption={false}
         onSearch={setQ}
         value={ids}
@@ -35,7 +36,7 @@ export const AddMembers = ({ groupId, existing }: { groupId: string; existing: s
         loading={students.isFetching}
         options={students.data?.data.filter((s) => !existing.includes(s.id)).map((s) => ({ value: s.id, label: `${s.fullName} (@${s.username})` }))}
       />
-      <Button type="primary" icon={<UserAddOutlined />} disabled={!ids.length} loading={add.isPending} onClick={() => add.mutate()}>Biriktirish</Button>
+      <Button type="primary" icon={<UserAddOutlined />} disabled={!ids.length} loading={add.isPending} onClick={() => add.mutate()}>{i18n.t('users.attach')}</Button>
     </div>
   );
 };

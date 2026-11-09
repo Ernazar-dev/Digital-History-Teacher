@@ -1,6 +1,6 @@
 import { Link, matchRoutes } from 'react-router-dom';
 import { appRoutes } from '@/routes/appRoutes';
-import { SEGMENT_LABELS } from './navigation';
+import { segmentLabel } from './navigation';
 
 const APP_TREE = [{ path: '/app', children: appRoutes }];
 
@@ -26,7 +26,7 @@ const exists = (path: string) => {
 export const breadcrumbItems = (pathname: string) => {
   const crumbs = pathname.split('/').filter(Boolean);
   return crumbs.map((seg, i) => {
-    const label = SEGMENT_LABELS[seg] ?? 'Batafsil';
+    const label = segmentLabel(seg);
     if (i === crumbs.length - 1) return { title: label };
     const path = ALIASES.reduce((p, [re, to]) => p.replace(re, to), `/${crumbs.slice(0, i + 1).join('/')}`);
     return { title: exists(path) ? <Link to={path}>{label}</Link> : label };

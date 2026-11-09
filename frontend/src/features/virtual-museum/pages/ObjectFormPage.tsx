@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import { PageHeader } from '@/components/common/PageHeader';
 import { useNotify } from '@/hooks/useNotify';
+import i18n from '@/i18n';
 import { museumService } from '@/services/museum.service';
 import type { VirtualObject } from '@/types/api';
 import { ObjectFormFields } from '../components/ObjectFormFields';
@@ -25,7 +26,7 @@ export default function ObjectFormPage() {
   const navigate = useNavigate();
   const notify = useNotify();
   const qc = useQueryClient();
-  const existing = useQuery({ queryKey: ['object', id], queryFn: () => museumService.get(id!), enabled: Boolean(id) });
+  const existing = useQuery({ queryKey: ['object', id, 'base'], queryFn: () => museumService.getBase(id!), enabled: Boolean(id) });
   const form = useForm<ObjectFormValues>({ resolver: zodResolver(objectFormSchema), defaultValues: EMPTY_OBJECT });
   useEffect(() => {
     if (existing.data) form.reset(toForm(existing.data));
@@ -36,24 +37,24 @@ export default function ObjectFormPage() {
     onSuccess: (o) => {
       qc.invalidateQueries({ queryKey: ['objects'] });
       qc.invalidateQueries({ queryKey: ['object'] });
-      notify.success('Obyekt saqlandi');
+      notify.success(i18n.t('objectForm.saved'));
       navigate(`/app/museum/${o.slug}`);
     },
-    onError: (e) => notify.error(e, 'Obyekt saqlanmadi'),
+    onError: (e) => notify.error(e, i18n.t('objectForm.saveFail')),
   });
 
   if (id && existing.isLoading) return <Skeleton active />;
   return (
     <>
       <PageHeader
-        title={id ? 'Obyektni tahrirlash' : 'Yangi 3D model yoki 360° sayohat'}
-        description="Havolani qo‘ying va obyekt haqida yozing — qolganini tizim o‘zi to‘ldiradi."
+        title={id ? i18n.t('objectForm.editTitle') : i18n.t('objectForm.newTitle')}
+        description={i18n.t('objectForm.desc')}
       />
       <Form layout="vertical" component="form" onFinish={form.handleSubmit((v) => save.mutate(v))}>
         <ObjectFormFields form={form} />
         <div className="sticky bottom-0 z-10 mt-6 flex justify-end gap-2 border-t border-line bg-canvas py-3">
-          <Button onClick={() => navigate(-1)}>Bekor qilish</Button>
-          <Button type="primary" htmlType="submit" loading={save.isPending}>Saqlash</Button>
+          <Button onClick={() => navigate(-1)}>{i18n.t('common.cancel')}</Button>
+          <Button type="primary" htmlType="submit" loading={save.isPending}>{i18n.t('common.save')}</Button>
         </div>
       </Form>
     </>

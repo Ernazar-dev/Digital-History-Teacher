@@ -2,6 +2,7 @@ import { AppstoreOutlined, BankOutlined, BookOutlined, EnvironmentOutlined, Hist
 import { useQuery } from '@tanstack/react-query';
 import { Empty, Skeleton } from 'antd';
 import { lazy, Suspense, useEffect, useMemo, useState, type ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 import { PageHeader } from '@/components/common/PageHeader';
 import { QueryState } from '@/components/feedback/QueryState';
 import { CountUp } from '@/components/motion/motion';
@@ -25,7 +26,9 @@ const Stat = ({ icon, value, label }: { icon: ReactNode; value: number; label: s
 );
 
 /** Davrlar lentasi: rasmli kartalar — bosilganda xarita va vaqt chizig'i shu davrga moslashadi */
-const EraRail = ({ periods, value, onChange }: { periods: TimelinePeriod[]; value?: string; onChange: (id?: string) => void }) => (
+const EraRail = ({ periods, value, onChange }: { periods: TimelinePeriod[]; value?: string; onChange: (id?: string) => void }) => {
+  const { t } = useTranslation();
+  return (
   <div className="-mx-1 flex snap-x gap-3 overflow-x-auto px-1 pb-2 [scrollbar-width:thin]">
     <button
       type="button"
@@ -35,8 +38,8 @@ const EraRail = ({ periods, value, onChange }: { periods: TimelinePeriod[]; valu
       }`}
     >
       <AppstoreOutlined className="mb-6 text-xl" />
-      <span className="text-sm font-semibold">Barcha davrlar</span>
-      <span className={`text-xs ${!value ? 'text-white/70' : 'text-muted'}`}>{periods.length} ta davr</span>
+      <span className="text-sm font-semibold">{t('explore.allPeriods')}</span>
+      <span className={`text-xs ${!value ? 'text-white/70' : 'text-muted'}`}>{t('explore.periodsCount', { n: periods.length })}</span>
     </button>
     {periods.map((p) => {
       const on = value === p.id;
@@ -64,9 +67,11 @@ const EraRail = ({ periods, value, onChange }: { periods: TimelinePeriod[]; valu
       );
     })}
   </div>
-);
+  );
+};
 
 export default function ExplorePage() {
+  const { t } = useTranslation();
   const [periodId, setPeriodId] = useState<string>();
   const [selectedKey, setSelectedKey] = useState<string>();
   const map = useQuery({ queryKey: ['map', periodId], queryFn: () => exploreService.map(periodId) });
@@ -86,20 +91,20 @@ export default function ExplorePage() {
   return (
     <>
       <PageHeader
-        title="Interaktiv tarixiy xarita va vaqt chizig‘i"
-        description="Manbalar va 3D/360° obyektlarni joylashuvi hamda tarixiy davri bo‘yicha o‘rganing: davrni tanlang, xaritadagi joyni bosing yoki vaqt chizig‘i bo‘ylab sayohat qiling."
+        title={t('explore.title')}
+        description={t('explore.description')}
       />
 
       <div className="mb-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-        <Stat icon={<HistoryOutlined />} value={periods.length} label="tarixiy davr" />
-        <Stat icon={<EnvironmentOutlined />} value={map.data?.features.length ?? 0} label={activePeriod ? 'joy — tanlangan davrda' : 'joy xaritada'} />
-        <Stat icon={<BookOutlined />} value={totals.sources} label="bog‘langan manba" />
-        <Stat icon={<BankOutlined />} value={totals.objects} label="3D/360° obyekt" />
+        <Stat icon={<HistoryOutlined />} value={periods.length} label={t('explore.statPeriods')} />
+        <Stat icon={<EnvironmentOutlined />} value={map.data?.features.length ?? 0} label={activePeriod ? t('explore.statPlacesIn') : t('explore.statPlaces')} />
+        <Stat icon={<BookOutlined />} value={totals.sources} label={t('explore.statSources')} />
+        <Stat icon={<BankOutlined />} value={totals.objects} label={t('explore.statObjects')} />
       </div>
 
       {periods.length > 0 && (
         <section className="mb-6">
-          <h2 className="m-0 mb-3 text-base font-semibold">Davrni tanlang</h2>
+          <h2 className="m-0 mb-3 text-base font-semibold">{t('explore.pickPeriod')}</h2>
           <EraRail periods={periods} value={periodId} onChange={setPeriodId} />
         </section>
       )}
@@ -114,18 +119,18 @@ export default function ExplorePage() {
                 </Suspense>
                 {/* Belgilar izohi */}
                 <div className="pointer-events-none absolute bottom-3 left-3 z-[400] flex gap-3 rounded-full bg-white/90 px-3 py-1.5 text-xs shadow-card backdrop-blur">
-                  <span className="flex items-center gap-1.5"><span className="h-3 w-3 rounded-full border-2 border-solid border-accent bg-white" /> 3D/360° obyekt</span>
-                  <span className="flex items-center gap-1.5"><span className="h-3 w-3 rounded-full bg-primary" /> Manba</span>
+                  <span className="flex items-center gap-1.5"><span className="h-3 w-3 rounded-full border-2 border-solid border-accent bg-white" /> {t('explore.legendObject')}</span>
+                  <span className="flex items-center gap-1.5"><span className="h-3 w-3 rounded-full bg-primary" /> {t('explore.legendSource')}</span>
                 </div>
               </div>
 
               <aside className="flex min-h-0 flex-col border-0 border-t border-solid border-line lg:border-l lg:border-t-0">
                 <div className="border-0 border-b border-solid border-line px-4 py-3">
-                  <div className="text-sm font-semibold">{activePeriod ? activePeriod.name : 'Xaritadagi joylar'}</div>
-                  <div className="text-xs text-muted">{d.features.length} ta joy · bosing — xarita o‘sha joyga uchadi</div>
+                  <div className="text-sm font-semibold">{activePeriod ? activePeriod.name : t('explore.places')}</div>
+                  <div className="text-xs text-muted">{t('explore.placesHint', { n: d.features.length })}</div>
                 </div>
                 {d.features.length === 0 ? (
-                  <Empty className="my-10" image={Empty.PRESENTED_IMAGE_SIMPLE} description="Bu davr uchun koordinatali joy yo‘q" />
+                  <Empty className="my-10" image={Empty.PRESENTED_IMAGE_SIMPLE} description={t('explore.noCoords')} />
                 ) : (
                   <ul className="m-0 max-h-[360px] flex-1 list-none overflow-y-auto p-2 lg:max-h-none">
                     {d.features.map((f) => {
@@ -157,7 +162,7 @@ export default function ExplorePage() {
                 )}
                 {d.withoutCoordinates > 0 && (
                   <div className="border-0 border-t border-solid border-line px-4 py-2.5 text-xs text-muted">
-                    Yana {d.withoutCoordinates} ta yozuvning aniq koordinatasi kiritilmagan — ular xaritada ko‘rsatilmaydi.
+                    {t('explore.withoutCoords', { n: d.withoutCoordinates })}
                   </div>
                 )}
               </aside>
@@ -169,12 +174,12 @@ export default function ExplorePage() {
       <section>
         <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
           <div>
-            <h2 className="font-serif-title m-0 text-2xl font-bold md:text-3xl">Vaqt chizig‘i</h2>
-            <p className="mb-0 mt-1 text-sm text-muted">Davrlar xronologik tartibda — har birida bog‘langan manbalar va obyektlar.</p>
+            <h2 className="font-serif-title m-0 text-2xl font-bold md:text-3xl">{t('explore.timeline')}</h2>
+            <p className="mb-0 mt-1 text-sm text-muted">{t('explore.timelineText')}</p>
           </div>
           {activePeriod && (
             <button type="button" onClick={() => setPeriodId(undefined)} className="cursor-pointer border-0 bg-transparent text-sm font-medium text-primary">
-              Barcha davrlarni ko‘rsatish
+              {t('explore.showAll')}
             </button>
           )}
         </div>

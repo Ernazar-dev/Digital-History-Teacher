@@ -11,6 +11,8 @@ export type ObjectInput = Partial<Omit<VirtualObject, 'id' | 'tasks' | 'sources'
 export const museumService = {
   list: (f: ObjectFilters) => getPage<VirtualObjectListItem>('/virtual-objects', cleanParams({ ...f })),
   get: (idOrSlug: string) => getData<VirtualObject>(`/virtual-objects/${idOrSlug}`),
+  /** Tahrirlash uchun: tarjima qilinmagan asosiy (o'zbekcha) yozuv — saqlaganda tarjima ustiga yozilib ketmasligi uchun */
+  getBase: (idOrSlug: string) => getData<VirtualObject>(`/virtual-objects/${idOrSlug}`, undefined, { 'X-Lang': 'uz' }),
   create: (body: ObjectInput) => postData<VirtualObject>('/virtual-objects', body),
   update: (id: string, body: ObjectInput) => patchData<VirtualObject>(`/virtual-objects/${id}`, body),
   setActive: (id: string, isActive: boolean) => patchData<VirtualObject>(`/virtual-objects/${id}/active`, { isActive }),

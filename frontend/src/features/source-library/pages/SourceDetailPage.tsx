@@ -4,6 +4,7 @@ import {
 import { useQuery } from '@tanstack/react-query';
 import { Button, Tag } from 'antd';
 import type { ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link, useParams, useSearchParams } from 'react-router-dom';
 import { DeleteButton } from '@/components/common/DeleteButton';
 import { QueryState } from '@/components/feedback/QueryState';
@@ -11,6 +12,7 @@ import { useSiteViewStore } from '@/features/auth/siteView.store';
 import { useAuth } from '@/features/auth/useAuth';
 import { useAreaPath } from '@/hooks/useAreaPath';
 import { sourcesService } from '@/services/catalog.service';
+import { currentLang } from '@/i18n';
 import { OBJECT_TYPE } from '@/lib/labels';
 import type { Source } from '@/types/api';
 import { LectureFileView } from '../components/LectureFileView';
@@ -30,19 +32,21 @@ interface Part { key: PartKey; label: string; icon: ReactNode; hint: string; rea
 const wordsToPages = (text: string | null) => (text ? Math.max(1, Math.round(text.split(/\s+/).length / 300)) : 0);
 
 /** Afisha: mavzu rasmi fonida sarlavha — sahifa boshida mavzuni darhol tanitadi */
-const Hero = ({ s, cover, back, editTo }: { s: Source; cover: string | null; back: string; editTo: string | null }) => (
+const Hero = ({ s, cover, back, editTo }: { s: Source; cover: string | null; back: string; editTo: string | null }) => {
+  const { t } = useTranslation();
+  return (
   <header className="relative mb-6 overflow-hidden rounded-3xl bg-midnight text-white">
     {cover && <img src={cover} alt="" className="absolute inset-0 h-full w-full object-cover object-[50%_30%] opacity-60" />}
     <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/45 to-black/20" aria-hidden />
     <div className="relative flex min-h-[260px] flex-col justify-between gap-6 p-6 md:min-h-[340px] md:p-10">
       <div className="flex items-center justify-between gap-3">
         <Link to={back} className="inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1.5 text-sm text-white no-underline backdrop-blur hover:bg-white/25">
-          <ArrowLeftOutlined /> Mavzular
+          <ArrowLeftOutlined /> {t('topic.topics')}
         </Link>
         {editTo && (
           <span className="flex gap-2">
-            <Link to={editTo}><Button icon={<EditOutlined />}>Tahrirlash</Button></Link>
-            <DeleteButton what="Mavzu" onDelete={() => sourcesService.remove(s.id)} invalidate={['sources', 'source']} backTo={back} />
+            <Link to={editTo}><Button icon={<EditOutlined />}>{t('topic.edit')}</Button></Link>
+            <DeleteButton what={t('topic.subject')} onDelete={() => sourcesService.remove(s.id)} invalidate={['sources', 'source']} backTo={back} />
           </span>
         )}
       </div>
@@ -52,20 +56,25 @@ const Hero = ({ s, cover, back, editTo }: { s: Source; cover: string | null; bac
         </div>
         <h1 className="font-serif-title m-0 mt-3 text-3xl font-bold leading-tight text-white md:text-[42px]">{s.title}</h1>
         <p className="mb-0 mt-3 max-w-2xl text-[15px] leading-relaxed text-white/80">{s.summary}</p>
-        {s.status !== 'PUBLISHED' && <Tag className="mt-3">Qoralama</Tag>}
+        {s.status !== 'PUBLISHED' && <Tag className="mt-3">{t('topic.draft')}</Tag>}
       </div>
     </div>
   </header>
-);
+  );
+};
 
-const Pending = ({ text, editTo }: { text: string; editTo: string | null }) => (
-  <div className="flex flex-col items-center gap-3 rounded-2xl border border-dashed border-line bg-white px-4 py-16 text-center text-muted">
-    <p className="m-0 text-base">{text}</p>
-    {editTo && <Link to={editTo}><Button icon={<EditOutlined />}>Yuklash</Button></Link>}
-  </div>
-);
+const Pending = ({ text, editTo }: { text: string; editTo: string | null }) => {
+  const { t } = useTranslation();
+  return (
+    <div className="flex flex-col items-center gap-3 rounded-2xl border border-dashed border-line bg-white px-4 py-16 text-center text-muted">
+      <p className="m-0 text-base">{text}</p>
+      {editTo && <Link to={editTo}><Button icon={<EditOutlined />}>{t('topic.upload')}</Button></Link>}
+    </div>
+  );
+};
 
 const TopicView = ({ s }: { s: Source }) => {
+  const { t } = useTranslation();
   const { user, isStaff, isAdmin } = useAuth();
   const { sources: back, museum } = useAreaPath();
   const [params, setParams] = useSearchParams();
@@ -80,14 +89,14 @@ const TopicView = ({ s }: { s: Source }) => {
   const initialQuery = params.get('izlash') ?? '';
 
   const parts: Part[] = [
-    { key: 'maruza', label: isBook ? 'Kitob' : 'Ma’ruza', icon: <BookOutlined />, ready: Boolean(s.lectureContent || s.lectureFile), hint: s.lectureFile ? (isBook ? 'O‘qish, qidirish, yuklab olish' : 'O‘qish va yuklab olish') : s.lectureContent ? `≈ ${pages} bet matn` : 'Tez orada' },
-    { key: 'taqdimot', label: 'Taqdimot', icon: <FilePptOutlined />, ready: Boolean(s.presentationFile), hint: s.presentationFile ? 'Slaydlar' : 'Tez orada' },
-    { key: 'video', label: 'Video rolik', icon: <PlayCircleOutlined />, ready: Boolean(video || s.videoFile), hint: video || s.videoFile ? 'Tomosha qilish' : 'Tez orada' },
+    { key: 'maruza', label: isBook ? t('topic.book') : t('topic.lecture'), icon: <BookOutlined />, ready: Boolean(s.lectureContent || s.lectureFile), hint: s.lectureFile ? (isBook ? t('topic.hintBook') : t('topic.hintLecture')) : s.lectureContent ? t('topic.hintPages', { n: pages }) : t('topic.soon') },
+    { key: 'taqdimot', label: t('topic.presentation'), icon: <FilePptOutlined />, ready: Boolean(s.presentationFile), hint: s.presentationFile ? t('topic.slides') : t('topic.soon') },
+    { key: 'video', label: t('topic.videoPart'), icon: <PlayCircleOutlined />, ready: Boolean(video || s.videoFile), hint: video || s.videoFile ? t('topic.watch') : t('topic.soon') },
     // 3D model / 360° sayohat bo'limi faqat mavzuga obyekt biriktirilgan bo'lsa chiqadi
     ...(s.virtualObjects.length
-      ? [{ key: 'virtual' as const, label: '3D / 360°', icon: <CompassOutlined />, ready: true, hint: `${s.virtualObjects.length} ta obyekt` }]
+      ? [{ key: 'virtual' as const, label: t('topic.virtual'), icon: <CompassOutlined />, ready: true, hint: t('topic.objectsCount', { n: s.virtualObjects.length }) }]
       : []),
-    ...(s.tests.length ? [{ key: 'test' as const, label: 'Test', icon: <CheckSquareOutlined />, ready: true, hint: `${s.tests.length} ta test` }] : []),
+    ...(s.tests.length ? [{ key: 'test' as const, label: t('topic.test'), icon: <CheckSquareOutlined />, ready: true, hint: t('topic.testsCount', { n: s.tests.length }) }] : []),
   ];
   const requested = params.get('qism') as PartKey | null;
   const active = parts.find((p) => p.key === requested)?.key ?? 'maruza';
@@ -102,9 +111,14 @@ const TopicView = ({ s }: { s: Source }) => {
     <div>
       <Hero s={s} cover={coverOf(s)} back={back} editTo={editTo} />
 
+      {/* Tanlangan tilda tarjima to'liq bo'lmasa — qaysi qismlar o'zbekchada ekani aytiladi */}
+      {currentLang() !== 'uz' && (s.fallbacks?.length ?? 0) > 0 && (
+        <p className="mb-4 mt-0 rounded-xl bg-primary-soft px-4 py-2 text-sm text-ink">{t('content.notTranslated')}</p>
+      )}
+
       <div
         role="tablist"
-        aria-label="Mavzu qismlari"
+        aria-label={t('topic.partsAria')}
         className={`mb-6 grid gap-3 ${
           parts.length >= 5
             ? 'grid-cols-2 lg:grid-cols-5'
@@ -150,17 +164,17 @@ const TopicView = ({ s }: { s: Source }) => {
           ) : s.lectureContent ? (
             <LectureReader content={s.lectureContent} title={s.title} initialQuery={initialQuery} />
           ) : (
-            <Pending text="Ma’ruza matni tez orada qo‘shiladi." editTo={editTo} />
+            <Pending text={t('topic.lecturePending')} editTo={editTo} />
           ))}
 
         {active === 'taqdimot' &&
-          (s.presentationFile ? <MaterialViewer files={[s.presentationFile]} /> : <Pending text="Taqdimot hali yuklanmagan." editTo={editTo} />)}
+          (s.presentationFile ? <MaterialViewer files={[s.presentationFile]} /> : <Pending text={t('topic.presentationPending')} editTo={editTo} />)}
 
         {active === 'video' &&
           (video ? (
             <div className="mx-auto aspect-video max-w-5xl overflow-hidden rounded-2xl bg-black">
               <iframe
-                title={`${s.title} — video`}
+                title={t('topic.videoTitle', { title: s.title })}
                 src={video}
                 className="h-full w-full border-0"
                 allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen"
@@ -171,14 +185,12 @@ const TopicView = ({ s }: { s: Source }) => {
           ) : s.videoFile ? (
             <video src={mediaFileUrl(s.videoFile.id)} controls preload="metadata" className="mx-auto block max-h-[75vh] w-full max-w-5xl rounded-2xl bg-black" />
           ) : (
-            <Pending text="Video rolik hali qo‘shilmagan." editTo={editTo} />
+            <Pending text={t('topic.videoPending')} editTo={editTo} />
           ))}
 
         {active === 'virtual' && (
           <div>
-            <p className="mb-4 mt-0 text-muted">
-              Mavzuga oid yodgorliklar va arxeologik topilmalarning 3D modellari hamda 360° sayohatlari. Obyektni ochib, aylantirib ko‘ring va topshiriqlarni bajaring.
-            </p>
+            <p className="mb-4 mt-0 text-muted">{t('topic.virtualIntro')}</p>
             <ul className="m-0 grid list-none gap-4 p-0 sm:grid-cols-2 lg:grid-cols-3">
               {s.virtualObjects.map((o) => (
                 <li key={o.id}>
@@ -190,7 +202,7 @@ const TopicView = ({ s }: { s: Source }) => {
                     <div className="flex flex-1 flex-col gap-1 p-4">
                       <span className="font-semibold leading-snug text-ink group-hover:text-primary">{o.title}</span>
                       <span className="text-xs text-muted">{[o.location, o.periodLabel].filter(Boolean).join(' · ')}</span>
-                      <span className="mt-auto flex items-center gap-1 pt-2 text-sm font-medium text-primary">Ko‘rish <RightOutlined /></span>
+                      <span className="mt-auto flex items-center gap-1 pt-2 text-sm font-medium text-primary">{t('topic.view')} <RightOutlined /></span>
                     </div>
                   </Link>
                 </li>
@@ -201,19 +213,19 @@ const TopicView = ({ s }: { s: Source }) => {
 
         {active === 'test' && (
           <div>
-            <p className="mb-4 mt-0 text-muted">Ma’ruzani o‘qib bo‘lgach, bilimingizni tekshiring. Har bir test bir marta topshiriladi.</p>
+            <p className="mb-4 mt-0 text-muted">{t('topic.testIntro')}</p>
             <ul className="m-0 grid list-none gap-3 p-0 md:grid-cols-2">
-              {s.tests.map((t) => (
-                <li key={t.id}>
+              {s.tests.map((test) => (
+                <li key={test.id}>
                   <Link
-                    to={user ? `/app/assignments/${t.id}` : `/login?next=${encodeURIComponent(`/app/assignments/${t.id}`)}`}
+                    to={user ? `/app/assignments/${test.id}` : `/login?next=${encodeURIComponent(`/app/assignments/${test.id}`)}`}
                     className="group flex items-center justify-between gap-3 rounded-2xl border border-solid border-line px-5 py-4 no-underline hover:border-primary"
                   >
                     <span className="min-w-0">
-                      <span className="block font-semibold text-ink group-hover:text-primary">{t.title}</span>
-                      <span className="text-sm text-muted">{t.questionCount} ta savol</span>
+                      <span className="block font-semibold text-ink group-hover:text-primary">{test.title}</span>
+                      <span className="text-sm text-muted">{t('topic.questions', { n: test.questionCount })}</span>
                     </span>
-                    <span className="flex shrink-0 items-center gap-1 text-sm font-medium text-primary">Boshlash <RightOutlined /></span>
+                    <span className="flex shrink-0 items-center gap-1 text-sm font-medium text-primary">{t('topic.start')} <RightOutlined /></span>
                   </Link>
                 </li>
               ))}

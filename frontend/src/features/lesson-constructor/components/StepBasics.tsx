@@ -3,9 +3,10 @@ import { Form, Select } from 'antd';
 import { useMemo } from 'react';
 import { Controller, type UseFormReturn } from 'react-hook-form';
 import { NumberField, SelectField, TextAreaField, TextField } from '@/components/forms/fields';
+import i18n from '@/i18n';
 import { catalogService } from '@/services/catalog.service';
 import { GRADE_OPTIONS, type LessonFormValues } from '../lessonForm';
-import { Hint } from './Hint';
+import { Hint, hints } from './Hint';
 
 /** Katalog mavzulari davrlar bo'yicha guruhlangan holda */
 const useTopicOptions = () => {
@@ -13,7 +14,7 @@ const useTopicOptions = () => {
   const options = useMemo(() => {
     const groups = new Map<string, { value: string; label: string }[]>();
     topics.data?.forEach((t) => {
-      const key = t.period?.name ?? 'Boshqa mavzular';
+      const key = t.period?.name ?? i18n.t('lesson.f.otherTopics');
       groups.set(key, [...(groups.get(key) ?? []), { value: t.id, label: t.name }]);
     });
     return [...groups].map(([label, opts]) => ({ label, options: opts }));
@@ -25,25 +26,25 @@ export const StepBasics = ({ form }: { form: UseFormReturn<LessonFormValues> }) 
   const { options, topics, loading } = useTopicOptions();
   return (
     <>
-      <Hint items={['Dars qaysi kurs talabalari uchun va ularning tayyorgarlik darajasi qanday?', 'Mavzu o‘quv dasturining qaysi bo‘limiga mos keladi?']} />
+      <Hint items={hints('basics')} />
       <div className="grid gap-x-6 md:grid-cols-2">
-        <TextField control={form.control} name="title" label="Dars ishlanmasi sarlavhasi" required className="md:col-span-2" />
+        <TextField control={form.control} name="title" label={i18n.t('lesson.f.title')} required className="md:col-span-2" />
         <Controller
           control={form.control}
           name="topicId"
           render={({ field }) => (
             <Form.Item
-              label="Katalogdagi mavzu"
+              label={i18n.t('lesson.f.topicCatalog')}
               layout="vertical"
-              help="Tanlasangiz, «Tarixiy manbalar» qadamida shu mavzuga oid materiallar taklif qilinadi"
+              help={i18n.t('lesson.f.topicCatalogHelp')}
             >
               <Select
                 allowClear
                 showSearch
                 optionFilterProp="label"
                 loading={loading}
-                aria-label="Katalogdagi mavzu"
-                placeholder="Masalan: Jadidchilik harakati"
+                aria-label={i18n.t('lesson.f.topicCatalog')}
+                placeholder={i18n.t('lesson.f.topicPh')}
                 value={field.value ?? undefined}
                 options={options}
                 onChange={(v?: string) => {
@@ -55,9 +56,9 @@ export const StepBasics = ({ form }: { form: UseFormReturn<LessonFormValues> }) 
             </Form.Item>
           )}
         />
-        <TextField control={form.control} name="topic" label="Tarix fanining mavzusi (dars mavzusi)" required />
-        <SelectField control={form.control} name="gradeLevel" label="Kurs" required options={GRADE_OPTIONS} />
-        <NumberField control={form.control} name="durationMinutes" label="Davomiyligi (daqiqa)" min={5} max={240} required />
+        <TextField control={form.control} name="topic" label={i18n.t('lesson.f.topic')} required />
+        <SelectField control={form.control} name="gradeLevel" label={i18n.t('lesson.f.course')} required options={GRADE_OPTIONS} />
+        <NumberField control={form.control} name="durationMinutes" label={i18n.t('lesson.f.duration')} min={5} max={240} required />
       </div>
     </>
   );
@@ -65,30 +66,18 @@ export const StepBasics = ({ form }: { form: UseFormReturn<LessonFormValues> }) 
 
 export const StepGoals = ({ form }: { form: UseFormReturn<LessonFormValues> }) => (
   <>
-    <Hint
-      items={[
-        'Dars oxirida o‘quvchi nimani bilishi va nimani qila olishi kerak?',
-        'Maqsad o‘lchanadigan (kuzatiladigan) fe’llar bilan ifodalanganmi?',
-        'Tarixiy tafakkurning qaysi ko‘nikmasi (manba tahlili, sabab-oqibat, taqqoslash) rivojlantiriladi?',
-      ]}
-    />
-    <TextAreaField control={form.control} name="goals" label="Darsning maqsadi" rows={3} />
-    <TextAreaField control={form.control} name="objectives" label="Darsning vazifalari" rows={3} />
-    <TextAreaField control={form.control} name="learningOutcomes" label="Kutilayotgan o‘quv natijalari" rows={3} />
+    <Hint items={hints('goals')} />
+    <TextAreaField control={form.control} name="goals" label={i18n.t('lesson.f.goals')} rows={3} />
+    <TextAreaField control={form.control} name="objectives" label={i18n.t('lesson.f.objectives')} rows={3} />
+    <TextAreaField control={form.control} name="learningOutcomes" label={i18n.t('lesson.f.outcomes')} rows={3} />
   </>
 );
 
 export const StepAssessment = ({ form }: { form: UseFormReturn<LessonFormValues> }) => (
   <>
-    <Hint
-      items={[
-        'O‘quvchining manba bilan ishlash natijasini qaysi mezonlar asosida baholaysiz?',
-        'Refleksiya savollari o‘quvchini o‘z xulosasini qayta ko‘rib chiqishga undaydimi?',
-        'Nima uchun aynan shu manbalar va metodlarni tanladingiz? (metodik asosnoma)',
-      ]}
-    />
-    <TextAreaField control={form.control} name="assessmentCriteria" label="O‘quvchilar bilimini baholash mezonlari" rows={4} />
-    <TextAreaField control={form.control} name="reflectionQuestions" label="Yakuniy refleksiya savollari" rows={3} />
-    <TextAreaField control={form.control} name="methodicalRationale" label="Metodik qarorlaringiz asosnomasi" rows={4} help="Bu qism o‘qituvchi tomonidan refleksiv komponent bo‘yicha baholanishi mumkin" />
+    <Hint items={hints('assessment')} />
+    <TextAreaField control={form.control} name="assessmentCriteria" label={i18n.t('lesson.f.criteria')} rows={4} />
+    <TextAreaField control={form.control} name="reflectionQuestions" label={i18n.t('lesson.f.reflection')} rows={3} />
+    <TextAreaField control={form.control} name="methodicalRationale" label={i18n.t('lesson.f.rationale')} rows={4} help={i18n.t('lesson.f.rationaleHelp')} />
   </>
 );

@@ -1,11 +1,13 @@
 import { DownOutlined, HomeOutlined, LockOutlined, LogoutOutlined, MenuOutlined, SearchOutlined, UserOutlined } from '@ant-design/icons';
 import { Avatar, Button, Drawer, Dropdown, Grid, Tooltip } from 'antd';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link, useLocation } from 'react-router-dom';
 import { useSiteViewStore } from '@/features/auth/siteView.store';
 import { useAuth } from '@/features/auth/useAuth';
 import { usePlatform } from '@/hooks/usePlatform';
 import { ROLE } from '@/lib/labels';
+import { LanguageSwitcher } from './LanguageSwitcher';
 import { Logo } from './Logo';
 import { isNavGroup, TOP_NAV, TOP_NAV_ITEMS, type TopNavGroup, type TopNavItem } from './navigation';
 
@@ -28,6 +30,7 @@ const activePath = (path: string) =>
  * Bir xil yo'nalishdagi bo'limlar pastga ochiladigan guruhlarga jamlangan.
  */
 export const TopNavbar = () => {
+  const { t } = useTranslation();
   const { user, logout } = useAuth();
   const staff = user?.role === 'ADMIN' || user?.role === 'TEACHER';
   const setSiteView = useSiteViewStore((s) => s.setSiteView);
@@ -54,7 +57,7 @@ export const TopNavbar = () => {
   }, [pathname]);
 
   const locked = (i: TopNavItem) => !user && !i.open;
-  const lockIcon = <LockOutlined className="text-[11px] opacity-40" aria-label="kirish talab etiladi" />;
+  const lockIcon = <LockOutlined className="text-[11px] opacity-40" aria-label={t('nav.loginRequired')} />;
   const pill = (on: boolean) =>
     `flex items-center gap-1.5 whitespace-nowrap rounded-lg px-3 py-2 text-sm font-medium no-underline transition-colors duration-200 ${
       on ? 'bg-primary-soft text-primary' : 'text-muted hover:bg-black/[0.04] hover:text-ink'
@@ -64,7 +67,7 @@ export const TopNavbar = () => {
     const i = withHome(raw);
     return (
       <Link key={i.to} to={i.to} aria-current={active === i.to ? 'page' : undefined} className={pill(active === i.to)}>
-        {i.label}
+        {t(i.label)}
         {locked(i) && lockIcon}
       </Link>
     );
@@ -89,10 +92,10 @@ export const TopNavbar = () => {
           </span>
           <span className="min-w-0">
             <span className="flex items-center gap-1.5 text-sm font-semibold text-ink">
-              {i.label}
+              {t(i.label)}
               {locked(i) && lockIcon}
             </span>
-            {i.desc && <span className="mt-0.5 block text-xs leading-snug text-muted">{i.desc}</span>}
+            {i.desc && <span className="mt-0.5 block text-xs leading-snug text-muted">{t(i.desc)}</span>}
           </span>
         </Link>
       ))}
@@ -113,7 +116,7 @@ export const TopNavbar = () => {
         popupRender={() => panel(g)}
       >
         <button type="button" aria-haspopup="menu" aria-expanded={open} className={`${pill(on || open)} cursor-pointer border-0 ${on || open ? '' : 'bg-transparent'}`}>
-          {g.label}
+          {t(g.label)}
           <DownOutlined className={`text-[10px] transition-transform duration-200 ${open ? 'rotate-180' : ''}`} />
         </button>
       </Dropdown>
@@ -128,21 +131,21 @@ export const TopNavbar = () => {
           { key: 'who', label: <div className="py-1"><div className="font-medium">{user.fullName}</div><div className="text-xs text-muted">{ROLE[user.role]}</div></div>, disabled: true },
           { type: 'divider' },
           // Xodim uchun — «Saytni ko'rish» rejimidan chiqib, boshqaruv paneliga qaytish
-          { key: 'cabinet', icon: <HomeOutlined />, label: <Link to="/app" onClick={() => setSiteView(false)}>{staff ? 'Boshqaruv paneli' : 'Kabinet'}</Link> },
-          { key: 'profile', icon: <UserOutlined />, label: <Link to="/app/profile">Profil va portfolio</Link> },
+          { key: 'cabinet', icon: <HomeOutlined />, label: <Link to="/app" onClick={() => setSiteView(false)}>{staff ? t('account.dashboard') : t('account.cabinet')}</Link> },
+          { key: 'profile', icon: <UserOutlined />, label: <Link to="/app/profile">{t('account.profile')}</Link> },
           { type: 'divider' },
-          { key: 'logout', icon: <LogoutOutlined />, label: 'Chiqish', onClick: () => void logout() },
+          { key: 'logout', icon: <LogoutOutlined />, label: t('account.logout'), onClick: () => void logout() },
         ],
       }}
     >
-      <button type="button" className="flex cursor-pointer items-center rounded-full border-0 bg-transparent p-0.5" aria-label="Foydalanuvchi menyusi">
+      <button type="button" className="flex cursor-pointer items-center rounded-full border-0 bg-transparent p-0.5" aria-label={t('account.userMenu')}>
         <Avatar size={34} className="!bg-primary !text-sm !font-semibold">{initials(user.fullName)}</Avatar>
       </button>
     </Dropdown>
   ) : (
     <div className="flex items-center gap-2">
-      <Link to={`/login${next}`}><Button type="text">Kirish</Button></Link>
-      <Link to={`/register${next}`}><Button type="primary">Ro‘yxatdan o‘tish</Button></Link>
+      <Link to={`/login${next}`}><Button type="text">{t('account.login')}</Button></Link>
+      <Link to={`/register${next}`}><Button type="primary">{t('account.register')}</Button></Link>
     </div>
   );
 
@@ -157,7 +160,7 @@ export const TopNavbar = () => {
         }`}
       >
         <span className="text-base opacity-70">{i.icon}</span>
-        <span className="flex-1">{i.label}</span>
+        <span className="flex-1">{t(i.label)}</span>
         {locked(i) && lockIcon}
       </Link>
     );
@@ -173,28 +176,29 @@ export const TopNavbar = () => {
         <div className="mx-auto flex h-16 max-w-7xl items-center gap-4 px-4 md:px-8">
           <Logo to={HOME} />
           {wide && (
-            <nav className="ml-2 flex items-center gap-0.5" aria-label="Asosiy bo‘limlar">
+            <nav className="ml-2 flex items-center gap-0.5" aria-label={t('nav.mainSections')}>
               {TOP_NAV.map((e) => (isNavGroup(e) ? group(e) : single(e)))}
             </nav>
           )}
           <div className="ml-auto flex shrink-0 items-center gap-1 sm:gap-2">
-            <Tooltip title="Qidiruv">
-              <Link to="/app/search" aria-label="Qidiruv">
+            <LanguageSwitcher />
+            <Tooltip title={t('nav.search')}>
+              <Link to="/app/search" aria-label={t('nav.search')}>
                 <Button type="text" shape="circle" icon={<SearchOutlined />} />
               </Link>
             </Tooltip>
             {(wide || user) && account}
-            {!wide && <Button type="text" shape="circle" icon={<MenuOutlined />} onClick={() => setDrawer(true)} aria-label="Menyuni ochish" />}
+            {!wide && <Button type="text" shape="circle" icon={<MenuOutlined />} onClick={() => setDrawer(true)} aria-label={t('nav.openMenu')} />}
           </div>
         </div>
       </header>
 
       <Drawer open={drawer} onClose={() => setDrawer(false)} placement="right" width={300} title={<span className="font-serif-title">{name}</span>}>
-        <nav className="flex flex-col gap-1" aria-label="Bo‘limlar">
+        <nav className="flex flex-col gap-1" aria-label={t('nav.sections')}>
           {TOP_NAV.map((e) =>
             isNavGroup(e) ? (
               <div key={e.label} className="mt-3">
-                <div className="mb-1 px-3 text-[11px] font-semibold uppercase tracking-wider text-muted">{e.label}</div>
+                <div className="mb-1 px-3 text-[11px] font-semibold uppercase tracking-wider text-muted">{t(e.label)}</div>
                 {e.items.map(drawerLink)}
               </div>
             ) : (

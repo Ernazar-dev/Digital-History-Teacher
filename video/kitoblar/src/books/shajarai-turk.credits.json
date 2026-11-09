@@ -1,0 +1,57 @@
+{
+  "chingiz-taxt": {
+    "license": "Public domain",
+    "artist": "«Jome’ at-tavorix» miniatyurasi",
+    "page": "https://commons.wikimedia.org/wiki/File:Tem%C3%BCjin_proclaimed_as_Genghis_Khan_in_1206_Jami%27_al-tawarikh_manuscript.jpg"
+  },
+  "chingiz-qarorgoh": {
+    "license": "Public domain",
+    "artist": "«Jome’ at-tavorix» miniatyurasi",
+    "page": "https://commons.wikimedia.org/wiki/File:Chinggis_Khan%27s_encampment._From_an_early_14th_century_manuscript_of_Rashid_al-Din..jpg"
+  },
+  "oguz-taxt": {
+    "license": "Public domain",
+    "artist": "XV asr miniatyurasi",
+    "page": "https://commons.wikimedia.org/wiki/File:Oghuz_Khan_enthroned,_folio_9r_(Biblioth%C3%A8que_nationale,_Suppl%C3%A9ment_persan_1113).jpg"
+  },
+  "oguz-jang": {
+    "license": "Public domain",
+    "artist": "XV asr miniatyurasi",
+    "page": "https://commons.wikimedia.org/wiki/File:Battle_Scene_at_Camp_of_Oghuz_Khan,_1425-1430_%E1%B8%A4%C4%81fi%E1%BA%93-i_Abr%C5%AB.jpg"
+  },
+  "oguz-elchi": {
+    "license": "Public domain",
+    "artist": "XV asr miniatyurasi",
+    "page": "https://commons.wikimedia.org/wiki/File:Ugh%C5%ABz_Kh%C4%81n_receives_a_messenger_from_Damascus_with_a_load_of_bows_W676,_Majma%27_al-tawarikh_(circa_1425)_Miniature_(Oghuz_Khan_detail).jpg"
+  },
+  "xiva-devor": {
+    "license": "CC BY-SA 4.0",
+    "artist": "Petar Milošević",
+    "page": "https://commons.wikimedia.org/wiki/File:%D0%A1%D1%82%D0%B5%D0%BD%D0%B0_%D0%98%D1%87%D0%B0%D0%BD-%D0%9A%D0%B0%D0%BB%D1%8B_(Ichan-kal%E2%80%99a_devori,_Itchan_Kala_walls).jpg"
+  },
+  "kunya-ark": {
+    "license": "CC BY-SA 4.0",
+    "artist": "Petar Milošević",
+    "page": "https://commons.wikimedia.org/wiki/File:Konya_Ark_towers_(%D0%A6%D0%B8%D1%82%D0%B0%D0%B4%D0%B5%D0%BB%D1%8C_%D0%9A%D1%83%D0%BD%D1%8F-%D0%90%D1%80%D0%BA,_Ko%CA%BBhna_ark),_Itchan_Kala,_Khiva.jpg"
+  },
+  "tosh-hovli": {
+    "license": "CC BY 2.0",
+    "artist": "upyernoz from Haverford, USA",
+    "page": "https://commons.wikimedia.org/wiki/File:Tash_Hauli_Palace,_Khiva_(481379).jpg"
+  },
+  "kalta-minor": {
+    "license": "CC0",
+    "artist": "Miss Kamola",
+    "page": "https://commons.wikimedia.org/wiki/File:Kalta_Minar_Minaret._Ichan_Kala._Khiva_02.jpg"
+  },
+  "ota-darvoza": {
+    "license": "CC BY-SA 4.0",
+    "artist": "Petar Milošević",
+    "page": "https://commons.wikimedia.org/wiki/File:Ota_Darvaza_aka_West_Gates,_Khiva_(Ota_Darvaza,_%D0%90%D1%82%D0%B0-%D0%B4%D0%B0%D1%80%D0%B2%D0%B0%D0%B7%D0%B0).jpg"
+  },
+  "islomxoja": {
+    "license": "CC BY-SA 4.0",
+    "artist": "Petar Milošević",
+    "page": "https://commons.wikimedia.org/wiki/File:Islam_Hoja_Minaret_outside_Itchan-Kala_wall,_Khiva_(%D0%9C%D0%B8%D0%BD%D0%B0%D1%80%D0%B5%D1%82_%D0%98%D1%81%D0%BB%D0%B0%D0%BC_%D0%A5%D0%BE%D0%B4%D0%B6%D0%B0,_%D0%A5%D0%B8%D0%B2%D0%B0,_Islomxo%CA%BBja_minorasi).jpg"
+  }
+}

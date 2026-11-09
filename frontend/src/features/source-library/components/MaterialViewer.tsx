@@ -4,6 +4,7 @@ import {
 } from '@ant-design/icons';
 import { Button, Image, Spin } from 'antd';
 import { useEffect, useRef, useState, type ReactNode } from 'react';
+import i18n from '@/i18n';
 import { sanitizeDom } from '@/lib/sanitizeDom';
 import type { MediaFileRef } from '@/types/api';
 import { fileKind, formatSize, KIND_LABEL, mediaFileUrl, type FileKind } from '../files';
@@ -29,8 +30,8 @@ type Render = (buf: ArrayBuffer, el: HTMLDivElement) => Promise<unknown>;
 const Failed = ({ file }: { file: MediaFileRef }) => (
   <div className="flex flex-col items-center gap-3 py-16 text-center text-muted">
     <span className="text-4xl">{KIND_ICON[fileKind(file)]}</span>
-    <p className="m-0 max-w-sm">Faylni sahifada ko‘rsatib bo‘lmadi. Uni yuklab olib oching.</p>
-    <a href={mediaFileUrl(file.id)} download={file.originalName}><Button icon={<DownloadOutlined />}>Yuklab olish</Button></a>
+    <p className="m-0 max-w-sm">{i18n.t('reader.fileCantShow')}</p>
+    <a href={mediaFileUrl(file.id)} download={file.originalName}><Button icon={<DownloadOutlined />}>{i18n.t('reader.download')}</Button></a>
   </div>
 );
 
@@ -131,7 +132,7 @@ export const MaterialViewer = ({ files }: { files: MediaFileRef[] }) => {
   return (
     <div className="space-y-4">
       {files.length > 1 && (
-        <div className="flex gap-2 overflow-x-auto pb-1" role="tablist" aria-label="O‘quv materiallari">
+        <div className="flex gap-2 overflow-x-auto pb-1" role="tablist" aria-label={i18n.t('reader.materials')}>
           {files.map((f) => {
             const on = f.id === active.id;
             return (
@@ -161,11 +162,11 @@ export const MaterialViewer = ({ files }: { files: MediaFileRef[] }) => {
                 <Button icon={<ExportOutlined />} aria-label="Yangi oynada ochish"><span className="hidden sm:inline">Yangi oynada</span></Button>
               </a>
             )}
-            <Button icon={<ExpandOutlined />} onClick={() => stageRef.current?.requestFullscreen?.()} aria-label="To‘liq ekranda ochish">
-              <span className="hidden sm:inline">To‘liq ekran</span>
+            <Button icon={<ExpandOutlined />} onClick={() => stageRef.current?.requestFullscreen?.()} aria-label={i18n.t('reader.fullscreenAria')}>
+              <span className="hidden sm:inline">{i18n.t('reader.fullscreen')}</span>
             </Button>
             <a href={mediaFileUrl(active.id)} download={active.originalName}>
-              <Button type="primary" icon={<DownloadOutlined />} aria-label="Yuklab olish"><span className="hidden sm:inline">Yuklab olish</span></Button>
+              <Button type="primary" icon={<DownloadOutlined />} aria-label={i18n.t('reader.download')}><span className="hidden sm:inline">{i18n.t('reader.download')}</span></Button>
             </a>
           </div>
         </div>

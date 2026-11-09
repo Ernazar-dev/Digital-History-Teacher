@@ -1,6 +1,7 @@
 import { AimOutlined, ArrowLeftOutlined, ArrowRightOutlined, BookOutlined, BulbOutlined, CheckCircleFilled, OrderedListOutlined } from '@ant-design/icons';
 import type { ReactNode } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import i18n from '@/i18n';
 import { CATEGORIES, METHODS } from '../methods';
 import { TOOLS } from '../tools';
 
@@ -17,9 +18,9 @@ const Block = ({ id, icon, title, children }: { id: string; icon: ReactNode; tit
 );
 
 const SECTIONS = [
-  { id: 'maqsad', label: 'Metodning maqsadi' },
-  { id: 'misol', label: 'Amaliy misol' },
-  { id: 'tartib', label: 'Bajarish tartibi' },
+  { id: 'maqsad', key: 'secGoal' },
+  { id: 'misol', key: 'secExample' },
+  { id: 'tartib', key: 'secSteps' },
 ];
 
 /** Bitta metod: maqsad, amaliy misol, bajarish tartibi (bosqichlar) va platformada qo'llash */
@@ -31,8 +32,8 @@ export default function MethodPage() {
   if (!m) {
     return (
       <div className="rounded-2xl border border-dashed border-line bg-white px-6 py-16 text-center">
-        <p className="m-0 text-muted">Bunday metod topilmadi.</p>
-        <Link to="/app/methodology" className="mt-4 inline-block">Barcha metodlar</Link>
+        <p className="m-0 text-muted">{i18n.t('methodology.notFound')}</p>
+        <Link to="/app/methodology" className="mt-4 inline-block">{i18n.t('methodology.allMethods')}</Link>
       </div>
     );
   }
@@ -43,7 +44,7 @@ export default function MethodPage() {
   return (
     <article>
       <Link to="/app/methodology" className="mb-5 inline-flex items-center gap-2 text-sm text-muted no-underline hover:text-primary">
-        <ArrowLeftOutlined /> Barcha metodlar
+        <ArrowLeftOutlined /> {i18n.t('methodology.allMethods')}
       </Link>
 
       {/* Sarlavha bloki */}
@@ -55,24 +56,24 @@ export default function MethodPage() {
         <div className="relative">
           <div className="flex flex-wrap items-center gap-3 text-sm">
             <span className="rounded-full bg-white/15 px-3 py-1 text-xs font-medium backdrop-blur">{cat.label}</span>
-            <span className="text-white/70">Metod {m.n} / {METHODS.length}</span>
+            <span className="text-white/70">{i18n.t('methodology.methodOf', { n: m.n, total: METHODS.length })}</span>
           </div>
           <h1 className="font-serif-title m-0 mt-4 max-w-3xl text-3xl font-bold leading-tight md:text-[42px]">{m.title}</h1>
           <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-white/85">
-            <span className="flex items-center gap-2"><OrderedListOutlined /> {m.steps.length} bosqich</span>
-            <span className="flex items-center gap-2"><BulbOutlined /> Misol: «{m.exampleTopic}»</span>
+            <span className="flex items-center gap-2"><OrderedListOutlined /> {i18n.t('methodology.stagesCount', { n: m.steps.length })}</span>
+            <span className="flex items-center gap-2"><BulbOutlined /> {i18n.t('methodology.example')}«{m.exampleTopic}»</span>
           </div>
         </div>
       </header>
 
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
         <div className="min-w-0 space-y-6">
-          <Block id="maqsad" icon={<AimOutlined />} title="Metodning maqsadi">
+          <Block id="maqsad" icon={<AimOutlined />} title={i18n.t('methodology.secGoal')}>
             <p className="m-0 border-0 border-l-4 border-solid border-accent pl-5 text-[17px] leading-relaxed text-ink">{m.goal}</p>
           </Block>
 
-          <Block id="misol" icon={<BulbOutlined />} title="Amaliy misol">
-            <div className="mb-4 inline-block rounded-lg bg-accent-soft px-3 py-1.5 text-sm font-medium text-ink">Mavzu: «{m.exampleTopic}»</div>
+          <Block id="misol" icon={<BulbOutlined />} title={i18n.t('methodology.secExample')}>
+            <div className="mb-4 inline-block rounded-lg bg-accent-soft px-3 py-1.5 text-sm font-medium text-ink">{i18n.t('methodology.topicLabel', { t: m.exampleTopic })}</div>
             <p className="m-0 text-[16px] leading-relaxed text-ink">{m.example}</p>
             {m.exampleItems && (
               <ul className="m-0 mt-4 list-none space-y-2 p-0">
@@ -91,13 +92,13 @@ export default function MethodPage() {
             )}
           </Block>
 
-          <Block id="tartib" icon={<OrderedListOutlined />} title="Bajarish tartibi">
+          <Block id="tartib" icon={<OrderedListOutlined />} title={i18n.t('methodology.secSteps')}>
             <ol className="m-0 list-none space-y-3 p-0">
               {m.steps.map((s, k) => (
                 <li key={s} className="relative flex gap-4 rounded-xl border border-solid border-line bg-canvas/60 p-4 transition-colors hover:border-primary/30 hover:bg-white md:p-5">
                   <span className="font-serif-title flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary text-base font-bold text-white shadow-sm">{k + 1}</span>
                   <div className="min-w-0 pt-0.5">
-                    <div className="text-xs font-semibold uppercase tracking-wider text-accent">{k + 1}-bosqich</div>
+                    <div className="text-xs font-semibold uppercase tracking-wider text-accent">{i18n.t('methodology.stageN', { n: k + 1 })}</div>
                     <p className="m-0 mt-1 leading-relaxed text-ink">{s}</p>
                   </div>
                 </li>
@@ -107,25 +108,25 @@ export default function MethodPage() {
         </div>
 
         <aside className="space-y-6 lg:sticky lg:top-24 lg:self-start">
-          <nav className="hidden rounded-2xl border border-solid border-line bg-white p-5 shadow-card lg:block" aria-label="Metod bo‘limlari">
-            <h2 className="m-0 mb-3 text-xs font-semibold uppercase tracking-wider text-muted">Bo‘limlar</h2>
+          <nav className="hidden rounded-2xl border border-solid border-line bg-white p-5 shadow-card lg:block" aria-label={i18n.t('methodology.navAria')}>
+            <h2 className="m-0 mb-3 text-xs font-semibold uppercase tracking-wider text-muted">{i18n.t('methodology.sections')}</h2>
             <ul className="m-0 list-none space-y-0.5 p-0">
               {SECTIONS.map((s) => (
                 <li key={s.id}>
-                  <a href={`#${s.id}`} className="block rounded-lg px-3 py-2 text-sm text-ink no-underline transition-colors hover:bg-canvas hover:text-primary">{s.label}</a>
+                  <a href={`#${s.id}`} className="block rounded-lg px-3 py-2 text-sm text-ink no-underline transition-colors hover:bg-canvas hover:text-primary">{i18n.t(`methodology.${s.key}`)}</a>
                 </li>
               ))}
             </ul>
           </nav>
 
           <section className="rounded-2xl border border-solid border-line bg-white p-5 shadow-card">
-            <h2 className="m-0 mb-1 text-base font-semibold">Platformada qo‘llash</h2>
-            <p className="m-0 mb-4 text-sm text-muted">Metod uchun kerakli materiallar shu yerda</p>
+            <h2 className="m-0 mb-1 text-base font-semibold">{i18n.t('methodology.applyTitle')}</h2>
+            <p className="m-0 mb-4 text-sm text-muted">{i18n.t('methodology.applyHint')}</p>
             {m.topic && (
               <Link to={`/app/sources/${m.topic.slug}`} className="mb-3 flex gap-3 rounded-xl bg-primary-soft p-3 no-underline transition-colors hover:bg-primary/15">
                 <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary text-white"><BookOutlined /></span>
                 <span className="min-w-0">
-                  <span className="block text-xs text-muted">Mos ma’ruza mavzusi</span>
+                  <span className="block text-xs text-muted">{i18n.t('methodology.matchingLecture')}</span>
                   <span className="block text-sm font-semibold leading-snug text-ink">{m.topic.title}</span>
                 </span>
               </Link>
@@ -145,16 +146,16 @@ export default function MethodPage() {
         </aside>
       </div>
 
-      <nav className="mt-10 grid gap-4 sm:grid-cols-2" aria-label="Boshqa metodlar">
+      <nav className="mt-10 grid gap-4 sm:grid-cols-2" aria-label={i18n.t('methodology.otherAria')}>
         {prev ? (
           <Link to={`/app/methodology/${prev.slug}`} className="group rounded-2xl border border-solid border-line bg-white p-5 no-underline shadow-card transition-all hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-lift">
-            <span className="flex items-center gap-2 text-xs text-muted"><ArrowLeftOutlined className="transition-transform group-hover:-translate-x-1" /> Oldingi metod · {pad(prev.n)}</span>
+            <span className="flex items-center gap-2 text-xs text-muted"><ArrowLeftOutlined className="transition-transform group-hover:-translate-x-1" /> {i18n.t('methodology.prev', { n: pad(prev.n) })}</span>
             <span className="font-serif-title mt-1.5 block text-base font-semibold leading-snug text-ink">{prev.title}</span>
           </Link>
         ) : <span />}
         {next && (
           <Link to={`/app/methodology/${next.slug}`} className="group rounded-2xl border border-solid border-line bg-white p-5 text-right no-underline shadow-card transition-all hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-lift">
-            <span className="flex items-center justify-end gap-2 text-xs text-muted">Keyingi metod · {pad(next.n)} <ArrowRightOutlined className="transition-transform group-hover:translate-x-1" /></span>
+            <span className="flex items-center justify-end gap-2 text-xs text-muted">{i18n.t('methodology.next', { n: pad(next.n) })} <ArrowRightOutlined className="transition-transform group-hover:translate-x-1" /></span>
             <span className="font-serif-title mt-1.5 block text-base font-semibold leading-snug text-ink">{next.title}</span>
           </Link>
         )}

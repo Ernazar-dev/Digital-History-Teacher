@@ -2,8 +2,9 @@ import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import { Alert, Button, Card, Progress } from 'antd';
 import { useFieldArray, type UseFormReturn } from 'react-hook-form';
 import { NumberField, TextAreaField, TextField } from '@/components/forms/fields';
+import i18n from '@/i18n';
 import type { LessonFormValues } from '../lessonForm';
-import { Hint } from './Hint';
+import { Hint, hints } from './Hint';
 
 /** Dars bosqichlari va vaqt taqsimoti (umumiy vaqt nazorati bilan) */
 export const StepStages = ({ form }: { form: UseFormReturn<LessonFormValues> }) => {
@@ -15,33 +16,33 @@ export const StepStages = ({ form }: { form: UseFormReturn<LessonFormValues> }) 
 
   return (
     <>
-      <Hint items={['Har bir bosqichda o‘qituvchi va o‘quvchi nima qiladi?', 'Manba bilan ishlashga yetarli vaqt ajratilganmi?', 'Bosqichlar ketma-ketligi mantiqiymi?']} />
+      <Hint items={hints('stages')} />
       <Card size="small" className="mb-4">
-        <div className="mb-1 text-sm">Vaqt taqsimoti: {used} / {duration} daqiqa</div>
+        <div className="mb-1 text-sm">{i18n.t('lesson.stages.time', { used, total: duration })}</div>
         <Progress percent={duration ? Math.min(100, Math.round((used / duration) * 100)) : 0} status={over ? 'exception' : undefined} />
-        {over && <Alert type="error" showIcon message="Bosqichlar davomiyligi dars vaqtidan oshib ketdi" />}
+        {over && <Alert type="error" showIcon message={i18n.t('lesson.stages.over')} />}
       </Card>
       {fields.map((f, i) => (
         <Card
           key={f.id}
           size="small"
           className="mb-4"
-          title={`${i + 1}-bosqich`}
+          title={i18n.t('lesson.stages.stageN', { n: i + 1 })}
           extra={
             <div className="flex gap-1">
-              <Button size="small" disabled={i === 0} onClick={() => move(i, i - 1)} aria-label="Yuqoriga">↑</Button>
-              <Button size="small" disabled={i === fields.length - 1} onClick={() => move(i, i + 1)} aria-label="Pastga">↓</Button>
-              <Button size="small" danger icon={<DeleteOutlined />} onClick={() => remove(i)} aria-label="Bosqichni o‘chirish" />
+              <Button size="small" disabled={i === 0} onClick={() => move(i, i - 1)} aria-label={i18n.t('lesson.stages.up')}>↑</Button>
+              <Button size="small" disabled={i === fields.length - 1} onClick={() => move(i, i + 1)} aria-label={i18n.t('lesson.stages.down')}>↓</Button>
+              <Button size="small" danger icon={<DeleteOutlined />} onClick={() => remove(i)} aria-label={i18n.t('lesson.stages.delAria')} />
             </div>
           }
         >
           <div className="grid gap-x-4 md:grid-cols-[1fr_160px]">
-            <TextField control={form.control} name={`stages.${i}.title`} label="Bosqich nomi" required />
-            <NumberField control={form.control} name={`stages.${i}.durationMinutes`} label="Daqiqa" min={1} max={240} />
-            <TextAreaField control={form.control} name={`stages.${i}.teacherActivity`} label="O‘qituvchi faoliyati" rows={2} />
-            <TextAreaField control={form.control} name={`stages.${i}.studentActivity`} label="O‘quvchi faoliyati" rows={2} />
-            <TextField control={form.control} name={`stages.${i}.methods`} label="Metod va vositalar" />
-            <TextField control={form.control} name={`stages.${i}.resources`} label="Ishlatiladigan manbalar" />
+            <TextField control={form.control} name={`stages.${i}.title`} label={i18n.t('lesson.stages.name')} required />
+            <NumberField control={form.control} name={`stages.${i}.durationMinutes`} label={i18n.t('lesson.stages.minutes')} min={1} max={240} />
+            <TextAreaField control={form.control} name={`stages.${i}.teacherActivity`} label={i18n.t('lesson.stages.teacher')} rows={2} />
+            <TextAreaField control={form.control} name={`stages.${i}.studentActivity`} label={i18n.t('lesson.stages.student')} rows={2} />
+            <TextField control={form.control} name={`stages.${i}.methods`} label={i18n.t('lesson.stages.methods')} />
+            <TextField control={form.control} name={`stages.${i}.resources`} label={i18n.t('lesson.stages.resources')} />
           </div>
         </Card>
       ))}
@@ -49,7 +50,7 @@ export const StepStages = ({ form }: { form: UseFormReturn<LessonFormValues> }) 
         icon={<PlusOutlined />}
         onClick={() => append({ title: '', durationMinutes: 5, teacherActivity: '', studentActivity: '', methods: '', resources: '' })}
       >
-        Bosqich qo‘shish
+        {i18n.t('lesson.stages.add')}
       </Button>
     </>
   );

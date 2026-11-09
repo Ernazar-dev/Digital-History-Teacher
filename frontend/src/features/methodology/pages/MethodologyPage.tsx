@@ -3,6 +3,7 @@ import { Input } from 'antd';
 import { Link } from 'react-router-dom';
 import { PageHeader } from '@/components/common/PageHeader';
 import { useUrlState } from '@/hooks/useUrlState';
+import i18n from '@/i18n';
 import { CATEGORIES, METHODS, type Method, type MethodCategory } from '../methods';
 import { TOOLS } from '../tools';
 
@@ -31,12 +32,12 @@ const MethodCard = ({ m }: { m: Method }) => {
 
       <div className="mt-5 flex items-start gap-2.5 rounded-xl bg-canvas px-3.5 py-3 text-[13px] leading-snug text-ink/80">
         <BulbOutlined className="mt-0.5 shrink-0 text-accent" />
-        <span><span className="font-medium text-ink">Misol: </span>«{m.exampleTopic}»</span>
+        <span><span className="font-medium text-ink">{i18n.t('methodology.example')}</span>«{m.exampleTopic}»</span>
       </div>
 
       <div className="mt-auto flex items-center justify-between gap-3 border-0 border-t border-solid border-line pt-4 text-[13px] text-muted">
         <span className="flex items-center gap-1.5">
-          <OrderedListOutlined /> {m.steps.length} bosqich
+          <OrderedListOutlined /> {i18n.t('methodology.stagesCount', { n: m.steps.length })}
         </span>
         <span className="flex items-center gap-2.5">
           {m.tools.map((t) => (
@@ -65,24 +66,24 @@ export default function MethodologyPage() {
   return (
     <>
       <PageHeader
-        title="Metodika"
-        description="Tarix darslarida raqamli manbalar bilan ishlash metodlari. Har bir metodda — maqsad, amaliy misol, bosqichma-bosqich bajarish tartibi va uni platformada qo‘llash yo‘li."
+        title={i18n.t('nav.methodology')}
+        description={i18n.t('methodology.description')}
         extra={
           <Input.Search
             allowClear
             size="large"
             className="w-full md:w-[24rem]"
-            placeholder="Metod, mavzu yoki bosqich bo‘yicha"
+            placeholder={i18n.t('methodology.searchPlaceholder')}
             defaultValue={filters.q}
             onSearch={(v) => setFilters({ q: v || undefined })}
-            aria-label="Metodlardan qidirish"
+            aria-label={i18n.t('methodology.searchAria')}
           />
         }
       />
 
-      <div className="mb-8 flex flex-wrap items-center gap-2" role="group" aria-label="Yo‘nalish bo‘yicha saralash">
+      <div className="mb-8 flex flex-wrap items-center gap-2" role="group" aria-label={i18n.t('methodology.filterAria')}>
         <button type="button" className={chip(!cat)} aria-pressed={!cat} onClick={() => setFilters({ yo: undefined })}>
-          Hammasi <span className="opacity-60">{METHODS.length}</span>
+          {i18n.t('methodology.all')} <span className="opacity-60">{METHODS.length}</span>
         </button>
         {(Object.keys(CATEGORIES) as MethodCategory[]).map((k) => (
           <button key={k} type="button" className={chip(cat === k)} aria-pressed={cat === k} onClick={() => setFilters({ yo: k })}>
@@ -99,9 +100,9 @@ export default function MethodologyPage() {
       ) : (
         <div className="flex flex-col items-center gap-3 rounded-2xl border border-dashed border-line bg-white px-6 py-16 text-center text-muted">
           <SearchOutlined className="text-3xl text-primary/40" />
-          <span>Mos metod topilmadi.</span>
+          <span>{i18n.t('methodology.empty')}</span>
           <button type="button" className="cursor-pointer border-0 bg-transparent p-0 font-medium text-primary" onClick={() => setFilters({ q: undefined, yo: undefined })}>
-            Filtrni tozalash
+            {i18n.t('methodology.clearFilter')}
           </button>
         </div>
       )}

@@ -22,7 +22,9 @@
     "storage:import": "tsx prisma/import-uploads.ts",
     "db:seed:lectures": "tsx prisma/seed-lectures.ts",
     "db:seed:books": "tsx prisma/seed-books.ts",
-    "db:seed:objects": "tsx prisma/seed-objects.ts"
+    "db:seed:objects": "tsx prisma/seed-objects.ts",
+    "db:seed:translations": "tsx prisma/seed-translations.ts",
+    "db:translate:lectures": "tsx prisma/translate-lectures.ts"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"

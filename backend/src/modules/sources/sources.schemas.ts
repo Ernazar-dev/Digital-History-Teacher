@@ -79,3 +79,24 @@ export const sourceBodySchema = z
 export const updateSourceSchema = sourceBodySchema.innerType().partial();
 
 export const idOrSlugParam = z.object({ id: z.string().trim().min(1).max(200) });
+
+/** Mavzuning ru/en varianti: tilga bog'liq maydonlar (bo'sh qoldirilsa o'zbekcha ko'rsatiladi) */
+export const translationBodySchema = z.object({
+  title: z.string().trim().min(2).max(300),
+  summary: optionalText(1000),
+  description: optionalText(20000),
+  teachingUse: optionalText(5000),
+  methodicalRecommendations: optionalText(20000),
+  practicalTasks: optionalText(20000),
+  references: optionalText(5000),
+  lectureContent: optionalText(400_000),
+  lectureFileId: fileId,
+  presentationFileId: fileId,
+  videoFileId: fileId,
+  videoUrl: youtubeUrl,
+});
+
+export const translationParams = z.object({
+  id: z.string().uuid(),
+  locale: z.enum(['ru', 'en']),
+});

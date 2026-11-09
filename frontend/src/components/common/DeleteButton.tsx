@@ -3,6 +3,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Button, Popconfirm } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { useNotify } from '@/hooks/useNotify';
+import i18n from '@/i18n';
 
 /**
  * Kontent sahifasining o'zida o'chirish tugmasi (tasdiq so'raladi).
@@ -21,14 +22,14 @@ export const DeleteButton = ({ onDelete, invalidate, backTo, what }: {
     mutationFn: onDelete,
     onSuccess: () => {
       invalidate.forEach((key) => qc.invalidateQueries({ queryKey: [key] }));
-      notify.success(`${what} o‘chirildi`);
+      notify.success(i18n.t('deleteBtn.done', { what }));
       navigate(backTo);
     },
-    onError: (e) => notify.error(e, `${what} o‘chirilmadi`),
+    onError: (e) => notify.error(e, i18n.t('deleteBtn.fail', { what })),
   });
   return (
-    <Popconfirm title={`${what}ni o‘chirasizmi?`} okText="Ha, o‘chirish" cancelText="Yo‘q" okButtonProps={{ danger: true }} onConfirm={() => remove.mutate()}>
-      <Button danger icon={<DeleteOutlined />} loading={remove.isPending}>O‘chirish</Button>
+    <Popconfirm title={i18n.t('deleteBtn.confirm', { what })} okText={i18n.t('deleteBtn.yes')} cancelText={i18n.t('tests.no')} okButtonProps={{ danger: true }} onConfirm={() => remove.mutate()}>
+      <Button danger icon={<DeleteOutlined />} loading={remove.isPending}>{i18n.t('users.del')}</Button>
     </Popconfirm>
   );
 };

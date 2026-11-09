@@ -6,8 +6,8 @@ import { z } from 'zod';
  */
 export const objectFormSchema = z.object({
   title: z.string().trim().min(2, 'Nomini kiriting').max(300),
-  externalUrl: z.string().trim().refine((v) => /^https?:\/\/\S+$/i.test(v), 'Havolani kiriting (https://...)'),
-  description: z.string().trim().min(10, 'Kamida 10 belgi yozing').max(20000),
+  externalUrl: z.string().trim().refine((v) => /^https?:\/\/\S+$/i.test(v), 'validation.objUrl'),
+  description: z.string().trim().min(10, 'validation.min10').max(20000),
 });
 export type ObjectFormValues = z.infer<typeof objectFormSchema>;
 

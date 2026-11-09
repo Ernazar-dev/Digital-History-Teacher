@@ -8,6 +8,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { PageHeader } from '@/components/common/PageHeader';
 import { StatusTag } from '@/components/common/StatusTag';
 import { useNotify } from '@/hooks/useNotify';
+import i18n from '@/i18n';
 import { WORK_STATUS } from '@/lib/labels';
 import { lessonsService } from '@/services/learning.service';
 import { ConstructorFooter } from '../components/ConstructorFooter';
@@ -18,24 +19,25 @@ import { StepStages } from '../components/StepStages';
 import { StepTasks } from '../components/StepTasks';
 import { EMPTY_LESSON, fromLesson, lessonFormSchema, toPayload, type LessonFormValues } from '../lessonForm';
 
-const STEPS = [
-  { title: 'Kurs va mavzu', C: StepBasics },
-  { title: 'Maqsad va natijalar', C: StepGoals },
-  { title: 'Tarixiy manbalar', C: StepResources },
-  { title: 'Savollar va topshiriqlar', C: StepTasks },
-  { title: 'Bosqichlar va vaqt', C: StepStages },
-  { title: 'Baholash va refleksiya', C: StepAssessment },
-  { title: 'Tekshirish va topshirish', C: StepReview },
+const STEP_DEFS = [
+  { key: 'basics', C: StepBasics },
+  { key: 'goals', C: StepGoals },
+  { key: 'resources', C: StepResources },
+  { key: 'tasks', C: StepTasks },
+  { key: 'stages', C: StepStages },
+  { key: 'assessment', C: StepAssessment },
+  { key: 'review', C: StepReview },
 ];
 
 export default function LessonConstructorPage() {
+  const STEPS = STEP_DEFS.map((s) => ({ title: i18n.t(`lesson.steps.${s.key}`), C: s.C }));
   const { id } = useParams();
   const navigate = useNavigate();
   const notify = useNotify();
   const qc = useQueryClient();
   const [step, setStep] = useState(0);
   const [note, setNote] = useState('');
-  const existing = useQuery({ queryKey: ['lesson', id], queryFn: () => lessonsService.get(id!), enabled: Boolean(id) });
+  const existing = useQuery({ queryKey: ['lesson', id, 'base'], queryFn: () => lessonsService.getBase(id!), enabled: Boolean(id) });
   const form = useForm<LessonFormValues>({
     resolver: zodResolver(lessonFormSchema),
     defaultValues: EMPTY_LESSON,
@@ -52,52 +54,52 @@ export default function LessonConstructorPage() {
     mutationFn: persist,
     onSuccess: (l) => {
       qc.invalidateQueries({ queryKey: ['lessons'] });
-      qc.setQueryData(['lesson', l.id], l);
+      qc.setQueryData(['lesson', l.id, 'base'], l);
       setNote('');
-      notify.success(`Saqlandi (${l.currentVersion}-versiya)`);
+      notify.success(i18n.t('lesson.page.saved', { v: l.currentVersion }));
       if (!id) navigate(`/app/lessons/${l.id}/edit`, { replace: true });
     },
-    onError: (e) => notify.error(e, 'Saqlanmadi'),
+    onError: (e) => notify.error(e, i18n.t('lesson.page.saveFail')),
   });
   const submit = useMutation({
     mutationFn: async (v: LessonFormValues) => lessonsService.submit((await persist(v)).id),
     onSuccess: (l) => {
       qc.invalidateQueries({ queryKey: ['lessons'] });
-      notify.success('Dars ishlanmasi topshirildi va portfolioga qo‘shildi');
+      notify.success(i18n.t('lesson.page.submitted'));
       navigate(`/app/lessons/${l.id}`);
     },
-    onError: (e) => notify.error(e, 'Topshirilmadi'),
+    onError: (e) => notify.error(e, i18n.t('lesson.page.submitFail')),
   });
 
   if (id && existing.isLoading) return <Skeleton active />;
   if (existing.data && !['DRAFT', 'RETURNED'].includes(existing.data.status)) {
     return (
-      <Alert type="info" showIcon message="Ishlanma topshirilgan — tahrirlash yopiq" action={<Link to={`/app/lessons/${id}`}><Button>Ko‘rish</Button></Link>} />
+      <Alert type="info" showIcon message={i18n.t('lesson.page.locked')} action={<Link to={`/app/lessons/${id}`}><Button>{i18n.t('lesson.page.view')}</Button></Link>} />
     );
   }
   const Current = STEPS[step].C;
-  const onInvalid = () => notify.info('Formadagi xatolarni tuzating (qizil bilan belgilangan maydonlar)');
+  const onInvalid = () => notify.info(i18n.t('lesson.page.fixErrors'));
 
   return (
     <>
       <PageHeader
-        title={id ? 'Dars ishlanmasini tahrirlash' : 'Interaktiv tarix darsi konstruktori'}
+        title={id ? i18n.t('lesson.page.editTitle') : i18n.t('lesson.page.builderTitle')}
         tag={existing.data && <StatusTag map={WORK_STATUS} value={existing.data.status} />}
-        description="Platforma tayyor dars bermaydi: har bir bosqichda metodik qarorni o‘zingiz qabul qilasiz va asoslaysiz."
-        extra={id && <Link to={`/app/lessons/${id}`}><Button icon={<EyeOutlined />}>Ko‘rish</Button></Link>}
+        description={i18n.t('lesson.page.desc')}
+        extra={id && <Link to={`/app/lessons/${id}`}><Button icon={<EyeOutlined />}>{i18n.t('lesson.page.view')}</Button></Link>}
       />
       {existing.data?.teacherComment && existing.data.status === 'RETURNED' && (
-        <Alert className="mb-4" type="warning" showIcon message="O‘qituvchi izohi" description={existing.data.teacherComment} />
+        <Alert className="mb-4" type="warning" showIcon message={i18n.t('lesson.page.teacherNote')} description={existing.data.teacherComment} />
       )}
       <Card className="mb-6">
         <Steps className="!hidden xl:!flex" size="small" labelPlacement="vertical" current={step} onChange={setStep} items={STEPS.map((s) => ({ title: s.title }))} />
         {/* Kichik ekranlarda ixcham ko'rinish: gorizontal skrolsiz */}
         <div className="xl:hidden">
           <div className="mb-2 flex items-center justify-between gap-3">
-            <span className="text-sm text-muted">{step + 1}/{STEPS.length}-qadam</span>
+            <span className="text-sm text-muted">{i18n.t('lesson.page.stepOf', { n: step + 1, total: STEPS.length })}</span>
             <Select
               size="small"
-              aria-label="Qadamni tanlash"
+              aria-label={i18n.t('lesson.page.pickStep')}
               className="min-w-0 flex-1 sm:max-w-xs"
               value={step}
               onChange={setStep}

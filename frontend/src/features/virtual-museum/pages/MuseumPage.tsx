@@ -1,6 +1,7 @@
 import { BankOutlined, PlusOutlined } from '@ant-design/icons';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { Button, Card, Input, Pagination, Select, Tag } from 'antd';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { PageHeader } from '@/components/common/PageHeader';
 import { QueryState } from '@/components/feedback/QueryState';
@@ -12,6 +13,7 @@ import { OBJECT_TYPE, PROVIDER, toOptions } from '@/lib/labels';
 import { museumService, type ObjectFilters } from '@/services/museum.service';
 
 export default function MuseumPage() {
+  const { t } = useTranslation();
   const [f, setF] = useUrlState<ObjectFilters & Record<string, string | number | undefined>>(['page']);
   const { museum, inApp } = useAreaPath();
   const { isAdmin } = useAuth();
@@ -21,17 +23,17 @@ export default function MuseumPage() {
   return (
     <>
       <PageHeader
-        title="Virtual tarixiy sayohat va muzey"
-        description="Tarixiy obidalar va artefaktlarning 3D modellari hamda 360° virtual sayohatlari."
+        title={t('museum.title')}
+        description={t('museum.description')}
         extra={
-          inApp && isAdmin && !siteView && <Link to="/app/admin/objects/new"><Button type="primary" icon={<PlusOutlined />}>Obyekt qo‘shish</Button></Link>
+          inApp && isAdmin && !siteView && <Link to="/app/admin/objects/new"><Button type="primary" icon={<PlusOutlined />}>{t('museum.add')}</Button></Link>
         }
       />
       <div className="mb-6 grid gap-3 md:grid-cols-[2fr_1fr]">
-        <Input.Search placeholder="Obyekt nomi" allowClear defaultValue={f.q} onSearch={(v) => setF({ q: v, page: 1 })} />
-        <Select allowClear placeholder="Turi" value={f.type} options={toOptions(OBJECT_TYPE)} onChange={(v) => setF({ type: v, page: 1 })} />
+        <Input.Search placeholder={t('museum.searchPlaceholder')} allowClear defaultValue={f.q} onSearch={(v) => setF({ q: v, page: 1 })} />
+        <Select allowClear placeholder={t('museum.typePlaceholder')} value={f.type} options={toOptions(OBJECT_TYPE)} onChange={(v) => setF({ type: v, page: 1 })} />
       </div>
-      <QueryState query={q} isEmpty={(d) => d.data.length === 0} empty="Obyekt topilmadi">
+      <QueryState query={q} isEmpty={(d) => d.data.length === 0} empty={t('museum.empty')}>
         {(d) => (
           <>
             <div className="stagger grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
@@ -56,10 +58,10 @@ export default function MuseumPage() {
                   >
                     <div className="mb-2 flex flex-wrap gap-1">
                       <Tag color={o.type === 'TOUR_360' ? 'purple' : 'blue'}>{OBJECT_TYPE[o.type]}</Tag>
-                      {!o.isActive && <Tag color="red">Yashirilgan</Tag>}
+                      {!o.isActive && <Tag color="red">{t('museum.hidden')}</Tag>}
                     </div>
                     <h3 className="m-0 text-base font-semibold text-ink">{o.title}</h3>
-                    {o.provider !== 'OTHER' && <div className="mt-1 text-xs text-muted">Manba: {PROVIDER[o.provider]}</div>}
+                    {o.provider !== 'OTHER' && <div className="mt-1 text-xs text-muted">{t('museum.source', { p: PROVIDER[o.provider] })}</div>}
                   </Card>
                 </Link>
               ))}

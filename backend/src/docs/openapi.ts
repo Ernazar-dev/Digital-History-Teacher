@@ -52,6 +52,9 @@ const R: Record<string, Route[]> = {
     ['post', '/sources', 'Manba yaratish', 'TEACHER+', true],
     ['patch', '/sources/{id}', 'Tahrirlash (nashr — faqat admin)', 'TEACHER+', true],
     ['delete', '/sources/{id}', 'O‘chirish', 'TEACHER+'],
+    ['get', '/sources/{id}/translations', 'Mavzu tarjimalari (ru/en)', 'TEACHER+'],
+    ['put', '/sources/{id}/translations/{locale}', 'Tarjimani saqlash (locale: ru | en)', 'TEACHER+', true],
+    ['delete', '/sources/{id}/translations/{locale}', 'Tarjimani o‘chirish', 'TEACHER+'],
   ],
   'Virtual museum': [
     ['get', '/virtual-objects', '3D/360° obyektlar katalogi', 'public'],

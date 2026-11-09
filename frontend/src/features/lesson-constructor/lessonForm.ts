@@ -1,16 +1,17 @@
 import { z } from 'zod';
+import i18n from '@/i18n';
 import type { LessonPlan } from '@/types/api';
 
 export const lessonFormSchema = z.object({
-  title: z.string().trim().min(3, 'Sarlavha kamida 3 belgi'),
-  topic: z.string().trim().min(2, 'Mavzuni kiriting'),
+  title: z.string().trim().min(3, 'lesson.v.title'),
+  topic: z.string().trim().min(2, 'lesson.v.topic'),
   topicId: z.string().nullable(),
-  gradeLevel: z.string().trim().min(1, 'Kursni tanlang'),
-  durationMinutes: z.number({ invalid_type_error: 'Davomiylikni kiriting' }).int().min(5).max(240),
+  gradeLevel: z.string().trim().min(1, 'lesson.v.course'),
+  durationMinutes: z.number({ invalid_type_error: 'lesson.v.duration' }).int().min(5).max(240),
   goals: z.string(),
   objectives: z.string(),
   learningOutcomes: z.string(),
-  problemQuestions: z.array(z.object({ text: z.string().trim().min(1, 'Savolni yozing') })),
+  problemQuestions: z.array(z.object({ text: z.string().trim().min(1, 'lesson.v.question') })),
   individualTasks: z.string(),
   groupTasks: z.string(),
   interactiveMethods: z.array(z.string()),
@@ -19,8 +20,8 @@ export const lessonFormSchema = z.object({
   methodicalRationale: z.string(),
   stages: z.array(
     z.object({
-      title: z.string().trim().min(1, 'Bosqich nomi'),
-      durationMinutes: z.number({ invalid_type_error: 'Daqiqa' }).int().min(1).max(240),
+      title: z.string().trim().min(1, 'lesson.v.stage'),
+      durationMinutes: z.number({ invalid_type_error: 'lesson.v.minutes' }).int().min(1).max(240),
       teacherActivity: z.string(),
       studentActivity: z.string(),
       methods: z.string(),
@@ -65,14 +66,29 @@ export const toPayload = (v: LessonFormValues) => ({
   resources: v.resources.map(({ sourceId, virtualObjectId, purpose }) => ({ sourceId, virtualObjectId, purpose })),
 });
 
-/** Interaktiv metodlar ro'yxati — talaba o'zi tanlaydi yoki yangisini yozadi */
-export const METHOD_OPTIONS = [
+/**
+ * Interaktiv metodlar ro'yxati — talaba o'zi tanlaydi yoki yangisini yozadi.
+ * Bazada saqlanadigan qiymat o'zbekcha qoladi; ko'rinadigan nomi joriy tilda (lesson.methodLabels, bir xil tartibda).
+ */
+const METHOD_VALUES = [
   'Guruhli ish', 'Juftlikda ishlash', 'Muammoli vaziyat', 'Aqliy hujum', 'Klaster', 'Insert', 'Venn diagrammasi',
   'Kuzatuv varag‘i', 'Manba bilan ishlash', 'Rolli o‘yin', 'Munozara', 'Virtual sayohat', 'Xronologik lenta', 'Keys-stadi',
-].map((m) => ({ value: m, label: m }));
-
-/** Oliy ta'lim: bakalavriat 1–4 kurslari */
-export const GRADE_OPTIONS = ['1', '2', '3', '4'].map((g) => ({ value: g, label: `${g}-kurs` }));
+];
+export const METHOD_OPTIONS = METHOD_VALUES.map((value, i) => ({
+  value,
+  get label() {
+    const labels = i18n.t('lesson.methodLabels', { returnObjects: true }) as unknown;
+    return Array.isArray(labels) && typeof labels[i] === 'string' ? (labels[i] as string) : value;
+  },
+}));
 
 /** Kurs yorlig'i; avvalgi yozuvlardagi boshqa qiymatlar o'zgarishsiz ko'rsatiladi */
-export const courseLabel = (g: string) => (['1', '2', '3', '4'].includes(g) ? `${g}-kurs` : g);
+export const courseLabel = (g: string) => (['1', '2', '3', '4'].includes(g) ? i18n.t('lesson.course', { g }) : g);
+
+/** Oliy ta'lim: bakalavriat 1–4 kurslari */
+export const GRADE_OPTIONS = ['1', '2', '3', '4'].map((g) => ({
+  value: g,
+  get label() {
+    return courseLabel(g);
+  },
+}));

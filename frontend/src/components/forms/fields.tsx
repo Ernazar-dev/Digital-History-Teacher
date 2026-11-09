@@ -2,6 +2,7 @@ import { DatePicker, Form, Input, InputNumber, Select, Switch } from 'antd';
 import dayjs from 'dayjs';
 import type { ReactNode } from 'react';
 import { Controller, type Control, type FieldPath, type FieldValues } from 'react-hook-form';
+import i18n from '@/i18n';
 
 /**
  * React Hook Form + Zod validatsiyasini Ant Design Form.Item ko'rinishi bilan birlashtiruvchi maydonlar.
@@ -16,8 +17,11 @@ interface Base<T extends FieldValues> {
   className?: string;
 }
 
+/** Sxemalardagi xato matni i18n kaliti bo'lishi mumkin (masalan, "validation.pwdMin") — shunda joriy tilda ko'rsatiladi */
+const translateError = (error?: string) => (error && i18n.exists(error) ? i18n.t(error) : error);
+
 const Item = ({ id, label, required, error, help, className, children }: { id?: string; label?: ReactNode; required?: boolean; error?: string; help?: ReactNode; className?: string; children: ReactNode }) => (
-  <Form.Item htmlFor={id} label={label} required={required} validateStatus={error ? 'error' : undefined} help={error ?? help} className={className} layout="vertical">
+  <Form.Item htmlFor={id} label={label} required={required} validateStatus={error ? 'error' : undefined} help={translateError(error) ?? help} className={className} layout="vertical">
     {children}
   </Form.Item>
 );

@@ -1,6 +1,7 @@
 import { ExportOutlined, PlayCircleOutlined, WarningOutlined } from '@ant-design/icons';
 import { Alert, Button, Spin } from 'antd';
 import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 /** Frontendda ham tekshiriladigan ruxsat etilgan hostlar (asosiy tekshiruv — backendda) */
 const ALLOWED_HOSTS = ['sketchfab.com', 'uzbekistan360.uz'];
@@ -31,6 +32,7 @@ interface Props {
  * sahifa buzilmaydi: tavsif saqlanadi, preview rasm va tashqi havola taklif qilinadi.
  */
 export const EmbedViewer = ({ title, embedUrl, externalUrl, thumbnailUrl, kind = '3d', autoLoad = false, height = 520 }: Props) => {
+  const { t } = useTranslation();
   const [active, setActive] = useState(autoLoad);
   const [loaded, setLoaded] = useState(false);
   const [timedOut, setTimedOut] = useState(false);
@@ -45,7 +47,7 @@ export const EmbedViewer = ({ title, embedUrl, externalUrl, thumbnailUrl, kind =
 
   const external = externalUrl && (
     <a href={externalUrl} target="_blank" rel="noopener noreferrer">
-      <Button icon={<ExportOutlined />}>Yangi oynada ochish</Button>
+      <Button icon={<ExportOutlined />}>{t('embed.openNew')}</Button>
     </a>
   );
 
@@ -58,8 +60,8 @@ export const EmbedViewer = ({ title, embedUrl, externalUrl, thumbnailUrl, kind =
             type="info"
             showIcon
             icon={<WarningOutlined />}
-            message="Ichki ko‘rish mavjud emas"
-            description="Bu obyekt uchun ruxsat etilgan embed manzili kiritilmagan. Obyekt tavsifi pastda saqlangan; tashqi sahifani alohida oynada ochishingiz mumkin."
+            message={t('embed.unavailable')}
+            description={t('embed.unavailableText')}
             action={external}
           />
         </div>
@@ -73,7 +75,7 @@ export const EmbedViewer = ({ title, embedUrl, externalUrl, thumbnailUrl, kind =
         {thumbnailUrl && <img src={thumbnailUrl} alt="" className="absolute inset-0 h-full w-full object-cover opacity-60" loading="lazy" />}
         <div className="relative z-10 flex flex-col items-center gap-3 p-4 text-center">
           <Button type="primary" size="large" icon={<PlayCircleOutlined />} onClick={() => setActive(true)} className="!bg-accent !border-accent">
-            {kind === '360' ? '360° panoramani yuklash' : kind === '3d' ? '3D modelni yuklash' : 'Kontentni yuklash'}
+            {kind === '360' ? t('embed.load360') : kind === '3d' ? t('embed.load3d') : t('embed.loadContent')}
           </Button>
           <span className="text-sm text-white/90">Tashqi kontent faqat siz bosganingizda yuklanadi</span>
           {external}
@@ -108,8 +110,8 @@ export const EmbedViewer = ({ title, embedUrl, externalUrl, thumbnailUrl, kind =
         <Alert
           type="warning"
           showIcon
-          message="Tashqi kontent uzoq vaqt yuklanmayapti"
-          description="Internet aloqasi sekin yoki tashqi sayt vaqtincha mavjud emas bo‘lishi mumkin. Obyektni yangi oynada ochib ko‘ring."
+          message={t('embed.slow')}
+          description={t('embed.slowText')}
           action={external}
         />
       )}

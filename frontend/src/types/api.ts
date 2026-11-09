@@ -49,10 +49,23 @@ export interface Source extends SourceListItem {
   createdBy: { id: string; fullName: string } | null;
   mediaFile: MediaFileRef | null; lectureFile: MediaFileRef | null; presentationFile: MediaFileRef | null; videoFile: MediaFileRef | null;
   lectureFileId: string | null;
+  /** Javob tili (tarjima topilmasa — 'uz') va o'zbekchada qolgan qismlar: 'text' | 'lecture' | 'presentation' | 'video' */
+  lang?: 'uz' | 'ru' | 'en';
+  fallbacks?: string[];
+  /** Qaysi tillarda variant bor (o'zbekcha doim) */
+  availableLocales?: string[];
   /** Tarixiy kitob bo'lsa — qidiriladigan sahifalar soni (ro'yxat qidiruvi uchun), aks holda 0 */
   pageCount: number;
   tests: { id: string; title: string; questionCount: number }[];
   virtualObjects: (Ref & { slug: string; type: ObjectType; thumbnailUrl: string | null; periodLabel: string | null; location: string | null })[];
+}
+
+/** Mavzuning ru/en varianti (admin tahrirlash oynasi uchun) */
+export interface SourceTranslation {
+  id: string; sourceId: string; locale: 'ru' | 'en';
+  title: string; summary: string | null; description: string | null; lectureContent: string | null;
+  lectureFileId: string | null; presentationFileId: string | null; videoFileId: string | null; videoUrl: string | null;
+  lectureFile: MediaFileRef | null; presentationFile: MediaFileRef | null; videoFile: MediaFileRef | null;
 }
 
 export interface VirtualTask { id: string; kind: TaskKind; prompt: string; sortOrder: number }

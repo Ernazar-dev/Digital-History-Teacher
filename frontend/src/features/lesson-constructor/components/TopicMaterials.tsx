@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Button, Card, Drawer, Empty, Skeleton, Tag } from 'antd';
 import { useState } from 'react';
 import { SourcePreview } from '@/features/source-library/components/SourcePreview';
+import i18n from '@/i18n';
 import { OBJECT_TYPE, SOURCE_TYPE } from '@/lib/labels';
 import { catalogService, sourcesService } from '@/services/catalog.service';
 import { museumService } from '@/services/museum.service';
@@ -42,13 +43,13 @@ export const TopicMaterials = ({ topicId, addedSourceIds, addedObjectIds, onAddS
     <Card
       size="small"
       className="mb-6"
-      title={`«${topic?.name ?? 'Mavzu'}» mavzusiga oid materiallar`}
-      extra={<span className="hidden text-sm text-muted sm:inline">Darsingizga mosini o‘zingiz saralang</span>}
+      title={i18n.t('lesson.materials.title', { topic: topic?.name ?? i18n.t('lesson.materials.topicFallback') })}
+      extra={<span className="hidden text-sm text-muted sm:inline">{i18n.t('lesson.materials.hint')}</span>}
     >
       {sources.isLoading ? (
         <Skeleton active paragraph={{ rows: 3 }} />
       ) : sourceList.length === 0 && objectList.length === 0 ? (
-        <Empty description="Bu mavzuga hali materiallar biriktirilmagan — quyidagi qidiruvdan foydalaning" />
+        <Empty description={i18n.t('lesson.materials.empty')} />
       ) : (
         <div className="grid gap-3 md:grid-cols-2">
           {sourceList.map((s) => {
@@ -61,7 +62,7 @@ export const TopicMaterials = ({ topicId, addedSourceIds, addedObjectIds, onAddS
                 <b className="leading-snug">{s.title}</b>
                 <p className="m-0 line-clamp-2 text-sm text-muted">{s.summary}</p>
                 <div className="mt-auto flex gap-2">
-                  <Button size="small" icon={<EyeOutlined />} onClick={() => setPreview({ slug: s.slug, title: s.title })}>Ko‘rish</Button>
+                  <Button size="small" icon={<EyeOutlined />} onClick={() => setPreview({ slug: s.slug, title: s.title })}>{i18n.t('lesson.materials.view')}</Button>
                   <Button
                     size="small"
                     type={added ? 'default' : 'primary'}
@@ -69,7 +70,7 @@ export const TopicMaterials = ({ topicId, addedSourceIds, addedObjectIds, onAddS
                     icon={added ? <CheckOutlined /> : <PlusOutlined />}
                     onClick={() => onAddSource(s.id, s.title)}
                   >
-                    {added ? 'Qo‘shilgan' : 'Darsga qo‘shish'}
+                    {added ? i18n.t('lesson.materials.added') : i18n.t('lesson.materials.addToLesson')}
                   </Button>
                 </div>
               </div>
@@ -90,7 +91,7 @@ export const TopicMaterials = ({ topicId, addedSourceIds, addedObjectIds, onAddS
                     icon={added ? <CheckOutlined /> : <PlusOutlined />}
                     onClick={() => onAddObject(o.id, o.title)}
                   >
-                    {added ? 'Qo‘shilgan' : 'Darsga qo‘shish'}
+                    {added ? i18n.t('lesson.materials.added') : i18n.t('lesson.materials.addToLesson')}
                   </Button>
                 </div>
               </div>

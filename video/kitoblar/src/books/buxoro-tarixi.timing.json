@@ -1,0 +1,122 @@
+{
+  "title": [
+    {
+      "file": "title-0.mp3",
+      "seconds": 2.04
+    },
+    {
+      "file": "title-1.mp3",
+      "seconds": 7.18
+    }
+  ],
+  "author": [
+    {
+      "file": "author-0.mp3",
+      "seconds": 5.93
+    },
+    {
+      "file": "author-1.mp3",
+      "seconds": 6
+    },
+    {
+      "file": "author-2.mp3",
+      "seconds": 7.73
+    }
+  ],
+  "city": [
+    {
+      "file": "city-0.mp3",
+      "seconds": 7.66
+    },
+    {
+      "file": "city-1.mp3",
+      "seconds": 4.13
+    },
+    {
+      "file": "city-2.mp3",
+      "seconds": 5.21
+    }
+  ],
+  "queen": [
+    {
+      "file": "queen-0.mp3",
+      "seconds": 6.14
+    },
+    {
+      "file": "queen-1.mp3",
+      "seconds": 7.49
+    }
+  ],
+  "arab": [
+    {
+      "file": "arab-0.mp3",
+      "seconds": 5.38
+    },
+    {
+      "file": "arab-1.mp3",
+      "seconds": 6.36
+    },
+    {
+      "file": "arab-2.mp3",
+      "seconds": 4.94
+    }
+  ],
+  "samanids": [
+    {
+      "file": "samanids-0.mp3",
+      "seconds": 4.3
+    },
+    {
+      "file": "samanids-1.mp3",
+      "seconds": 5.83
+    },
+    {
+      "file": "samanids-2.mp3",
+      "seconds": 5.95
+    }
+  ],
+  "value": [
+    {
+      "file": "value-0.mp3",
+      "seconds": 8.23
+    },
+    {
+      "file": "value-1.mp3",
+      "seconds": 6.6
+    }
+  ],
+  "places": [
+    {
+      "file": "places-0.mp3",
+      "seconds": 6.55
+    },
+    {
+      "file": "places-1.mp3",
+      "seconds": 6.62
+    },
+    {
+      "file": "places-2.mp3",
+      "seconds": 6.48
+    }
+  ],
+  "legacy": [
+    {
+      "file": "legacy-0.mp3",
+      "seconds": 6.6
+    },
+    {
+      "file": "legacy-1.mp3",
+      "seconds": 5.81
+    },
+    {
+      "file": "legacy-2.mp3",
+      "seconds": 6.82
+    }
+  ],
+  "outro": [
+    {
+      "file": "outro-0.mp3",
+      "seconds": 11.52
+    }
+  ]
+}

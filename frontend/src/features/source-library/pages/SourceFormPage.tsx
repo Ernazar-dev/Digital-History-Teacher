@@ -1,17 +1,19 @@
 import { BookOutlined, FilePptOutlined, FileTextOutlined, PictureOutlined, PlayCircleOutlined } from '@ant-design/icons';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { Button, Form, Skeleton } from 'antd';
+import { Alert, Button, Form, Skeleton, Tabs } from 'antd';
 import { useEffect, type ReactNode } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import { PageHeader } from '@/components/common/PageHeader';
 import { TextAreaField, TextField } from '@/components/forms/fields';
 import { useNotify } from '@/hooks/useNotify';
+import i18n from '@/i18n';
 import { sourcesService, type SourceInput } from '@/services/catalog.service';
 import type { Source } from '@/types/api';
-import { CoverUpload, SingleFileUpload } from '../components/MaterialsUpload';
-import { LECTURE_FILE_ACCEPT, PRESENTATION_ACCEPT, VIDEO_ACCEPT } from '../files';
+import { CoverUpload, LegacyVideoNotice, SingleFileUpload } from '../components/MaterialsUpload';
+import { TranslationEditor } from '../components/TranslationEditor';
+import { LECTURE_FILE_ACCEPT, PRESENTATION_ACCEPT } from '../files';
 import { EMPTY_SOURCE, sourceFormSchema, type SourceFormValues } from '../sourceForm.schema';
 
 const toForm = (s: Source): SourceFormValues => ({
@@ -54,7 +56,8 @@ export default function SourceFormPage() {
   const navigate = useNavigate();
   const notify = useNotify();
   const qc = useQueryClient();
-  const existing = useQuery({ queryKey: ['source', id], queryFn: () => sourcesService.get(id!), enabled: Boolean(id) });
+  // Tahrirlash doim asosiy (o'zbekcha) yozuv bilan: interfeys tili ruscha bo'lsa ham tarjima ustiga yozilib ketmaydi
+  const existing = useQuery({ queryKey: ['source', id, 'base'], queryFn: () => sourcesService.getBase(id!), enabled: Boolean(id) });
   const form = useForm<SourceFormValues>({ resolver: zodResolver(sourceFormSchema), defaultValues: EMPTY_SOURCE });
   const { control } = form;
 
@@ -67,10 +70,10 @@ export default function SourceFormPage() {
     onSuccess: (s) => {
       qc.invalidateQueries({ queryKey: ['sources'] });
       qc.invalidateQueries({ queryKey: ['source'] });
-      notify.success('Mavzu saqlandi');
+      notify.success(i18n.t('sourceForm.saved'));
       navigate(`/app/sources/${s.slug}`);
     },
-    onError: (e) => notify.error(e, 'Mavzu saqlanmadi'),
+    onError: (e) => notify.error(e, i18n.t('sourceForm.saveFail')),
   });
 
   if (id && existing.isLoading) return <Skeleton active />;
@@ -78,48 +81,127 @@ export default function SourceFormPage() {
   return (
     <>
       <PageHeader
-        title={id ? 'Mavzuni tahrirlash' : 'Yangi mavzu'}
-        description="Mavzu uch qismdan iborat: ma’ruza, taqdimot va video rolik. Fayllarni hozir yoki keyinroq yuklashingiz mumkin."
+        title={id ? i18n.t('sourceForm.editTitle') : i18n.t('sourceForm.newTitle')}
+        description={i18n.t('sourceForm.desc')}
       />
-      <Form layout="vertical" component="form" onFinish={form.handleSubmit((v) => save.mutate(v))}>
-        <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
-          <div className="min-w-0 space-y-6">
-            <Section title="Asosiy ma’lumot" icon={<FileTextOutlined />}>
-              <TextField control={control} name="title" label="Mavzu nomi" required placeholder="Masalan: Amir Temur hukmronligi davrida o‘zbek davlatchiligi" />
-              <TextAreaField control={control} name="summary" label="Qisqacha tavsif" required rows={2} maxLength={1000} placeholder="Mavzuda nimalar o‘rganiladi — 1–2 gap" />            </Section>
+      <Tabs
+        items={[
+          {
+            key: 'uz',
+            label: i18n.t('sourceForm.tabUz'),
+            children: (
+              <Form layout="vertical" component="form" onFinish={form.handleSubmit((v) => save.mutate(v))}>
+                <Alert type="info" showIcon className="mb-6" message={i18n.t('sourceForm.langNote')} />
+                <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
+                  <div className="min-w-0 space-y-6">
+                    <Section title={i18n.t('sourceForm.basic')} icon={<FileTextOutlined />}>
+                      <TextField
+                        control={control}
+                        name="title"
+                        label={i18n.t('sourceForm.name')}
+                        required
+                        placeholder={i18n.t('sourceForm.namePh')}
+                      />
+                      <TextAreaField
+                        control={control}
+                        name="summary"
+                        label={i18n.t('sourceForm.summary')}
+                        required
+                        rows={2}
+                        maxLength={1000}
+                        placeholder={i18n.t('sourceForm.summaryPh')}
+                      />{' '}
+                    </Section>
 
-            <Section title="1. Ma’ruza" hint="Ma’ruza faylini yuklang — talaba uni sahifaning o‘zida o‘qiydi va yuklab oladi." icon={<BookOutlined />}>
-              <Controller control={control} name="lectureFile" render={({ field }) => (
-                <SingleFileUpload value={field.value} onChange={field.onChange} accept={LECTURE_FILE_ACCEPT} hint="Word (.docx) yoki PDF" preview />
-              )} />
-            </Section>
+                    <Section
+                      title={i18n.t('sourceForm.lecture')}
+                      hint={i18n.t('sourceForm.lectureHint')}
+                      icon={<BookOutlined />}
+                    >
+                      <Controller
+                        control={control}
+                        name="lectureFile"
+                        render={({ field }) => (
+                          <SingleFileUpload
+                            value={field.value}
+                            onChange={field.onChange}
+                            accept={LECTURE_FILE_ACCEPT}
+                            hint={i18n.t('sourceForm.lectureFile')}
+                            preview
+                          />
+                        )}
+                      />
+                    </Section>
 
-            <Section title="2. Taqdimot" hint="Mavzu bo‘yicha taqdimot — talaba sahifaning o‘zida ko‘radi" icon={<FilePptOutlined />}>
-              <Controller control={control} name="presentationFile" render={({ field }) => (
-                <SingleFileUpload value={field.value} onChange={field.onChange} accept={PRESENTATION_ACCEPT} hint="PowerPoint (.pptx) yoki PDF" preview />
-              )} />
-            </Section>
+                    <Section
+                      title={i18n.t('sourceForm.pres')}
+                      hint={i18n.t('sourceForm.presHint')}
+                      icon={<FilePptOutlined />}
+                    >
+                      <Controller
+                        control={control}
+                        name="presentationFile"
+                        render={({ field }) => (
+                          <SingleFileUpload
+                            value={field.value}
+                            onChange={field.onChange}
+                            accept={PRESENTATION_ACCEPT}
+                            hint={i18n.t('sourceForm.presFile')}
+                            preview
+                          />
+                        )}
+                      />
+                    </Section>
 
-            <Section title="3. Video rolik" hint="YouTube havolasini qo‘ying (tavsiya etiladi) yoki MP4 fayl yuklang" icon={<PlayCircleOutlined />}>
-              <TextField control={control} name="videoUrl" label="YouTube havolasi" placeholder="https://www.youtube.com/watch?v=..." />
-              <Controller control={control} name="videoFile" render={({ field }) => (
-                <SingleFileUpload value={field.value} onChange={field.onChange} accept={VIDEO_ACCEPT} hint="yoki video fayl · MP4" preview />
-              )} />
-            </Section>
-          </div>
+                    <Section
+                      title={i18n.t('sourceForm.video')}
+                      hint={i18n.t('sourceForm.videoHint')}
+                      icon={<PlayCircleOutlined />}
+                    >
+                      <TextField
+                        control={control}
+                        name="videoUrl"
+                        label={i18n.t('sourceForm.youtube')}
+                        placeholder="https://www.youtube.com/watch?v=..."
+                      />
+                      <Controller
+                        control={control}
+                        name="videoFile"
+                        render={({ field }) => <LegacyVideoNotice value={field.value} onChange={field.onChange} />}
+                      />
+                    </Section>
+                  </div>
 
-          <aside className="space-y-6 lg:sticky lg:top-24 lg:self-start">
-            <Section title="Afisha rasmi" hint="Kartochkada va mavzu sahifasi tepasida ko‘rinadi (ixtiyoriy)" icon={<PictureOutlined />}>
-              <Controller control={control} name="cover" render={({ field }) => <CoverUpload value={field.value} onChange={field.onChange} />} />
-            </Section>
-          </aside>
-        </div>
+                  <aside className="space-y-6 lg:sticky lg:top-24 lg:self-start">
+                    <Section
+                      title={i18n.t('sourceForm.cover')}
+                      hint={i18n.t('sourceForm.coverHint')}
+                      icon={<PictureOutlined />}
+                    >
+                      <Controller
+                        control={control}
+                        name="cover"
+                        render={({ field }) => <CoverUpload value={field.value} onChange={field.onChange} />}
+                      />
+                    </Section>
+                  </aside>
+                </div>
 
-        <div className="sticky bottom-0 z-10 mt-6 flex justify-end gap-2 border-0 border-t border-solid border-line bg-canvas py-3">
-          <Button onClick={() => navigate(-1)}>Bekor qilish</Button>
-          <Button type="primary" htmlType="submit" loading={save.isPending}>Saqlash</Button>
-        </div>
-      </Form>
+                <div className="sticky bottom-0 z-10 mt-6 flex justify-end gap-2 border-0 border-t border-solid border-line bg-canvas py-3">
+                  <Button onClick={() => navigate(-1)}>{i18n.t('common.cancel')}</Button>
+                  <Button type="primary" htmlType="submit" loading={save.isPending}>
+                    {i18n.t('common.save')}
+                  </Button>
+                </div>
+              </Form>
+            ),
+          },
+          // Tarjima mavzu saqlangandan keyingina mumkin (asosiy yozuv kerak)
+          { key: 'ru', label: 'Русский', disabled: !id, children: id ? <TranslationEditor sourceId={id} locale="ru" /> : null },
+          { key: 'en', label: 'English', disabled: !id, children: id ? <TranslationEditor sourceId={id} locale="en" /> : null },
+        ]}
+      />
+      {!id && <p className="mt-0 text-sm text-muted">{i18n.t('sourceForm.translateLater')}</p>}
     </>
   );
 }

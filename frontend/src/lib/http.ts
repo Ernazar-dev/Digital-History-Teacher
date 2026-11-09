@@ -1,6 +1,7 @@
 import axios, { AxiosError, type InternalAxiosRequestConfig } from 'axios';
 import { useAuthStore } from '@/features/auth/auth.store';
 import { useLoginPrompt } from '@/features/auth/loginPrompt.store';
+import i18n, { currentLang } from '@/i18n';
 import type { ApiErrorBody } from '@/types/api';
 
 const baseURL = (import.meta.env.VITE_API_BASE_URL as string | undefined) || '/api/v1';
@@ -11,7 +12,7 @@ export const http = axios.create({ baseURL, withCredentials: true, timeout: 3000
 /** Mehmon o'zgartiruvchi amal (POST/PUT/PATCH/DELETE) qilmoqchi bo'lganda — so'rov yuborilmaydi, "Kirish" oynasi ochiladi */
 export class AuthRequiredError extends Error {
   constructor() {
-    super('Bu amalni bajarish uchun tizimga kiring yoki ro‘yxatdan o‘ting');
+    super(i18n.t('errors.authRequired'));
     this.name = 'AuthRequiredError';
   }
 }
@@ -19,6 +20,9 @@ export class AuthRequiredError extends Error {
 http.interceptors.request.use((config) => {
   const token = useAuthStore.getState().accessToken;
   if (token) config.headers.Authorization = `Bearer ${token}`;
+  // Server kontentni shu tilda qaytaradi (tarjima bo'lmasa — o'zbekcha)
+  // (so'rov o'zi til bergan bo'lsa — masalan, tahrirlash uchun asosiy yozuv — o'zgartirilmaydi)
+  if (!config.headers['X-Lang']) config.headers['X-Lang'] = currentLang();
   const method = (config.method ?? 'get').toLowerCase();
   if (!token && method !== 'get' && !config.url?.includes('/auth/')) {
     useLoginPrompt.getState().show();
@@ -70,9 +74,9 @@ http.interceptors.response.use(
 );
 
 /** Server xatosini foydalanuvchiga tushunarli matnga aylantiradi */
-export const errorMessage = (err: unknown, fallback = 'Kutilmagan xato yuz berdi'): string => {
+export const errorMessage = (err: unknown, fallback = i18n.t('errors.unexpected')): string => {
   if (axios.isAxiosError<ApiErrorBody>(err)) {
-    if (!err.response) return 'Server bilan aloqa yo‘q. Internet yoki serverni tekshiring.';
+    if (!err.response) return i18n.t('errors.noConnection');
     const body = err.response.data?.error;
     if (body?.details && typeof body.details === 'object') {
       const d = body.details as { missing?: string[]; problems?: string[] } | { path: string; message: string }[];

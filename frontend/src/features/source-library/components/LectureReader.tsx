@@ -1,6 +1,7 @@
 import { ArrowUpOutlined, DownloadOutlined, OrderedListOutlined } from '@ant-design/icons';
 import { App, Button, Tooltip } from 'antd';
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { downloadLectureDocx } from '@/lib/lectureDocx';
 import { DocSearch } from './DocSearch';
 import { Markdown, parseMarkdown } from '@/lib/markdown';
@@ -28,6 +29,7 @@ const readSize = () => {
  * Tepada o'qish progressi, shrift o'lchamini o'zgartirish va ma'ruzani Word (.docx) qilib yuklab olish tugmalari.
  */
 export const LectureReader = ({ content, title, initialQuery = '' }: { content: string; title?: string; initialQuery?: string }) => {
+  const { t } = useTranslation();
   const blocks = useMemo(() => parseMarkdown(content), [content]);
   const { message } = App.useApp();
   const [saving, setSaving] = useState(false);
@@ -35,9 +37,9 @@ export const LectureReader = ({ content, title, initialQuery = '' }: { content: 
     setSaving(true);
     try {
       const h1 = blocks.find((b) => b.kind === 'h' && b.level === 1);
-      await downloadLectureDocx(blocks, title || (h1?.kind === 'h' ? h1.text : 'Ma’ruza'));
+      await downloadLectureDocx(blocks, title || (h1?.kind === 'h' ? h1.text : t('reader.lecture')));
     } catch {
-      message.error('Faylni tayyorlab bo‘lmadi. Qayta urinib ko‘ring.');
+      message.error(t('reader.downloadFail'));
     } finally {
       setSaving(false);
     }
@@ -80,9 +82,9 @@ export const LectureReader = ({ content, title, initialQuery = '' }: { content: 
   }, [plan]);
 
   const toc = plan.length > 1 && (
-    <nav aria-label="Ma’ruza rejasi">
+    <nav aria-label={t('reader.toc')}>
       <div className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-muted">
-        <OrderedListOutlined /> Reja
+        <OrderedListOutlined /> {t('reader.plan')}
       </div>
       <ol className="m-0 list-none space-y-0.5 border-0 border-l-2 border-solid border-line p-0">
         {plan.map((h) => {
@@ -113,19 +115,19 @@ export const LectureReader = ({ content, title, initialQuery = '' }: { content: 
       </div>
 
       <div className="sticky top-[4.5rem] z-10 mb-6 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-solid border-line bg-white/95 px-4 py-2 shadow-sm backdrop-blur">
-        <span className="text-sm text-muted">≈ {pages} bet · {minutes} daqiqa · <b className="text-ink">{Math.round(progress)}%</b> o‘qildi</span>
+        <span className="text-sm text-muted">{t('reader.stats', { pages, minutes, pct: Math.round(progress) })}</span>
         <span className="flex flex-wrap items-center gap-2">
           <DocSearch rootRef={articleRef} ready initial={initialQuery} />
-          <span className="flex items-center rounded-lg border border-solid border-line" role="group" aria-label="Shrift o‘lchami">
-            <Tooltip title="Kichikroq shrift">
-              <Button type="text" size="small" disabled={size === SIZES[0]} onClick={() => changeSize(-1)} aria-label="Shriftni kichraytirish">A−</Button>
+          <span className="flex items-center rounded-lg border border-solid border-line" role="group" aria-label={t('reader.fontSize')}>
+            <Tooltip title={t('reader.smaller')}>
+              <Button type="text" size="small" disabled={size === SIZES[0]} onClick={() => changeSize(-1)} aria-label={t('reader.smallerAria')}>A−</Button>
             </Tooltip>
-            <Tooltip title="Kattaroq shrift">
-              <Button type="text" size="small" disabled={size === SIZES[SIZES.length - 1]} onClick={() => changeSize(1)} aria-label="Shriftni kattalashtirish" className="!text-base">A+</Button>
+            <Tooltip title={t('reader.larger')}>
+              <Button type="text" size="small" disabled={size === SIZES[SIZES.length - 1]} onClick={() => changeSize(1)} aria-label={t('reader.largerAria')} className="!text-base">A+</Button>
             </Tooltip>
           </span>
           <Button size="small" type="primary" icon={<DownloadOutlined />} loading={saving} onClick={download}>
-            Yuklab olish (Word)
+            {t('reader.downloadWord')}
           </Button>
         </span>
       </div>
@@ -137,7 +139,7 @@ export const LectureReader = ({ content, title, initialQuery = '' }: { content: 
         <div className="min-w-0">
           {toc && (
             <details className="mb-6 rounded-xl border border-solid border-line bg-canvas p-3 lg:hidden">
-              <summary className="cursor-pointer font-medium">Ma’ruza rejasi</summary>
+              <summary className="cursor-pointer font-medium">{t('reader.toc')}</summary>
               <div className="mt-3">{toc}</div>
             </details>
           )}
@@ -153,7 +155,7 @@ export const LectureReader = ({ content, title, initialQuery = '' }: { content: 
           size="large"
           type="primary"
           icon={<ArrowUpOutlined />}
-          aria-label="Yuqoriga"
+          aria-label={t('reader.toTop')}
           className="!fixed bottom-6 right-6 z-40 shadow-lift"
           onClick={() => articleRef.current?.scrollIntoView({ behavior: 'smooth' })}
         />

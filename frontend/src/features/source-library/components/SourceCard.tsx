@@ -1,23 +1,28 @@
 import { ArrowRightOutlined, BookOutlined, FileWordOutlined, FilePptOutlined, PlayCircleOutlined } from '@ant-design/icons';
 import { Tooltip } from 'antd';
 import type { ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import type { SourceListItem } from '@/types/api';
 import { coverOf } from '../files';
 
-const Has = ({ on, icon, label }: { on: boolean; icon: ReactNode; label: string }) => (
-  <Tooltip title={on ? label : `${label} hali qo‘shilmagan`}>
-    <span
-      aria-label={on ? label : `${label} hali yo‘q`}
-      className={`flex h-8 w-8 items-center justify-center rounded-full text-sm backdrop-blur ${on ? 'bg-white/90 text-primary' : 'bg-black/30 text-white/50'}`}
-    >
-      {icon}
-    </span>
-  </Tooltip>
-);
+const Has = ({ on, icon, label }: { on: boolean; icon: ReactNode; label: string }) => {
+  const { t } = useTranslation();
+  return (
+    <Tooltip title={on ? label : t('sources.notAdded', { what: label })}>
+      <span
+        aria-label={on ? label : t('sources.notAddedAria', { what: label })}
+        className={`flex h-8 w-8 items-center justify-center rounded-full text-sm backdrop-blur ${on ? 'bg-white/90 text-primary' : 'bg-black/30 text-white/50'}`}
+      >
+        {icon}
+      </span>
+    </Tooltip>
+  );
+};
 
 /** Bosh sahifadagi «Meros» kartochkalari uslubida: katta afisha, oltin davr yozuvi, serif sarlavha, strelka */
 export const SourceCard = ({ s, base, q }: { s: SourceListItem; base: string; q?: string }) => {
+  const { t } = useTranslation();
   // Qidiruvdan kelingan bo'lsa — so'z mavzu/kitob ichida ham darhol topiladi
   const href = q ? `${base}/${s.slug}?izlash=${encodeURIComponent(q)}` : `${base}/${s.slug}`;
   const cover = coverOf(s);
@@ -32,9 +37,9 @@ export const SourceCard = ({ s, base, q }: { s: SourceListItem; base: string; q?
         )}
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/55 via-black/0 to-black/0" aria-hidden />
         <span className="absolute bottom-4 left-4 flex gap-1.5">
-          {s.author ? <Has on icon={<FileWordOutlined />} label="Kitob" /> : <Has on={Boolean(s.hasLecture)} icon={<BookOutlined />} label="Ma’ruza" />}
-          <Has on={Boolean(s.presentationFileId)} icon={<FilePptOutlined />} label="Taqdimot" />
-          <Has on={Boolean(s.videoUrl || s.videoFileId)} icon={<PlayCircleOutlined />} label="Video" />
+          {s.author ? <Has on icon={<FileWordOutlined />} label={t('sources.book')} /> : <Has on={Boolean(s.hasLecture)} icon={<BookOutlined />} label={t('sources.lecture')} />}
+          <Has on={Boolean(s.presentationFileId)} icon={<FilePptOutlined />} label={t('sources.presentation')} />
+          <Has on={Boolean(s.videoUrl || s.videoFileId)} icon={<PlayCircleOutlined />} label={t('sources.video')} />
         </span>
       </div>
       <div className="mt-4 flex flex-1 items-start justify-between gap-4">

@@ -1,1 +1,0 @@
-import{ag as i,cG as a,i as t}from"./index-C6itwo_d.js";const c=()=>{const{message:e,notification:r}=i.useApp();return{success:s=>e.success(s),error:(s,o="Amal bajarilmadi")=>{s instanceof a||r.error({message:o,description:t(s),placement:"topRight"})},info:s=>e.info(s)}};export{c as u};

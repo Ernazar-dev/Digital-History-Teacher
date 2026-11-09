@@ -9,6 +9,7 @@ import { QueryState } from '@/components/feedback/QueryState';
 import { useSiteViewStore } from '@/features/auth/siteView.store';
 import { useAuth } from '@/features/auth/useAuth';
 import { useNotify } from '@/hooks/useNotify';
+import i18n from '@/i18n';
 import { WORK_STATUS } from '@/lib/labels';
 import { lessonsService, type LessonReviewInput } from '@/services/learning.service';
 import { fmtDateTime } from '@/utils/format';
@@ -23,7 +24,7 @@ export default function LessonViewPage() {
   const q = useQuery({ queryKey: ['lesson', id], queryFn: () => lessonsService.get(id) });
   const review = useMutation({
     mutationFn: (v: LessonReviewInput) => lessonsService.review(id, v),
-    onSuccess: () => { qc.invalidateQueries({ queryKey: ['lesson', id] }); notify.success('Ekspertiza natijasi saqlandi'); },
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ['lesson', id] }); notify.success(i18n.t('lesson.doc.reviewSaved')); },
     onError: (e) => notify.error(e),
   });
 
@@ -37,18 +38,18 @@ export default function LessonViewPage() {
             extra={
               <>
                 {l.author.id === user?.id && ['DRAFT', 'RETURNED'].includes(l.status) && (
-                  <Link to={`/app/lessons/${l.id}/edit`}><Button type="primary" icon={<EditOutlined />}>Tahrirlash</Button></Link>
+                  <Link to={`/app/lessons/${l.id}/edit`}><Button type="primary" icon={<EditOutlined />}>{i18n.t('topic.edit')}</Button></Link>
                 )}
               </>
             }
           />
           <div><TeacherVerdict comment={l.teacherComment} score={l.score} status={l.status} /></div>
           {l.reviewedBy && l.reviewedAt && (
-            <p className="-mt-3 text-sm text-muted">Ekspert: {l.reviewedBy.fullName} · {fmtDateTime(l.reviewedAt)}</p>
+            <p className="-mt-3 text-sm text-muted">{i18n.t('lesson.doc.expert', { name: l.reviewedBy.fullName, date: fmtDateTime(l.reviewedAt) })}</p>
           )}
           <LessonDocument l={l} />
           {isStaff && !siteView && l.author.id !== user?.id && ['SUBMITTED', 'UNDER_REVIEW'].includes(l.status) && (
-            <ReviewPanel title="Dars ishlanmasi ekspertizasi" loading={review.isPending} onSubmit={(v) => review.mutate(v)} />
+            <ReviewPanel title={i18n.t('lesson.doc.reviewTitle')} loading={review.isPending} onSubmit={(v) => review.mutate(v)} />
           )}
         </div>
       )}

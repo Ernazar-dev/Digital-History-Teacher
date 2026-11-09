@@ -1,3 +1,5 @@
+import i18n from '@/i18n';
+
 /** Yuklanish holati: markazda 4 nuqtali aylanuvchi spinner + "Yuklanmoqda..." yozuvi */
 export const PageLoader = () => (
   <div className="page-fallback" role="status" aria-label="Yuklanmoqda">
@@ -8,7 +10,7 @@ export const PageLoader = () => (
         <i />
         <i />
       </span>
-      <span className="text-sm">Yuklanmoqda...</span>
+      <span className="text-sm">{i18n.t('common.loading')}</span>
     </div>
   </div>
 );

@@ -1,5 +1,6 @@
 import { Alert, Button, Empty, Skeleton } from 'antd';
 import type { ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 import { errorMessage } from '@/lib/http';
 
 interface Props<T> {
@@ -13,22 +14,23 @@ interface Props<T> {
 
 /** Har bir so'rov uchun izchil loading / error / empty / success holatlari */
 export function QueryState<T>({ query, isEmpty, empty, emptyAction, skeletonRows = 6, children }: Props<T>) {
+  const { t } = useTranslation();
   if (query.isLoading) return <Skeleton active paragraph={{ rows: skeletonRows }} />;
   if (query.isError) {
     return (
       <Alert
         type="error"
         showIcon
-        message="Ma’lumotlarni yuklab bo‘lmadi"
+        message={t('common.loadFailed')}
         description={errorMessage(query.error)}
-        action={<Button size="small" onClick={() => query.refetch()}>Qayta urinish</Button>}
+        action={<Button size="small" onClick={() => query.refetch()}>{t('common.retry')}</Button>}
       />
     );
   }
   if (query.data === undefined) return null;
   if (isEmpty?.(query.data)) {
     return (
-      <Empty description={empty ?? 'Hozircha ma’lumot yo‘q'} className="py-10">
+      <Empty description={empty ?? t('common.noData')} className="py-10">
         {emptyAction}
       </Empty>
     );

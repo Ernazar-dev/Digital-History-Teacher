@@ -1,6 +1,7 @@
 import { EditOutlined } from '@ant-design/icons';
 import { useQuery } from '@tanstack/react-query';
 import { Button, Tag } from 'antd';
+import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
 import { EmbedViewer } from '@/components/common/EmbedViewer';
 import { PageHeader } from '@/components/common/PageHeader';
@@ -22,6 +23,7 @@ export default function ObjectPage() {
 
 /** Obyekt sahifasi — admin panelda kiritiladigan uch narsa: nomi, 3D/360° ko'rinishi va obyekt haqida ma'lumot */
 const ObjectView = ({ o }: { o: VirtualObject }) => {
+  const { t } = useTranslation();
   const { isAdmin } = useAuth();
   const siteView = useSiteViewStore((s) => s.siteView);
   const { inApp } = useAreaPath();
@@ -33,21 +35,21 @@ const ObjectView = ({ o }: { o: VirtualObject }) => {
         tag={<Tag color="blue">{OBJECT_TYPE[o.type]}</Tag>}
         extra={inApp && isAdmin && !siteView && (
           <span className="flex gap-2">
-            <Link to={`/app/admin/objects/${o.id}/edit`}><Button icon={<EditOutlined />}>Tahrirlash</Button></Link>
-            <DeleteButton what="Obyekt" onDelete={() => museumService.remove(o.id)} invalidate={['objects', 'object']} backTo="/app/museum" />
+            <Link to={`/app/admin/objects/${o.id}/edit`}><Button icon={<EditOutlined />}>{t('topic.edit')}</Button></Link>
+            <DeleteButton what={t('museum.object')} onDelete={() => museumService.remove(o.id)} invalidate={['objects', 'object']} backTo="/app/museum" />
           </span>
         )}
       />
       <EmbedViewer title={o.title} embedUrl={o.embedUrl} externalUrl={o.externalUrl} thumbnailUrl={o.thumbnailUrl} kind={o.type === 'TOUR_360' ? '360' : '3d'} />
-      <Section title="Obyekt haqida">
+      <Section title={t('museum.about')}>
         <p className="prose-text m-0 whitespace-pre-line text-base text-ink">{o.description}</p>
       </Section>
-      <Section title="Manba va litsenziya">
+      <Section title={t('museum.sourceLicense')}>
         <div className="grid gap-x-8 sm:grid-cols-2">
-          <Field label="Platforma">{PROVIDER[o.provider]}</Field>
-          <Field label="Muallif / tashkilot">{o.authorOrOrganization}</Field>
-          <Field label="Litsenziya">{o.license}</Field>
-          <Field label="Asl manba">
+          <Field label={t('museum.platform')}>{PROVIDER[o.provider]}</Field>
+          <Field label={t('museum.authorOrg')}>{o.authorOrOrganization}</Field>
+          <Field label={t('museum.license')}>{o.license}</Field>
+          <Field label={t('museum.originalSource')}>
             {o.externalUrl && (
               <a href={o.externalUrl} target="_blank" rel="noopener noreferrer" className="break-all">{o.externalUrl}</a>
             )}

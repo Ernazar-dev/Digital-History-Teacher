@@ -1,3 +1,4 @@
+import i18n from '@/i18n';
 import type { MediaFileRef } from '@/types/api';
 
 export const mediaFileUrl = (id: string) => `/api/v1/media/${id}`;
@@ -41,9 +42,14 @@ export const fileKind = (f: Pick<MediaFileRef, 'mimeType'>): FileKind =>
   MIME_KIND[f.mimeType] ??
   (f.mimeType.startsWith('image/') ? 'image' : f.mimeType.startsWith('audio/') ? 'audio' : f.mimeType.startsWith('video/') ? 'video' : 'other');
 
-export const KIND_LABEL: Record<FileKind, string> = {
-  pdf: 'PDF', docx: 'Word', pptx: 'Taqdimot', image: 'Rasm', audio: 'Audio', video: 'Video', other: 'Fayl',
-};
+/** Fayl turi nomi joriy tilda o'qiladi */
+export const KIND_LABEL = (() => {
+  const out = {} as Record<FileKind, string>;
+  for (const k of ['pdf', 'docx', 'pptx', 'image', 'audio', 'video', 'other'] as FileKind[]) {
+    Object.defineProperty(out, k, { enumerable: true, get: () => i18n.t(`kind.${k}`) });
+  }
+  return out;
+})();
 
 export const formatSize = (bytes: number) =>
   bytes < 1024 * 1024 ? `${Math.max(1, Math.round(bytes / 1024))} KB` : `${(bytes / 1024 / 1024).toFixed(1)} MB`;

@@ -7,6 +7,7 @@ import { PageHeader } from '@/components/common/PageHeader';
 import { StatusTag } from '@/components/common/StatusTag';
 import { QueryState } from '@/components/feedback/QueryState';
 import { useAuth } from '@/features/auth/useAuth';
+import i18n from '@/i18n';
 import { toOptions, WORK_STATUS } from '@/lib/labels';
 import { courseLabel } from '../lessonForm';
 import { lessonsService } from '@/services/learning.service';
@@ -21,20 +22,20 @@ export default function LessonsPage() {
   return (
     <>
       <PageHeader
-        title="Dars ishlanmalari"
-        description={isStudent ? 'Raqamli tarixiy manbalar asosida mustaqil loyihalagan darslaringiz.' : 'Talabalar topshirgan dars ishlanmalari va ekspertiza.'}
-        extra={<Link to="/app/lessons/new"><Button type="primary" icon={<PlusOutlined />}>Yangi dars ishlanmasi</Button></Link>}
+        title={i18n.t('lesson.list.title')}
+        description={isStudent ? i18n.t('lesson.list.descStudent') : i18n.t('lesson.list.descStaff')}
+        extra={<Link to="/app/lessons/new"><Button type="primary" icon={<PlusOutlined />}>{i18n.t('lesson.list.new')}</Button></Link>}
       />
       <Card>
         <div className="mb-4 grid gap-3 md:grid-cols-3">
-          <Input.Search placeholder="Sarlavha bo‘yicha qidirish" allowClear onSearch={setQ} />
-          <Select allowClear placeholder="Holati" value={status} onChange={setStatus} options={toOptions(WORK_STATUS)} />
+          <Input.Search placeholder={i18n.t('lesson.list.search')} allowClear onSearch={setQ} />
+          <Select allowClear placeholder={i18n.t('lesson.list.statusPh')} value={status} onChange={setStatus} options={toOptions(WORK_STATUS)} />
         </div>
         <QueryState
           query={query}
           isEmpty={(d) => d.data.length === 0}
-          empty="Dars ishlanmalari yo‘q"
-          emptyAction={<Link to="/app/lessons/new"><Button type="primary">Birinchi ishlanmani yaratish</Button></Link>}
+          empty={i18n.t('lesson.list.empty')}
+          emptyAction={<Link to="/app/lessons/new"><Button type="primary">{i18n.t('lesson.list.first')}</Button></Link>}
         >
           {(d) => (
             <Table
@@ -43,18 +44,18 @@ export default function LessonsPage() {
               scroll={{ x: 900 }}
               columns={[
                 {
-                  title: 'Sarlavha',
+                  title: i18n.t('lesson.list.colTitle'),
                   render: (_, l) => (
                     <Link to={l.author.id === user?.id && ['DRAFT', 'RETURNED'].includes(l.status) ? `/app/lessons/${l.id}/edit` : `/app/lessons/${l.id}`}>{l.title}</Link>
                   ),
                 },
-                { title: 'Mavzu', dataIndex: 'topic' },
-                { title: 'Kurs', width: 90, render: (_, l) => courseLabel(l.gradeLevel) },
-                ...(!isStudent ? [{ title: 'Muallif', width: 160, render: (_: unknown, l: (typeof d.data)[number]) => l.author.fullName }] : []),
-                { title: 'Holat', width: 200, render: (_, l) => <StatusTag map={WORK_STATUS} value={l.status} /> },
-                { title: 'Versiya', width: 80, dataIndex: 'currentVersion' },
-                { title: 'Ball', width: 70, render: (_, l) => l.score ?? '—' },
-                { title: 'Yangilangan', width: 150, render: (_, l) => fmtDateTime(l.updatedAt) },
+                { title: i18n.t('lesson.list.colTopic'), dataIndex: 'topic' },
+                { title: i18n.t('lesson.list.colCourse'), width: 90, render: (_, l) => courseLabel(l.gradeLevel) },
+                ...(!isStudent ? [{ title: i18n.t('lesson.list.colAuthor'), width: 160, render: (_: unknown, l: (typeof d.data)[number]) => l.author.fullName }] : []),
+                { title: i18n.t('lesson.list.colStatus'), width: 200, render: (_, l) => <StatusTag map={WORK_STATUS} value={l.status} /> },
+                { title: i18n.t('lesson.list.colVersion'), width: 80, dataIndex: 'currentVersion' },
+                { title: i18n.t('lesson.list.colScore'), width: 70, render: (_, l) => l.score ?? '—' },
+                { title: i18n.t('lesson.list.colUpdated'), width: 150, render: (_, l) => fmtDateTime(l.updatedAt) },
               ]}
             />
           )}

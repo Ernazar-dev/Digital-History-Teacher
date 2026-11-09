@@ -5,11 +5,11 @@ import { sourcesService } from './sources.service';
 
 export const sourcesController = {
   async list(req: Request, res: Response) {
-    const result = await sourcesService.list(req.user, req.query as never);
+    const result = await sourcesService.list(req.user, req.query as never, req.lang);
     ok(res, result.items, result.meta);
   },
   async get(req: Request, res: Response) {
-    ok(res, await sourcesService.get(req.user, req.params.id));
+    ok(res, await sourcesService.get(req.user, req.params.id, req.lang));
   },
   async create(req: Request, res: Response) {
     const source = await sourcesService.create(currentUser(req), req.body);
@@ -20,6 +20,19 @@ export const sourcesController = {
     const source = await sourcesService.update(currentUser(req), req.params.id, req.body);
     await audit(req, 'source.updated', 'HistoricalSource', source.id, { status: source.status });
     ok(res, source);
+  },
+  async listTranslations(req: Request, res: Response) {
+    ok(res, await sourcesService.listTranslations(currentUser(req), req.params.id));
+  },
+  async upsertTranslation(req: Request, res: Response) {
+    const t = await sourcesService.upsertTranslation(currentUser(req), req.params.id, req.params.locale as 'ru' | 'en', req.body);
+    await audit(req, 'source.translated', 'HistoricalSource', req.params.id, { locale: req.params.locale });
+    ok(res, t);
+  },
+  async removeTranslation(req: Request, res: Response) {
+    await sourcesService.removeTranslation(currentUser(req), req.params.id, req.params.locale as 'ru' | 'en');
+    await audit(req, 'source.translation_deleted', 'HistoricalSource', req.params.id, { locale: req.params.locale });
+    noContent(res);
   },
   async remove(req: Request, res: Response) {
     await sourcesService.remove(currentUser(req), req.params.id);

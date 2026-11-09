@@ -12,6 +12,8 @@ import { openApiDocument } from './docs/openapi';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler';
 import { apiRouter } from './routes';
 import { apiLimiter, writeLimiter } from './shared/security/limiters';
+import { localeMiddleware } from './shared/i18n/locale';
+import { translationMiddleware } from './shared/i18n/translateResponse';
 import { logger } from './shared/logger';
 
 export const createApp = () => {
@@ -51,6 +53,8 @@ export const createApp = () => {
   app.use(compression({ filter: (req, res) => !req.headers.range && compression.filter(req, res) }));
   app.use(express.json({ limit: '2mb' }));
   app.use(cookieParser());
+  app.use(localeMiddleware);
+  app.use(translationMiddleware);
   if (!env.isTest) {
     app.use(pinoHttp({ logger, autoLogging: { ignore: (req) => req.url === '/api/v1/health' } }));
   }

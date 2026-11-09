@@ -3,15 +3,22 @@
  * Manba: «Metodlar» hujjati (muallif tomonidan berilgan). Matn o'zgartirilmagan.
  */
 
+import i18n, { currentLang } from '@/i18n';
+import { METHOD_TR } from './methods.tr';
+
 export type MethodCategory = 'manba' | 'muammo' | 'vizual' | 'interaktiv';
 
 /** tone — yorliq (chip) rangi; bar — kartochka ustidagi yo'nalish chizig'i */
-export const CATEGORIES: Record<MethodCategory, { label: string; tone: string; bar: string }> = {
-  manba: { label: 'Manbalar bilan ishlash', tone: 'bg-blue-50 text-blue-700', bar: 'bg-blue-500' },
-  muammo: { label: 'Muammoli o‘qitish', tone: 'bg-amber-50 text-amber-700', bar: 'bg-amber-500' },
-  vizual: { label: 'Vizual va makon', tone: 'bg-emerald-50 text-emerald-700', bar: 'bg-emerald-500' },
-  interaktiv: { label: 'Interaktiv va loyiha', tone: 'bg-violet-50 text-violet-700', bar: 'bg-violet-500' },
+const CATEGORY_STYLES: Record<MethodCategory, { tone: string; bar: string }> = {
+  manba: { tone: 'bg-blue-50 text-blue-700', bar: 'bg-blue-500' },
+  muammo: { tone: 'bg-amber-50 text-amber-700', bar: 'bg-amber-500' },
+  vizual: { tone: 'bg-emerald-50 text-emerald-700', bar: 'bg-emerald-500' },
+  interaktiv: { tone: 'bg-violet-50 text-violet-700', bar: 'bg-violet-500' },
 };
+/** Yo'nalish nomi joriy tilda o'qiladi */
+export const CATEGORIES = Object.fromEntries(
+  (Object.keys(CATEGORY_STYLES) as MethodCategory[]).map((k) => [k, { ...CATEGORY_STYLES[k], get label() { return i18n.t(`methodology.cat.${k}`); } }]),
+) as Record<MethodCategory, { label: string; tone: string; bar: string }>;
 
 /** Platformadagi bo'lim — metodni qo'llashda yordam beradi */
 export type MethodTool = 'sources' | 'museum' | 'explore' | 'lessons' | 'assignments' | 'profile';
@@ -36,7 +43,7 @@ export interface Method {
   tools: MethodTool[];
 }
 
-export const METHODS: Method[] = [
+const BASE_METHODS: Method[] = [
   {
     slug: 'raqamli-manbalarni-tahlil-qilish',
     n: 1,
@@ -207,3 +214,22 @@ export const METHODS: Method[] = [
     tools: ['sources', 'profile'],
   },
 ];
+
+/** Tilga bog'liq maydonlar joriy tilda o'qiladi; tarjima bo'lmasa — o'zbekcha */
+const pick = <K extends keyof (typeof METHOD_TR)['ru'][string]>(slug: string, key: K) => {
+  const lng = currentLang();
+  return lng === 'uz' ? undefined : METHOD_TR[lng][slug]?.[key];
+};
+
+export const METHODS: Method[] = BASE_METHODS.map((m) => {
+  const o: Method = { ...m };
+  for (const key of ['title', 'goal', 'exampleTopic', 'example', 'exampleItems', 'question', 'steps'] as const) {
+    if (m[key] === undefined) continue;
+    Object.defineProperty(o, key, { enumerable: true, get: () => pick(m.slug, key) ?? m[key] });
+  }
+  if (m.topic) {
+    const base = m.topic;
+    Object.defineProperty(o, 'topic', { enumerable: true, get: () => ({ slug: base.slug, title: pick(m.slug, 'topicTitle') ?? base.title }) });
+  }
+  return o;
+});

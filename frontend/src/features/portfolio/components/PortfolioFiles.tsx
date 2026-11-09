@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Button, Empty, Popconfirm, Skeleton, Upload } from 'antd';
 import type { ReactNode } from 'react';
 import { useNotify } from '@/hooks/useNotify';
+import i18n from '@/i18n';
 import { portfolioFilesService, type PortfolioFile } from '@/services/portfolio.service';
 import { fmtBytes, fmtDate } from '@/utils/format';
 
@@ -44,16 +45,16 @@ export const PortfolioFiles = ({ studentId }: { studentId?: string }) => {
     mutationFn: (file: File) => portfolioFilesService.upload(file),
     onSuccess: (f) => {
       qc.invalidateQueries({ queryKey: key });
-      notify.success(`«${f.title}» portfolioga qo‘shildi`);
+      notify.success(i18n.t('portfolio.fileAdded', { title: f.title }));
     },
-    onError: (e) => notify.error(e, 'Fayl yuklanmadi'),
+    onError: (e) => notify.error(e, i18n.t('portfolio.uploadFail')),
   });
   const remove = useMutation({
     mutationFn: (id: string) => portfolioFilesService.remove(id),
     onSuccess: () => qc.invalidateQueries({ queryKey: key }),
     onError: (e) => notify.error(e),
   });
-  const download = useMutation({ mutationFn: saveFile, onError: (e) => notify.error(e, 'Fayl ochilmadi') });
+  const download = useMutation({ mutationFn: saveFile, onError: (e) => notify.error(e, i18n.t('portfolio.openFail')) });
 
   const files = q.data ?? [];
 
@@ -67,7 +68,7 @@ export const PortfolioFiles = ({ studentId }: { studentId?: string }) => {
           disabled={upload.isPending}
           beforeUpload={(file) => {
             if (file.size > MAX_MB * 1024 * 1024) {
-              notify.info(`«${file.name}» ${MAX_MB} MB dan katta`);
+              notify.info(i18n.t('portfolio.tooBig', { name: file.name, mb: MAX_MB }));
               return Upload.LIST_IGNORE;
             }
             return true;
@@ -77,15 +78,15 @@ export const PortfolioFiles = ({ studentId }: { studentId?: string }) => {
           }
         >
           <p className="ant-upload-drag-icon m-0"><InboxOutlined /></p>
-          <p className="m-0 mt-2 font-medium">{upload.isPending ? 'Yuklanmoqda…' : 'Faylni shu yerga tashlang yoki tanlash uchun bosing'}</p>
-          <p className="m-0 mt-1 text-sm text-muted">PDF, Word, PowerPoint yoki rasm (JPG, PNG) — har biri {MAX_MB} MB gacha</p>
+          <p className="m-0 mt-2 font-medium">{upload.isPending ? i18n.t('portfolio.uploading') : i18n.t('portfolio.drop')}</p>
+          <p className="m-0 mt-1 text-sm text-muted">{i18n.t('portfolio.fileTypes', { mb: MAX_MB })}</p>
         </Upload.Dragger>
       )}
 
       {q.isLoading ? (
         <Skeleton active paragraph={{ rows: 2 }} />
       ) : files.length === 0 ? (
-        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={editable ? 'Hali fayl yuklanmagan' : 'Talaba hali fayl yuklamagan'} />
+        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={editable ? i18n.t('portfolio.noFiles') : i18n.t('portfolio.noFilesStudent')} />
       ) : (
         <ul className="m-0 list-none divide-y divide-line rounded-xl border border-line p-0">
           {files.map((f) => (
@@ -98,13 +99,13 @@ export const PortfolioFiles = ({ studentId }: { studentId?: string }) => {
               <Button
                 type="text"
                 icon={<DownloadOutlined />}
-                aria-label={`${f.title} — yuklab olish`}
+                aria-label={i18n.t('portfolio.downloadAria', { title: f.title })}
                 loading={download.isPending && download.variables?.id === f.id}
                 onClick={() => download.mutate(f)}
               />
               {editable && (
-                <Popconfirm title="Faylni portfoliodan o‘chirasizmi?" okText="O‘chirish" cancelText="Yo‘q" onConfirm={() => remove.mutate(f.id)}>
-                  <Button type="text" danger icon={<DeleteOutlined />} aria-label={`${f.title} — o‘chirish`} loading={remove.isPending && remove.variables === f.id} />
+                <Popconfirm title={i18n.t('portfolio.fileDelQ')} okText={i18n.t('portfolio.del')} cancelText={i18n.t('portfolio.no')} onConfirm={() => remove.mutate(f.id)}>
+                  <Button type="text" danger icon={<DeleteOutlined />} aria-label={i18n.t('portfolio.delAria', { title: f.title })} loading={remove.isPending && remove.variables === f.id} />
                 </Popconfirm>
               )}
             </li>

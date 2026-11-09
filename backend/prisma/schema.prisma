@@ -252,6 +252,10 @@ model MediaFile {
   sourcePresentations HistoricalSource[] @relation("SourcePresentation")
   sourceVideos        HistoricalSource[] @relation("SourceVideo")
   tests               Test[]
+
+  translationLectures      HistoricalSourceTranslation[] @relation("TranslationLectureFile")
+  translationPresentations HistoricalSourceTranslation[] @relation("TranslationPresentation")
+  translationVideos        HistoricalSourceTranslation[] @relation("TranslationVideo")
 }
 
 // ─────────────────────── 1-modul: Manbalar (ma'ruza mavzulari) ───────────────────────
@@ -312,13 +316,15 @@ model HistoricalSource {
   updatedAt                 DateTime          @updatedAt
   deletedAt                 DateTime?
 
-  period           HistoricalPeriod?     @relation(fields: [periodId], references: [id], onDelete: SetNull)
-  createdBy        User?                 @relation("SourceCreator", fields: [createdById], references: [id], onDelete: SetNull)
-  mediaFile        MediaFile?            @relation("SourceCover", fields: [mediaFileId], references: [id], onDelete: SetNull)
-  lectureFile      MediaFile?            @relation("SourceLectureFile", fields: [lectureFileId], references: [id], onDelete: SetNull)
-  presentationFile MediaFile?            @relation("SourcePresentation", fields: [presentationFileId], references: [id], onDelete: SetNull)
-  videoFile        MediaFile?            @relation("SourceVideo", fields: [videoFileId], references: [id], onDelete: SetNull)
+  period           HistoricalPeriod?             @relation(fields: [periodId], references: [id], onDelete: SetNull)
+  createdBy        User?                         @relation("SourceCreator", fields: [createdById], references: [id], onDelete: SetNull)
+  mediaFile        MediaFile?                    @relation("SourceCover", fields: [mediaFileId], references: [id], onDelete: SetNull)
+  lectureFile      MediaFile?                    @relation("SourceLectureFile", fields: [lectureFileId], references: [id], onDelete: SetNull)
+  presentationFile MediaFile?                    @relation("SourcePresentation", fields: [presentationFileId], references: [id], onDelete: SetNull)
+  videoFile        MediaFile?                    @relation("SourceVideo", fields: [videoFileId], references: [id], onDelete: SetNull)
   topics           SourceTopic[]
+  /// Boshqa tillardagi (ru, en) variantlari; asosiy maydonlar o'zbekcha (uz)
+  translations     HistoricalSourceTranslation[]
   /// Kitob (PDF) bo'lsa — sahifalar matni, qidiruv uchun
   pages            SourcePage[]
   virtualObjects   VirtualObjectSource[]
@@ -328,6 +334,52 @@ model HistoricalSource {
   @@index([type, status])
   @@index([periodId])
   @@index([deletedAt])
+}
+
+/// Mavzuning boshqa tildagi varianti. Faqat tilga bog'liq maydonlar; davr, yil, muqova, koordinata — asosiy yozuvda.
+/// Bo'sh (null) maydon uchun o'zbekcha qiymat ko'rsatiladi.
+model HistoricalSourceTranslation {
+  id                        String   @id @default(uuid()) @db.Uuid
+  sourceId                  String   @db.Uuid
+  /// "ru" | "en"
+  locale                    String
+  title                     String
+  summary                   String?
+  description               String?
+  teachingUse               String?
+  methodicalRecommendations String?
+  practicalTasks            String?
+  references                String?
+  lectureContent            String?
+  lectureFileId             String?  @db.Uuid
+  presentationFileId        String?  @db.Uuid
+  videoFileId               String?  @db.Uuid
+  videoUrl                  String?
+  createdAt                 DateTime @default(now())
+  updatedAt                 DateTime @updatedAt
+
+  source           HistoricalSource @relation(fields: [sourceId], references: [id], onDelete: Cascade)
+  lectureFile      MediaFile?       @relation("TranslationLectureFile", fields: [lectureFileId], references: [id], onDelete: SetNull)
+  presentationFile MediaFile?       @relation("TranslationPresentation", fields: [presentationFileId], references: [id], onDelete: SetNull)
+  videoFile        MediaFile?       @relation("TranslationVideo", fields: [videoFileId], references: [id], onDelete: SetNull)
+
+  @@unique([sourceId, locale])
+}
+
+/// Bazada o'zbekcha saqlangan ixtiyoriy matnning (davr/mavzu/obyekt nomi, tavsif, metod nomi va h.k.) boshqa tildagi varianti.
+/// Kalit — o'zbekcha matnning md5 hash'i (uzun matnlar ham sig'adi); API javobida aynan shu matn topilsa, almashtiriladi.
+model TextTranslation {
+  id         String   @id @default(uuid()) @db.Uuid
+  sourceHash String
+  /// O'zbekcha asl matn (ma'lumot uchun)
+  source     String
+  /// "ru" | "en"
+  locale     String
+  text       String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([sourceHash, locale])
 }
 
 /// Kitob PDF'ining bitta sahifasi matni (qidiruv natijasi shu sahifaga yo'naltiradi)

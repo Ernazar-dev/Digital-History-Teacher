@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import { Link, Navigate, useSearchParams } from 'react-router-dom';
 import { GuestGate } from '@/components/feedback/LoginPrompt';
 import { useAuthStore } from '@/features/auth/auth.store';
+import i18n from '@/i18n';
 import type { Role } from '@/types/api';
 import { safeNext } from '@/lib/safeNext';
 
@@ -28,9 +29,9 @@ export const RequireRole = ({ roles, children }: { roles: Role[]; children: Reac
     return (
       <Result
         status="403"
-        title="Ruxsat yo‘q"
-        subTitle="Bu sahifa sizning rolingiz uchun mavjud emas."
-        extra={<Link to="/app"><Button type="primary">Bosh sahifaga</Button></Link>}
+        title={i18n.t('misc.forbidden')}
+        subTitle={i18n.t('misc.forbiddenText')}
+        extra={<Link to="/app"><Button type="primary">{i18n.t('misc.toHome')}</Button></Link>}
       />
     );
   }

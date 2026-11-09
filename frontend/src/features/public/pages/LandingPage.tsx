@@ -5,6 +5,7 @@ import {
 import { useQuery } from '@tanstack/react-query';
 import { Button } from 'antd';
 import { useEffect, useState, type ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { Reveal, SplitWords, useInView } from '@/components/motion/motion';
 import { useAuthStore } from '@/features/auth/auth.store';
@@ -30,7 +31,7 @@ const SectionTitle = ({ title, text, link }: { title: string; text?: string; lin
 );
 
 /** Rasm ustidagi aylanuvchi bosqich — platformadagi yo'l: manba → tahlil → dars */
-const HERO_STAGES = ['Tarixiy manba', 'Tahlil', 'Dars'];
+const HERO_STAGES = ['landing.stage1', 'landing.stage2', 'landing.stage3'];
 const pad2 = (n: number) => String(n).padStart(2, '0');
 const onPhoto = { textShadow: '0 1px 10px rgba(11, 21, 48, 0.55)' };
 
@@ -40,10 +41,11 @@ const onPhoto = { textShadow: '0 1px 10px rgba(11, 21, 48, 0.55)' };
  * O'lchamlar rasm kengligiga bog'liq (container query birliklari — cqw).
  */
 const HeroArch = ({ featured }: { featured?: Pick<VirtualObject, 'slug' | 'title' | 'periodLabel'> }) => {
+  const { t } = useTranslation();
   const [stage, setStage] = useState(0);
   useEffect(() => {
-    const t = setInterval(() => setStage((s) => (s + 1) % HERO_STAGES.length), 3500);
-    return () => clearInterval(t);
+    const timer = setInterval(() => setStage((s) => (s + 1) % HERO_STAGES.length), 3500);
+    return () => clearInterval(timer);
   }, []);
   const fade = 'linear-gradient(to right, transparent 0, #000 22%), linear-gradient(to bottom, #000 86%, transparent)';
 
@@ -51,7 +53,7 @@ const HeroArch = ({ featured }: { featured?: Pick<VirtualObject, 'slug' | 'title
     <div className="relative w-full" style={{ aspectRatio: '900 / 458', containerType: 'inline-size' }}>
       <img
         src={heroImage}
-        alt="Ravoq ortida Registon majmuasi, oldida qadimiy qo‘lyozma va planshet"
+        alt={t('landing.heroAlt')}
         className="animate-hero-reveal absolute inset-0 h-full w-full object-cover"
         style={{ maskImage: fade, WebkitMaskImage: fade, maskComposite: 'intersect', WebkitMaskComposite: 'source-in' }}
       />
@@ -62,7 +64,7 @@ const HeroArch = ({ featured }: { featured?: Pick<VirtualObject, 'slug' | 'title
           <span className="text-white/60" style={{ fontSize: '0.45em' }}>/{pad2(HERO_STAGES.length)}</span>
         </div>
         <div key={`l${stage}`} className="animate-fade-in mt-2 font-medium uppercase tracking-[0.25em] text-white/90" style={{ fontSize: 'clamp(8px, 1cqw, 11px)' }}>
-          {HERO_STAGES[stage]}
+          {t(HERO_STAGES[stage])}
         </div>
         <span key={`ln${stage}`} className="animate-draw-line mt-3 block w-px bg-gradient-to-b from-accent to-transparent" style={{ height: '13cqw' }} aria-hidden />
       </div>
@@ -91,14 +93,16 @@ const MODULE_ICONS: Record<number, ReactNode> = {
 };
 
 /** Modullar — hero ostidagi ingichka chiziqlar bilan ajratilgan qator */
-const ModuleStrip = () => (
+const ModuleStrip = () => {
+  const { t } = useTranslation();
+  return (
   <section className="border-0 border-y border-solid border-line bg-white/70">
     <div className={`${CONTAINER} flex items-stretch gap-6 py-7`}>
       <div className="hidden shrink-0 flex-col justify-between lg:flex">
         <span className="text-[11px] font-semibold uppercase leading-relaxed tracking-[0.25em] text-ink">
-          {MODULES.length} ta
+          {t('landing.modulesCount', { count: MODULES.length })}
           <br />
-          modul
+          {t('landing.modulesWord')}
         </span>
         <span className="h-10 w-px bg-accent" aria-hidden />
       </div>
@@ -115,26 +119,29 @@ const ModuleStrip = () => (
       </ol>
     </div>
   </section>
-);
+  );
+};
 
 const ADVANTAGES = [
-  { icon: <GlobalOutlined />, title: 'Zamonaviy texnologiyalar', text: '3D modellar, 360° panoramalar va interaktiv xarita' },
-  { icon: <ExperimentOutlined />, title: 'Darslik asosida', text: 'O‘zbekiston tarixi darsligining tanlangan mavzulari bo‘yicha ma’ruzalar' },
+  { icon: <GlobalOutlined />, title: 'landing.adv1Title', text: 'landing.adv1Text' },
+  { icon: <ExperimentOutlined />, title: 'landing.adv2Title', text: 'landing.adv2Text' },
 ];
 
 /** To'q ko'k bo'lim: platformaning afzalliklari va muzeydan bitta obyekt (bazadan) */
-const AdvantagesBand = ({ media }: { media?: VirtualObjectListItem }) => (
+const AdvantagesBand = ({ media }: { media?: VirtualObjectListItem }) => {
+  const { t } = useTranslation();
+  return (
   <section className="bg-midnight">
     <div className={`${CONTAINER} grid items-center gap-10 py-14 lg:grid-cols-[1.15fr_1fr_1fr] lg:gap-12 lg:py-16`}>
       <Reveal>
         <div className="flex items-center gap-4">
           <span className="h-px w-10 bg-accent" aria-hidden />
-          <span className="text-[11px] font-medium uppercase tracking-[0.28em] text-white/60">Platformaning afzalliklari</span>
+          <span className="text-[11px] font-medium uppercase tracking-[0.28em] text-white/60">{t('landing.advLabel')}</span>
         </div>
         <h2 className="font-serif-title m-0 mt-5 text-3xl font-semibold leading-tight text-white md:text-[40px]">
-          Tarixni nafaqat o‘rganing,
+          {t('landing.advTitle1')}
           <br />
-          <span className="font-normal italic text-accent">balki uni his qiling.</span>
+          <span className="font-normal italic text-accent">{t('landing.advTitle2')}</span>
         </h2>
       </Reveal>
       {media?.thumbnailUrl && (
@@ -158,8 +165,8 @@ const AdvantagesBand = ({ media }: { media?: VirtualObjectListItem }) => (
             <li key={a.title} className="flex items-center gap-4">
               <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-solid border-accent/50 bg-white/[0.04] text-lg text-accent">{a.icon}</span>
               <div>
-                <div className="text-[15px] font-medium text-white">{a.title}</div>
-                <div className="mt-0.5 text-[13px] text-white/60">{a.text}</div>
+                <div className="text-[15px] font-medium text-white">{t(a.title)}</div>
+                <div className="mt-0.5 text-[13px] text-white/60">{t(a.text)}</div>
               </div>
             </li>
           ))}
@@ -167,7 +174,8 @@ const AdvantagesBand = ({ media }: { media?: VirtualObjectListItem }) => (
       </Reveal>
     </div>
   </section>
-);
+  );
+};
 
 /** Bo'lim ekranga kirganda qadamlarni birin-ketin yoqadi (bir marta) */
 const useStepper = (count: number, step = 450) => {
@@ -188,6 +196,7 @@ const useStepper = (count: number, step = 450) => {
 
 /** Sakkiz qadamda mavzuni o'zlashtirish — bitta ekranga sig'adigan 4×2 to'r */
 const ChainSection = () => {
+  const { t } = useTranslation();
   const { ref, active } = useStepper(CHAIN.length);
   const progress = active < 0 ? 0 : ((active + 1) / CHAIN.length) * 100;
   return (
@@ -195,9 +204,9 @@ const ChainSection = () => {
       <div ref={ref} className={`${CONTAINER} flex flex-col justify-center py-14 lg:min-h-[calc(100dvh-64px)]`}>
         <div className="mb-10 grid items-end gap-6 lg:grid-cols-[1fr_auto]">
           <div>
-            <h2 className="font-serif-title m-0 text-3xl font-bold md:text-[44px]">Sakkiz qadamda mavzuni o‘zlashtirish</h2>
+            <h2 className="font-serif-title m-0 text-3xl font-bold md:text-[44px]">{t('landing.chainTitle')}</h2>
             <p className="mb-0 mt-3 max-w-prose text-muted">
-              Mavzuni tanlashdan test natijasigacha — har bir qadam platformaning o‘zida.
+              {t('landing.chainText')}
             </p>
           </div>
           <div className="font-serif-title text-muted" aria-hidden>
@@ -226,7 +235,7 @@ const ChainSection = () => {
                 >
                   {i + 1}
                 </span>
-                <span className={`mt-4 text-[17px] font-semibold leading-snug transition-colors duration-500 ${on ? 'text-ink' : 'text-ink/45'}`}>{step}</span>
+                <span className={`mt-4 text-[17px] font-semibold leading-snug transition-colors duration-500 ${on ? 'text-ink' : 'text-ink/45'}`}>{t(step)}</span>
               </li>
             );
           })}
@@ -237,6 +246,7 @@ const ChainSection = () => {
 };
 
 export default function LandingPage() {
+  const { t } = useTranslation();
   const user = useAuthStore((s) => s.user);
   const objects = useQuery({ queryKey: ['landing-objects'], queryFn: () => museumService.list({ pageSize: 8 }) });
   const periods = useQuery({ queryKey: ['timeline'], queryFn: exploreService.timeline });
@@ -255,31 +265,30 @@ export default function LandingPage() {
             <div className="flex items-center gap-4">
               <span className="animate-line-grow h-px w-12 bg-accent" aria-hidden />
               <span className="animate-fade-up text-[12px] font-medium uppercase tracking-[0.28em] text-muted" style={{ animationDelay: '250ms' }}>
-                Tarix · Ta’lim · Kelajak
+                {t('landing.eyebrow')}
               </span>
             </div>
             <h1 className="font-serif-title m-0 mt-7 text-[44px] font-semibold leading-[1.04] text-ink sm:text-6xl lg:text-[54px] xl:text-[64px]">
-              <SplitWords text={'Har bir manba —'} delay={80} />
+              <SplitWords text={t('landing.heroLine1')} delay={80} />
               <br />
               <span className="font-normal italic text-accent">
-                <SplitWords text="bo‘lajak dars" delay={300} />
+                <SplitWords text={t('landing.heroLine2')} delay={300} />
               </span>
             </h1>
             <p className="animate-fade-up mb-0 mt-7 max-w-[42ch] text-[17px] leading-[1.75] text-muted" style={{ animationDelay: '500ms' }}>
-              Raqamli tarixiy manbalarni toping, tahlil qiling va ularni zamonaviy dars loyihasiga aylantiring. Bo‘lajak tarix o‘qituvchilari uchun
-              innovatsion platforma.
+              {t('landing.heroText')}
             </p>
             <div className="animate-fade-up mt-9 flex flex-wrap items-center gap-x-8 gap-y-4" style={{ animationDelay: '620ms' }}>
               <Link to={user ? '/app' : '/register'}>
                 <Button type="primary" size="large" className="group !h-12 !rounded-md !bg-midnight !px-8 hover:!bg-primary">
-                  {user ? 'Kabinetga o‘tish' : 'Boshlash'} <ArrowRightOutlined className="ml-4 transition-transform duration-300 group-hover:translate-x-1" />
+                  {user ? t('landing.toCabinet') : t('landing.start')} <ArrowRightOutlined className="ml-4 transition-transform duration-300 group-hover:translate-x-1" />
                 </Button>
               </Link>
               <Link to="/about" className="group inline-flex items-center gap-3 font-medium text-ink no-underline hover:text-primary">
                 <span className="flex h-10 w-10 items-center justify-center rounded-full border border-solid border-accent text-[12px] text-ink transition-colors group-hover:bg-accent group-hover:text-white">
                   <CaretRightFilled />
                 </span>
-                Platforma haqida
+                {t('nav.about')}
               </Link>
             </div>
           </div>
@@ -296,9 +305,9 @@ export default function LandingPage() {
       {items.length > 0 && (
         <section className={`${CONTAINER} py-24`}>
           <SectionTitle
-            title="Meros — bir bosish masofasida"
-            text="3D modellar va 360° panoramalar — kuzatuv va dalil topshiriqlari bilan."
-            link={{ to: '/app/museum', label: 'Muzeyga kirish' }}
+            title={t('landing.museumTitle')}
+            text={t('landing.museumText')}
+            link={{ to: '/app/museum', label: t('landing.museumLink') }}
           />
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {items.slice(0, 3).map((o, i) => (
@@ -327,9 +336,9 @@ export default function LandingPage() {
       {(periods.data?.length ?? 0) > 0 && (
         <section className={`${CONTAINER} pb-24`}>
           <SectionTitle
-            title="Davrlar bo‘ylab sayohat"
-            text="Har bir davrga bog‘langan manbalar va virtual obyektlar — xarita va vaqt chizig‘ida."
-            link={{ to: '/app/explore', label: 'Vaqt chizig‘ini ochish' }}
+            title={t('landing.periodsTitle')}
+            text={t('landing.periodsText')}
+            link={{ to: '/app/explore', label: t('landing.periodsLink') }}
           />
           {/* 6 ustunli to'r: soni 3 ga bo'linmasa, birinchi 2 (yoki 4) karta yarim kenglikda — oxirgi qatorda bo'sh joy qolmaydi */}
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-6">
@@ -351,7 +360,7 @@ export default function LandingPage() {
                   <div className="p-5">
                     <h3 className="font-serif-title m-0 text-xl font-semibold leading-snug text-ink">{p.name}</h3>
                     <div className="mt-2 flex items-center justify-between text-sm text-muted">
-                      <span>{p.sources.length} manba · {p.virtualObjects.length} obyekt</span>
+                      <span>{t('landing.periodStats', { sources: p.sources.length, objects: p.virtualObjects.length })}</span>
                       <ArrowRightOutlined className="text-primary transition-transform duration-300 group-hover:translate-x-1" />
                     </div>
                   </div>

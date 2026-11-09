@@ -4,10 +4,11 @@ import { Alert, Button, Card, Empty, Input, Select, Tag } from 'antd';
 import { useState } from 'react';
 import { useFieldArray, type UseFormReturn } from 'react-hook-form';
 import { SourcePicker } from '@/features/source-library/components/SourcePicker';
+import i18n from '@/i18n';
 import { museumService } from '@/services/museum.service';
 import { sourcesService } from '@/services/catalog.service';
 import type { LessonFormValues } from '../lessonForm';
-import { Hint } from './Hint';
+import { Hint, hints } from './Hint';
 import { TopicMaterials } from './TopicMaterials';
 
 /** Tarixiy manbalar va 3D/360° obyektlarni tanlash, har biri uchun darsdagi maqsadi */
@@ -34,13 +35,7 @@ export const StepResources = ({ form }: { form: UseFormReturn<LessonFormValues> 
 
   return (
     <>
-      <Hint
-        items={[
-          'Manba dars maqsadiga va o‘quvchilar yoshiga mosmi?',
-          'Manbaning ishonchliligi va cheklovlarini o‘quvchilarga qanday tushuntirasiz?',
-          'Manba darsning qaysi bosqichida va qanday maqsadda ishlatiladi?',
-        ]}
-      />
+      <Hint items={hints('resources')} />
       {topicId ? (
         <TopicMaterials
           topicId={topicId}
@@ -50,45 +45,45 @@ export const StepResources = ({ form }: { form: UseFormReturn<LessonFormValues> 
           onAddObject={(id, label) => append({ sourceId: null, virtualObjectId: id, purpose: '', label })}
         />
       ) : (
-        <Alert className="mb-6" type="info" showIcon message="«Kurs va mavzu» qadamida katalogdagi mavzuni tanlasangiz, shu yerda unga oid manbalar taklif qilinadi." />
+        <Alert className="mb-6" type="info" showIcon message={i18n.t('lesson.res.needTopic')} />
       )}
       <div className="mb-6 grid gap-4 lg:grid-cols-2">
-        <Card size="small" title="Boshqa manbani qidirib qo‘shish">
+        <Card size="small" title={i18n.t('lesson.res.findOther')}>
           <div className="flex gap-2">
             <div className="flex-1"><SourcePicker value={sourceId} onChange={(v) => setSourceId(v)} /></div>
-            <Button icon={<PlusOutlined />} onClick={() => void addSource()} disabled={!sourceId}>Qo‘shish</Button>
+            <Button icon={<PlusOutlined />} onClick={() => void addSource()} disabled={!sourceId}>{i18n.t('lesson.res.add')}</Button>
           </div>
         </Card>
-        <Card size="small" title="3D/360° obyekt qo‘shish">
+        <Card size="small" title={i18n.t('lesson.res.addObject')}>
           <div className="flex gap-2">
             <Select
               className="flex-1"
               showSearch
               optionFilterProp="label"
-              placeholder="Obyektni tanlang"
+              placeholder={i18n.t('lesson.res.pickObject')}
               value={objectId}
               onChange={setObjectId}
               loading={objects.isLoading}
               options={objects.data?.data.map((o) => ({ value: o.id, label: o.title }))}
             />
-            <Button icon={<PlusOutlined />} onClick={addObject} disabled={!objectId}>Qo‘shish</Button>
+            <Button icon={<PlusOutlined />} onClick={addObject} disabled={!objectId}>{i18n.t('lesson.res.add')}</Button>
           </div>
         </Card>
       </div>
-      {fields.length === 0 && <Empty description="Hali manba tanlanmagan" />}
+      {fields.length === 0 && <Empty description={i18n.t('lesson.res.none')} />}
       {fields.map((f, i) => (
         <Card key={f.id} size="small" className="mb-3">
           <div className="mb-2 flex items-center justify-between gap-2">
             <div>
-              <Tag color={f.sourceId ? 'blue' : 'purple'}>{f.sourceId ? 'Tarixiy manba' : '3D/360° obyekt'}</Tag>
+              <Tag color={f.sourceId ? 'blue' : 'purple'}>{f.sourceId ? i18n.t('lesson.res.sourceTag') : i18n.t('lesson.res.objectTag')}</Tag>
               <b>{f.label}</b>
             </div>
-            <Button danger size="small" icon={<DeleteOutlined />} onClick={() => remove(i)} aria-label="Olib tashlash" />
+            <Button danger size="small" icon={<DeleteOutlined />} onClick={() => remove(i)} aria-label={i18n.t('lesson.res.removeAria')} />
           </div>
           <Input.TextArea
-            aria-label={`${f.label} — darsdagi maqsadi`}
+            aria-label={i18n.t('lesson.res.purposeAria', { label: f.label })}
             status={values[i]?.purpose?.trim() ? undefined : 'warning'}
-            placeholder="Bu manba darsda qanday maqsadda ishlatiladi? (topshirish uchun majburiy)"
+            placeholder={i18n.t('lesson.res.purposePh')}
             autoSize={{ minRows: 2 }}
             value={values[i]?.purpose ?? ''}
             onChange={(e) => form.setValue(`resources.${i}.purpose`, e.target.value, { shouldDirty: true })}

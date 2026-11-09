@@ -1,5 +1,6 @@
 import { Button, Result } from 'antd';
 import { Component, type ErrorInfo, type ReactNode } from 'react';
+import i18n from '@/i18n';
 
 interface State { error: Error | null }
 
@@ -25,9 +26,9 @@ export class ErrorBoundary extends Component<{ children: ReactNode; compact?: bo
     return (
       <Result
         status="error"
-        title="Sahifani ko‘rsatishda xato yuz berdi"
-        subTitle={this.props.compact ? undefined : 'Sahifani yangilab ko‘ring. Muammo takrorlansa, administratorga murojaat qiling.'}
-        extra={<Button onClick={() => this.setState({ error: null })}>Qayta urinish</Button>}
+        title={i18n.t('common.errorTitle')}
+        subTitle={this.props.compact ? undefined : i18n.t('common.errorHint')}
+        extra={<Button onClick={() => this.setState({ error: null })}>{i18n.t('common.retry')}</Button>}
       />
     );
   }

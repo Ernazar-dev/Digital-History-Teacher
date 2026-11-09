@@ -1,6 +1,7 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { Button, Input } from 'antd';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { PageHeader } from '@/components/common/PageHeader';
 import { QueryState } from '@/components/feedback/QueryState';
@@ -23,6 +24,7 @@ const groupByBook = (items: SourceListItem[]) => {
 };
 
 export default function SourcesPage() {
+  const { t } = useTranslation();
   const [filters, setFilters] = useUrlState<{ q?: string }>([]);
   const { sources: base, inApp } = useAreaPath();
   const { isStaff } = useAuth();
@@ -36,24 +38,24 @@ export default function SourcesPage() {
   return (
     <>
       <PageHeader
-        title="Raqamli tarixiy manbalar"
-        description="O‘zbekiston tarixi bo‘yicha o‘quv mavzulari. Har bir mavzuda — ma’ruza matni, taqdimot va video rolik."
+        title={t('sources.title')}
+        description={t('sources.description')}
         extra={
           <div className="flex w-full flex-col gap-3 sm:flex-row sm:items-center md:w-auto">
             <Input.Search
               size="large"
               allowClear
               className="w-full sm:flex-1 md:w-[24rem] md:flex-none"
-              placeholder="Mavzu yoki ma’ruza matnidan qidirish"
-              aria-label="Mavzu qidirish"
+              placeholder={t('sources.searchPlaceholder')}
+              aria-label={t('sources.searchAria')}
               defaultValue={filters.q}
               onSearch={(v) => setFilters({ q: v || undefined })}
             />
-            {inApp && isStaff && !siteView && <Link to="/app/admin/sources/new" className="shrink-0"><Button size="large" type="primary" icon={<PlusOutlined />} className="w-full sm:w-auto">Mavzu qo‘shish</Button></Link>}
+            {inApp && isStaff && !siteView && <Link to="/app/admin/sources/new" className="shrink-0"><Button size="large" type="primary" icon={<PlusOutlined />} className="w-full sm:w-auto">{t('sources.add')}</Button></Link>}
           </div>
         }
       />
-      <QueryState query={query} isEmpty={(d) => d.data.length === 0} empty="Mos mavzu topilmadi.">
+      <QueryState query={query} isEmpty={(d) => d.data.length === 0} empty={t('sources.empty')}>
         {(d) => (
           <div className="space-y-10">
             {groupByBook(d.data).map(([book, items]) => (

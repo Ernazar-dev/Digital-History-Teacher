@@ -1,0 +1,62 @@
+{
+  "faravahar-persepolis": {
+    "license": "CC BY-SA 4.0",
+    "artist": "Z.g.eghtedar",
+    "page": "https://commons.wikimedia.org/wiki/File:Faravahar_sign_in_Takhte_Jamshid.jpg"
+  },
+  "faravahar-yazd": {
+    "license": "CC BY-SA 4.0",
+    "artist": "Bernard Gagnon",
+    "page": "https://commons.wikimedia.org/wiki/File:Faravahar_on_Fire_Temple,_Yazd.jpg"
+  },
+  "olov-ibodatxona": {
+    "license": "CC BY-SA 4.0",
+    "artist": "Bernard Gagnon",
+    "page": "https://commons.wikimedia.org/wiki/File:Zoroastrian_Fire_Temple,_Yazd_02.jpg"
+  },
+  "muqaddas-olov": {
+    "license": "CC BY 2.0",
+    "artist": "N_Creatures",
+    "page": "https://commons.wikimedia.org/wiki/File:Fire_in_Yazd_Zoroastrian_temple.jpg"
+  },
+  "persepolis-relyef": {
+    "license": "CC BY-SA 3.0",
+    "artist": "Napishtim",
+    "page": "https://commons.wikimedia.org/wiki/File:Persepolis_-_carved_Faravahar.JPG"
+  },
+  "toprak-qala": {
+    "license": "CC BY 2.0",
+    "artist": "dalbera",
+    "page": "https://commons.wikimedia.org/wiki/File:Toprak_Kala_(Khorezm,_Uzbekistan)_banner.jpg"
+  },
+  "toprak-qala-xarobalar": {
+    "license": "CC BY 2.0",
+    "artist": "dalbera from Paris, France",
+    "page": "https://commons.wikimedia.org/wiki/File:Ruins_of_Toprak-Kala.jpg"
+  },
+  "ayoz-qala": {
+    "license": "Public domain",
+    "artist": "Betta27",
+    "page": "https://commons.wikimedia.org/wiki/File:Ayaz_Kala_fortress_Khorezm.JPG"
+  },
+  "afrosiyob-elchilar": {
+    "license": "CC BY-SA 4.0",
+    "artist": "Nassima Chahboun",
+    "page": "https://commons.wikimedia.org/wiki/File:Ambassadors_painting_Afrasiyab_01.jpg"
+  },
+  "afrosiyob-devoriy": {
+    "license": "CC BY-SA 4.0",
+    "artist": "Nassima Chahboun",
+    "page": "https://commons.wikimedia.org/wiki/File:Afrasiyab_painting.jpg"
+  },
+  "sugd-devoriy": {
+    "license": "Public domain",
+    "artist": "So‘g‘d ustalari",
+    "page": "https://commons.wikimedia.org/wiki/File:Sogdianmural.jpg"
+  },
+  "panjakent-bazm": {
+    "license": "Public domain",
+    "artist": "So‘g‘d ustalari",
+    "page": "https://commons.wikimedia.org/wiki/File:Penjikent_muralsdetailbanquet.jpg"
+  }
+}

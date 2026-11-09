@@ -1,12 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
 import { Select } from 'antd';
 import { useMemo, useRef, useState } from 'react';
+import i18n from '@/i18n';
 import { SOURCE_TYPE } from '@/lib/labels';
 import { sourcesService } from '@/services/catalog.service';
 
 /** Nashr etilgan manbalarni qidirib tanlash (server tomonida qidiruv) */
 export const SourcePicker = ({
-  value, onChange, mode, placeholder = 'Manbani qidiring va tanlang',
+  value, onChange, mode, placeholder = i18n.t('misc.pickerPh'),
 }: { value?: string | string[]; onChange: (v: never) => void; mode?: 'multiple'; placeholder?: string }) => {
   const [q, setQ] = useState('');
   const list = useQuery({ queryKey: ['source-picker', q], queryFn: () => sourcesService.list({ q: q || undefined, pageSize: 30, status: 'PUBLISHED' }) });
@@ -32,7 +33,7 @@ export const SourcePicker = ({
       loading={list.isFetching}
       placeholder={placeholder}
       options={options}
-      notFoundContent={list.isFetching ? 'Qidirilmoqda...' : 'Topilmadi'}
+      notFoundContent={list.isFetching ? i18n.t('misc.searching') : i18n.t('misc.notFound')}
     />
   );
 };

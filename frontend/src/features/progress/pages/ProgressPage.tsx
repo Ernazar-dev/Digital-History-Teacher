@@ -5,6 +5,7 @@ import { Link, useParams } from 'react-router-dom';
 import { PageHeader } from '@/components/common/PageHeader';
 import { QueryState } from '@/components/feedback/QueryState';
 import { percentColor } from '@/features/tests/pages/TestPage';
+import i18n from '@/i18n';
 import { progressService, type Progress, type ProgressTest } from '@/services/progress.service';
 import { fmtPercent } from '@/utils/format';
 
@@ -32,7 +33,7 @@ const TestLine = ({ t, own }: { t: ProgressTest; own: boolean }) => {
       {t.attempt ? (
         <b style={{ color: percentColor(t.attempt.percent) }}>{t.attempt.correctCount}/{t.attempt.total}</b>
       ) : (
-        <span className="text-sm text-muted">{own ? 'Topshirilmagan' : '—'}</span>
+        <span className="text-sm text-muted">{own ? i18n.t('progress.notTaken') : '—'}</span>
       )}
       {own && <RightOutlined className="text-xs text-muted" />}
     </>
@@ -50,16 +51,16 @@ const View = ({ p, own, embedded = false }: { p: Progress; own: boolean; embedde
 
   return (
     <>
-      {!embedded && <PageHeader title={own ? 'Mening o‘quv yo‘lim' : 'Talabaning o‘quv yo‘li'} description="Mavzular bo‘yicha testlar va natijalar." />}
+      {!embedded && <PageHeader title={own ? i18n.t('progress.myPath') : i18n.t('progress.studentPath')} description={i18n.t('progress.desc')} />}
       <Card className="mb-6">
         <div className="grid gap-6 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center">
           <div>
-            <div className="text-sm text-muted">Topshirilgan testlar</div>
+            <div className="text-sm text-muted">{i18n.t('progress.doneTests')}</div>
             <div className="font-serif-title text-3xl">{testsDone} / {testsTotal}</div>
             <Bar percent={testsTotal ? Math.round((testsDone / testsTotal) * 100) : 0} showInfo={false} />
           </div>
           <div className="text-center">
-            <div className="text-sm text-muted">O‘rtacha natija</div>
+            <div className="text-sm text-muted">{i18n.t('progress.average')}</div>
             <div className="text-3xl font-semibold" style={{ color: averagePercent !== null ? percentColor(averagePercent) : undefined }}>
               {fmtPercent(averagePercent)}
             </div>
@@ -68,7 +69,7 @@ const View = ({ p, own, embedded = false }: { p: Progress; own: boolean; embedde
       </Card>
 
       {withTests.length === 0 && p.otherTests.length === 0 ? (
-        <Card><Empty description="Hozircha testlar yo‘q" /></Card>
+        <Card><Empty description={i18n.t('progress.noTests')} /></Card>
       ) : (
         <div className="grid gap-4 lg:grid-cols-2">
           {withTests.map((topic) => (
@@ -82,7 +83,7 @@ const View = ({ p, own, embedded = false }: { p: Progress; own: boolean; embedde
             </Card>
           ))}
           {p.otherTests.length > 0 && (
-            <Card size="small" title="Umumiy testlar">
+            <Card size="small" title={i18n.t('progress.general')}>
               {p.otherTests.map((t) => <TestLine key={t.id} t={t} own={own} />)}
             </Card>
           )}

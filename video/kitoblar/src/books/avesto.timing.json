@@ -1,0 +1,136 @@
+{
+  "title": [
+    {
+      "file": "title-0.mp3",
+      "seconds": 1.87
+    },
+    {
+      "file": "title-1.mp3",
+      "seconds": 5.78
+    }
+  ],
+  "what": [
+    {
+      "file": "what-0.mp3",
+      "seconds": 7.68
+    },
+    {
+      "file": "what-1.mp3",
+      "seconds": 5.95
+    }
+  ],
+  "homeland": [
+    {
+      "file": "homeland-0.mp3",
+      "seconds": 7.39
+    },
+    {
+      "file": "homeland-1.mp3",
+      "seconds": 6.58
+    },
+    {
+      "file": "homeland-2.mp3",
+      "seconds": 6.55
+    },
+    {
+      "file": "homeland-3.mp3",
+      "seconds": 7.58
+    }
+  ],
+  "teaching": [
+    {
+      "file": "teaching-0.mp3",
+      "seconds": 8.88
+    },
+    {
+      "file": "teaching-1.mp3",
+      "seconds": 4.37
+    },
+    {
+      "file": "teaching-2.mp3",
+      "seconds": 4.3
+    },
+    {
+      "file": "teaching-3.mp3",
+      "seconds": 4.73
+    }
+  ],
+  "parts": [
+    {
+      "file": "parts-0.mp3",
+      "seconds": 6.5
+    },
+    {
+      "file": "parts-1.mp3",
+      "seconds": 5.14
+    },
+    {
+      "file": "parts-2.mp3",
+      "seconds": 4.94
+    }
+  ],
+  "manuscript": [
+    {
+      "file": "manuscript-0.mp3",
+      "seconds": 6.5
+    },
+    {
+      "file": "manuscript-1.mp3",
+      "seconds": 5.71
+    }
+  ],
+  "sogd": [
+    {
+      "file": "sogd-0.mp3",
+      "seconds": 4.61
+    },
+    {
+      "file": "sogd-1.mp3",
+      "seconds": 8.5
+    },
+    {
+      "file": "sogd-2.mp3",
+      "seconds": 6.14
+    }
+  ],
+  "turkic": [
+    {
+      "file": "turkic-0.mp3",
+      "seconds": 7.49
+    },
+    {
+      "file": "turkic-1.mp3",
+      "seconds": 5.95
+    }
+  ],
+  "beruni": [
+    {
+      "file": "beruni-0.mp3",
+      "seconds": 6.19
+    },
+    {
+      "file": "beruni-1.mp3",
+      "seconds": 8.06
+    },
+    {
+      "file": "beruni-2.mp3",
+      "seconds": 6.5
+    }
+  ],
+  "legacy": [
+    {
+      "file": "legacy-0.mp3",
+      "seconds": 8.42
+    },
+    {
+      "file": "legacy-1.mp3",
+      "seconds": 5.26
+    }
+  ],
+  "outro": [
+    {
+      "file": "outro-0.mp3",
+      "seconds": 11.52
+    }
+  ]
+}

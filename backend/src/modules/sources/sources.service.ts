@@ -3,9 +3,10 @@ import type { z } from 'zod';
 import { prisma } from '../../config/prisma';
 import { AppError } from '../../shared/errors/AppError';
 import { buildMeta } from '../../shared/utils/http';
+import { DEFAULT_LOCALE, type Locale, type TranslationLocale } from '../../shared/i18n/locale';
 import { uniqueSlug } from '../../shared/utils/slug';
 import { visibleObjectWhere } from '../virtual-museum/virtual.service';
-import type { listSourcesQuery, sourceBodySchema, updateSourceSchema } from './sources.schemas';
+import type { listSourcesQuery, sourceBodySchema, translationBodySchema, updateSourceSchema } from './sources.schemas';
 
 type Actor = Express.AuthUser | undefined;
 const isStaff = (u: Actor) => u?.role === 'ADMIN' || u?.role === 'TEACHER';
@@ -55,8 +56,65 @@ export const foldApostrophes = (text: string) => text.replace(/[‘’ʻʼ`´′
 const foldSql = (col: Prisma.Sql) => Prisma.sql`translate(${col}, ${APOS_FROM}, ${"'".repeat(APOS_FROM.length)})`;
 const likeOf = (q: string) => `%${foldApostrophes(q).replace(/[\\%_]/g, (ch) => `\\${ch}`)}%`;
 
+const translationFileSelect = {
+  lectureFile: fileSelect,
+  presentationFile: fileSelect,
+  videoFile: fileSelect,
+} as const;
+
+/** Tarjima qatoridagi bo'sh bo'lmagan matn (bo'sh qator = tarjima qilinmagan) */
+const filled = (v: string | null | undefined) => (v && v.trim() ? v : undefined);
+
+/**
+ * Tarjima mavjud maydonlarni almashtiradi, yetishmaganlari o'zbekcha qoladi.
+ * Ma'ruza (matn+fayl) va video (havola+fayl) bir butun sifatida almashadi — o'zbekcha fayl bilan aralashib ketmaydi.
+ * `fallbacks` — qaysi qismlar o'zbekchada qolgani (interfeys «bu tilda mavjud emas» deb ko'rsatadi).
+ */
+type Translated<T> = T & { lang: Locale; fallbacks: string[] };
+const overlayTranslation = <T extends Record<string, any>>(base: T, t: any | null | undefined, lang: Locale): Translated<T> => {
+  if (lang === DEFAULT_LOCALE) return { ...base, lang: DEFAULT_LOCALE as Locale, fallbacks: [] as string[] };
+  const fallbacks: string[] = [];
+  const out: Record<string, any> = { ...base, lang: t ? lang : DEFAULT_LOCALE };
+  if (!t) return { ...out, fallbacks: ['text', 'lecture', 'presentation', 'video'] } as Translated<T>;
+  for (const key of ['title', 'summary', 'description', 'teachingUse', 'methodicalRecommendations', 'practicalTasks', 'references'] as const) {
+    const v = filled(t[key]);
+    if (v !== undefined) out[key] = v;
+  }
+  if (filled(t.summary) === undefined) fallbacks.push('text');
+  if (filled(t.lectureContent) !== undefined || t.lectureFileId) {
+    out.lectureContent = filled(t.lectureContent) ?? null;
+    out.lectureFileId = t.lectureFileId ?? null;
+    if ('lectureFile' in base) out.lectureFile = t.lectureFile ?? null;
+  } else fallbacks.push('lecture');
+  if (t.presentationFileId) {
+    out.presentationFileId = t.presentationFileId;
+    if ('presentationFile' in base) out.presentationFile = t.presentationFile ?? null;
+  } else if (base.presentationFileId) fallbacks.push('presentation');
+  if (t.videoFileId || t.videoUrl) {
+    out.videoFileId = t.videoFileId ?? null;
+    out.videoUrl = t.videoUrl ?? null;
+    if ('videoFile' in base) out.videoFile = t.videoFile ?? null;
+  } else if (base.videoFileId || base.videoUrl) fallbacks.push('video');
+  return { ...out, fallbacks } as Translated<T>;
+};
+
+/** Ro'yxat uchun: tarjima sarlavha/tavsif, ma'ruza bor-yo'qligi, taqdimot va videoni almashtiradi */
+const translateList = async <T extends { id: string; hasLecture: boolean }>(rows: T[], lang: Locale) => {
+  if (lang === DEFAULT_LOCALE || rows.length === 0) return rows;
+  const translations = await prisma.historicalSourceTranslation.findMany({
+    where: { sourceId: { in: rows.map((r) => r.id) }, locale: lang },
+  });
+  const byId = new Map(translations.map((t) => [t.sourceId, t]));
+  return rows.map((r) => {
+    const t = byId.get(r.id);
+    const o = overlayTranslation(r, t, lang);
+    const hasOwnLecture = Boolean(t && (filled(t.lectureContent) !== undefined || t.lectureFileId));
+    return { ...o, hasLecture: hasOwnLecture ? filled(t?.lectureContent) !== undefined : r.hasLecture };
+  });
+};
+
 /** Qidiruv so'rovi mos keladigan mavzu va kitoblar (sarlavha, tavsif, ma'ruza matni, kitob sahifalari) */
-export const searchIds = async (q: string) => {
+export const searchIds = async (q: string, lang: Locale = DEFAULT_LOCALE) => {
   const like = likeOf(q);
   const hit = (col: Prisma.Sql) => Prisma.sql`${foldSql(col)} ILIKE ${like}`;
   const rows = await prisma.$queryRaw<{ id: string }[]>(Prisma.sql`
@@ -65,6 +123,12 @@ export const searchIds = async (q: string) => {
       ${hit(Prisma.sql`s."title"`)} OR ${hit(Prisma.sql`s."summary"`)} OR ${hit(Prisma.sql`COALESCE(s."bookLabel", '')`)}
       OR ${hit(Prisma.sql`COALESCE(s."author", '')`)} OR ${hit(Prisma.sql`COALESCE(s."lectureContent", '')`)}
       OR EXISTS (SELECT 1 FROM "SourcePage" p WHERE p."sourceId" = s."id" AND ${hit(Prisma.sql`p."text"`)})
+      OR EXISTS (
+        SELECT 1 FROM "HistoricalSourceTranslation" tr
+        WHERE tr."sourceId" = s."id" AND tr."locale" = ${lang} AND (
+          ${hit(Prisma.sql`tr."title"`)} OR ${hit(Prisma.sql`COALESCE(tr."summary", '')`)} OR ${hit(Prisma.sql`COALESCE(tr."lectureContent", '')`)}
+        )
+      )
     )`);
   return rows.map((r) => r.id);
 };
@@ -90,14 +154,14 @@ const filesOf = (d: { mediaFileId?: string | null; lectureFileId?: string | null
   [d.mediaFileId, d.lectureFileId, d.presentationFileId, d.videoFileId];
 
 export const sourcesService = {
-  async list(actor: Actor, q: z.infer<typeof listSourcesQuery>) {
+  async list(actor: Actor, q: z.infer<typeof listSourcesQuery>, lang: Locale = DEFAULT_LOCALE) {
     const where: Prisma.HistoricalSourceWhereInput = { ...visibleSourceWhere(actor) };
     if (q.type) where.type = q.type;
     if (q.periodId) where.periodId = q.periodId;
     if (q.topicId) where.topics = { some: { topicId: q.topicId } };
     if (q.status && isStaff(actor)) where.status = q.status;
     if (q.q) {
-      where.id = { in: await searchIds(q.q) };
+      where.id = { in: await searchIds(q.q, lang) };
     }
     const [total, rows] = await prisma.$transaction([
       prisma.historicalSource.count({ where }),
@@ -109,10 +173,10 @@ export const sourcesService = {
         take: q.pageSize,
       }),
     ]);
-    return { items: await withLectureFlag(rows.map(flattenTopics)), meta: buildMeta(q.page, q.pageSize, total) };
+    return { items: await translateList(await withLectureFlag(rows.map(flattenTopics)), lang), meta: buildMeta(q.page, q.pageSize, total) };
   },
 
-  async get(actor: Actor, idOrSlug: string) {
+  async get(actor: Actor, idOrSlug: string, lang: Locale = DEFAULT_LOCALE) {
     const isUuid = /^[0-9a-f-]{36}$/i.test(idOrSlug);
     const source = await prisma.historicalSource.findFirst({
       where: { ...visibleSourceWhere(actor), ...(isUuid ? { id: idOrSlug } : { slug: idOrSlug }) },
@@ -120,6 +184,13 @@ export const sourcesService = {
         period: true,
         topics: { select: { topic: { select: { id: true, name: true } } } },
         createdBy: { select: { id: true, fullName: true } },
+        translations: {
+          select: {
+            locale: true, title: true, summary: true, description: true, teachingUse: true, methodicalRecommendations: true,
+            practicalTasks: true, references: true, lectureContent: true, lectureFileId: true, presentationFileId: true,
+            videoFileId: true, videoUrl: true, ...translationFileSelect,
+          },
+        },
         mediaFile: fileSelect,
         lectureFile: fileSelect,
         presentationFile: fileSelect,
@@ -138,7 +209,15 @@ export const sourcesService = {
     });
     if (!source) throw AppError.notFound('Mavzu topilmadi');
     const pageCount = await prisma.sourcePage.count({ where: { sourceId: source.id } });
-    return { ...flattenTopics(source), pageCount, virtualObjects: source.virtualObjects.map((v) => v.virtualObject) };
+    const { translations, ...rest } = source;
+    const result = {
+      ...flattenTopics(rest),
+      pageCount,
+      virtualObjects: source.virtualObjects.map((v) => v.virtualObject),
+      /** Qaysi tillarda variant bor (o'zbekcha doim bor) */
+      availableLocales: [DEFAULT_LOCALE, ...translations.map((t) => t.locale)],
+    };
+    return overlayTranslation(result, translations.find((t) => t.locale === lang), lang);
   },
 
   async create(actor: Express.AuthUser, input: z.infer<typeof sourceBodySchema>) {
@@ -184,5 +263,31 @@ export const sourcesService = {
     await assertCanEdit(actor, id);
     // Soft delete — dars ishlanmalari va testlardagi bog'lanishlar buzilmaydi
     await prisma.historicalSource.update({ where: { id }, data: { deletedAt: new Date() } });
+  },
+
+  /** Tahrirlash oynasi uchun: mavzuning barcha tarjimalari (xom holda) */
+  async listTranslations(actor: Express.AuthUser, id: string) {
+    await assertCanEdit(actor, id);
+    return prisma.historicalSourceTranslation.findMany({
+      where: { sourceId: id },
+      include: translationFileSelect,
+      orderBy: { locale: 'asc' },
+    });
+  },
+
+  async upsertTranslation(actor: Express.AuthUser, id: string, locale: TranslationLocale, input: z.infer<typeof translationBodySchema>) {
+    await assertCanEdit(actor, id);
+    await assertMediaExists([input.lectureFileId, input.presentationFileId, input.videoFileId]);
+    return prisma.historicalSourceTranslation.upsert({
+      where: { sourceId_locale: { sourceId: id, locale } },
+      create: { ...input, sourceId: id, locale },
+      update: input,
+      include: translationFileSelect,
+    });
+  },
+
+  async removeTranslation(actor: Express.AuthUser, id: string, locale: TranslationLocale) {
+    await assertCanEdit(actor, id);
+    await prisma.historicalSourceTranslation.deleteMany({ where: { sourceId: id, locale } });
   },
 };

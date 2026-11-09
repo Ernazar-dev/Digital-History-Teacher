@@ -6,6 +6,7 @@ import { PageHeader } from '@/components/common/PageHeader';
 import { QueryState } from '@/components/feedback/QueryState';
 import { useNotify } from '@/hooks/useNotify';
 import { useUrlState } from '@/hooks/useUrlState';
+import i18n from '@/i18n';
 import { ROLE, toOptions, USER_STATUS } from '@/lib/labels';
 import { usersService } from '@/services/people.service';
 import type { Role, User, UserStatus } from '@/types/api';
@@ -14,10 +15,10 @@ import { UsersTable } from '../components/UsersTable';
 
 /** Yuqoridagi kartalar: har biri ro'yxatni tegishli filtrga o'tkazadi */
 const STATS: { key: string; label: string; icon: ReactNode; tone: string; role?: Role; status?: UserStatus }[] = [
-  { key: 'ALL', label: 'Jami foydalanuvchi', icon: <TeamOutlined />, tone: 'bg-primary-soft text-primary' },
-  { key: 'STUDENT', label: 'Talabalar', icon: <ReadOutlined />, tone: 'bg-sky-50 text-sky-700', role: 'STUDENT' },
-  { key: 'TEACHER', label: 'O‘qituvchilar', icon: <UserOutlined />, tone: 'bg-emerald-50 text-emerald-700', role: 'TEACHER' },
-  { key: 'PENDING', label: 'Tasdiq kutmoqda', icon: <ClockCircleOutlined />, tone: 'bg-accent-soft text-[#8f6a24]', status: 'PENDING' },
+  { key: 'ALL', get label() { return i18n.t('users.statAll'); }, icon: <TeamOutlined />, tone: 'bg-primary-soft text-primary' },
+  { key: 'STUDENT', get label() { return i18n.t('users.statStudents'); }, icon: <ReadOutlined />, tone: 'bg-sky-50 text-sky-700', role: 'STUDENT' },
+  { key: 'TEACHER', get label() { return i18n.t('users.statTeachers'); }, icon: <UserOutlined />, tone: 'bg-emerald-50 text-emerald-700', role: 'TEACHER' },
+  { key: 'PENDING', get label() { return i18n.t('users.statPending'); }, icon: <ClockCircleOutlined />, tone: 'bg-accent-soft text-[#8f6a24]', status: 'PENDING' },
 ];
 
 export default function UsersPage() {
@@ -37,7 +38,7 @@ export default function UsersPage() {
     mutationFn: usersService.create,
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['users'] });
-      notify.success('Foydalanuvchi yaratildi');
+      notify.success(i18n.t('users.created'));
       setCreating(false);
     },
     onError: (e) => notify.error(e),
@@ -45,7 +46,7 @@ export default function UsersPage() {
   const reset = useMutation({
     mutationFn: () => usersService.resetPassword(resetFor!.id, newPassword),
     onSuccess: () => {
-      notify.success('Parol yangilandi, foydalanuvchi sessiyalari bekor qilindi');
+      notify.success(i18n.t('users.pwdReset'));
       setResetFor(null);
       setNewPassword('');
     },
@@ -55,9 +56,9 @@ export default function UsersPage() {
   return (
     <>
       <PageHeader
-        title="Foydalanuvchilar"
-        description="Ro‘yxatdan o‘tganlarni tasdiqlash, rollarni tayinlash va hisoblarni boshqarish."
-        extra={<Button type="primary" icon={<PlusOutlined />} onClick={() => setCreating(true)}>Yangi foydalanuvchi</Button>}
+        title={i18n.t('staffNav.users')}
+        description={i18n.t('users.desc')}
+        extra={<Button type="primary" icon={<PlusOutlined />} onClick={() => setCreating(true)}>{i18n.t('users.new')}</Button>}
       />
       {/* Umumiy ko'rinish — karta bosilsa, ro'yxat shunga filtrlanadi */}
       <div className="mb-6 grid grid-cols-2 gap-3 lg:grid-cols-4">
@@ -84,13 +85,13 @@ export default function UsersPage() {
       </div>
       <Card styles={{ body: { padding: 0 } }}>
         <div className="flex flex-wrap items-center gap-3 border-0 border-b border-solid border-line p-4">
-          <Input.Search className="max-w-sm flex-1" placeholder="Ism, login yoki email" allowClear defaultValue={f.q} onSearch={(v) => setF({ q: v, page: 1 })} />
+          <Input.Search className="max-w-sm flex-1" placeholder={i18n.t('users.searchPh')} allowClear defaultValue={f.q} onSearch={(v) => setF({ q: v, page: 1 })} />
           <Segmented
             value={f.role ?? 'ALL'}
             onChange={(v) => setF({ role: v === 'ALL' ? undefined : (v as Role), page: 1 })}
-            options={[{ value: 'ALL', label: 'Barchasi' }, ...toOptions(ROLE)]}
+            options={[{ value: 'ALL', label: i18n.t('common.all') }, ...toOptions(ROLE)]}
           />
-          <Select className="ml-auto w-44" allowClear placeholder="Holat" value={f.status} options={toOptions(USER_STATUS)} onChange={(v) => setF({ status: v, page: 1 })} />
+          <Select className="ml-auto w-44" allowClear placeholder={i18n.t('users.statusPh')} value={f.status} options={toOptions(USER_STATUS)} onChange={(v) => setF({ status: v, page: 1 })} />
         </div>
         <QueryState query={q}>
           {(d) => <UsersTable data={d.data} total={d.meta.total} page={f.page ?? 1} onPage={(page) => setF({ page })} onResetPassword={setResetFor} />}
@@ -99,14 +100,14 @@ export default function UsersPage() {
       <UserFormModal open={creating} onClose={() => setCreating(false)} onSubmit={(v) => create.mutate({ ...v, institution: v.institution || undefined })} loading={create.isPending} />
       <Modal
         open={Boolean(resetFor)}
-        title={`Parolni tiklash: ${resetFor?.fullName ?? ''}`}
-        okText="Saqlash"
-        cancelText="Bekor qilish"
+        title={i18n.t('users.resetTitle', { name: resetFor?.fullName ?? '' })}
+        okText={i18n.t('common.save')}
+        cancelText={i18n.t('common.cancel')}
         onCancel={() => setResetFor(null)}
         okButtonProps={{ disabled: newPassword.length < 8, loading: reset.isPending }}
         onOk={() => reset.mutate()}
       >
-        <Input.Password placeholder="Yangi parol (kamida 8 belgi)" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
+        <Input.Password placeholder={i18n.t('users.resetPh')} value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
       </Modal>
     </>
   );

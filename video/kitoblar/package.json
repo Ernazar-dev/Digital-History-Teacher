@@ -1,0 +1,24 @@
+{
+  "name": "dht-video-kitoblar",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "remotion studio",
+    "render:boburnoma": "remotion render Boburnoma out/boburnoma.mp4 --crf=23",
+    "still": "remotion still Boburnoma out/still.png --frame=300",
+    "check": "tsc --noEmit -p ."
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.541",
+    "@remotion/google-fonts": "^4.0.541",
+    "@remotion/transitions": "^4.0.541",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "remotion": "^4.0.541"
+  },
+  "devDependencies": {
+    "@types/react": "^19.3.0",
+    "msedge-tts": "^2.1.1",
+    "typescript": "^7.0.2"
+  }
+}

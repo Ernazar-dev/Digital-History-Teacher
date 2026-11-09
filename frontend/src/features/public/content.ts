@@ -1,20 +1,23 @@
-/** Platforma konsepsiyasi: modullar va pedagogik zanjir */
-export const CHAIN = [
-  'Mavzuni tanlang',
-  'Ma’ruzani o‘qing',
-  'Taqdimotni ko‘ring',
-  'Video rolikni tomosha qiling',
-  'Virtual muzeyda kuzating (3D va 360°)',
-  'Xarita va vaqt chizig‘ida joylashtiring',
-  'Testni topshiring',
-  'Natijani ko‘ring va portfolioga qo‘shing',
-];
+import i18n from '@/i18n';
 
-export const MODULES = [
-  { n: 1, short: 'Manbalar', brief: 'Mavzular: ma’ruza, taqdimot va video', title: 'Raqamli tarixiy manbalar', text: 'O‘zbekiston tarixi bo‘yicha 13 ta o‘quv mavzusi — har birida ma’ruza matni, taqdimot va video rolik — hamda Avesto, Buxoro tarixi, Zafarnoma, Boburnoma, Shajarai turk kabi tarixiy asarlar.', to: '/app/sources' },
-  { n: 2, short: 'Dars konstruktori', brief: 'Manba asosida dars loyihasini yarating', title: 'Interaktiv tarix darsi konstruktori', text: 'Kurs, mavzu, maqsad, manbalar, muammoli savollar, metodlar, bosqichlar va baholash mezonlarini mustaqil loyihalash.', to: '/app/lessons' },
-  { n: 3, short: 'Virtual muzey va xarita', brief: '3D modellar, 360° panoramalar va interaktiv xarita', title: 'Virtual tarixiy sayohat va muzey', text: 'Sketchfab 3D modellari va Uzbekistan360 panoramalari asosida kuzatuv, dalil va mashg‘ulot topshiriqlari.', to: '/app/museum' },
-  { n: 4, short: 'Topshiriqlar', brief: 'Testlar: faylni o‘qing, javobni belgilang', title: 'Topshiriqlar va baholash', text: 'O‘qituvchi test faylini yuklaydi va javoblar kalitini belgilaydi; talaba faylni o‘qib, A–D javoblarni belgilaydi va natijani darhol ko‘radi.', to: '/app/assignments' },
-  { n: 5, short: 'Metodika', brief: 'O‘qitish metodlari va tavsiyalar', title: 'Metodika', text: 'Raqamli manbalar bilan ishlash metodlari va ularni darsda qo‘llash bo‘yicha tavsiyalar.', to: '/app/methodology' },
-  { n: 6, short: 'Shaxsiy kabinet', brief: 'Portfolio, natijalar va o‘quv yo‘li', title: 'Shaxsiy kabinet va elektron portfolio', text: 'Shaxsiy kabinet: test natijalari, o‘quv yo‘li va o‘z ishlaringizni (PDF, Word, taqdimot) yuklab, elektron portfolio yuriting.', to: '/app/profile' },
-];
+/** Platforma konsepsiyasi: pedagogik zanjir qadamlari — i18n kalitlari (ko'rsatishda t() bilan) */
+export const CHAIN: readonly string[] = Array.from({ length: 8 }, (_, i) => `landing.chain${i + 1}`);
+
+const MODULE_DEFS = [
+  { n: 1, to: '/app/sources' },
+  { n: 2, to: '/app/lessons' },
+  { n: 3, to: '/app/museum' },
+  { n: 4, to: '/app/assignments' },
+  { n: 5, to: '/app/methodology' },
+  { n: 6, to: '/app/profile' },
+] as const;
+
+/** Modullar: matnlar o'qilganda joriy tilda hisoblanadi */
+export const MODULES = MODULE_DEFS.map(({ n, to }) => ({
+  n,
+  to,
+  get short() { return i18n.t(`landing.m${n}Short`); },
+  get brief() { return i18n.t(`landing.m${n}Brief`); },
+  get title() { return i18n.t(`landing.m${n}Title`); },
+  get text() { return i18n.t(`landing.m${n}Text`); },
+}));

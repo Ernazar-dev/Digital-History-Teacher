@@ -8,8 +8,8 @@ const fileRef = z.object({ id: z.string(), originalName: z.string(), mimeType: z
  * Fayllar keyinroq ham yuklanishi mumkin — hech biri majburiy emas.
  */
 export const sourceFormSchema = z.object({
-  title: z.string().trim().min(2, 'Mavzu nomini kiriting').max(300),
-  summary: z.string().trim().min(10, 'Qisqa tavsif kamida 10 belgi bo‘lsin').max(1000),
+  title: z.string().trim().min(2, 'validation.titleRequired').max(300),
+  summary: z.string().trim().min(10, 'validation.summaryMin').max(1000),
   lectureFile: fileRef.nullable(),
   presentationFile: fileRef.nullable(),
   videoFile: fileRef.nullable(),
@@ -17,7 +17,7 @@ export const sourceFormSchema = z.object({
     .string()
     .trim()
     .max(2000)
-    .refine((v) => !v || Boolean(youtubeEmbedUrl(v)), 'YouTube havolasini kiriting (masalan: https://youtu.be/...)'),
+    .refine((v) => !v || Boolean(youtubeEmbedUrl(v)), 'validation.youtube'),
   cover: fileRef.nullable(),
 });
 

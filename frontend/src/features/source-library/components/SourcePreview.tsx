@@ -2,6 +2,7 @@ import { ExportOutlined } from '@ant-design/icons';
 import { useQuery } from '@tanstack/react-query';
 import { Skeleton, Tag } from 'antd';
 import { Link } from 'react-router-dom';
+import i18n from '@/i18n';
 import { sourcesService } from '@/services/catalog.service';
 import { LectureFileView } from './LectureFileView';
 import { LectureReader } from './LectureReader';
@@ -11,14 +12,14 @@ import { MaterialViewer } from './MaterialViewer';
 export const SourcePreview = ({ slug }: { slug: string }) => {
   const q = useQuery({ queryKey: ['source', slug], queryFn: () => sourcesService.get(slug) });
   if (q.isLoading) return <Skeleton active paragraph={{ rows: 6 }} />;
-  if (!q.data) return <p className="m-0 text-muted">Mavzuni yuklab bo‘lmadi.</p>;
+  if (!q.data) return <p className="m-0 text-muted">{i18n.t('misc.previewFail')}</p>;
   const s = q.data;
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-2">
         {s.bookLabel ? <Tag color="gold" className="m-0">{s.bookLabel}</Tag> : <span />}
         <Link to={`/app/sources/${s.slug}`} target="_blank" className="text-sm">
-          Mavzu sahifasi <ExportOutlined />
+          {i18n.t('misc.previewPage')} <ExportOutlined />
         </Link>
       </div>
       <p className="m-0 text-muted">{s.summary}</p>
@@ -30,7 +31,7 @@ export const SourcePreview = ({ slug }: { slug: string }) => {
       ) : s.presentationFile ? (
         <MaterialViewer files={[s.presentationFile]} />
       ) : (
-        <p className="m-0 text-muted">Mavzu materiallari hali qo‘shilmagan.</p>
+        <p className="m-0 text-muted">{i18n.t('misc.previewEmpty')}</p>
       )}
     </div>
   );

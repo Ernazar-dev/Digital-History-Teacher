@@ -1,5 +1,6 @@
 import type { Request, Response } from 'express';
 import { AppError } from '../errors/AppError';
+import { translateDeep } from '../i18n/translateResponse';
 
 export interface PageMeta {
   page: number;
@@ -8,8 +9,12 @@ export interface PageMeta {
   totalPages: number;
 }
 
-export const ok = <T>(res: Response, data: T, meta?: PageMeta) =>
-  res.status(200).json(meta ? { data, meta } : { data });
+/** GET javoblarida (o'zbekcha bo'lmagan tilda) bazadagi tanish matnlar tarjimasi bilan almashtiriladi */
+export const ok = <T>(res: Response, data: T, meta?: PageMeta) => {
+  const dict = res.req?.i18nDict;
+  const body = dict ? translateDeep(data, dict) : data;
+  return res.status(200).json(meta ? { data: body, meta } : { data: body });
+};
 
 export const created = <T>(res: Response, data: T) => res.status(201).json({ data });
 

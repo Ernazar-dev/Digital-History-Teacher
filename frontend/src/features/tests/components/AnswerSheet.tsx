@@ -1,4 +1,5 @@
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
+import i18n from '@/i18n';
 import type { TestOption } from '@/types/api';
 
 export const OPTIONS: TestOption[] = ['A', 'B', 'C', 'D'];
@@ -61,7 +62,7 @@ export const AnswerSheet = ({ count, value, onChange, answerKey, keyMode }: Prop
                     type="button"
                     role="radio"
                     aria-checked={on}
-                    aria-label={`${i + 1}-savol, ${o} javob`}
+                    aria-label={i18n.t('misc.answerAria', { n: i + 1, o })}
                     disabled={readOnly}
                     onClick={() => set(i, o)}
                     className={`flex h-9 w-9 items-center justify-center rounded-full border-2 border-solid text-sm font-semibold transition-colors ${tone} ${readOnly ? 'cursor-default' : 'cursor-pointer'}`}
@@ -71,7 +72,7 @@ export const AnswerSheet = ({ count, value, onChange, answerKey, keyMode }: Prop
                 );
               })}
             </span>
-            {right === true && <CheckOutlined className="text-emerald-600" aria-label="To‘g‘ri" />}
+            {right === true && <CheckOutlined className="text-emerald-600" aria-label={i18n.t('misc.correct')} />}
             {right === false && (
               <span className="flex items-center gap-1 text-sm text-red-600">
                 <CloseOutlined aria-hidden /> {picked ? '' : 'belgilanmagan'}

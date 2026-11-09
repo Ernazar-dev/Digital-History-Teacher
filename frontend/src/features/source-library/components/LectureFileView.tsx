@@ -1,6 +1,7 @@
 import { ArrowUpOutlined, DownloadOutlined, OrderedListOutlined } from '@ant-design/icons';
 import { Button, Spin, Tooltip } from 'antd';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import i18n from '@/i18n';
 import { sanitizeDom } from '@/lib/sanitizeDom';
 import type { MediaFileRef } from '@/types/api';
 import { fileKind, mediaFileUrl } from '../files';
@@ -88,11 +89,11 @@ const DocxReader = ({ file, size, onHeadings }: { file: MediaFileRef; size: numb
 
   return (
     <>
-      {state === 'loading' && <div className="flex min-h-[40vh] items-center justify-center"><Spin size="large" tip="Ma’ruza ochilmoqda..." /></div>}
+      {state === 'loading' && <div className="flex min-h-[40vh] items-center justify-center"><Spin size="large" tip={i18n.t('reader.opening')} /></div>}
       {state === 'error' && (
         <div className="flex flex-col items-center gap-3 py-16 text-center text-muted">
-          <p className="m-0 max-w-sm">Ma’ruzani sahifada ko‘rsatib bo‘lmadi. Faylni yuklab olib oching.</p>
-          <a href={mediaFileUrl(file.id)} download={file.originalName}><Button icon={<DownloadOutlined />}>Yuklab olish</Button></a>
+          <p className="m-0 max-w-sm">{i18n.t('reader.cantShow')}</p>
+          <a href={mediaFileUrl(file.id)} download={file.originalName}><Button icon={<DownloadOutlined />}>{i18n.t('reader.download')}</Button></a>
         </div>
       )}
       <div ref={ref} className={`lecture-doc ${state === 'ready' ? '' : 'hidden'}`} style={{ fontSize: `${size}rem` }} />
@@ -118,7 +119,7 @@ const PdfReader = ({ file }: { file: MediaFileRef }) => {
       if (url) URL.revokeObjectURL(url);
     };
   }, [file.id]);
-  if (failed) return <p className="py-16 text-center text-muted">PDF faylni ochib bo‘lmadi — uni yuklab oling.</p>;
+  if (failed) return <p className="py-16 text-center text-muted">{i18n.t('reader.pdfFail')}</p>;
   if (!src) return <div className="flex min-h-[40vh] items-center justify-center"><Spin size="large" /></div>;
   return <iframe title={file.originalName} src={src} className="block h-[calc(100vh-11rem)] min-h-[520px] w-full rounded-xl border border-solid border-line bg-white" />;
 };
@@ -167,8 +168,8 @@ export const LectureFileView = ({ file, initialQuery = '' }: { file: MediaFileRe
   }, [heads, isDocx]);
 
   const toc = heads.length > 1 && (
-    <nav aria-label="Ma’ruza rejasi">
-      <div className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-muted"><OrderedListOutlined /> Reja</div>
+    <nav aria-label={i18n.t('reader.toc')}>
+      <div className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-muted"><OrderedListOutlined /> {i18n.t('reader.plan')}</div>
       <ol className="m-0 list-none space-y-0.5 border-0 border-l-2 border-solid border-line p-0">
         {heads.map((h) => {
           const on = h.id === activeId;
@@ -203,17 +204,17 @@ export const LectureFileView = ({ file, initialQuery = '' }: { file: MediaFileRe
         <span className="flex flex-wrap items-center gap-2">
           {isDocx && <DocSearch rootRef={docRef} ready={docReady} initial={initialQuery} />}
           {isDocx && (
-            <span className="flex items-center rounded-lg border border-solid border-line" role="group" aria-label="Shrift o‘lchami">
-              <Tooltip title="Kichikroq shrift">
-                <Button type="text" size="small" disabled={size === SIZES[0]} onClick={() => changeSize(-1)} aria-label="Shriftni kichraytirish">A−</Button>
+            <span className="flex items-center rounded-lg border border-solid border-line" role="group" aria-label={i18n.t('reader.fontSize')}>
+              <Tooltip title={i18n.t('reader.smaller')}>
+                <Button type="text" size="small" disabled={size === SIZES[0]} onClick={() => changeSize(-1)} aria-label={i18n.t('reader.smallerAria')}>A−</Button>
               </Tooltip>
-              <Tooltip title="Kattaroq shrift">
-                <Button type="text" size="small" disabled={size === SIZES[SIZES.length - 1]} onClick={() => changeSize(1)} aria-label="Shriftni kattalashtirish" className="!text-base">A+</Button>
+              <Tooltip title={i18n.t('reader.larger')}>
+                <Button type="text" size="small" disabled={size === SIZES[SIZES.length - 1]} onClick={() => changeSize(1)} aria-label={i18n.t('reader.largerAria')} className="!text-base">A+</Button>
               </Tooltip>
             </span>
           )}
           <a href={mediaFileUrl(file.id)} download={file.originalName}>
-            <Button type="primary" size="small" icon={<DownloadOutlined />}>Yuklab olish</Button>
+            <Button type="primary" size="small" icon={<DownloadOutlined />}>{i18n.t('reader.download')}</Button>
           </a>
         </span>
       </div>
@@ -228,7 +229,7 @@ export const LectureFileView = ({ file, initialQuery = '' }: { file: MediaFileRe
           <div ref={bodyRef} className="min-w-0">
             {toc && (
               <details className="mb-5 rounded-xl border border-solid border-line bg-canvas p-3 lg:hidden">
-                <summary className="cursor-pointer font-medium">Ma’ruza rejasi</summary>
+                <summary className="cursor-pointer font-medium">{i18n.t('reader.toc')}</summary>
                 <div className="mt-3">{toc}</div>
               </details>
             )}
@@ -247,7 +248,7 @@ export const LectureFileView = ({ file, initialQuery = '' }: { file: MediaFileRe
           size="large"
           type="primary"
           icon={<ArrowUpOutlined />}
-          aria-label="Yuqoriga"
+          aria-label={i18n.t('reader.toTop')}
           className="!fixed bottom-6 right-6 z-40 shadow-lift"
           onClick={() => bodyRef.current?.scrollIntoView({ behavior: 'smooth' })}
         />

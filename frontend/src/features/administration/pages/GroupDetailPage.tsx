@@ -5,6 +5,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { PageHeader } from '@/components/common/PageHeader';
 import { QueryState } from '@/components/feedback/QueryState';
 import { useNotify } from '@/hooks/useNotify';
+import i18n from '@/i18n';
 import { GROUP_KIND, toOptions } from '@/lib/labels';
 import { groupsService } from '@/services/people.service';
 import type { GroupKind } from '@/types/api';
@@ -20,7 +21,7 @@ export default function GroupDetailPage() {
     qc.invalidateQueries({ queryKey: ['group', id] });
     qc.invalidateQueries({ queryKey: ['groups'] });
   };
-  const setKind = useMutation({ mutationFn: (kind: GroupKind) => groupsService.update(id, { kind }), onSuccess: () => { refresh(); notify.success('Guruh turi o‘zgartirildi'); }, onError: (e) => notify.error(e) });
+  const setKind = useMutation({ mutationFn: (kind: GroupKind) => groupsService.update(id, { kind }), onSuccess: () => { refresh(); notify.success(i18n.t('groups.kindChanged')); }, onError: (e) => notify.error(e) });
   const removeMember = useMutation({ mutationFn: (studentId: string) => groupsService.removeMember(id, studentId), onSuccess: refresh, onError: (e) => notify.error(e) });
   const removeGroup = useMutation({ mutationFn: () => groupsService.remove(id), onSuccess: () => { qc.invalidateQueries({ queryKey: ['groups'] }); navigate('/app/groups'); }, onError: (e) => notify.error(e) });
 
@@ -30,38 +31,38 @@ export default function GroupDetailPage() {
         <>
           <PageHeader
             title={g.name}
-            description={`O‘qituvchi: ${g.teacher.fullName}${g.academicYear ? ` · ${g.academicYear}` : ''}`}
+            description={`${i18n.t('groups.teacherOf', { name: g.teacher.fullName })}${g.academicYear ? ` · ${g.academicYear}` : ''}`}
             tag={<Tag color={GROUP_KIND[g.kind].color}>{GROUP_KIND[g.kind].label}</Tag>}
             extra={
               <>
                 <Select value={g.kind} options={toOptions(GROUP_KIND)} onChange={(k) => setKind.mutate(k)} className="w-44" />
-                <Popconfirm title="Guruhni o‘chirasizmi?" okText="Ha" cancelText="Yo‘q" onConfirm={() => removeGroup.mutate()}>
-                  <Button danger>O‘chirish</Button>
+                <Popconfirm title={i18n.t('groups.delQ')} okText={i18n.t('tests.yes')} cancelText={i18n.t('tests.no')} onConfirm={() => removeGroup.mutate()}>
+                  <Button danger>{i18n.t('groups.del')}</Button>
                 </Popconfirm>
               </>
             }
           />
-          <Card title={`Talabalar (${g.members?.length ?? 0})`} className="mb-6">
+          <Card title={i18n.t('groups.studentsN', { n: g.members?.length ?? 0 })} className="mb-6">
             <AddMembers groupId={g.id} existing={g.members?.map((m) => m.studentId) ?? []} />
           </Card>
-          <Card title="Guruh a’zolari">
+          <Card title={i18n.t('groups.members')}>
             <Table
               rowKey="studentId"
               dataSource={g.members ?? []}
               pagination={false}
               scroll={{ x: 640 }}
-              locale={{ emptyText: 'Guruhda talaba yo‘q' }}
+              locale={{ emptyText: i18n.t('groups.noMembers') }}
               columns={[
-                { title: 'Talaba', render: (_, m) => <div><div>{m.student.fullName}</div><div className="text-xs text-muted">@{m.student.username}</div></div> },
+                { title: i18n.t('groups.student'), render: (_, m) => <div><div>{m.student.fullName}</div><div className="text-xs text-muted">@{m.student.username}</div></div> },
                 {
                   title: '',
                   width: 300,
                   render: (_, m) => (
                     <Space>
-                      <Link to={`/app/progress/students/${m.studentId}`}>Test natijalari</Link>
-                      <Link to={`/app/portfolio/students/${m.studentId}`}>Portfolio</Link>
-                      <Popconfirm title="Guruhdan chiqarasizmi?" okText="Ha" cancelText="Yo‘q" onConfirm={() => removeMember.mutate(m.studentId)}>
-                        <Button size="small" type="text" danger icon={<DeleteOutlined />} aria-label="Chiqarish" />
+                      <Link to={`/app/progress/students/${m.studentId}`}>{i18n.t('groups.results')}</Link>
+                      <Link to={`/app/portfolio/students/${m.studentId}`}>{i18n.t('groups.portfolio')}</Link>
+                      <Popconfirm title={i18n.t('groups.removeQ')} okText={i18n.t('tests.yes')} cancelText={i18n.t('tests.no')} onConfirm={() => removeMember.mutate(m.studentId)}>
+                        <Button size="small" type="text" danger icon={<DeleteOutlined />} aria-label={i18n.t('groups.remove')} />
                       </Popconfirm>
                     </Space>
                   ),

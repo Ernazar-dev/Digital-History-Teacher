@@ -5,6 +5,8 @@ import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { ErrorBoundary } from '@/components/feedback/ErrorBoundary';
 import { PageLoader } from '@/components/feedback/PageLoader';
 import { useAuth } from '@/features/auth/useAuth';
+import i18n from '@/i18n';
+import { LanguageSwitcher } from './LanguageSwitcher';
 import { Logo } from './Logo';
 import { breadcrumbItems } from './breadcrumbs';
 import { navFor, type NavItem } from './navigation';
@@ -80,38 +82,39 @@ export const AppLayout = () => {
       </Drawer>
       <Layout style={{ marginLeft: isMobile ? 0 : SIDER_WIDTH }}>
         <Layout.Header className="glass sticky top-0 z-20 flex items-center gap-3 border-b border-line/80 !px-4 md:!px-8">
-          {isMobile && <Button type="text" icon={<MenuOutlined />} onClick={() => setDrawer(true)} aria-label="Menyuni ochish" />}
+          {isMobile && <Button type="text" icon={<MenuOutlined />} onClick={() => setDrawer(true)} aria-label={i18n.t('nav.openMenu')} />}
           <Input.Search
-            placeholder="Manbalar, obyektlar, topshiriqlar bo‘yicha qidiruv"
+            placeholder={i18n.t('staffNav.searchPh')}
             allowClear
             enterButton={<SearchOutlined />}
             className="max-w-md"
             onSearch={(q) => q.trim().length >= 2 && navigate(`/app/search?q=${encodeURIComponent(q.trim())}`)}
           />
           <div className="ml-auto flex items-center gap-3">
+            <LanguageSwitcher />
             {/* Ochiq saytni yangi tabda ko'rish — qo'shilgan/o'zgartirilgan narsalarni tekshirish uchun */}
-            <Tooltip title={isMobile ? 'Saytni ko‘rish' : undefined}>
+            <Tooltip title={isMobile ? i18n.t('staffNav.viewSite') : undefined}>
               <a
                 href="/"
                 target="_blank"
                 rel="noopener"
                 className="inline-flex h-10 items-center gap-2 rounded-full border border-solid border-line bg-white px-4 text-sm font-medium text-ink no-underline transition-colors hover:border-primary hover:text-primary"
-                aria-label="Saytni yangi oynada ko‘rish"
+                aria-label={i18n.t('staffNav.viewSiteAria')}
               >
                 <ExportOutlined />
-                {!isMobile && 'Saytni ko‘rish'}
+                {!isMobile && i18n.t('staffNav.viewSite')}
               </a>
             </Tooltip>
             <Dropdown
               menu={{
                 items: [
-                  { key: 'profile', icon: <UserOutlined />, label: <Link to="/app/profile">Profil va sozlamalar</Link> },
+                  { key: 'profile', icon: <UserOutlined />, label: <Link to="/app/profile">{i18n.t('staffNav.profileSettings')}</Link> },
                   { type: 'divider' },
-                  { key: 'logout', icon: <LogoutOutlined />, label: 'Chiqish', onClick: () => void logout() },
+                  { key: 'logout', icon: <LogoutOutlined />, label: i18n.t('account.logout'), onClick: () => void logout() },
                 ],
               }}
             >
-              <Button type="text" className="flex !h-10 items-center gap-2 !rounded-full !pl-1 !pr-3" aria-label="Foydalanuvchi menyusi">
+              <Button type="text" className="flex !h-10 items-center gap-2 !rounded-full !pl-1 !pr-3" aria-label={i18n.t('account.userMenu')}>
                 <Avatar size={32} className="!text-accent-light" style={{ background: "linear-gradient(135deg, #284b8a, #0b1530)" }}>{initials(user?.fullName)}</Avatar>
                 {!isMobile && <span className="max-w-[160px] truncate font-medium">{user?.fullName}</span>}
               </Button>

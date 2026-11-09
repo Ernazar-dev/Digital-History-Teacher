@@ -1,20 +1,19 @@
 import { Card, List, Tag } from 'antd';
 import { Link } from 'react-router-dom';
+import i18n from '@/i18n';
 import { PORTFOLIO_TYPE } from '@/lib/labels';
 import type { Portfolio, PortfolioItem } from '@/types/api';
 import { fmtDateTime, fmtPercent } from '@/utils/format';
 
 /** Turli modullardagi holatlar bitta tushunarli nomga keltiriladi */
-export const OUTCOME_STATUS: Record<string, { label: string; color: string }> = {
-  NOT_STARTED: { label: 'Boshlanmagan', color: 'default' },
-  IN_PROGRESS: { label: 'Jarayonda', color: 'default' },
-  DRAFT: { label: 'Qoralama', color: 'default' },
-  SUBMITTED: { label: 'Topshirilgan', color: 'blue' },
-  UNDER_REVIEW: { label: 'Tekshirilmoqda', color: 'gold' },
-  RETURNED: { label: 'Qaytarilgan', color: 'orange' },
-  REVIEWED: { label: 'Baholangan', color: 'green' },
-  GRADED: { label: 'Baholangan', color: 'green' },
+const OUTCOME_COLORS: Record<string, string> = {
+  NOT_STARTED: 'default', IN_PROGRESS: 'default', DRAFT: 'default', SUBMITTED: 'blue', UNDER_REVIEW: 'gold',
+  RETURNED: 'orange', REVIEWED: 'green', GRADED: 'green',
 };
+/** Nomlar o'qilganda joriy tilda hisoblanadi */
+export const OUTCOME_STATUS: Record<string, { label: string; color: string }> = Object.fromEntries(
+  Object.entries(OUTCOME_COLORS).map(([k, color]) => [k, { get label() { return i18n.t(`outcome.${k}`); }, color }]),
+);
 
 export const OutcomeCell = ({ outcome }: { outcome: PortfolioItem['outcome'] }) => {
   if (!outcome?.status) return <span className="text-muted">—</span>;
@@ -35,10 +34,10 @@ export const Delta = ({ from, to }: { from: number | null | undefined; to: numbe
 
 /** Hujjat, 7-modul: «o'qituvchining izohlari» — barcha ishlar bo'yicha oxirgi izohlar bir joyda */
 export const TeacherCommentsCard = ({ p }: { p: Portfolio }) => (
-  <Card title="O‘qituvchi izohlari">
+  <Card title={i18n.t('portfolio.teacherComments')}>
     <List
       dataSource={p.teacherComments}
-      locale={{ emptyText: 'Izohlar hali yo‘q' }}
+      locale={{ emptyText: i18n.t('portfolio.noComments') }}
       renderItem={(c) => (
         <List.Item>
           <div className="w-full">

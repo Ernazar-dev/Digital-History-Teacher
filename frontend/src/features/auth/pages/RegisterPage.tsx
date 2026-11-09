@@ -2,6 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { Alert, Button, Form, Result } from 'antd';
 import { useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { SelectField, TextField } from '@/components/forms/fields';
 import { useNotify } from '@/hooks/useNotify';
@@ -14,6 +15,7 @@ import { registerSchema, type RegisterForm } from '../schemas';
 import { safeNext } from '@/lib/safeNext';
 
 export default function RegisterPage() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const notify = useNotify();
   const [params] = useSearchParams();
@@ -27,7 +29,7 @@ export default function RegisterPage() {
   // Guruhlar mavjud bo'lsa, talaba o'z guruhini tanlashi shart — aks holda topshiriqlar ko'rinmaydi
   const onSubmit = (v: RegisterForm) => {
     if (hasGroups && !v.groupId) {
-      setError('groupId', { message: 'Guruhingizni tanlang' });
+      setError('groupId', { message: 'auth.groupRequired' });
       return;
     }
     register.mutate(v);
@@ -38,7 +40,7 @@ export default function RegisterPage() {
       // Faol hisob — darhol platformaga (qayta login shart emas)
       if (!accessToken) return;
       useAuthStore.getState().setSession(user, accessToken);
-      notify.success(`Xush kelibsiz, ${user.fullName}!`);
+      notify.success(t('auth.welcomeUser', { name: user.fullName }));
       navigate(safeNext(next), { replace: true });
     },
   });
@@ -49,9 +51,9 @@ export default function RegisterPage() {
       <div className="animate-scale-in mx-auto w-full max-w-lg rounded-[28px] border border-line bg-white px-6 py-4 shadow-lift">
         <Result
           status="info"
-          title="Ariza qabul qilindi"
+          title={t('auth.applied')}
           subTitle={register.data.message}
-          extra={<Link to="/"><Button type="primary" size="large">Bosh sahifaga</Button></Link>}
+          extra={<Link to="/"><Button type="primary" size="large">{t('auth.toHome')}</Button></Link>}
         />
       </div>
     );
@@ -59,27 +61,27 @@ export default function RegisterPage() {
 
   return (
     <AuthShell
-      title="Hisob yaratish"
-      subtitle="Bir necha soniyada metodik yo‘lingizni boshlang."
-      footer={<>Hisobingiz bormi? <Link to={next ? `/login?next=${encodeURIComponent(next)}` : '/login'} className="font-medium">Kirish</Link></>}
+      title={t('auth.createAccount')}
+      subtitle={t('auth.registerSub')}
+      footer={<>{t('auth.haveAccount')} <Link to={next ? `/login?next=${encodeURIComponent(next)}` : '/login'} className="font-medium">{t('account.login')}</Link></>}
     >
       {register.isError && <Alert type="error" showIcon className="mb-4" message={errorMessage(register.error)} />}
       <Form layout="vertical" className="auth-form" onFinish={handleSubmit(onSubmit)} component="form" noValidate>
-        <TextField control={control} name="fullName" label="F.I.Sh." required autoComplete="name" placeholder="Ism Familiya" />
-        <TextField control={control} name="username" label="Login" required autoComplete="username" placeholder="aziz.karimov" help="Lotin harflari, raqamlar va . _ - (3–32 belgi)" />
-        <TextField control={control} name="password" label="Parol" type="password" required autoComplete="new-password" help="Kamida 8 belgi" />
+        <TextField control={control} name="fullName" label={t('auth.fullName')} required autoComplete="name" placeholder={t('auth.fullNamePlaceholder')} />
+        <TextField control={control} name="username" label={t('auth.username')} required autoComplete="username" placeholder="aziz.karimov" help={t('auth.usernameHelp')} />
+        <TextField control={control} name="password" label={t('auth.password')} type="password" required autoComplete="new-password" help={t('auth.passwordHelp')} />
         {hasGroups && (
           <SelectField
             control={control}
             name="groupId"
-            label="Guruhingiz"
+            label={t('auth.group')}
             required
-            placeholder="Guruhni tanlang"
-            help="Topshiriqlar shu guruh orqali beriladi"
+            placeholder={t('auth.pickGroup')}
+            help={t('auth.groupHelp')}
             options={groups.data!.map((g) => ({ value: g.id, label: g.name }))}
           />
         )}
-        <Button type="primary" htmlType="submit" block size="large" loading={register.isPending} className="btn-shine mt-1">Ro‘yxatdan o‘tish</Button>
+        <Button type="primary" htmlType="submit" block size="large" loading={register.isPending} className="btn-shine mt-1">{t('account.register')}</Button>
       </Form>
     </AuthShell>
   );

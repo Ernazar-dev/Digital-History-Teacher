@@ -1,6 +1,7 @@
 import { CloseOutlined, DownOutlined, SearchOutlined, UpOutlined } from '@ant-design/icons';
 import { Button, Input } from 'antd';
 import { type RefObject, useCallback, useEffect, useState } from 'react';
+import i18n from '@/i18n';
 
 const MAX_MATCHES = 1000;
 const MIN_LENGTH = 2;
@@ -111,9 +112,9 @@ export const DocSearch = ({ rootRef, ready, initial = '' }: { rootRef: RefObject
     <div className="flex items-center gap-1" role="search">
       <Input
         size="small"
-        allowClear={{ clearIcon: <CloseOutlined aria-label="Tozalash" /> }}
+        allowClear={{ clearIcon: <CloseOutlined aria-label={i18n.t('reader.clear')} /> }}
         prefix={<SearchOutlined className="text-muted" />}
-        placeholder="Matn ichidan qidirish"
+        placeholder={i18n.t('reader.searchInText')}
         aria-label="Matn ichidan qidirish"
         className="!w-44 sm:!w-60"
         value={value}
@@ -128,12 +129,12 @@ export const DocSearch = ({ rootRef, ready, initial = '' }: { rootRef: RefObject
       />
       {query.length >= MIN_LENGTH && (
         <span className="min-w-[3.5rem] text-center text-xs tabular-nums text-muted" aria-live="polite">
-          {ranges.length ? `${index + 1} / ${ranges.length}${ranges.length >= MAX_MATCHES ? '+' : ''}` : ready ? 'topilmadi' : '...'}
+          {ranges.length ? `${index + 1} / ${ranges.length}${ranges.length >= MAX_MATCHES ? '+' : ''}` : ready ? i18n.t('reader.notFound') : '...'}
         </span>
       )}
       {tooShort && <span className="text-xs text-muted">kamida {MIN_LENGTH} harf</span>}
-      <Button size="small" type="text" icon={<UpOutlined />} disabled={ranges.length < 2} onClick={() => step(-1)} aria-label="Oldingi topilgan joy" />
-      <Button size="small" type="text" icon={<DownOutlined />} disabled={ranges.length < 2} onClick={() => step(1)} aria-label="Keyingi topilgan joy" />
+      <Button size="small" type="text" icon={<UpOutlined />} disabled={ranges.length < 2} onClick={() => step(-1)} aria-label={i18n.t('reader.prevMatch')} />
+      <Button size="small" type="text" icon={<DownOutlined />} disabled={ranges.length < 2} onClick={() => step(1)} aria-label={i18n.t('reader.nextMatch')} />
     </div>
   );
 };
