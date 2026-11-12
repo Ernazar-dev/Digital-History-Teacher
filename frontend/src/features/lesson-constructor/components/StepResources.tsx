@@ -11,7 +11,7 @@ import type { LessonFormValues } from '../lessonForm';
 import { Hint, hints } from './Hint';
 import { TopicMaterials } from './TopicMaterials';
 
-/** Tarixiy manbalar va 3D/360° obyektlarni tanlash, har biri uchun darsdagi maqsadi */
+/** Tarixiy manbalar va 3D/360° obyektlarni tanlaş, har biri uçun darsdagi maqsadi */
 export const StepResources = ({ form }: { form: UseFormReturn<LessonFormValues> }) => {
   const { fields, append, remove } = useFieldArray({ control: form.control, name: 'resources' });
   const [sourceId, setSourceId] = useState<string>();

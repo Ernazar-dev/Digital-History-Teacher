@@ -10,40 +10,40 @@ const user = (role: User['role']): User => ({
   id: 'u1', username: 'test', email: null, fullName: 'Test', role, status: 'ACTIVE', institution: null, createdAt: '', lastLoginAt: null,
 });
 
-describe('Marshrut himoyasi va rolga mos navigatsiya', () => {
+describe('Marşrut himoyasi va rolga mos navigatsiya', () => {
   beforeEach(() => {
     useAuthStore.getState().clear();
     useAuthStore.setState({ initialized: true });
   });
 
-  it('sessiya hali tekshirilayotganda kirish taklifi chaqnab ketmaydi', () => {
+  it('sessiya hali tekşirilayotganda kiriş taklifi çaqnab ketmaydi', () => {
     useAuthStore.setState({ initialized: false });
     renderWithProviders(<RequireAuth><div>MAXFIY</div></RequireAuth>, { route: '/app/portfolio' });
-    expect(screen.queryByText('Bu boʻlim shaxsiy kabinetda')).not.toBeInTheDocument();
+    expect(screen.queryByText('Bu bölim şaxsiy kabinetda')).not.toBeInTheDocument();
     expect(screen.queryByText('MAXFIY')).not.toBeInTheDocument();
   });
 
-  it('kirmagan foydalanuvchiga yopiq boʻlim oʻrnida kirish taklifi koʻrsatiladi', () => {
+  it('kirmagan foydalanuvçiga yopiq bölim örnida kiriş taklifi körsatiladi', () => {
     renderWithProviders(<RequireAuth><div>MAXFIY</div></RequireAuth>, { route: '/app/portfolio' });
-    expect(screen.getByText('Bu boʻlim shaxsiy kabinetda')).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Kirish' })).toHaveAttribute('href', '/login?next=%2Fapp%2Fportfolio');
+    expect(screen.getByText('Bu bölim şaxsiy kabinetda')).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Kiriş' })).toHaveAttribute('href', '/login?next=%2Fapp%2Fportfolio');
     expect(screen.queryByText('MAXFIY')).not.toBeInTheDocument();
   });
 
-  it('notoʻgʼri rol uchun 403 koʻrsatiladi', () => {
+  it('notög’ri rol uçun 403 körsatiladi', () => {
     useAuthStore.getState().setSession(user('STUDENT'), 'token');
     renderWithProviders(<RequireRole roles={['ADMIN']}><div>ADMIN PANEL</div></RequireRole>);
-    expect(screen.getByText('Ruxsat yoʻq')).toBeInTheDocument();
+    expect(screen.getByText('Ruxsat yöq')).toBeInTheDocument();
     expect(screen.queryByText('ADMIN PANEL')).not.toBeInTheDocument();
   });
 
-  it('mos rol kontentni koʻradi', () => {
+  it('mos rol kontentni köradi', () => {
     useAuthStore.getState().setSession(user('ADMIN'), 'token');
     renderWithProviders(<RequireRole roles={['ADMIN']}><div>ADMIN PANEL</div></RequireRole>);
     expect(screen.getByText('ADMIN PANEL')).toBeInTheDocument();
   });
 
-  it('sidebar rolga qarab oʻzgaradi', () => {
+  it('sidebar rolga qarab özgaradi', () => {
     const student = navFor('STUDENT').map((i) => i.key);
     const teacher = navFor('TEACHER').map((i) => i.key);
     const admin = navFor('ADMIN').map((i) => i.key);

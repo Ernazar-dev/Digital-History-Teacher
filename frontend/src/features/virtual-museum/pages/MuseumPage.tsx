@@ -46,7 +46,7 @@ export default function MuseumPage() {
                       o.thumbnailUrl ? (
                         <img src={o.thumbnailUrl} alt={o.title} loading="lazy" className="h-48 w-full object-cover" />
                       ) : (
-                        // antd muqovadagi elementga display:block beradi — markazlash ichki qatlamda
+                        // antd muqovadagi elementga display:block beradi — markazlaş içki qatlamda
                         <div className="h-48 w-full bg-gradient-to-br from-primary to-midnight">
                           <div className="flex h-full flex-col items-center justify-center gap-2 text-white/85">
                             <BankOutlined className="text-4xl text-accent-light" />

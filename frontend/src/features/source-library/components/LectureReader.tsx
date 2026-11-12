@@ -6,13 +6,13 @@ import { downloadLectureDocx } from '@/lib/lectureDocx';
 import { DocSearch } from './DocSearch';
 import { Markdown, parseMarkdown } from '@/lib/markdown';
 
-/** Taxminiy hajm: kitob sahifasida ~300 soʻz, oʻqish tezligi ~180 soʻz/daqiqa */
+/** Taxminiy hajm: kitob sahifasida ~300 söz, öqiş tezligi ~180 söz/daqiqa */
 const sizeOf = (text: string) => {
   const words = text.split(/\s+/).filter(Boolean).length;
   return { pages: Math.max(1, Math.round(words / 300)), minutes: Math.max(1, Math.round(words / 180)) };
 };
 
-/** Shrift oʻlchamlari (rem) — tanlov brauzerda eslab qolinadi */
+/** Şrift ölçamlari (rem) — tanlov brauzerda eslab qolinadi */
 const SIZES = [0.9375, 1.0625, 1.1875, 1.3125];
 const SIZE_KEY = 'dht.lecture.size';
 const readSize = () => {
@@ -25,8 +25,8 @@ const readSize = () => {
 };
 
 /**
- * Ma'ruza matni: chapda reja (joriy boʻlim belgilanadi), oʻngda kitobdek oʻqiladigan matn.
- * Tepada oʻqish progressi, shrift oʻlchamini oʻzgartirish va ma'ruzani Word (.docx) qilib yuklab olish tugmalari.
+ * Ma'ruza matni: çapda reja (joriy bölim belgilanadi), öngda kitobdek öqiladigan matn.
+ * Tepada öqiş progressi, şrift ölçamini özgartiriş va ma'ruzani Word (.docx) qilib yuklab oliş tugmalari.
  */
 export const LectureReader = ({ content, title, initialQuery = '' }: { content: string; title?: string; initialQuery?: string }) => {
   const { t } = useTranslation();
@@ -60,11 +60,11 @@ export const LectureReader = ({ content, title, initialQuery = '' }: { content: 
     try {
       localStorage.setItem(SIZE_KEY, String(next));
     } catch {
-      /* brauzer xotirasi yopiq boʻlsa — faqat shu sahifada amal qiladi */
+      /* brauzer xotirasi yopiq bölsa — faqat şu sahifada amal qiladi */
     }
   };
 
-  // Oʻqish progressi va joriy boʻlim: maqola ichida qancha oʻqilgani
+  // Öqiş progressi va joriy bölim: maqola içida qança öqilgani
   useEffect(() => {
     const el = articleRef.current;
     if (!el) return undefined;
@@ -109,7 +109,7 @@ export const LectureReader = ({ content, title, initialQuery = '' }: { content: 
 
   return (
     <div>
-      {/* Ingichka oʻqish progressi — ekran tepasida */}
+      {/* Ingiçka öqiş progressi — ekran tepasida */}
       <div className="fixed inset-x-0 top-0 z-50 h-1 bg-transparent" aria-hidden>
         <div className="h-full bg-accent transition-[width] duration-150" style={{ width: `${progress}%` }} />
       </div>

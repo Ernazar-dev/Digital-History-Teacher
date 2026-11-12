@@ -7,8 +7,8 @@ import { usePlatform } from '@/hooks/usePlatform';
 const POINTS = ['auth.point1', 'auth.point2', 'auth.point3', 'auth.point4'];
 
 /**
- * Kirish/roʻyxat sahifalari uchun ikki ustunli premium qobiq.
- * Balandligi ekrandan (100dvh − header) oshmaydi; sigʻmasa faqat forma qismi scroll boʻladi.
+ * Kiriş/röyxat sahifalari uçun ikki ustunli premium qobiq.
+ * Balandligi ekrandan (100dvh − header) oşmaydi; siğmasa faqat forma qismi scroll böladi.
  */
 export const AuthShell = ({ title, subtitle, children, footer }: { title: string; subtitle?: ReactNode; children: ReactNode; footer?: ReactNode }) => {
   const { t } = useTranslation();

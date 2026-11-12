@@ -21,7 +21,7 @@ export default function ObjectPage() {
   return <QueryState query={q}>{(o) => <ObjectView o={o} />}</QueryState>;
 }
 
-/** Obyekt sahifasi — admin panelda kiritiladigan uch narsa: nomi, 3D/360° koʻrinishi va obyekt haqida ma'lumot */
+/** Obyekt sahifasi — admin panelda kiritiladigan uç narsa: nomi, 3D/360° körinişi va obyekt haqida ma'lumot */
 const ObjectView = ({ o }: { o: VirtualObject }) => {
   const { t } = useTranslation();
   const { isAdmin } = useAuth();

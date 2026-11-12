@@ -26,7 +26,7 @@ export default function RegisterPage() {
   });
   const groups = useQuery({ queryKey: ['groups', 'public'], queryFn: groupsService.publicList });
   const hasGroups = (groups.data?.length ?? 0) > 0;
-  // Guruhlar mavjud boʻlsa, talaba oʻz guruhini tanlashi shart — aks holda topshiriqlar koʻrinmaydi
+  // Guruhlar mavjud bölsa, talaba öz guruhini tanlaşi şart — aks holda topşiriqlar körinmaydi
   const onSubmit = (v: RegisterForm) => {
     if (hasGroups && !v.groupId) {
       setError('groupId', { message: 'auth.groupRequired' });
@@ -37,7 +37,7 @@ export default function RegisterPage() {
   const register = useMutation({
     mutationFn: (v: RegisterForm) => authService.register({ ...v, username: v.username.toLowerCase() }),
     onSuccess: ({ user, accessToken }) => {
-      // Faol hisob — darhol platformaga (qayta login shart emas)
+      // Faol hisob — darhol platformaga (qayta login şart emas)
       if (!accessToken) return;
       useAuthStore.getState().setSession(user, accessToken);
       notify.success(t('auth.welcomeUser', { name: user.fullName }));
@@ -45,7 +45,7 @@ export default function RegisterPage() {
     },
   });
 
-  // Faqat tasdiq kutayotgan hisob uchun (talabalarni avtomatik tasdiqlash oʻchirilganda)
+  // Faqat tasdiq kutayotgan hisob uçun (talabalarni avtomatik tasdiqlaş öçirilganda)
   if (register.isSuccess && !register.data.accessToken) {
     return (
       <div className="animate-scale-in mx-auto w-full max-w-lg rounded-[28px] border border-line bg-white px-6 py-4 shadow-lift">

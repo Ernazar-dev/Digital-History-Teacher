@@ -4,8 +4,8 @@ import { youtubeEmbedUrl } from './files';
 const fileRef = z.object({ id: z.string(), originalName: z.string(), mimeType: z.string(), size: z.number() });
 
 /**
- * Mavzu formasi: asosiy ma'lumot + uch qism (ma'ruza, taqdimot, video).
- * Fayllar keyinroq ham yuklanishi mumkin — hech biri majburiy emas.
+ * Mavzu formasi: asosiy ma'lumot + uç qism (ma'ruza, taqdimot, video).
+ * Fayllar keyinroq ham yuklanişi mumkin — heç biri majburiy emas.
  */
 export const sourceFormSchema = z.object({
   title: z.string().trim().min(2, 'validation.titleRequired').max(300),

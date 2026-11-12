@@ -12,18 +12,18 @@ describe('3D/360° embed va fallback', () => {
     expect(isAllowedEmbed(null)).toBe(false);
   });
 
-  it('ruxsat etilmagan manzil uchun iframe oʻrniga tushunarli fallback va tashqi havola', () => {
+  it('ruxsat etilmagan manzil uçun iframe örniga tuşunarli fallback va taşqi havola', () => {
     const { container } = render(<EmbedViewer title="Obyekt" embedUrl="https://evil.example/frame" externalUrl="https://example.org/page" />);
     expect(container.querySelector('iframe')).toBeNull();
-    expect(screen.getByText('Ichki koʻrish mavjud emas')).toBeInTheDocument();
-    expect(screen.getByText('Yangi oynada ochish').closest('a')).toHaveAttribute('href', 'https://example.org/page');
+    expect(screen.getByText('Içki köriş mavjud emas')).toBeInTheDocument();
+    expect(screen.getByText('Yangi oynada oçiş').closest('a')).toHaveAttribute('href', 'https://example.org/page');
   });
 
-  it('kontent sahifa ochilganda yuklanmaydi (lazy), bosilganda iframe paydo boʻladi', () => {
+  it('kontent sahifa oçilganda yuklanmaydi (lazy), bosilganda iframe paydo böladi', () => {
     const url = 'https://sketchfab.com/models/af54f5280eb249beb6501eab4769c351/embed';
     const { container } = render(<EmbedViewer title="Registon" embedUrl={url} kind="3d" />);
     expect(container.querySelector('iframe')).toBeNull();
-    fireEvent.click(screen.getByText('3D modelni yuklash'));
+    fireEvent.click(screen.getByText('3D modelni yuklaş'));
     const iframe = container.querySelector('iframe');
     expect(iframe).not.toBeNull();
     expect(iframe).toHaveAttribute('src', url);

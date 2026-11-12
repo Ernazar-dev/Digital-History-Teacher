@@ -1,5 +1,5 @@
 import L from 'leaflet';
-// Xarita stillari faqat xarita sahifasi ochilganda yuklanadi
+// Xarita stillari faqat xarita sahifasi oçilganda yuklanadi
 import 'leaflet/dist/leaflet.css';
 import { useEffect, useMemo, useRef } from 'react';
 import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet';
@@ -9,7 +9,7 @@ import { featureKey, featureLink, featureType } from '../mapFeature';
 
 const escapeAttr = (s: string) => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
 
-/** Marker: obyekt — oʻz rasmi bilan dumaloq, manba — rangli nuqta; tanlangani kattalashib, toʻlqin chiqaradi */
+/** Marker: obyekt — öz rasmi bilan dumaloq, manba — rangli nuqta; tanlangani kattalaşib, tölqin çiqaradi */
 const pinIcon = (f: MapFeature, selected: boolean) =>
   L.divIcon({
     className: '',
@@ -21,7 +21,7 @@ const pinIcon = (f: MapFeature, selected: boolean) =>
     }</div>`,
   });
 
-/** Ma'lumot oʻzgarganda barcha nuqtalarga moslashadi; tanlangan joyga silliq uchadi */
+/** Ma'lumot özgarganda barcha nuqtalarga moslashadi; tanlangan joyga silliq uçadi */
 const MapController = ({ features, selected }: { features: MapFeature[]; selected?: MapFeature }) => {
   const map = useMap();
   useEffect(() => {
@@ -36,8 +36,8 @@ const MapController = ({ features, selected }: { features: MapFeature[]; selecte
 };
 
 /**
- * Tarixiy xarita (OpenStreetMap; plitkalar sahifa ranglariga mos yumshatilgan — .history-map).
- * Nuqtalar faqat bazada koordinatasi kiritilgan yozuvlar uchun — koordinata taxmin qilinmaydi.
+ * Tarixiy xarita (OpenStreetMap; plitkalar sahifa ranglariga mos yumşatilgan — .history-map).
+ * Nuqtalar faqat bazada koordinatasi kiritilgan yozuvlar uçun — koordinata taxmin qilinmaydi.
  */
 const HistoryMap = ({ features, selectedKey, onSelect }: { features: MapFeature[]; selectedKey?: string; onSelect: (key: string) => void }) => {
   const selected = useMemo(() => features.find((f) => featureKey(f) === selectedKey), [features, selectedKey]);

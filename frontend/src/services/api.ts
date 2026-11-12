@@ -11,6 +11,6 @@ export const putData = <T>(url: string, body?: unknown) => http.put<{ data: T }>
 export const patchData = <T>(url: string, body?: unknown) => http.patch<{ data: T }>(url, body).then((r) => r.data?.data);
 export const del = (url: string) => http.delete(url).then(() => undefined);
 
-/** Boʻsh qiymatlarni soʻrov parametrlaridan chiqarib tashlaydi */
+/** Böş qiymatlarni sörov parametrlaridan çiqarib taşlaydi */
 export const cleanParams = (p: Record<string, unknown>) =>
   Object.fromEntries(Object.entries(p).filter(([, v]) => v !== undefined && v !== null && v !== ''));

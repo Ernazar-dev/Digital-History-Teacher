@@ -7,7 +7,7 @@ export const Logo = ({ dark = false, to = '/', compact = false }: { dark?: boole
     <Link to={to} className="group flex shrink-0 items-center gap-3 no-underline">
       <span className="relative flex h-10 w-10 shrink-0 items-center justify-center">
         <span className="absolute inset-0 rounded-xl bg-[conic-gradient(from_0deg,#f3dd9e,#c29a45,#8f6a24,#c29a45,#f3dd9e)] opacity-0 blur-md transition-opacity duration-500 group-hover:opacity-60" />
-        {/* Toʻq fonda ochiq plitka ustida — shaffof fonli toʻq logotip ham koʻrinadi */}
+        {/* Töq fonda oçiq plitka ustida — şaffof fonli töq logotip ham körinadi */}
         <img
           src={logoUrl || DEFAULT_LOGO}
           alt=""

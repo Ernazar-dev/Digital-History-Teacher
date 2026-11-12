@@ -6,10 +6,10 @@ import type { ApiErrorBody } from '@/types/api';
 
 const baseURL = (import.meta.env.VITE_API_BASE_URL as string | undefined) || '/api/v1';
 
-/** Yagona axios instansi — barcha servislar shundan foydalanadi */
+/** Yagona axios instansi — barcha servislar şundan foydalanadi */
 export const http = axios.create({ baseURL, withCredentials: true, timeout: 30000 });
 
-/** Mehmon oʻzgartiruvchi amal (POST/PUT/PATCH/DELETE) qilmoqchi boʻlganda — soʻrov yuborilmaydi, "Kirish" oynasi ochiladi */
+/** Mehmon özgartiruvçi amal (POST/PUT/PATCH/DELETE) qilmoqçi bölganda — sörov yuborilmaydi, "Kiriş" oynasi oçiladi */
 export class AuthRequiredError extends Error {
   constructor() {
     super(i18n.t('errors.authRequired'));
@@ -20,8 +20,8 @@ export class AuthRequiredError extends Error {
 http.interceptors.request.use((config) => {
   const token = useAuthStore.getState().accessToken;
   if (token) config.headers.Authorization = `Bearer ${token}`;
-  // Server kontentni shu tilda qaytaradi (tarjima boʻlmasa — oʻzbekcha)
-  // (soʻrov oʻzi til bergan boʻlsa — masalan, tahrirlash uchun asosiy yozuv — oʻzgartirilmaydi)
+  // Server kontentni şu tilda qaytaradi (tarjima bölmasa — özbekça)
+  // (sörov özi til bergan bölsa — masalan, tahrirlaş uçun asosiy yozuv — özgartirilmaydi)
   if (!config.headers['X-Lang']) config.headers['X-Lang'] = currentLang();
   const method = (config.method ?? 'get').toLowerCase();
   if (!token && method !== 'get' && !config.url?.includes('/auth/')) {
@@ -31,7 +31,7 @@ http.interceptors.request.use((config) => {
   return config;
 });
 
-/** Bir vaqtda bir nechta 401 kelganda faqat bitta refresh soʻrovi yuboriladi */
+/** Bir vaqtda bir neçta 401 kelganda faqat bitta refresh sörovi yuboriladi */
 let refreshing: Promise<string | null> | null = null;
 
 export const refreshSession = async (): Promise<string | null> => {
@@ -73,7 +73,7 @@ http.interceptors.response.use(
   },
 );
 
-/** Server xatosini foydalanuvchiga tushunarli matnga aylantiradi */
+/** Server xatosini foydalanuvçiga tuşunarli matnga aylantiradi */
 export const errorMessage = (err: unknown, fallback = i18n.t('errors.unexpected')): string => {
   if (axios.isAxiosError<ApiErrorBody>(err)) {
     if (!err.response) return i18n.t('errors.noConnection');

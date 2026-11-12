@@ -8,21 +8,21 @@ import { useSiteViewStore } from '@/features/auth/siteView.store';
 import { SiteFooter } from './SiteFooter';
 import { TopNavbar } from './TopNavbar';
 
-/** Landing, "Platforma haqida" va kirish sahifalari — platforma bilan bir xil navbar (TopNavbar) */
+/** Landing, "Platforma haqida" va kiriş sahifalari — platforma bilan bir xil navbar (TopNavbar) */
 export const PublicLayout = () => {
   const location = useLocation();
   const staff = useAuthStore((s) => s.user?.role === 'ADMIN' || s.user?.role === 'TEACHER');
   const setSiteView = useSiteViewStore((s) => s.setSiteView);
   const isLanding = location.pathname === '/';
-  // Kirish/roʻyxat/parol tiklash — forma ekran markazida, 100vh ichida
+  // Kiriş/röyxat/parol tiklaş — forma ekran markazida, 100vh içida
   const isAuth = ['/login', '/register', '/forgot-password'].includes(location.pathname);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location.pathname]);
 
-  // Xodim ochiq saytga oʻtdi — shu tabda navbar havolalari ham talaba koʻrinishida ochiladi.
-  // Kirish sahifalari hisobga olinmaydi: tizimga kirgan xodim boshqaruv paneliga tushishi kerak.
+  // Xodim oçiq saytga ötdi — şu tabda navbar havolalari ham talaba körinişida oçiladi.
+  // Kiriş sahifalari hisobga olinmaydi: tizimga kirgan xodim boşqaruv paneliga tuşişi kerak.
   useEffect(() => {
     if (staff && !isAuth) setSiteView(true);
   }, [staff, isAuth, setSiteView]);

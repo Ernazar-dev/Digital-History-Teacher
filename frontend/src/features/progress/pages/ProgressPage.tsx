@@ -9,7 +9,7 @@ import i18n from '@/i18n';
 import { progressService, type Progress, type ProgressTest } from '@/services/progress.service';
 import { fmtPercent } from '@/utils/format';
 
-/** Oʻquv yoʻli: kutubxona mavzulari tartibida — har bir mavzu boʻyicha testlar va natijalar */
+/** Öquv yöli: kutubxona mavzulari tartibida — har bir mavzu böyiça testlar va natijalar */
 export default function ProgressPage() {
   const { studentId } = useParams();
   const q = useQuery({
@@ -19,7 +19,7 @@ export default function ProgressPage() {
   return <QueryState query={q}>{(p) => <View p={p} own={!studentId} />}</QueryState>;
 }
 
-/** Talaba kabinetidagi «Mening oʻquv yoʻlim» tabi (sahifa sarlavhasisiz) */
+/** Talaba kabinetidagi «Mening öquv yölim» tabi (sahifa sarlavhasisiz) */
 export const MyProgress = () => {
   const q = useQuery({ queryKey: ['progress', 'me'], queryFn: progressService.mine });
   return <QueryState query={q}>{(p) => <View p={p} own embedded />}</QueryState>;

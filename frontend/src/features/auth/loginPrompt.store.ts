@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-/** Mehmon (tizimga kirmagan) foydalanuvchi oʻzgartiruvchi amal qilganda chiqadigan "Kirish" oynasi holati */
+/** Mehmon (tizimga kirmagan) foydalanuvçi özgartiruvçi amal qilganda çiqadigan "Kiriş" oynasi holati */
 interface LoginPromptState {
   open: boolean;
   show: () => void;

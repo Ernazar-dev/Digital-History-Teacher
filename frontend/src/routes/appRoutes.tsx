@@ -7,12 +7,12 @@ import { P } from './pages';
 const STAFF: Role[] = ['ADMIN', 'TEACHER'];
 const ADMIN: Role[] = ['ADMIN'];
 const role = (roles: Role[], el: ReactNode) => <RequireRole roles={roles}>{el}</RequireRole>;
-/** Shaxsiy boʻlim — mehmonga sahifa oʻrnida kirish taklifi koʻrinadi */
+/** Şaxsiy bölim — mehmonga sahifa örnida kiriş taklifi körinadi */
 const auth = (el: ReactNode) => <RequireAuth>{el}</RequireAuth>;
 
 /**
- * /app — mehmonlar uchun ham ochiq: bosh sahifa, qidiruv, manbalar, muzey, xarita, vaqt chizigʻi va metodika.
- * Qolgan boʻlimlar navbarda koʻrinadi, lekin kirishni talab qiladi.
+ * /app — mehmonlar uçun ham oçiq: boş sahifa, qidiruv, manbalar, muzey, xarita, vaqt çiziği va metodika.
+ * Qolgan bölimlar navbarda körinadi, lekin kirişni talab qiladi.
  */
 export const appRoutes: RouteObject[] = [
   { index: true, element: <P.Dashboard /> },
@@ -31,15 +31,15 @@ export const appRoutes: RouteObject[] = [
   { path: 'lessons/new', element: auth(<P.LessonConstructor />) },
   { path: 'lessons/:id/edit', element: auth(<P.LessonConstructor />) },
   { path: 'lessons/:id', element: auth(<P.LessonView />) },
-  // Topshiriqlar — fayl asosidagi testlar
+  // Topşiriqlar — fayl asosidagi testlar
   { path: 'assignments', element: auth(<P.Tests />) },
   { path: 'assignments/new', element: role(STAFF, <P.TestForm />) },
   { path: 'assignments/:id/edit', element: role(STAFF, <P.TestForm />) },
   { path: 'assignments/:id', element: auth(<P.TestPage />) },
-  // «Mening oʻquv yoʻlim» talaba kabineti ichida (tab)
+  // «Mening öquv yölim» talaba kabineti içida (tab)
   { path: 'progress', element: <Navigate to="/app?tab=yol" replace /> },
   { path: 'progress/students/:studentId', element: role(STAFF, <P.Progress />) },
-  // Talabaning elektron portfoliosi profil sahifasiga birlashtirilgan
+  // Talabaning elektron portfoliosi profil sahifasiga birlaştirilgan
   { path: 'portfolio', element: <Navigate to="/app/profile" replace /> },
   { path: 'portfolio/students/:studentId', element: role(STAFF, <P.Portfolio />) },
   { path: 'portfolio/items/:id', element: auth(<P.PortfolioItem />) },

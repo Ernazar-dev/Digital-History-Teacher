@@ -7,14 +7,14 @@ import { EMPTY_LESSON } from '@/features/lesson-constructor/lessonForm';
 const base = { isLoading: false, isError: false, error: null, data: undefined as string[] | undefined, refetch: vi.fn() };
 
 describe('Loading / error / empty holatlari', () => {
-  it('xato holatida tushunarli xabar va qayta urinish tugmasi', () => {
+  it('xato holatida tuşunarli xabar va qayta uriniş tugmasi', () => {
     render(<QueryState query={{ ...base, isError: true, error: new Error('Tarmoq xatosi') }}>{() => <div>OK</div>}</QueryState>);
-    expect(screen.getByText('Maʼlumotlarni yuklab boʻlmadi')).toBeInTheDocument();
+    expect(screen.getByText('Ma’lumotlarni yuklab bölmadi')).toBeInTheDocument();
     expect(screen.getByText('Tarmoq xatosi')).toBeInTheDocument();
-    expect(screen.getByText('Qayta urinish')).toBeInTheDocument();
+    expect(screen.getByText('Qayta uriniş')).toBeInTheDocument();
   });
 
-  it('boʻsh holat yoʻnaltiruvchi matn bilan', () => {
+  it('böş holat yönaltiruvçi matn bilan', () => {
     render(<QueryState query={{ ...base, data: [] }} isEmpty={(d) => d.length === 0} empty="Manba topilmadi">{() => <div>OK</div>}</QueryState>);
     expect(screen.getByText('Manba topilmadi')).toBeInTheDocument();
   });
@@ -25,11 +25,11 @@ describe('Loading / error / empty holatlari', () => {
   });
 });
 
-describe('Dars ishlanmasi toʻliqlik tekshiruvi', () => {
-  it('boʻsh ishlanma topshirishga tayyor emas', () => {
+describe('Dars işlanmasi töliqlik tekşiruvi', () => {
+  it('böş işlanma topşirişga tayyor emas', () => {
     expect(checklist(EMPTY_LESSON).every((i) => i.ok)).toBe(false);
   });
-  it('vaqt taqsimoti oshib ketsa ogohlantiradi', () => {
+  it('vaqt taqsimoti oşib ketsa ogohlantiradi', () => {
     const v = {
       ...EMPTY_LESSON,
       goals: 'g', objectives: 'v', learningOutcomes: 'o', assessmentCriteria: 'a', reflectionQuestions: 'r',

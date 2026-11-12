@@ -25,7 +25,7 @@ export const adminService = {
   },
 };
 
-/** Profil sahifasidagi elektron portfolio fayli (talaba oʻzi yuklaydi) */
+/** Profil sahifasidagi elektron portfolio fayli (talaba özi yuklaydi) */
 export interface PortfolioFile {
   id: string; title: string; createdAt: string;
   file: { id: string; originalName: string; mimeType: string; size: number } | null;
@@ -41,6 +41,6 @@ export const portfolioFilesService = {
     return postData<PortfolioFile>('/portfolios/me/files', body);
   },
   remove: (id: string) => del(`/portfolios/files/${id}`),
-  /** Fayl ruxsat tekshiruvi bilan beriladi — token bilan yuklab olinadi */
+  /** Fayl ruxsat tekşiruvi bilan beriladi — token bilan yuklab olinadi */
   download: (id: string) => http.get<Blob>(`/portfolios/files/${id}/download`, { responseType: 'blob' }).then((r) => r.data),
 };

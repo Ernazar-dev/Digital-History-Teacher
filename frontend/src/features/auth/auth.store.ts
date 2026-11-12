@@ -4,7 +4,7 @@ import { useSiteViewStore } from './siteView.store';
 
 /**
  * Sessiya holati. Access token faqat XOTIRADA saqlanadi (XSS orqali localStorage'dan
- * oʻg'irlanmasligi uchun). Refresh token — httpOnly cookie'da, JavaScript unga kira olmaydi.
+ * ög'irlanmasligi uçun). Refresh token — httpOnly cookie'da, JavaScript unga kira olmaydi.
  */
 interface AuthState {
   user: User | null;
@@ -18,7 +18,7 @@ interface AuthState {
 
 /**
  * "Bu brauzerda sessiya bor edi" belgisi (maxfiy emas — token emas).
- * Belgi yoʻq boʻlsa (mehmon) sahifa refresh javobini kutmasdan darhol ochiladi.
+ * Belgi yöq bölsa (mehmon) sahifa refresh javobini kutmasdan darhol oçiladi.
  */
 const HINT_KEY = 'dht_session';
 export const hasSessionHint = () => {
@@ -33,7 +33,7 @@ const setSessionHint = (on: boolean) => {
     if (on) localStorage.setItem(HINT_KEY, '1');
     else localStorage.removeItem(HINT_KEY);
   } catch {
-    /* saqlash bloklangan — belgisiz ishlaydi */
+    /* saqlaş bloklangan — belgisiz işlaydi */
   }
 };
 
@@ -48,7 +48,7 @@ export const useAuthStore = create<AuthState>((set) => ({
   setUser: (user) => set({ user }),
   clear: () => {
     setSessionHint(false);
-    // Keyingi kirishda xodim yana boshqaruv paneliga tushadi
+    // Keyingi kirişda xodim yana boşqaruv paneliga tushadi
     useSiteViewStore.getState().setSiteView(false);
     set({ user: null, accessToken: null });
   },

@@ -22,13 +22,13 @@ const DAYJS_LOCALE: Record<Lang, string> = { uz: 'uz-latn', ru: 'ru', en: 'en' }
 dayjs.locale(DAYJS_LOCALE[currentLang()]);
 
 export const App = () => {
-  // Til almashganda komponentlar qayta chiziladi
+  // Til almaşganda komponentlar qayta çiziladi
   useTranslation();
   const lang = currentLang();
 
   useEffect(() => {
     dayjs.locale(DAYJS_LOCALE[lang]);
-    // Server kontenti tilga bogʻliq (X-Lang) — faol soʻrovlar yangi tilda qayta yuklanadi
+    // Server kontenti tilga boğliq (X-Lang) — faol sörovlar yangi tilda qayta yuklanadi
     void queryClient.invalidateQueries();
   }, [lang]);
 
@@ -37,7 +37,7 @@ export const App = () => {
       <ConfigProvider theme={antTheme} locale={ANT_LOCALE[lang]}>
         <AntApp>
           <QueryClientProvider client={queryClient}>
-            {/* key={lang}: i18n.t() ishlatadigan komponentlar (breadcrumb, sarlavhalar) til almashganda qayta chiziladi — qoʻlda yangilash shart emas */}
+            {/* key={lang}: i18n.t() işlatadigan komponentlar (breadcrumb, sarlavhalar) til almaşganda qayta çiziladi — qölda yangilaş şart emas */}
             <RouterProvider key={lang} router={router} future={{ v7_startTransition: true }} />
           </QueryClientProvider>
         </AntApp>

@@ -19,7 +19,7 @@ const fileIcon = (mime?: string): ReactNode => {
   return <FileOutlined />;
 };
 
-/** Faylni token bilan olib, brauzerda yuklab olish */
+/** Faylni token bilan olib, brauzerda yuklab oliş */
 const saveFile = async (f: PortfolioFile) => {
   const blob = await portfolioFilesService.download(f.id);
   const url = URL.createObjectURL(blob);
@@ -31,8 +31,8 @@ const saveFile = async (f: PortfolioFile) => {
 };
 
 /**
- * Elektron portfolio — talaba oʻz ishlarini (PDF, Word, PowerPoint, rasm) yuklaydi.
- * studentId berilsa — oʻqituvchi/administrator uchun faqat koʻrish rejimi.
+ * Elektron portfolio — talaba öz işlarini (PDF, Word, PowerPoint, rasm) yuklaydi.
+ * studentId berilsa — öqituvçi/administrator uçun faqat köriş rejimi.
  */
 export const PortfolioFiles = ({ studentId }: { studentId?: string }) => {
   const editable = !studentId;

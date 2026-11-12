@@ -1,4 +1,4 @@
-/** Portfolio elementidan asl ishga havola */
+/** Portfolio elementidan asl işga havola */
 export const workLink = (refType: string, refId: string, detail?: Record<string, unknown> | null) => {
   switch (refType) {
     case 'LessonPlan': return `/app/lessons/${refId}`;

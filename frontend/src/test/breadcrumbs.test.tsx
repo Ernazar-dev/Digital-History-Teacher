@@ -10,14 +10,14 @@ const opens = (path: string) => {
   return Boolean(m && m[m.length - 1].route.path !== '*');
 };
 
-/** Har bir sahifa yoʻli — :param oʻrniga namunaviy qiymat */
+/** Har bir sahifa yöli — :param örniga namunaviy qiymat */
 const samplePaths = appRoutes
   .map((r) => r.path)
   .filter((p): p is string => Boolean(p) && p !== '*')
   .map((p) => `/app/${p.replace(/:\w+/g, '3f1c2b9e-0000-4000-8000-000000000001')}`);
 
 describe('Breadcrumb', () => {
-  it('hech bir breadcrumb havolasi 404 sahifaga olib bormaydi', () => {
+  it('heç bir breadcrumb havolasi 404 sahifaga olib bormaydi', () => {
     expect(samplePaths.length).toBeGreaterThan(20);
     for (const path of samplePaths) {
       for (const { title } of breadcrumbItems(path)) {
@@ -28,7 +28,7 @@ describe('Breadcrumb', () => {
     }
   });
 
-  it('manbani tahrirlash: «Manbalar» roʻyxatga, «Batafsil» mavzu sahifasiga olib boradi', () => {
+  it('manbani tahrirlaş: «Manbalar» röyxatga, «Batafsil» mavzu sahifasiga olib boradi', () => {
     const items = breadcrumbItems('/app/admin/sources/abc/edit');
     const links = items.map(({ title }) => (isValidElement(title) ? (title as ReactElement<{ to: string }>).props.to : null));
     expect(links).toEqual(['/app', null, '/app/sources', '/app/sources/abc', null]);

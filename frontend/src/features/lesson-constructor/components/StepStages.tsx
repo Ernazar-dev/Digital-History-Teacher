@@ -6,7 +6,7 @@ import i18n from '@/i18n';
 import type { LessonFormValues } from '../lessonForm';
 import { Hint, hints } from './Hint';
 
-/** Dars bosqichlari va vaqt taqsimoti (umumiy vaqt nazorati bilan) */
+/** Dars bosqiçlari va vaqt taqsimoti (umumiy vaqt nazorati bilan) */
 export const StepStages = ({ form }: { form: UseFormReturn<LessonFormValues> }) => {
   const { fields, append, remove, move } = useFieldArray({ control: form.control, name: 'stages' });
   const stages = form.watch('stages');

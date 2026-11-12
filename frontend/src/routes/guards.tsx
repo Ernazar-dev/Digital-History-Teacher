@@ -8,10 +8,10 @@ import type { Role } from '@/types/api';
 import { safeNext } from '@/lib/safeNext';
 
 /**
- * Frontend guard faqat UX uchun — ruxsatlar backendda ham tekshiriladi.
- * Mehmon yopiq boʻlimga kirsa — yoʻnaltirilmaydi, sahifa oʻrnida "Kirish / Roʻyxatdan oʻtish" taklifi koʻrinadi.
+ * Frontend guard faqat UX uçun — ruxsatlar backendda ham tekşiriladi.
+ * Mehmon yopiq bölimga kirsa — yönaltirilmaydi, sahifa örnida "Kiriş / Röyxatdan ötiş" taklifi körinadi.
  */
-/** Sessiya fonda tekshirilayotganda — kirish taklifi oʻrniga qisqa kutish */
+/** Sessiya fonda tekşirilayotganda — kiriş taklifi örniga qisqa kutiş */
 const Pending = () => <div className="flex min-h-[50vh] items-center justify-center"><Spin size="large" /></div>;
 
 export const RequireAuth = ({ children }: { children: ReactNode }) => {
@@ -38,7 +38,7 @@ export const RequireRole = ({ roles, children }: { roles: Role[]; children: Reac
   return <>{children}</>;
 };
 
-/** Kirgan foydalanuvchi — ?next= dagi sahifaga (faqat /app ichida), aks holda /app ga */
+/** Kirgan foydalanuvçi — ?next= dagi sahifaga (faqat /app içida), aks holda /app ga */
 export const GuestOnly = ({ children }: { children: ReactNode }) => {
   const user = useAuthStore((s) => s.user);
   const [params] = useSearchParams();

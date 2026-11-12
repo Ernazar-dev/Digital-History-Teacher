@@ -13,7 +13,7 @@ import type { Role, User, UserStatus } from '@/types/api';
 import { UserFormModal } from '../components/UserFormModal';
 import { UsersTable } from '../components/UsersTable';
 
-/** Yuqoridagi kartalar: har biri roʻyxatni tegishli filtrga oʻtkazadi */
+/** Yuqoridagi kartalar: har biri röyxatni tegişli filtrga ötkazadi */
 const STATS: { key: string; label: string; icon: ReactNode; tone: string; role?: Role; status?: UserStatus }[] = [
   { key: 'ALL', get label() { return i18n.t('users.statAll'); }, icon: <TeamOutlined />, tone: 'bg-primary-soft text-primary' },
   { key: 'STUDENT', get label() { return i18n.t('users.statStudents'); }, icon: <ReadOutlined />, tone: 'bg-sky-50 text-sky-700', role: 'STUDENT' },
@@ -60,7 +60,7 @@ export default function UsersPage() {
         description={i18n.t('users.desc')}
         extra={<Button type="primary" icon={<PlusOutlined />} onClick={() => setCreating(true)}>{i18n.t('users.new')}</Button>}
       />
-      {/* Umumiy koʻrinish — karta bosilsa, roʻyxat shunga filtrlanadi */}
+      {/* Umumiy köriniş — karta bosilsa, röyxat şunga filtrlanadi */}
       <div className="mb-6 grid grid-cols-2 gap-3 lg:grid-cols-4">
         {STATS.map((s) => {
           const active = s.key === 'ALL' ? !f.role && !f.status : s.status ? f.status === s.status : f.role === s.role && !f.status;

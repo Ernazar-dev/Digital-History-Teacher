@@ -8,15 +8,15 @@ interface Props {
   count: number;
   value: (TestOption | null)[];
   onChange?: (next: (TestOption | null)[]) => void;
-  /** Berilsa — natija rejimi: toʻg'ri/notoʻg'ri belgilanadi, toʻg'ri javob koʻrsatiladi */
+  /** Berilsa — natija rejimi: tög'ri/notög'ri belgilanadi, tög'ri javob körsatiladi */
   answerKey?: TestOption[] | null;
-  /** Kalitni belgilash rejimi (oʻqituvchi) — ranglar yashil */
+  /** Kalitni belgilaş rejimi (öqituvçi) — ranglar yaşil */
   keyMode?: boolean;
 }
 
 /**
- * Javoblar varagʻi: har bir savol raqami yonida A B C D doirachalari — qogʻoz blankadek.
- * Qayta bosilsa belgi olib tashlanadi.
+ * Javoblar varaği: har bir savol raqami yonida A B C D doiraçalari — qoğoz blankadek.
+ * Qayta bosilsa belgi olib taşlanadi.
  */
 export const AnswerSheet = ({ count, value, onChange, answerKey, keyMode }: Props) => {
   const readOnly = !onChange;

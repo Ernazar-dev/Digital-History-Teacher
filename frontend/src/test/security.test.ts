@@ -2,8 +2,8 @@ import { describe, expect, it } from 'vitest';
 import { safeNext } from '@/lib/safeNext';
 import { sanitizeDom } from '@/lib/sanitizeDom';
 
-describe('Ochiq yoʻnaltirishga qarshi (safeNext)', () => {
-  it('faqat /app ichidagi manzillarga ruxsat', () => {
+describe('Oçiq yönaltirişga qarşi (safeNext)', () => {
+  it('faqat /app içidagi manzillarga ruxsat', () => {
     expect(safeNext('/app/sources/abc?tab=1')).toBe('/app/sources/abc?tab=1');
     expect(safeNext('/app')).toBe('/app');
     expect(safeNext(null)).toBe('/app');
@@ -14,7 +14,7 @@ describe('Ochiq yoʻnaltirishga qarshi (safeNext)', () => {
 });
 
 describe('Hujjatdan yasalgan HTML tozalanadi (XSS)', () => {
-  it('skript, hodisa atributlari va javascript: havolalari olib tashlanadi', () => {
+  it('skript, hodisa atributlari va javascript: havolalari olib taşlanadi', () => {
     const el = document.createElement('div');
     el.innerHTML = `
       <p onclick="alert(1)">Matn</p>

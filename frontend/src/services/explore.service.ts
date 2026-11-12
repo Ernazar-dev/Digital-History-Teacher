@@ -17,7 +17,7 @@ export interface TimelinePeriod extends Period {
   sources: { id: string; title: string; slug: string; type: SourceType; dateLabel: string | null; yearFrom: number | null; yearTo: number | null }[];
   virtualObjects: { id: string; title: string; slug: string; type: ObjectType; periodLabel: string | null; thumbnailUrl?: string | null }[];
   topics: { id: string; name: string }[];
-  /** Landing kartasi uchun muqova rasmi (obyekt yoki manba rasmi) */
+  /** Landing kartasi uçun muqova rasmi (obyekt yoki manba rasmi) */
   coverUrl?: string | null;
 }
 

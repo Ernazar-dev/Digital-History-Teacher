@@ -5,12 +5,12 @@ import { PORTFOLIO_TYPE } from '@/lib/labels';
 import type { Portfolio, PortfolioItem } from '@/types/api';
 import { fmtDateTime, fmtPercent } from '@/utils/format';
 
-/** Turli modullardagi holatlar bitta tushunarli nomga keltiriladi */
+/** Turli modullardagi holatlar bitta tuşunarli nomga keltiriladi */
 const OUTCOME_COLORS: Record<string, string> = {
   NOT_STARTED: 'default', IN_PROGRESS: 'default', DRAFT: 'default', SUBMITTED: 'blue', UNDER_REVIEW: 'gold',
   RETURNED: 'orange', REVIEWED: 'green', GRADED: 'green',
 };
-/** Nomlar oʻqilganda joriy tilda hisoblanadi */
+/** Nomlar öqilganda joriy tilda hisoblanadi */
 export const OUTCOME_STATUS: Record<string, { label: string; color: string }> = Object.fromEntries(
   Object.entries(OUTCOME_COLORS).map(([k, color]) => [k, { get label() { return i18n.t(`outcome.${k}`); }, color }]),
 );
@@ -32,7 +32,7 @@ export const Delta = ({ from, to }: { from: number | null | undefined; to: numbe
   return <Tag color={d > 0 ? 'green' : d < 0 ? 'red' : 'default'} className="m-0">{d > 0 ? '+' : ''}{d}</Tag>;
 };
 
-/** Hujjat, 7-modul: «oʻqituvchining izohlari» — barcha ishlar boʻyicha oxirgi izohlar bir joyda */
+/** Hujjat, 7-modul: «öqituvçining izohlari» — barcha işlar böyiça oxirgi izohlar bir joyda */
 export const TeacherCommentsCard = ({ p }: { p: Portfolio }) => (
   <Card title={i18n.t('portfolio.teacherComments')}>
     <List

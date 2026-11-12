@@ -6,7 +6,7 @@ export const queryClient = new QueryClient({
     queries: {
       staleTime: 30_000,
       refetchOnWindowFocus: false,
-      // 4xx xatolarda qayta urinish foydasiz
+      // 4xx xatolarda qayta uriniş foydasiz
       retry: (count, error) => {
         if (axios.isAxiosError(error) && error.response && error.response.status < 500) return false;
         return count < 2;

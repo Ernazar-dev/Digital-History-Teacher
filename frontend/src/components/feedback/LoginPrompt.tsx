@@ -6,7 +6,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useAuthStore } from '@/features/auth/auth.store';
 import { useLoginPrompt } from '@/features/auth/loginPrompt.store';
 
-/** Kirish/roʻyxatdan soʻng shu sahifaga qaytish uchun ?next= */
+/** Kiriş/röyxatdan söng şu sahifaga qaytiş uçun ?next= */
 const useNext = () => {
   const { pathname, search } = useLocation();
   return `?next=${encodeURIComponent(pathname + search)}`;
@@ -23,7 +23,7 @@ const AuthButtons = ({ onClick }: { onClick?: () => void }) => {
   );
 };
 
-/** Mehmon saqlash/yuborish kabi amal qilganda chiqadigan oyna (http interseptori ochadi) */
+/** Mehmon saqlaş/yuborish kabi amal qilganda çiqadigan oyna (http interseptori oçadi) */
 export const LoginPromptModal = () => {
   const { t } = useTranslation();
   const { open, hide } = useLoginPrompt();
@@ -42,7 +42,7 @@ export const LoginPromptModal = () => {
   );
 };
 
-/** Faqat roʻyxatdan oʻtganlar uchun boʻlim — mehmonga sahifa oʻrnida koʻrsatiladi */
+/** Faqat röyxatdan ötganlar uçun bölim — mehmonga sahifa örnida körsatiladi */
 export const GuestGate = ({ title }: { title?: string }) => {
   const { t } = useTranslation();
   return (

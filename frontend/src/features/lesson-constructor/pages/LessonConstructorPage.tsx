@@ -93,7 +93,7 @@ export default function LessonConstructorPage() {
       )}
       <Card className="mb-6">
         <Steps className="!hidden xl:!flex" size="small" labelPlacement="vertical" current={step} onChange={setStep} items={STEPS.map((s) => ({ title: s.title }))} />
-        {/* Kichik ekranlarda ixcham koʻrinish: gorizontal skrolsiz */}
+        {/* Kiçik ekranlarda ixçam köriniş: gorizontal skrolsiz */}
         <div className="xl:hidden">
           <div className="mb-2 flex items-center justify-between gap-3">
             <span className="text-sm text-muted">{i18n.t('lesson.page.stepOf', { n: step + 1, total: STEPS.length })}</span>

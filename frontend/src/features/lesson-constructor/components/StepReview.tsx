@@ -4,7 +4,7 @@ import type { UseFormReturn } from 'react-hook-form';
 import i18n from '@/i18n';
 import type { LessonFormValues } from '../lessonForm';
 
-/** Topshirishdan oldingi tekshiruv (backenddagi tekshiruv bilan bir xil mezonlar) */
+/** Topşirişdan oldingi tekşiruv (backenddagi tekşiruv bilan bir xil mezonlar) */
 export const checklist = (v: LessonFormValues) => {
   const used = v.stages.reduce((s, st) => s + (Number(st.durationMinutes) || 0), 0);
   const label = (i: number) => i18n.t(`lesson.review.items.${i}`, { used, total: v.durationMinutes });
@@ -26,7 +26,7 @@ export const checklist = (v: LessonFormValues) => {
   ];
 };
 
-/** goTo — bandni bosganda oʻsha qadamga oʻtkazadi (qadam raqami 1 dan boshlanadi) */
+/** goTo — bandni bosganda öşa qadamga ötkazadi (qadam raqami 1 dan boşlanadi) */
 export const StepReview = ({ form, goTo }: { form: UseFormReturn<LessonFormValues>; goTo?: (step: number) => void }) => {
   const items = checklist(form.watch());
   const ready = items.every((i) => i.ok);

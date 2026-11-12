@@ -12,7 +12,7 @@ import { fmtDateTime } from '@/utils/format';
 
 const PAGE_SIZE = 20;
 
-/** Administrator: «Muallif va bogʻlanish» formasidan kelgan xabarlar */
+/** Administrator: «Muallif va boğlaniş» formasidan kelgan xabarlar */
 export default function MessagesPage() {
   const { t } = useTranslation();
   const qc = useQueryClient();

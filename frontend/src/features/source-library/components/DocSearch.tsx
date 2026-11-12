@@ -6,8 +6,8 @@ import i18n from '@/i18n';
 const MAX_MATCHES = 1000;
 const MIN_LENGTH = 2;
 
-/** Apostrof koʻrinishlari bir xil sanaladi (' ‘ ’ ʻ ʼ ` ´ ′) — birma-bir almashadi, matn oʻrinlari saqlanadi */
-const fold = (text: string) => text.replace(/[‘’ʻʼ`´′]/g, "'");
+/** Apostrof körinişlari bir xil sanaladi (' ‘ ’ ʻ ’ ` ´ ′) — birma-bir almashadi, matn örinlari saqlanadi */
+const fold = (text: string) => text.replace(/[‘’ʻ’`´′]/g, "'");
 
 const escapeRe = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
@@ -15,7 +15,7 @@ type Highlights = { set: (name: string, h: unknown) => void; delete: (name: stri
 const registry = (): Highlights | null => (typeof CSS !== 'undefined' && 'highlights' in CSS ? (CSS as unknown as { highlights: Highlights }).highlights : null);
 const makeHighlight = (ranges: Range[]) => new (window as unknown as { Highlight: new (...r: Range[]) => unknown }).Highlight(...ranges);
 
-/** Ildiz ichidagi barcha matn tugunlari birlashtirib qidiriladi — qalin/kursiv bilan boʻlingan soʻzlar ham topiladi */
+/** Ildiz içidagi barcha matn tugunlari birlaştirib qidiriladi — qalin/kursiv bilan bölingan sözlar ham topiladi */
 const findRanges = (root: HTMLElement, query: string): Range[] => {
   const nodes: { node: Text; start: number }[] = [];
   let text = '';
@@ -29,7 +29,7 @@ const findRanges = (root: HTMLElement, query: string): Range[] => {
   if (!nodes.length) return [];
   const re = new RegExp(fold(query).trim().split(/\s+/).map(escapeRe).join('\\s+'), 'giu');
 
-  /** pos qaysi tugunga toʻg'ri keladi; chegarada boshlanish keyingi tugundan, tugash oldingi tugundan olinadi */
+  /** pos qaysi tugunga tög'ri keladi; çegarada boşlaniş keyingi tugundan, tugaş oldingi tugundan olinadi */
   const locate = (pos: number, atEnd: boolean) => {
     const found = nodes.find((n) => (atEnd ? pos > n.start && pos <= n.start + n.node.length : pos >= n.start && pos < n.start + n.node.length));
     const n = found ?? nodes[nodes.length - 1];
@@ -53,8 +53,8 @@ const findRanges = (root: HTMLElement, query: string): Range[] => {
 };
 
 /**
- * Sahifadagi matn ichidan qidirish: topilgan joylar ajratib koʻrsatiladi, «keyingi/oldingi» tugmalari va Enter bilan
- * oʻtiladi. DOM oʻzgartirilmaydi (CSS Custom Highlight API) — React va Word koʻruvchisi buzilmaydi.
+ * Sahifadagi matn içidan qidiriş: topilgan joylar ajratib körsatiladi, «keyingi/oldingi» tugmalari va Enter bilan
+ * ötiladi. DOM özgartirilmaydi (CSS Custom Highlight API) — React va Word köruvçisi buzilmaydi.
  */
 export const DocSearch = ({ rootRef, ready, initial = '' }: { rootRef: RefObject<HTMLElement | null>; ready: boolean; initial?: string }) => {
   const [value, setValue] = useState(initial);
@@ -62,7 +62,7 @@ export const DocSearch = ({ rootRef, ready, initial = '' }: { rootRef: RefObject
   const [ranges, setRanges] = useState<Range[]>([]);
   const [index, setIndex] = useState(0);
 
-  // Soʻrov yozib boʻlingach (kechikish bilan) qidiriladi
+  // Sörov yozib bölingaç (keçikiş bilan) qidiriladi
   useEffect(() => {
     const t = window.setTimeout(() => setQuery(value.trim()), 250);
     return () => window.clearTimeout(t);
@@ -90,7 +90,7 @@ export const DocSearch = ({ rootRef, ready, initial = '' }: { rootRef: RefObject
     if (!current) return;
     current.startContainer.parentElement?.scrollIntoView({ block: 'center', behavior: 'smooth' });
     if (!hl) {
-      // Eski brauzerlar: topilgan joy oddiy tanlov sifatida koʻrsatiladi
+      // Eski brauzerlar: topilgan joy oddiy tanlov sifatida körsatiladi
       const sel = window.getSelection();
       sel?.removeAllRanges();
       sel?.addRange(current);
@@ -115,7 +115,7 @@ export const DocSearch = ({ rootRef, ready, initial = '' }: { rootRef: RefObject
         allowClear={{ clearIcon: <CloseOutlined aria-label={i18n.t('reader.clear')} /> }}
         prefix={<SearchOutlined className="text-muted" />}
         placeholder={i18n.t('reader.searchInText')}
-        aria-label="Matn ichidan qidirish"
+        aria-label="Matn içidan qidiriş"
         className="!w-44 sm:!w-60"
         value={value}
         status={ready && query.length >= MIN_LENGTH && ranges.length === 0 ? 'warning' : undefined}

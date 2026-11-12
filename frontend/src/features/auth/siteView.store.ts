@@ -1,9 +1,9 @@
 import { create } from 'zustand';
 
 /**
- * «Saytni koʻrish» rejimi — oʻqituvchi/administrator ochiq saytga oʻtgach, platformani talaba koʻzi bilan koʻradi
- * (sidebarli boshqaruv paneli emas, yuqori navbar). Rejim faqat shu tabga tegishli (sessionStorage):
- * boshqaruv panelidagi asl tab oʻzgarmaydi. Panelga qaytish — profil menyusidagi «Boshqaruv paneli» orqali.
+ * «Saytni köriş» rejimi — öqituvçi/administrator oçiq saytga ötgaç, platformani talaba közi bilan köradi
+ * (sidebarli boşqaruv paneli emas, yuqori navbar). Rejim faqat şu tabga tegişli (sessionStorage):
+ * boşqaruv panelidagi asl tab özgarmaydi. Panelga qaytiş — profil menyusidagi «Boşqaruv paneli» orqali.
  */
 const KEY = 'dht_site_view';
 
@@ -20,7 +20,7 @@ const write = (on: boolean) => {
     if (on) sessionStorage.setItem(KEY, '1');
     else sessionStorage.removeItem(KEY);
   } catch {
-    /* saqlash bloklangan — rejim faqat xotirada */
+    /* saqlaş bloklangan — rejim faqat xotirada */
   }
 };
 

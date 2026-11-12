@@ -2,13 +2,13 @@ import { BulbOutlined } from '@ant-design/icons';
 import { Alert } from 'antd';
 import i18n from '@/i18n';
 
-/** Joriy tildagi yoʻnaltiruvchi savollar roʻyxati (lesson.hints.<key>) */
+/** Joriy tildagi yönaltiruvçi savollar röyxati (lesson.hints.<key>) */
 export const hints = (key: string): string[] => {
   const v = i18n.t(`lesson.hints.${key}`, { returnObjects: true }) as unknown;
   return Array.isArray(v) ? (v as string[]) : [];
 };
 
-/** Yoʻnaltiruvchi savollar: tayyor javob emas, metodik qarorga undovchi savollar */
+/** Yönaltiruvçi savollar: tayyor javob emas, metodik qarorga undovçi savollar */
 export const Hint = ({ items }: { items: string[] }) => (
   <Alert
     className="mb-5"

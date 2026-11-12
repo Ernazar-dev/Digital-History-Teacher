@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-/** Filtrlarni URL query parametrlarida saqlaydi (havolani ulashish va orqaga qaytish uchun) */
+/** Filtrlarni URL query parametrlarida saqlaydi (havolani ulaşiş va orqaga qaytiş uçun) */
 export const useUrlState = <T extends Record<string, string | number | undefined>>(numericKeys: (keyof T)[] = []) => {
   const [params, setParams] = useSearchParams();
   const state = useMemo(() => {

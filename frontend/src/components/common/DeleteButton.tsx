@@ -6,8 +6,8 @@ import { useNotify } from '@/hooks/useNotify';
 import i18n from '@/i18n';
 
 /**
- * Kontent sahifasining oʻzida oʻchirish tugmasi (tasdiq soʻraladi).
- * Oʻchirilgach roʻyxat yangilanadi va foydalanuvchi roʻyxat sahifasiga qaytariladi.
+ * Kontent sahifasining özida öçiriş tugmasi (tasdiq söraladi).
+ * Öçirilgaç röyxat yangilanadi va foydalanuvçi röyxat sahifasiga qaytariladi.
  */
 export const DeleteButton = ({ onDelete, invalidate, backTo, what }: {
   onDelete: () => Promise<unknown>;

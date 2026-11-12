@@ -6,7 +6,7 @@ import { appRoutes } from './appRoutes';
 import { GuestOnly } from './guards';
 import { P } from './pages';
 
-/** Eski ochiq katalog havolalari (/catalog/...) endi platformaning oʻzida ochiladi */
+/** Eski oçiq katalog havolalari (/catalog/...) endi platformaning özida oçiladi */
 const CatalogRedirect = () => {
   const { pathname, search } = useLocation();
   return <Navigate to={pathname.replace(/^\/catalog/, '/app') + search} replace />;

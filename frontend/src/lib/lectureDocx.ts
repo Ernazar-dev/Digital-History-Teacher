@@ -1,8 +1,8 @@
 import type { MdBlock } from './markdown';
 
 /**
- * Ma'ruza matnini (Markdown bloklari) toʻliq Word (.docx) faylga aylantirib, yuklab beradi.
- * `docx` kutubxonasi faqat tugma bosilganda yuklanadi — sahifa ogʻirlashmaydi.
+ * Ma'ruza matnini (Markdown bloklari) töliq Word (.docx) faylga aylantirib, yuklab beradi.
+ * `docx` kutubxonasi faqat tugma bosilganda yuklanadi — sahifa oğirlaşmaydi.
  */
 export const downloadLectureDocx = async (blocks: MdBlock[], title: string) => {
   const {
@@ -10,7 +10,7 @@ export const downloadLectureDocx = async (blocks: MdBlock[], title: string) => {
     Table, TableCell, TableRow, TextRun, WidthType,
   } = await import('docx');
 
-  /** **qalin** va *kursiv* belgilarini Word matn boʻlaklariga aylantiradi */
+  /** **qalin** va *kursiv* belgilarini Word matn bölaklariga aylantiradi */
   const runs = (text: string, base: { bold?: boolean; italics?: boolean } = {}) =>
     text.split(/(\*\*[^*]+\*\*|\*[^*\s][^*]*\*)/g).filter(Boolean).map((part) => {
       if (/^\*\*[^*]+\*\*$/.test(part)) return new TextRun({ text: part.slice(2, -2), ...base, bold: true });
@@ -22,7 +22,7 @@ export const downloadLectureDocx = async (blocks: MdBlock[], title: string) => {
   const cellBorder = { style: BorderStyle.SINGLE, size: 4, color: 'BFBFBF' };
   const borders = { top: cellBorder, bottom: cellBorder, left: cellBorder, right: cellBorder };
 
-  let listNo = 0; // har bir raqamli roʻyxat 1 dan boshlanadi
+  let listNo = 0; // har bir raqamli röyxat 1 dan boşlanadi
   const children: (InstanceType<typeof Paragraph> | InstanceType<typeof Table>)[] = [];
 
   for (const b of blocks) {

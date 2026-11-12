@@ -3,7 +3,7 @@ import { Alert, Button, Spin } from 'antd';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-/** Frontendda ham tekshiriladigan ruxsat etilgan hostlar (asosiy tekshiruv — backendda) */
+/** Frontendda ham tekşiriladigan ruxsat etilgan hostlar (asosiy tekşiruv — backendda) */
 const ALLOWED_HOSTS = ['sketchfab.com', 'uzbekistan360.uz'];
 
 export const isAllowedEmbed = (url: string | null | undefined): url is string => {
@@ -22,14 +22,14 @@ interface Props {
   externalUrl?: string | null;
   thumbnailUrl?: string | null;
   kind?: '3d' | '360' | 'media';
-  /** Sahifa ochilishi bilan yuklanmaydi — foydalanuvchi bosganda yuklanadi */
+  /** Sahifa oçilişi bilan yuklanmaydi — foydalanuvçi bosganda yuklanadi */
   autoLoad?: boolean;
   height?: number;
 }
 
 /**
- * Tashqi 3D/360° kontent koʻruvchisi. Kontent yuklanmasa yoki ruxsat etilmagan boʻlsa,
- * sahifa buzilmaydi: tavsif saqlanadi, preview rasm va tashqi havola taklif qilinadi.
+ * Taşqi 3D/360° kontent köruvçisi. Kontent yuklanmasa yoki ruxsat etilmagan bölsa,
+ * sahifa buzilmaydi: tavsif saqlanadi, preview rasm va taşqi havola taklif qilinadi.
  */
 export const EmbedViewer = ({ title, embedUrl, externalUrl, thumbnailUrl, kind = '3d', autoLoad = false, height = 520 }: Props) => {
   const { t } = useTranslation();
@@ -77,7 +77,7 @@ export const EmbedViewer = ({ title, embedUrl, externalUrl, thumbnailUrl, kind =
           <Button type="primary" size="large" icon={<PlayCircleOutlined />} onClick={() => setActive(true)} className="!bg-accent !border-accent">
             {kind === '360' ? t('embed.load360') : kind === '3d' ? t('embed.load3d') : t('embed.loadContent')}
           </Button>
-          <span className="text-sm text-white/90">Tashqi kontent faqat siz bosganingizda yuklanadi</span>
+          <span className="text-sm text-white/90">Taşqi kontent faqat siz bosganingizda yuklanadi</span>
           {external}
         </div>
       </div>

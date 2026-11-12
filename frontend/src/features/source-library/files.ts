@@ -3,7 +3,7 @@ import type { MediaFileRef } from '@/types/api';
 
 export const mediaFileUrl = (id: string) => `/api/v1/media/${id}`;
 
-/** Mavzu afishasi: yuklangan rasm ustun, boʻlmasa tashqi havola */
+/** Mavzu afişasi: yuklangan rasm ustun, bölmasa taşqi havola */
 export const coverOf = (s: { mediaFile?: { id: string; mimeType: string } | null; mediaUrl?: string | null }) =>
   s.mediaFile?.mimeType.startsWith('image/') ? mediaFileUrl(s.mediaFile.id) : s.mediaUrl || null;
 
@@ -24,7 +24,7 @@ export const youtubeEmbedUrl = (url: string | null | undefined): string | null =
   }
 };
 
-/** Mavzu fayllari uchun ruxsat etilgan turlar */
+/** Mavzu fayllari uçun ruxsat etilgan turlar */
 export const PRESENTATION_ACCEPT = '.pptx,.pdf,application/pdf,application/vnd.openxmlformats-officedocument.presentationml.presentation';
 export const LECTURE_FILE_ACCEPT = '.docx,.pdf,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document';
 export const VIDEO_ACCEPT = '.mp4,video/mp4';
@@ -42,7 +42,7 @@ export const fileKind = (f: Pick<MediaFileRef, 'mimeType'>): FileKind =>
   MIME_KIND[f.mimeType] ??
   (f.mimeType.startsWith('image/') ? 'image' : f.mimeType.startsWith('audio/') ? 'audio' : f.mimeType.startsWith('video/') ? 'video' : 'other');
 
-/** Fayl turi nomi joriy tilda oʻqiladi */
+/** Fayl turi nomi joriy tilda öqiladi */
 export const KIND_LABEL = (() => {
   const out = {} as Record<FileKind, string>;
   for (const k of ['pdf', 'docx', 'pptx', 'image', 'audio', 'video', 'other'] as FileKind[]) {
@@ -54,7 +54,7 @@ export const KIND_LABEL = (() => {
 export const formatSize = (bytes: number) =>
   bytes < 1024 * 1024 ? `${Math.max(1, Math.round(bytes / 1024))} KB` : `${(bytes / 1024 / 1024).toFixed(1)} MB`;
 
-/** Oʻquv materiali sifatida yuklash mumkin boʻlgan turlar (serverda mazmuni ham tekshiriladi) */
+/** Öquv materiali sifatida yuklaş mumkin bölgan turlar (serverda mazmuni ham tekşiriladi) */
 export const MATERIAL_ACCEPT = [
   '.pdf', '.docx', '.pptx', 'application/pdf',
   'application/vnd.openxmlformats-officedocument.wordprocessingml.document',

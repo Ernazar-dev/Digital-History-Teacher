@@ -16,7 +16,7 @@ const SIDER_WIDTH = 272;
 const toItem = (i: NavItem): NonNullable<MenuProps['items']>[number] =>
   ({ key: i.key, icon: i.icon, label: i.children ? i.label : <Link to={i.key}>{i.label}</Link>, children: i.children?.map(toItem) });
 
-/** Bir xil `sectionʼdagi ketma-ket bandlar sarlavhali guruhga jamlanadi */
+/** Bir xil `section’dagi ketma-ket bandlar sarlavhali guruhga jamlanadi */
 const toMenu = (items: NavItem[]): MenuProps['items'] => {
   const out: NonNullable<MenuProps['items']> = [];
   items.forEach((i) => {
@@ -28,10 +28,10 @@ const toMenu = (items: NavItem[]): MenuProps['items'] => {
   return out;
 };
 
-/** Eng uzun mos keluvchi menyu kalitini tanlaydi */
+/** Eng uzun mos keluvçi menyu kalitini tanlaydi */
 const activeKey = (path: string, items: NavItem[]): string => {
   const keys = items.flatMap((i) => (i.children ? i.children.map((c) => c.key) : [i.key]));
-  // «Bosh sahifa» (/app) faqat aynan oʻzida faol — aks holda menyuda yoʻq har qanday sahifada notoʻg'ri belgilanadi
+  // «Boş sahifa» (/app) faqat aynan özida faol — aks holda menyuda yöq har qanday sahifada notög'ri belgilanadi
   return keys.filter((k) => path === k || (k !== '/app' && path.startsWith(`${k}/`))).sort((a, b) => b.length - a.length)[0] ?? '';
 };
 
@@ -66,7 +66,7 @@ export const AppLayout = () => {
           className="!border-0 !bg-transparent"
         />
       </div>
-      {/* Foydalanuvchi va «Chiqish» — yuqoridagi profil menyusida; sidebar pastida takrorlanmaydi */}
+      {/* Foydalanuvçi va «Çiqiş» — yuqoridagi profil menyusida; sidebar pastida takrorlanmaydi */}
     </div>
   );
 
@@ -92,7 +92,7 @@ export const AppLayout = () => {
           />
           <div className="ml-auto flex items-center gap-3">
             <LanguageSwitcher />
-            {/* Ochiq saytni yangi tabda koʻrish — qoʻshilgan/oʻzgartirilgan narsalarni tekshirish uchun */}
+            {/* Oçiq saytni yangi tabda köriş — qöşilgan/özgartirilgan narsalarni tekşiriş uçun */}
             <Tooltip title={isMobile ? i18n.t('staffNav.viewSite') : undefined}>
               <a
                 href="/"

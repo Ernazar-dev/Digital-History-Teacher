@@ -1,4 +1,4 @@
-/** Metodlarning ru/en tarjimalari (slug boʻyicha). Asl matn — methods.ts (oʻzbekcha); yetishmagan maydon oʻzbekchada qoladi. */
+/** Metodlarning ru/en tarjimalari (slug böyicha). Asl matn — methods.ts (özbekcha); yetishmagan maydon özbekchada qoladi. */
 export interface MethodTr {
   title?: string;
   goal?: string;

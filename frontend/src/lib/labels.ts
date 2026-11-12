@@ -1,6 +1,6 @@
 /**
  * Enum qiymatlarining nomlari (joriy tilda) va rang belgilari — bitta joyda.
- * Nomlar oʻqilgan paytda i18n'dan olinadi, shuning uchun til almashganda yangilanadi.
+ * Nomlar öqilgan paytda i18n'dan olinadi, şuning uçun til almaşganda yangilanadi.
  */
 import i18n from '@/i18n';
 import type {
@@ -9,14 +9,14 @@ import type {
 
 const tr = (group: string, key: string) => i18n.t(`labels.${group}.${key}`);
 
-/** { KEY: 'Nom' } koʻrinishidagi xarita; qiymat har oʻqilganda joriy tilda hisoblanadi */
+/** { KEY: 'Nom' } körinişidagi xarita; qiymat har öqilganda joriy tilda hisoblanadi */
 const names = <K extends string>(group: string, keys: readonly K[]): Record<K, string> => {
   const out = {} as Record<K, string>;
   for (const k of keys) Object.defineProperty(out, k, { enumerable: true, get: () => tr(group, k) });
   return out;
 };
 
-/** { KEY: { label, color } } koʻrinishidagi xarita */
+/** { KEY: { label, color } } körinişidagi xarita */
 const tags = <K extends string>(group: string, colors: Record<K, string>): Record<K, { label: string; color: string }> => {
   const out = {} as Record<K, { label: string; color: string }>;
   for (const k of Object.keys(colors) as K[]) {

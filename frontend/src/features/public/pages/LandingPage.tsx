@@ -17,7 +17,7 @@ import { yearLabel } from '@/utils/format';
 import heroImage from '@/assets/hero-arch.jpg';
 import { CHAIN, MODULES } from '../content';
 
-/** Barcha boʻlimlar navbar bilan bir xil konteynerda — ikki chetdagi boʻshliq teng */
+/** Barcha bölimlar navbar bilan bir xil konteynerda — ikki çetdagi böşliq teng */
 const CONTAINER = 'mx-auto w-full max-w-7xl px-4 md:px-8';
 
 const SectionTitle = ({ title, text, link }: { title: string; text?: string; link?: { to: string; label: string } }) => (
@@ -30,15 +30,15 @@ const SectionTitle = ({ title, text, link }: { title: string; text?: string; lin
   </Reveal>
 );
 
-/** Rasm ustidagi aylanuvchi bosqich — platformadagi yoʻl: manba → tahlil → dars */
+/** Rasm ustidagi aylanuvçi bosqiç — platformadagi yöl: manba → tahlil → dars */
 const HERO_STAGES = ['landing.stage1', 'landing.stage2', 'landing.stage3'];
 const pad2 = (n: number) => String(n).padStart(2, '0');
 const onPhoto = { textShadow: '0 1px 10px rgba(11, 21, 48, 0.55)' };
 
 /**
- * Hero rasmi: ravoq ichidagi Registon, qoʻlyozma va planshet (qadimiy manbadan raqamli darsga).
- * Rasmda hech qanday yozuv yoʻq — hisoblagich va obyekt nomi HTML'da, ma'lumot bazadan.
- * Oʻlchamlar rasm kengligiga bogʻliq (container query birliklari — cqw).
+ * Hero rasmi: ravoq içidagi Registon, qölyozma va planşet (qadimiy manbadan raqamli darsga).
+ * Rasmda heç qanday yozuv yöq — hisoblagiç va obyekt nomi HTML'da, ma'lumot bazadan.
+ * Ölçamlar rasm kengligiga boğliq (container query birliklari — cqw).
  */
 const HeroArch = ({ featured }: { featured?: Pick<VirtualObject, 'slug' | 'title' | 'periodLabel'> }) => {
   const { t } = useTranslation();
@@ -57,7 +57,7 @@ const HeroArch = ({ featured }: { featured?: Pick<VirtualObject, 'slug' | 'title
         className="animate-hero-reveal absolute inset-0 h-full w-full object-cover"
         style={{ maskImage: fade, WebkitMaskImage: fade, maskComposite: 'intersect', WebkitMaskComposite: 'source-in' }}
       />
-      {/* Bosqich hisoblagichi */}
+      {/* Bosqiç hisoblagiçi */}
       <div className="absolute flex flex-col items-center text-center text-white" style={{ left: '69%', top: '15%', width: '14%', ...onPhoto }} aria-live="polite">
         <div className="font-serif-title leading-none" style={{ fontSize: 'clamp(18px, 3.2cqw, 40px)' }}>
           <span key={stage} className="animate-fade-up inline-block">{pad2(stage + 1)}</span>
@@ -92,7 +92,7 @@ const MODULE_ICONS: Record<number, ReactNode> = {
   1: <BookOutlined />, 2: <FileTextOutlined />, 3: <BankOutlined />, 4: <CheckSquareOutlined />, 5: <BulbOutlined />, 6: <UserOutlined />,
 };
 
-/** Modullar — hero ostidagi ingichka chiziqlar bilan ajratilgan qator */
+/** Modullar — hero ostidagi ingiçka çiziqlar bilan ajratilgan qator */
 const ModuleStrip = () => {
   const { t } = useTranslation();
   return (
@@ -127,7 +127,7 @@ const ADVANTAGES = [
   { icon: <ExperimentOutlined />, title: 'landing.adv2Title', text: 'landing.adv2Text' },
 ];
 
-/** Toʻq koʻk boʻlim: platformaning afzalliklari va muzeydan bitta obyekt (bazadan) */
+/** Töq kök bölim: platformaning afzalliklari va muzeydan bitta obyekt (bazadan) */
 const AdvantagesBand = ({ media }: { media?: VirtualObjectListItem }) => {
   const { t } = useTranslation();
   return (
@@ -152,7 +152,7 @@ const AdvantagesBand = ({ media }: { media?: VirtualObjectListItem }) => {
             <span className="absolute left-1/2 top-1/2 flex h-14 w-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-solid border-white/50 bg-white/15 text-white backdrop-blur transition-transform duration-300 group-hover:scale-110">
               <CaretRightFilled />
             </span>
-            {/* Pastdagi mualliflik (Sketchfab) belgisi ochiq qolsin — yozuv tepada */}
+            {/* Pastdagi mualliflik (Sketchfab) belgisi oçiq qolsin — yozuv tepada */}
             <span className="absolute left-4 right-4 top-3 truncate text-[12px] text-white/85">
               {OBJECT_TYPE[media.type]} · {media.title}
             </span>
@@ -177,7 +177,7 @@ const AdvantagesBand = ({ media }: { media?: VirtualObjectListItem }) => {
   );
 };
 
-/** Boʻlim ekranga kirganda qadamlarni birin-ketin yoqadi (bir marta) */
+/** Bölim ekranga kirganda qadamlarni birin-ketin yoqadi (bir marta) */
 const useStepper = (count: number, step = 450) => {
   const { ref, inView } = useInView<HTMLDivElement>(0.35);
   const [active, setActive] = useState(-1);
@@ -194,7 +194,7 @@ const useStepper = (count: number, step = 450) => {
   return { ref, active };
 };
 
-/** Sakkiz qadamda mavzuni oʻzlashtirish — bitta ekranga sigʻadigan 4×2 toʻr */
+/** Sakkiz qadamda mavzuni özlaştiriş — bitta ekranga siğadigan 4×2 tör */
 const ChainSection = () => {
   const { t } = useTranslation();
   const { ref, active } = useStepper(CHAIN.length);
@@ -214,7 +214,7 @@ const ChainSection = () => {
             <span className="text-xl"> / {String(CHAIN.length).padStart(2, '0')}</span>
           </div>
         </div>
-        {/* Umumiy progress chizigʻi */}
+        {/* Umumiy progress çiziği */}
         <div className="mb-6 h-1 overflow-hidden rounded-full bg-line" aria-hidden>
           <div className="h-full rounded-full bg-primary transition-[width] duration-500 ease-premium" style={{ width: `${progress}%` }} />
         </div>
@@ -253,7 +253,7 @@ export default function LandingPage() {
   const items = objects.data?.data ?? [];
   // Hero rasmidagi ravoq ortida Registon — uning nomi va davri bazadan olinadi
   const registon = useQuery({ queryKey: ['landing-registon'], queryFn: () => museumService.get('registon-majmuasi-samarqand'), retry: false });
-  // Afzalliklar boʻlimi uchun: 360° panorama boʻlsa — u, aks holda rasmli birinchi obyekt
+  // Afzalliklar bölimi uçun: 360° panorama bölsa — u, aks holda rasmli birinçi obyekt
   const featuredMedia = items.find((o) => o.type === 'TOUR_360' && o.thumbnailUrl) ?? items.find((o) => o.thumbnailUrl && o.slug !== 'registon-majmuasi-samarqand');
 
   return (
@@ -292,7 +292,7 @@ export default function LandingPage() {
               </Link>
             </div>
           </div>
-          {/* Rasm oʻngda ekran chetigacha choʻziladi, chapda matn ostiga singib ketadi */}
+          {/* Rasm öngda ekran çetigaça çöziladi, çapda matn ostiga singib ketadi */}
           <div className="relative lg:-ml-24 lg:-mr-[max(2rem,calc((100vw-80rem)/2+2rem))]">
             <HeroArch featured={registon.data} />
           </div>
@@ -340,7 +340,7 @@ export default function LandingPage() {
             text={t('landing.periodsText')}
             link={{ to: '/app/explore', label: t('landing.periodsLink') }}
           />
-          {/* 6 ustunli toʻr: soni 3 ga boʻlinmasa, birinchi 2 (yoki 4) karta yarim kenglikda — oxirgi qatorda boʻsh joy qolmaydi */}
+          {/* 6 ustunli tör: soni 3 ga bölinmasa, birinçi 2 (yoki 4) karta yarim kenglikda — oxirgi qatorda böş joy qolmaydi */}
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-6">
             {periods.data!.map((p, i, all) => (
               <Reveal

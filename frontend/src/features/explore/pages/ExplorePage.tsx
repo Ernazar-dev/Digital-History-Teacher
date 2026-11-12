@@ -25,7 +25,7 @@ const Stat = ({ icon, value, label }: { icon: ReactNode; value: number; label: s
   </div>
 );
 
-/** Davrlar lentasi: rasmli kartalar — bosilganda xarita va vaqt chizigʻi shu davrga moslashadi */
+/** Davrlar lentasi: rasmli kartalar — bosilganda xarita va vaqt çiziği şu davrga moslashadi */
 const EraRail = ({ periods, value, onChange }: { periods: TimelinePeriod[]; value?: string; onChange: (id?: string) => void }) => {
   const { t } = useTranslation();
   return (

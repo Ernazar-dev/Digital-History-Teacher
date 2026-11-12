@@ -1,7 +1,7 @@
 import type { Translation } from './uz';
 
 export const ru: Translation = {
-  lang: { label: 'Язык', uz: 'O‘zbekcha', ru: 'Русский', en: 'English' },
+  lang: { label: 'Язык', uz: 'Özbekça', ru: 'Русский', en: 'English' },
   nav: {
     home: 'Главная',
     sources: 'Источники',

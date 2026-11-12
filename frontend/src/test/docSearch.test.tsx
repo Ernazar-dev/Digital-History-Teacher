@@ -9,8 +9,8 @@ const Harness = ({ initial }: { initial?: string }) => {
     <div>
       <DocSearch rootRef={ref} ready initial={initial} />
       <div ref={ref} data-testid="doc">
-        <p>Oʻzbekiston tarixi. <b>Amir</b> Temur davlati — Temuriylar.</p>
-        <p>Oʻzbek xalqi va amir temur haqida.</p>
+        <p>Özbekiston tarixi. <b>Amir</b> Temur davlati — Temuriylar.</p>
+        <p>Özbek xalqi va amir temur haqida.</p>
       </div>
     </div>
   );
@@ -20,18 +20,18 @@ beforeAll(() => {
   Element.prototype.scrollIntoView = () => undefined;
 });
 
-const type = (v: string) => fireEvent.change(screen.getByLabelText('Matn ichidan qidirish'), { target: { value: v } });
+const type = (v: string) => fireEvent.change(screen.getByLabelText('Matn içidan qidiriş'), { target: { value: v } });
 
-describe('Maʼruza matni ichidan qidirish', () => {
-  it('soʻz sonini koʻrsatadi; qalin matn va katta-kichik harf, apostrof koʻrinishlariga eʼtibor bermaydi', async () => {
+describe('Ma’ruza matni içidan qidiriş', () => {
+  it('söz sonini körsatadi; qalin matn va katta-kiçik harf, apostrof körinişlariga e’tibor bermaydi', async () => {
     render(<Harness />);
     type('amir temur');
     expect(await screen.findByText('1 / 2')).toBeInTheDocument();
-    type("oʻzbek");
+    type("özbek");
     expect(await screen.findByText('1 / 2')).toBeInTheDocument();
   });
 
-  it('topilmasa «topilmadi», bir harfli soʻrovda qidirilmaydi; Enter keyingisiga oʻtadi', async () => {
+  it('topilmasa «topilmadi», bir harfli sörovda qidirilmaydi; Enter keyingisiga ötadi', async () => {
     render(<Harness />);
     type('mavjud emas');
     expect(await screen.findByText('topilmadi')).toBeInTheDocument();
@@ -39,11 +39,11 @@ describe('Maʼruza matni ichidan qidirish', () => {
     expect(await screen.findByText('kamida 2 harf')).toBeInTheDocument();
     type('tem');
     expect(await screen.findByText('1 / 3')).toBeInTheDocument();
-    fireEvent.keyDown(screen.getByLabelText('Matn ichidan qidirish'), { key: 'Enter' });
+    fireEvent.keyDown(screen.getByLabelText('Matn içidan qidiriş'), { key: 'Enter' });
     expect(await screen.findByText('2 / 3')).toBeInTheDocument();
   });
 
-  it('havoladan kelgan boshlangʻich soʻz darhol qidiriladi', async () => {
+  it('havoladan kelgan boşlanğiç söz darhol qidiriladi', async () => {
     render(<Harness initial="temuriylar" />);
     expect(await screen.findByText('1 / 1')).toBeInTheDocument();
   });

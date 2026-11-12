@@ -16,7 +16,7 @@ interface Props { data: User[]; total: number; page: number; onPage: (p: number)
 const initials = (name: string) => name.split(/\s+/).filter(Boolean).slice(0, 2).map((p) => p.charAt(0).toUpperCase()).join('') || '?';
 const AVATAR_BG: Record<Role, string> = { ADMIN: 'linear-gradient(135deg,#f3dd9e,#c29a45)', TEACHER: 'linear-gradient(135deg,#284b8a,#0b1530)', STUDENT: 'linear-gradient(135deg,#9fb3d6,#5a74a3)' };
 
-/** Oxirgi kirish: yaqin sanalar odamga tushunarli shaklda, ustiga kelganda aniq vaqt */
+/** Oxirgi kiriş: yaqin sanalar odamga tuşunarli şaklda, ustiga kelganda aniq vaqt */
 const lastSeen = (d: string | null) => {
   if (!d) return <span className="text-muted">{i18n.t('users.never')}</span>;
   const days = dayjs().startOf('day').diff(dayjs(d).startOf('day'), 'day');
@@ -52,7 +52,7 @@ export const UsersTable = ({ data, total, page, onPage, onResetPassword }: Props
   const approve = useMutation({ mutationFn: usersService.approve, onSuccess: done(i18n.t('users.approved')), onError: (e) => notify.error(e) });
   const remove = useMutation({ mutationFn: usersService.remove, onSuccess: done(i18n.t('users.deleted')), onError: (e) => notify.error(e) });
 
-  /** Kam ishlatiladigan amallar bitta «⋯» menyuda — jadval ixcham qoladi */
+  /** Kam işlatiladigan amallar bitta «⋯» menyuda — jadval ixçam qoladi */
   const actions = (u: User): MenuProps['items'] => [
     u.status === 'ACTIVE'
       ? { key: 'block', icon: <LockOutlined />, label: i18n.t('users.block'), onClick: () => update.mutate({ id: u.id, status: 'BLOCKED' }) }

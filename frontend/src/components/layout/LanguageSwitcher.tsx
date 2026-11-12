@@ -3,7 +3,7 @@ import { Button, Dropdown } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { currentLang, LANGS, setLang } from '@/i18n';
 
-/** Til almashtirgich: UZ (standart) / RU / EN. Tanlov brauzerda saqlanadi, serverga `X-Lang` bilan yuboriladi */
+/** Til almaştirgiç: UZ (standart) / RU / EN. Tanlov brauzerda saqlanadi, serverga `X-Lang` bilan yuboriladi */
 export const LanguageSwitcher = () => {
   const { t } = useTranslation();
   const active = currentLang();

@@ -12,7 +12,7 @@ export interface NavItem { key: string; label: string; icon?: ReactNode; roles?:
 const ALL: Role[] = ['ADMIN', 'TEACHER', 'STUDENT'];
 const STAFF: Role[] = ['ADMIN', 'TEACHER'];
 
-/** `label` va `section` — i18n kalitlari; oʻqilganda joriy tilda hisoblanadi */
+/** `label` va `section` — i18n kalitlari; öqilganda joriy tilda hisoblanadi */
 const navItem = (i: NavItem): NavItem => {
   const o: NavItem = { ...i };
   Object.defineProperty(o, 'label', { enumerable: true, get: () => i18n.t(i.label) });
@@ -20,7 +20,7 @@ const navItem = (i: NavItem): NavItem => {
   return o;
 };
 
-/** Oʻqituvchi/administrator sidebari — boʻlimlar ma'no boʻyicha guruhlangan (section) */
+/** Öqituvçi/administrator sidebari — bölimlar ma'no böyiça guruhlangan (section) */
 const NAV_DEFS: NavItem[] = [
   { key: '/app', label: 'nav.home', icon: <DashboardOutlined />, roles: ALL },
   { key: '/app/guide', label: 'staffNav.guide', icon: <QuestionCircleOutlined />, roles: STAFF },
@@ -41,17 +41,17 @@ const NAV_DEFS: NavItem[] = [
 export const NAV: NavItem[] = NAV_DEFS.map(navItem);
 
 /**
- * Talaba va mehmon uchun yuqori navbar. `open` — mehmon ham koʻra oladigan boʻlim;
- * qolganlari ham koʻrinadi, lekin mehmonga kirish taklifi chiqadi (qulf belgisi bilan).
+ * Talaba va mehmon uçun yuqori navbar. `open` — mehmon ham köra oladigan bölim;
+ * qolganlari ham körinadi, lekin mehmonga kiriş taklifi çiqadi (qulf belgisi bilan).
  */
-/** `label` va `desc` — i18n kalitlari (src/i18n/locales), koʻrsatishda t() orqali tarjima qilinadi */
+/** `label` va `desc` — i18n kalitlari (src/i18n/locales), körsatişda t() orqali tarjima qilinadi */
 export interface TopNavItem { to: string; label: string; icon: ReactNode; desc?: string; open?: boolean }
 export interface TopNavGroup { label: string; items: TopNavItem[] }
 export type TopNavEntry = TopNavItem | TopNavGroup;
 
 export const isNavGroup = (e: TopNavEntry): e is TopNavGroup => 'items' in e;
 
-/** Bir xil yoʻnalishdagi boʻlimlar pastga ochiladigan guruhlarga jamlangan */
+/** Bir xil yönalişdagi bölimlar pastga oçiladigan guruhlarga jamlangan */
 export const TOP_NAV: TopNavEntry[] = [
   { to: '/app', label: 'nav.home', icon: <DashboardOutlined />, open: true },
   { to: '/app/sources', label: 'nav.sources', icon: <BookOutlined />, desc: 'nav.sourcesDesc', open: true },
@@ -75,13 +75,13 @@ export const TOP_NAV: TopNavEntry[] = [
   { to: '/author', label: 'nav.author', icon: <ContactsOutlined />, open: true },
 ];
 
-/** Barcha bandlar tekis roʻyxatda (faol bandni aniqlash va mobil menyu uchun) */
+/** Barcha bandlar tekis röyxatda (faol bandni aniqlaş va mobil menyu uçun) */
 export const TOP_NAV_ITEMS: TopNavItem[] = TOP_NAV.flatMap((e) => (isNavGroup(e) ? e.items : [e]));
 
 export const navFor = (role: Role): NavItem[] =>
   NAV.filter((i) => !i.roles || i.roles.includes(role));
 
-/** Breadcrumb uchun yoʻl segmentlari nomlari */
+/** Breadcrumb uçun yöl segmentlari nomlari */
 const SEGMENT_KEYS: Record<string, string> = {
   app: 'nav.home', sources: 'nav.sources', museum: 'nav.museum', explore: 'nav.explore', methodology: 'nav.methodology',
   lessons: 'footer.lessonBuilder', assignments: 'nav.assignments', portfolio: 'seg.portfolio', groups: 'staffNav.groups',

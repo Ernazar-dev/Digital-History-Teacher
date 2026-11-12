@@ -17,7 +17,7 @@ const OPEN = [
 
 const OPEN_PATHS = new Set(OPEN.map((o) => o.to));
 
-/** Tizimga kirmagan foydalanuvchi uchun /app bosh sahifasi: ochiq boʻlimlar + kirish taklifi */
+/** Tizimga kirmagan foydalanuvçi uçun /app boş sahifasi: oçiq bölimlar + kiriş taklifi */
 export const GuestHome = () => {
   const { t } = useTranslation();
   const objects = useQuery({ queryKey: ['guest-objects'], queryFn: () => museumService.list({ pageSize: 4 }) });

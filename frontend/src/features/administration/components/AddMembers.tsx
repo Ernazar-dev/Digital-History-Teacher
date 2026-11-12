@@ -6,7 +6,7 @@ import { useNotify } from '@/hooks/useNotify';
 import i18n from '@/i18n';
 import { groupsService, usersService } from '@/services/people.service';
 
-/** Faol talabalarni qidirib guruhga biriktirish */
+/** Faol talabalarni qidirib guruhga biriktiriş */
 export const AddMembers = ({ groupId, existing }: { groupId: string; existing: string[] }) => {
   const qc = useQueryClient();
   const notify = useNotify();

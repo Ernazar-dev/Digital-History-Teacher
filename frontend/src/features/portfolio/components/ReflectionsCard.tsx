@@ -8,7 +8,7 @@ import { portfolioService } from '@/services/portfolio.service';
 import type { Reflection } from '@/types/api';
 import { fmtDateTime } from '@/utils/format';
 
-/** Refleksiv yozuvlar — refleksiv-baholash komponentining sifat dalili */
+/** Refleksiv yozuvlar — refleksiv-baholaş komponentining sifat dalili */
 export const ReflectionsCard = ({ items, editable }: { items: Reflection[]; editable: boolean }) => {
   const qc = useQueryClient();
   const notify = useNotify();

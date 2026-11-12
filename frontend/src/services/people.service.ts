@@ -18,9 +18,9 @@ export interface GroupInput { name: string; description?: string | null; kind: G
 
 export const groupsService = {
   list: () => getData<Group[]>('/groups'),
-  /** Roʻyxatdan oʻtish formasi uchun — faqat nomlar */
+  /** Röyxatdan ötiş formasi uçun — faqat nomlar */
   publicList: () => getData<{ id: string; name: string }[]>('/groups/public'),
-  /** Guruhsiz talaba oʻzi guruh tanlaydi */
+  /** Guruhsiz talaba özi guruh tanlaydi */
   join: (id: string) => postData(`/groups/${id}/join`),
   get: (id: string) => getData<Group>(`/groups/${id}`),
   create: (body: GroupInput) => postData<Group>('/groups', body),

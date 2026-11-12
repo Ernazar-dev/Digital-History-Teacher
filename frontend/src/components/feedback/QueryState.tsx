@@ -12,7 +12,7 @@ interface Props<T> {
   children: (data: T) => ReactNode;
 }
 
-/** Har bir soʻrov uchun izchil loading / error / empty / success holatlari */
+/** Har bir sörov uçun izçil loading / error / empty / success holatlari */
 export function QueryState<T>({ query, isEmpty, empty, emptyAction, skeletonRows = 6, children }: Props<T>) {
   const { t } = useTranslation();
   if (query.isLoading) return <Skeleton active paragraph={{ rows: skeletonRows }} />;

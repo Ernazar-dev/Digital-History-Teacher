@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 /**
- * Virtual obyekt formasi — faqat uch narsa: nomi, havolasi va obyekt haqida ma'lumot.
+ * Virtual obyekt formasi — faqat uç narsa: nomi, havolasi va obyekt haqida ma'lumot.
  * Platforma (Sketchfab / Uzbekistan360), turi (3D / 360°) va embed manzili server tomonida havoladan aniqlanadi.
  */
 export const objectFormSchema = z.object({

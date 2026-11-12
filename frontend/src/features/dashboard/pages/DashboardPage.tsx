@@ -43,7 +43,7 @@ export default function DashboardPage() {
         <p className="mb-0 mt-2 text-muted">{t('dashboard.subtitle')}</p>
       </header>
       {user.role === 'STUDENT' ? (
-        // Talaba kabineti: umumiy koʻrinish va «Mening oʻquv yoʻlim» bitta joyda (navbarda alohida band yoʻq)
+        // Talaba kabineti: umumiy köriniş va «Mening öquv yölim» bitta joyda (navbarda alohida band yöq)
         <Tabs
           activeKey={params.get('tab') === 'yol' ? 'yol' : 'umumiy'}
           onChange={(k) => setParams(k === 'yol' ? { tab: 'yol' } : {}, { replace: true })}

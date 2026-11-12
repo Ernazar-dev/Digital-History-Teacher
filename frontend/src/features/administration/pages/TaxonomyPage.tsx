@@ -14,7 +14,7 @@ const EMPTY_PERIOD: PeriodDraft = { name: '', startYear: null, endYear: null, re
 
 const years = (p: Pick<Period, 'startYear' | 'endYear'>) => [yearLabel(p.startYear), yearLabel(p.endYear)].filter(Boolean).join(' – ');
 
-/** Mavzu chipi — yonidagi × bilan oʻchiriladi */
+/** Mavzu chipi — yonidagi × bilan öçiriladi */
 const TopicChip = ({ t, onDelete }: { t: Topic; onDelete: () => void }) => (
   <span className="inline-flex items-center gap-1.5 rounded-full border border-solid border-line bg-canvas py-1 pl-3 pr-1 text-sm">
     {t.name}
@@ -27,7 +27,7 @@ const TopicChip = ({ t, onDelete }: { t: Topic; onDelete: () => void }) => (
   </span>
 );
 
-/** Davrga mavzu qoʻshish uchun ixcham maydon (Enter bilan ham qoʻshiladi) */
+/** Davrga mavzu qöşiş uçun ixçam maydon (Enter bilan ham qöşiladi) */
 const AddTopic = ({ periodId, onAdd, loading }: { periodId: string | null; onAdd: (name: string, periodId: string | null) => Promise<unknown>; loading: boolean }) => {
   const [name, setName] = useState('');
   const submit = () => {
@@ -44,7 +44,7 @@ const AddTopic = ({ periodId, onAdd, loading }: { periodId: string | null; onAdd
 export default function TaxonomyPage() {
   const qc = useQueryClient();
   const notify = useNotify();
-  // Boshqaruv sahifasi doim asosiy (oʻzbekcha) nomlar bilan ishlaydi — tarjima ustiga yozilib ketmasligi uchun
+  // Boşqaruv sahifasi doim asosiy (özbekça) nomlar bilan işlaydi — tarjima ustiga yozilib ketmasligi uçun
   const periods = useQuery({ queryKey: ['admin-periods'], queryFn: catalogService.periodsBase });
   const topics = useQuery({ queryKey: ['admin-topics'], queryFn: catalogService.topicsBase });
   const [draft, setDraft] = useState<PeriodDraft | null>(null);

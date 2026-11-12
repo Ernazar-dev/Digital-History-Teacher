@@ -1,4 +1,4 @@
-/** Backend javob turlari — markazlashgan (backend Prisma modellari bilan mos) */
+/** Backend javob turlari — markazlaşgan (backend Prisma modellari bilan mos) */
 export type Role = 'ADMIN' | 'TEACHER' | 'STUDENT';
 export type UserStatus = 'PENDING' | 'ACTIVE' | 'BLOCKED';
 export type PublicationStatus = 'DRAFT' | 'REVIEWED' | 'PUBLISHED';
@@ -19,7 +19,7 @@ export interface Ref { id: string; title: string; slug?: string; type?: string }
 export interface User {
   id: string; username: string; email: string | null; fullName: string; role: Role; status: UserStatus;
   institution: string | null; createdAt: string; lastLoginAt: string | null;
-  /** Faqat /users roʻyxatida: talaba a'zo boʻlgan guruhlar */
+  /** Faqat /users röyxatida: talaba a'zo bölgan guruhlar */
   groups?: { id: string; name: string }[];
 }
 
@@ -37,7 +37,7 @@ export interface SourceListItem {
   dateLabel: string | null; yearFrom: number | null; yearTo: number | null;
   status: PublicationStatus; mediaFileId: string | null; mediaFile?: { id: string; mimeType: string } | null; mediaUrl: string | null;
   presentationFileId: string | null; videoFileId: string | null; videoUrl: string | null; hasLecture?: boolean;
-  /** Kitob muallifi (tarixiy asarlar uchun) */
+  /** Kitob muallifi (tarixiy asarlar uçun) */
   author?: string | null;
   latitude: number | null; longitude: number | null; createdAt: string; updatedAt: string;
   period: { id: string; name: string } | null; topics: { id: string; name: string }[];
@@ -49,18 +49,18 @@ export interface Source extends SourceListItem {
   createdBy: { id: string; fullName: string } | null;
   mediaFile: MediaFileRef | null; lectureFile: MediaFileRef | null; presentationFile: MediaFileRef | null; videoFile: MediaFileRef | null;
   lectureFileId: string | null;
-  /** Javob tili (tarjima topilmasa — 'uz') va oʻzbekchada qolgan qismlar: 'text' | 'lecture' | 'presentation' | 'video' */
+  /** Javob tili (tarjima topilmasa — 'uz') va özbekçada qolgan qismlar: 'text' | 'lecture' | 'presentation' | 'video' */
   lang?: 'uz' | 'ru' | 'en';
   fallbacks?: string[];
-  /** Qaysi tillarda variant bor (oʻzbekcha doim) */
+  /** Qaysi tillarda variant bor (özbekça doim) */
   availableLocales?: string[];
-  /** Tarixiy kitob boʻlsa — qidiriladigan sahifalar soni (roʻyxat qidiruvi uchun), aks holda 0 */
+  /** Tarixiy kitob bölsa — qidiriladigan sahifalar soni (röyxat qidiruvi uçun), aks holda 0 */
   pageCount: number;
   tests: { id: string; title: string; questionCount: number }[];
   virtualObjects: (Ref & { slug: string; type: ObjectType; thumbnailUrl: string | null; periodLabel: string | null; location: string | null })[];
 }
 
-/** Mavzuning ru/en varianti (admin tahrirlash oynasi uchun) */
+/** Mavzuning ru/en varianti (admin tahrirlaş oynasi uçun) */
 export interface SourceTranslation {
   id: string; sourceId: string; locale: 'ru' | 'en';
   title: string; summary: string | null; description: string | null; lectureContent: string | null;
@@ -123,7 +123,7 @@ export interface PortfolioItem {
   id: string; type: PortfolioItemType; title: string; description: string | null; refType: string; refId: string;
   sourceIds: string[]; version: number; isFeatured: boolean; createdAt: string; updatedAt: string;
   sources: { id: string; title: string; slug: string; type: SourceType }[];
-  /** Ish natijasi: holat, foiz, oxirgi oʻqituvchi izohi */
+  /** Iş natijasi: holat, foiz, oxirgi öqituvçi izohi */
   outcome?: { status: string | null; percent: number | null; teacherComment: string | null };
 }
 export interface Reflection { id: string; title: string; content: string; relatedType: string | null; relatedId: string | null; createdAt: string; updatedAt: string }
@@ -134,7 +134,7 @@ export interface Portfolio {
 }
 export interface PortfolioItemDetail extends PortfolioItem { detail: Record<string, unknown> | null }
 
-/** Oʻqituvchi koʻrib chiqishi kerak boʻlgan ish (dars ishlanmasi yoki virtual obyekt javobi) */
+/** Öqituvçi körib çiqişi kerak bölgan iş (dars işlanmasi yoki virtual obyekt javobi) */
 export interface ReviewItem {
   kind: 'LESSON' | 'VIRTUAL'; id: string; title: string; student: { id: string; fullName: string }; submittedAt: string | null; slug: string | null;
 }
@@ -148,7 +148,7 @@ export interface TestListItem {
   source: { id: string; title: string; slug: string } | null; createdBy: { id: string; fullName: string } | null;
   attemptCount: number; myAttempt: TestAttemptResult | null;
 }
-/** Fayl asosidagi test: kalit oʻqituvchiga; talabaga faqat topshirgandan keyin (myAttempt.answerKey) */
+/** Fayl asosidagi test: kalit öqituvçiga; talabaga faqat topşirgandan keyin (myAttempt.answerKey) */
 export interface Test extends Omit<TestListItem, 'attemptCount' | 'myAttempt'> {
   fileId: string; sourceId: string | null; file: MediaFileRef; answerKey: TestOption[] | null; myAttempt: TestAttemptResult | null;
 }

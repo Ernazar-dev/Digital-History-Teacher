@@ -35,7 +35,7 @@ const Failed = ({ file }: { file: MediaFileRef }) => (
   </div>
 );
 
-/** Hujjatni yuklab, berilgan render funksiyasi bilan sahifaga chizadi (Word, PowerPoint) */
+/** Hujjatni yuklab, berilgan render funksiyasi bilan sahifaga çizadi (Word, PowerPoint) */
 const Rendered = ({ file, render, className }: { file: MediaFileRef; render: Render; className: string }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [state, setState] = useState<'loading' | 'ready' | 'error'>('loading');
@@ -73,7 +73,7 @@ const renderPptx: Render = async (buf, el) => {
   sanitizeDom(el);
 };
 
-/** PDF brauzerning oʻz koʻruvchisida — blob URL orqali (API javobidagi frame-ancestors cheklovi ta'sir qilmaydi) */
+/** PDF brauzerning öz köruvçisida — blob URL orqali (API javobidagi frame-ancestors çeklovi ta'sir qilmaydi) */
 const PdfView = ({ file }: { file: MediaFileRef }) => {
   const [src, setSrc] = useState<string | null>(null);
   const [failed, setFailed] = useState(false);
@@ -122,7 +122,7 @@ export const FileBadge = ({ file }: { file: MediaFileRef }) => {
   );
 };
 
-/** Oʻquv materiallari: yuqorida fayllar roʻyxati, pastda tanlangan fayl sahifaning oʻzida ochiladi */
+/** Öquv materiallari: yuqorida fayllar röyxati, pastda tanlangan fayl sahifaning özida oçiladi */
 export const MaterialViewer = ({ files }: { files: MediaFileRef[] }) => {
   const [activeId, setActiveId] = useState(files[0]?.id);
   const stageRef = useRef<HTMLDivElement>(null);
@@ -159,7 +159,7 @@ export const MaterialViewer = ({ files }: { files: MediaFileRef[] }) => {
           <div className="flex gap-2">
             {['pdf', 'image', 'video'].includes(fileKind(active)) && (
               <a href={mediaFileUrl(active.id)} target="_blank" rel="noreferrer">
-                <Button icon={<ExportOutlined />} aria-label="Yangi oynada ochish"><span className="hidden sm:inline">Yangi oynada</span></Button>
+                <Button icon={<ExportOutlined />} aria-label="Yangi oynada oçiş"><span className="hidden sm:inline">Yangi oynada</span></Button>
               </a>
             )}
             <Button icon={<ExpandOutlined />} onClick={() => stageRef.current?.requestFullscreen?.()} aria-label={i18n.t('reader.fullscreenAria')}>

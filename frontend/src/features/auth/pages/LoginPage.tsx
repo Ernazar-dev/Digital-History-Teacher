@@ -22,7 +22,7 @@ export default function LoginPage() {
     mutationFn: authService.login,
     onSuccess: ({ user, accessToken }) => {
       useAuthStore.getState().setSession(user, accessToken);
-      // Xodim kirgach — sayt koʻrinishi emas, boshqaruv paneli ochiladi
+      // Xodim kirgaç — sayt körinişi emas, boşqaruv paneli oçiladi
       useSiteViewStore.getState().setSiteView(false);
       const next = params.get('next');
       navigate(safeNext(next), { replace: true });

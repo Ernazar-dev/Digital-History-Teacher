@@ -8,7 +8,7 @@ import { IMAGE_ACCEPT, mediaFileUrl } from '../files';
 import type { UploadedFile } from '../sourceForm.schema';
 import { FileBadge, MaterialViewer } from './MaterialViewer';
 
-/** Faylni serverga yuklaydi; turi va mazmuni (magic bytes) serverda tekshiriladi */
+/** Faylni serverga yuklaydi; turi va mazmuni (magic bytes) serverda tekşiriladi */
 const useUploader = () => {
   const notify = useNotify();
   const [pending, setPending] = useState(0);
@@ -27,8 +27,8 @@ const useUploader = () => {
 };
 
 /**
- * Videolar faqat YouTube havolasi orqali qoʻyiladi (fayl joy egallaydi). Avval yuklangan video fayl boʻlsa —
- * u saqlanib qoladi (yoʻqolib ketmasin), lekin yangisini yuklab boʻlmaydi; xohlansa olib tashlanadi.
+ * Videolar faqat YouTube havolasi orqali qöyiladi (fayl joy egallaydi). Avval yuklangan video fayl bölsa —
+ * u saqlanib qoladi (yöqolib ketmasin), lekin yangisini yuklab bölmaydi; xohlansa olib taşlanadi.
  */
 export const LegacyVideoNotice = ({ value, onChange }: { value: UploadedFile | null; onChange: (v: UploadedFile | null) => void }) =>
   value ? (
@@ -40,7 +40,7 @@ export const LegacyVideoNotice = ({ value, onChange }: { value: UploadedFile | n
     </div>
   ) : null;
 
-/** Muqova rasmi — kutubxona kartochkasi va manba sahifasi tepasida koʻrinadi */
+/** Muqova rasmi — kutubxona kartoçkasi va manba sahifasi tepasida körinadi */
 export const CoverUpload = ({ value, onChange }: { value: UploadedFile | null; onChange: (v: UploadedFile | null) => void }) => {
   const { upload, pending } = useUploader();
   const pick = ({ file }: { file: unknown }) => void upload(file as File).then((f) => f && onChange(f));
@@ -76,8 +76,8 @@ export const CoverUpload = ({ value, onChange }: { value: UploadedFile | null; o
 };
 
 /**
- * Bitta fayl (taqdimot, video, ma'ruza fayli, test fayli): tashlash yoki tanlash, almashtirish va olib tashlash.
- * `preview` — yuklangan fayl nomi ostida sahifaning oʻzida ochiladi (nima yuklanganini koʻrish uchun).
+ * Bitta fayl (taqdimot, video, ma'ruza fayli, test fayli): taşlaş yoki tanlaş, almaştiriş va olib taşlaş.
+ * `preview` — yuklangan fayl nomi ostida sahifaning özida oçiladi (nima yuklanganini köriş uçun).
  */
 export const SingleFileUpload = ({
   value,
@@ -117,7 +117,7 @@ export const SingleFileUpload = ({
             />
           </span>
         </div>
-        {/* key — fayl almashtirilsa koʻrinish yangidan yuklanadi */}
+        {/* key — fayl almaştirilsa köriniş yangidan yuklanadi */}
         {preview && <MaterialViewer key={value.id} files={[value]} />}
       </div>
     );

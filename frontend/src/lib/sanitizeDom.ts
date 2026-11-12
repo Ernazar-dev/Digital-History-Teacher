@@ -1,6 +1,6 @@
 /**
  * Kutubxonalar (docx-preview, pptx-preview) fayldan yasagan HTML ni tozalaydi.
- * Yuklangan hujjat ichiga yashirilgan skript, iframe, `on*` hodisalar va `javascript:` havolalari olib tashlanadi (XSS).
+ * Yuklangan hujjat içiga yaşirilgan skript, iframe, `on*` hodisalar va `javascript:` havolalari olib taşlanadi (XSS).
  */
 const DANGEROUS = 'script,iframe,frame,object,embed,form,input,button,textarea,select,meta,link,base';
 const URL_ATTRS = ['href', 'src', 'xlink:href', 'action', 'formaction', 'poster'];

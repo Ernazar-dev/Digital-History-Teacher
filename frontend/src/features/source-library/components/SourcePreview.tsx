@@ -8,7 +8,7 @@ import { LectureFileView } from './LectureFileView';
 import { LectureReader } from './LectureReader';
 import { MaterialViewer } from './MaterialViewer';
 
-/** Dars loyihalash paytida mavzu materiali (ma'ruza yoki taqdimot) yon panelda koʻrinadi */
+/** Dars loyihalaş paytida mavzu materiali (ma'ruza yoki taqdimot) yon panelda körinadi */
 export const SourcePreview = ({ slug }: { slug: string }) => {
   const q = useQuery({ queryKey: ['source', slug], queryFn: () => sourcesService.get(slug) });
   if (q.isLoading) return <Skeleton active paragraph={{ rows: 6 }} />;
@@ -23,7 +23,7 @@ export const SourcePreview = ({ slug }: { slug: string }) => {
         </Link>
       </div>
       <p className="m-0 text-muted">{s.summary}</p>
-      {/* Ma'ruza — bitta: yuklangan fayl boʻlsa oʻsha, boʻlmasa tayyor matn */}
+      {/* Ma'ruza — bitta: yuklangan fayl bölsa öşa, bölmasa tayyor matn */}
       {s.lectureFile ? (
         <LectureFileView file={s.lectureFile} />
       ) : s.lectureContent ? (

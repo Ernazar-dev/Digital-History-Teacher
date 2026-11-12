@@ -17,18 +17,18 @@ const WIDE_QUERY = '(min-width: 1420px)';
 const initials = (name?: string) =>
   (name ?? '').split(/\s+/).filter(Boolean).slice(0, 2).map((p) => p.charAt(0).toUpperCase()).join('') || '?';
 
-/** «Bosh sahifa» kabinet emas, landingʻga olib boradi */
+/** «Boş sahifa» kabinet emas, landinğga olib boradi */
 const withHome = (i: TopNavItem): TopNavItem => (i.to === '/app' ? { ...i, to: HOME } : i);
 
-/** Eng uzun mos keluvchi yoʻl faol hisoblanadi; bosh sahifa — faqat aynan oʻzida */
+/** Eng uzun mos keluvçi yöl faol hisoblanadi; boş sahifa — faqat aynan özida */
 const activePath = (path: string) =>
   TOP_NAV_ITEMS.map((i) => withHome(i).to)
     .filter((k) => path === k || (k !== HOME && path.startsWith(`${k}/`)))
     .sort((a, b) => b.length - a.length)[0] ?? '';
 
 /**
- * Yagona yuqori navbar — landing, ochiq sahifalar va talaba kabineti uchun bir xil.
- * Bir xil yoʻnalishdagi boʻlimlar pastga ochiladigan guruhlarga jamlangan.
+ * Yagona yuqori navbar — landing, oçiq sahifalar va talaba kabineti uçun bir xil.
+ * Bir xil yönalişdagi bölimlar pastga oçiladigan guruhlarga jamlangan.
  */
 export const TopNavbar = () => {
   const { t } = useTranslation();
@@ -40,10 +40,10 @@ export const TopNavbar = () => {
   const [drawer, setDrawer] = useState(false);
   const [openGroup, setOpenGroup] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
-  // Navbar sigʻadigan eng tor kenglik: undan tor ekranda menyu «burger» tugmasiga oʻtadi (logotip va til tugmasiga tegib ketmasin)
+  // Navbar siğadigan eng tor kenglik: undan tor ekranda menyu «burger» tugmasiga ötadi (logotip va til tugmasiga tegib ketmasin)
   const [wide, setWide] = useState(() => window.matchMedia(WIDE_QUERY).matches);
   const active = activePath(pathname);
-  // Kirish/roʻyxatdan soʻng shu sahifaga qaytish — faqat platforma sahifalaridan
+  // Kiriş/röyxatdan söng şu sahifaga qaytiş — faqat platforma sahifalaridan
   const next = pathname.startsWith('/app') ? `?next=${encodeURIComponent(pathname)}` : '';
 
   useEffect(() => {
@@ -137,7 +137,7 @@ export const TopNavbar = () => {
         items: [
           { key: 'who', label: <div className="py-1"><div className="font-medium">{user.fullName}</div><div className="text-xs text-muted">{ROLE[user.role]}</div></div>, disabled: true },
           { type: 'divider' },
-          // Xodim uchun — «Saytni koʻrish» rejimidan chiqib, boshqaruv paneliga qaytish
+          // Xodim uçun — «Saytni köriş» rejimidan çiqib, boşqaruv paneliga qaytiş
           { key: 'cabinet', icon: <HomeOutlined />, label: <Link to="/app" onClick={() => setSiteView(false)}>{staff ? t('account.dashboard') : t('account.cabinet')}</Link> },
           { key: 'profile', icon: <UserOutlined />, label: <Link to="/app/profile">{t('account.profile')}</Link> },
           { type: 'divider' },

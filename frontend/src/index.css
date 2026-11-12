@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 /* Grid elementlari kontent eniga qarab ustunni kengaytirmasin (aks holda telefon ekranida gorizontal skroll paydo
-   boʻladi: uzun sarlavha, jadval yoki Segmented ustunni ekrandan kengroq qilib yuboradi). base qatlamida — alohida
+   böladi: uzun sarlavha, jadval yoki Segmented ustunni ekrandan kengroq qilib yuboradi). base qatlamida — alohida
    min-w-* utilitalari ustun turadi. */
 @layer base {
   .grid > * {
@@ -58,8 +58,8 @@ body {
   line-height: 1.65;
   white-space: pre-line;
 }
-/* Ma'ruza matni: kitob sahifasidek oʻqiladigan tipografiya */
-/* Ma'ruza ichidan qidirish: topilgan soʻzlar (CSS Custom Highlight API) */
+/* Ma'ruza matni: kitob sahifasidek öqiladigan tipografiya */
+/* Ma'ruza ichidan qidirish: topilgan sözlar (CSS Custom Highlight API) */
 ::highlight(doc-search) {
   background-color: #fde68a;
   color: inherit;
@@ -143,7 +143,7 @@ body {
   border: 0;
   border-top: 1px solid theme('colors.line');
 }
-/* Tarixiy xarita markerlari: obyekt — rasmli doira, manba — rangli nuqta; tanlangani toʻlqin chiqaradi */
+/* Tarixiy xarita markerlari: obyekt — rasmli doira, manba — rangli nuqta; tanlangani tölqin chiqaradi */
 .map-pin {
   position: relative;
   display: flex;
@@ -162,7 +162,7 @@ body {
   border: 3px solid theme('colors.accent.DEFAULT');
   box-shadow: 0 6px 16px -6px rgba(11, 21, 48, 0.5);
 }
-/* Leaflet marker ichidagi rasm oʻlchamini oʻzi belgilaydi — doiraga majburan moslaymiz */
+/* Leaflet marker ichidagi rasm ölchamini özi belgilaydi — doiraga majburan moslaymiz */
 .leaflet-container .map-pin--object img {
   display: block;
   width: 100% !important;
@@ -218,7 +218,7 @@ body {
   margin: 12px;
 }
 
-/* Leaflet konteyneri antd bilan toʻqnashmasligi uchun */
+/* Leaflet konteyneri antd bilan töqnashmasligi uchun */
 .leaflet-container {
   font-family: inherit;
   z-index: 0;
@@ -278,7 +278,7 @@ body {
   backdrop-filter: blur(14px);
 }
 
-/* Aurora — sekin harakatlanuvchi rangli dogʻlar */
+/* Aurora — sekin harakatlanuvchi rangli doğlar */
 .aurora {
   position: absolute;
   inset: -20%;
@@ -445,7 +445,7 @@ body {
   animation: draw-line 1.6s var(--ease-premium) both;
 }
 
-/* Bosh sahifa hero: rasm chapdan oʻngga ochiladi va biroz uzoqlashib joyiga tushadi */
+/* Bosh sahifa hero: rasm chapdan öngga ochiladi va biroz uzoqlashib joyiga tushadi */
 @keyframes wipe-in {
   from {
     clip-path: inset(0 100% 0 0);
@@ -468,7 +468,7 @@ body {
     zoom-settle 2.6s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
 }
 
-/* Kichik sarlavha oldidagi chiziq oʻsadi */
+/* Kichik sarlavha oldidagi chiziq ösadi */
 @keyframes line-grow {
   from {
     transform: scaleX(0);
@@ -481,7 +481,7 @@ body {
   transform-origin: left;
   animation: line-grow 0.9s var(--ease-premium) both;
 }
-/* Sarlavha soʻzlari birma-bir koʻtariladi */
+/* Sarlavha sözlari birma-bir kötariladi */
 .word-reveal {
   display: inline-block;
   overflow: hidden;
@@ -493,7 +493,7 @@ body {
   animation: word-rise 0.9s var(--ease-premium) both;
 }
 
-/* Scroll boʻyicha paydo boʻlish (Reveal komponenti) */
+/* Scroll böyicha paydo bölish (Reveal komponenti) */
 .reveal {
   opacity: 0;
   transform: translate3d(0, 28px, 0);
@@ -507,12 +507,12 @@ body {
   transform: none;
 }
 
-/* Sahifa almashganda kontent yumshoq paydo boʻladi */
+/* Sahifa almashganda kontent yumshoq paydo böladi */
 .page-enter {
   animation: fade-up 0.55s var(--ease-premium) both;
 }
 
-/* Kartochkalar toʻri: elementlar ketma-ket paydo boʻladi (12-dan keyingilari birga) */
+/* Kartochkalar töri: elementlar ketma-ket paydo böladi (12-dan keyingilari birga) */
 .stagger > * {
   animation: fade-up 0.6s var(--ease-premium) both;
   animation-delay: 480ms;
@@ -570,7 +570,7 @@ body {
   border-color: rgba(230, 199, 124, 0.6) !important;
 }
 
-/* Kursorga ergashuvchi yorugʻlik (spotlight) kartasi */
+/* Kursorga ergashuvchi yoruğlik (spotlight) kartasi */
 .spotlight {
   position: relative;
   isolation: isolate;
@@ -590,7 +590,7 @@ body {
   opacity: 1;
 }
 
-/* Kartalarni koʻtarish effekti */
+/* Kartalarni kötarish effekti */
 .lift {
   transition:
     transform 0.45s var(--ease-premium),
@@ -689,7 +689,7 @@ body {
 
 /* ════════════════════════════════════════════════════════════════
    Modal oynalar — hech qachon ekran balandligidan (100vh) oshmaydi:
-   sarlavha va tugmalar joyida qoladi, faqat kontent scroll boʻladi
+   sarlavha va tugmalar joyida qoladi, faqat kontent scroll böladi
    ════════════════════════════════════════════════════════════════ */
 .ant-modal {
   top: 24px;
@@ -754,7 +754,7 @@ body {
   }
 }
 
-/* Kirish / roʻyxat formalari — ixcham vertikal ritm */
+/* Kirish / röyxat formalari — ixcham vertikal ritm */
 .auth-form .ant-form-item {
   margin-bottom: 14px;
 }
@@ -767,7 +767,7 @@ body {
   min-height: 20px;
 }
 
-/* Harakatni kamaytirish sozlamasi — barcha animatsiyalar oʻchadi */
+/* Harakatni kamaytirish sozlamasi — barcha animatsiyalar öchadi */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

@@ -7,7 +7,7 @@ import i18n from '@/i18n';
 import { CATEGORIES, METHODS, type Method, type MethodCategory } from '../methods';
 import { TOOLS } from '../tools';
 
-const norm = (s: string) => s.toLowerCase().replace(/[‘’ʻʼ'`]/g, '');
+const norm = (s: string) => s.toLowerCase().replace(/[‘’ʻ’'`]/g, '');
 const matches = (m: Method, q: string) =>
   norm([m.title, m.goal, m.exampleTopic, m.example, m.question ?? '', ...m.steps].join(' ')).includes(norm(q));
 
@@ -52,7 +52,7 @@ const MethodCard = ({ m }: { m: Method }) => {
   );
 };
 
-/** Metodika — tarix darslarida raqamli manbalar bilan ishlash metodlari: qidiruv, yoʻnalish boʻyicha saralash va kartochkalar */
+/** Metodika — tarix darslarida raqamli manbalar bilan işlaş metodlari: qidiruv, yönaliş böyiça saralaş va kartoçkalar */
 export default function MethodologyPage() {
   const [filters, setFilters] = useUrlState<{ q?: string; yo?: string }>();
   const cat = filters.yo && filters.yo in CATEGORIES ? (filters.yo as MethodCategory) : undefined;

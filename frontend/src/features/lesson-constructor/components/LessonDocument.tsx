@@ -11,7 +11,7 @@ const Block = ({ title, text }: { title: string; text?: string | null }) =>
     </div>
   ) : null;
 
-/** Dars ishlanmasining hujjat koʻrinishi */
+/** Dars işlanmasining hujjat körinişi */
 export const LessonDocument = ({ l }: { l: LessonPlan }) => (
   <div className="rounded-lg border border-line bg-white p-6 shadow-sm md:p-10">
     <div className="mb-6 border-b border-line pb-4">

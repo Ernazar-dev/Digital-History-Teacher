@@ -4,7 +4,7 @@ import i18n from '@/i18n';
 
 interface State { error: Error | null }
 
-/** Komponent xatosi butun ilovani buzmasligi uchun */
+/** Komponent xatosi butun ilovani buzmasligi uçun */
 export class ErrorBoundary extends Component<{ children: ReactNode; compact?: boolean; resetKey?: string }, State> {
   state: State = { error: null };
 
@@ -12,7 +12,7 @@ export class ErrorBoundary extends Component<{ children: ReactNode; compact?: bo
     return { error };
   }
 
-  /** resetKey oʻzgarsa xato holati tozalanadi (boundary qayta mount qilinmaydi — Suspense eski sahifani ushlab turadi) */
+  /** resetKey özgarsa xato holati tozalanadi (boundary qayta mount qilinmaydi — Suspense eski sahifani uşlab turadi) */
   componentDidUpdate(prev: { resetKey?: string }) {
     if (this.state.error && prev.resetKey !== this.props.resetKey) this.setState({ error: null });
   }

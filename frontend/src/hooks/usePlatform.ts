@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { adminService } from '@/services/portfolio.service';
 
-/** Standart logotip (public/logo.png). Admin «Sozlamalar»da oʻz logotipini yuklasa — oʻshanisi ishlatiladi */
+/** Standart logotip (public/logo.png). Admin «Sozlamalar»da öz logotipini yuklasa — öşanisi işlatiladi */
 export const DEFAULT_LOGO = '/logo.png';
 
 /** Platforma nomi va logotipi — admin sozlamalaridan */

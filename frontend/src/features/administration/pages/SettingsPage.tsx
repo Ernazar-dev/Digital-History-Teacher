@@ -17,7 +17,7 @@ const schema = z.object({
   name: z.string().trim().min(2, 'validation.platformName'),
   fullName: z.string().max(500),
   description: z.string().max(2000),
-  /** Yuklangan rasm manzili (/api/v1/media/<id>) yoki avvalgi tashqi havola */
+  /** Yuklangan rasm manzili (/api/v1/media/<id>) yoki avvalgi taşqi havola */
   logoUrl: z.string().trim(),
   institution: z.string().max(300),
   studentAutoApprove: z.boolean(),
@@ -71,7 +71,7 @@ const LogoUpload = ({ value, onChange }: { value: string; onChange: (v: string) 
   );
 };
 
-/** Saqlashdan oldin navbar va bosh sahifada qanday koʻrinishini koʻrsatadi */
+/** Saqlaşdan oldin navbar va boş sahifada qanday körinişini körsatadi */
 const Preview = ({ v }: { v: Partial<Values> }) => (
   <div className="overflow-hidden rounded-2xl border border-solid border-line bg-white">
     <div className="border-0 border-b border-solid border-line px-5 py-3 text-xs font-medium uppercase tracking-wider text-accent">{i18n.t('settings.preview')}</div>

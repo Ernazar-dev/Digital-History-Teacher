@@ -1,9 +1,9 @@
 import { Fragment, type ReactNode } from 'react';
 
 /**
- * Ma'ruza matni uchun kichik Markdown oʻquvchi — faqat React elementlari (innerHTML yoʻq, XSS xavfi yoʻq).
- * Qoʻllab-quvvatlanadi: # / ## / ### sarlavhalar, paragraflar, «- » va «1. » roʻyxatlar, «> » iqtibos,
- * **qalin**, *kursiv*, «---» ajratgich.
+ * Ma'ruza matni uçun kiçik Markdown öquvçi — faqat React elementlari (innerHTML yöq, XSS xavfi yöq).
+ * Qöllab-quvvatlanadi: # / ## / ### sarlavhalar, paragraflar, «- » va «1. » röyxatlar, «> » iqtibos,
+ * **qalin**, *kursiv*, «---» ajratgiç.
  */
 export type MdBlock =
   | { kind: 'h'; level: 1 | 2 | 3; text: string; id: string }
@@ -17,7 +17,7 @@ export type MdBlock =
 const cells = (line: string) => line.trim().replace(/^\||\|$/g, '').split('|').map((c) => c.trim());
 
 export const slugify = (s: string) =>
-  s.toLowerCase().replace(/[‘’ʻʼ'`]/g, '').replace(/[^\p{L}\p{N}]+/gu, '-').replace(/^-|-$/g, '').slice(0, 80) || 'bolim';
+  s.toLowerCase().replace(/[‘’ʻ’'`]/g, '').replace(/[^\p{L}\p{N}]+/gu, '-').replace(/^-|-$/g, '').slice(0, 80) || 'bolim';
 
 export const parseMarkdown = (src: string): MdBlock[] => {
   const blocks: MdBlock[] = [];
@@ -52,7 +52,7 @@ export const parseMarkdown = (src: string): MdBlock[] => {
       const rows: string[][] = [];
       while (i < lines.length && lines[i].trim().startsWith('|')) {
         const row = cells(lines[i]);
-        // «|---|---|» ajratuvchi qatori oʻtkazib yuboriladi
+        // «|---|---|» ajratuvçi qatori ötkazib yuboriladi
         if (!row.every((c) => /^:?-{2,}:?$/.test(c))) rows.push(row);
         i += 1;
       }

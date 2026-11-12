@@ -16,8 +16,8 @@ const requestSchema = z.object({ username: z.string().trim().min(1, 'validation.
 const resetSchema = z.object({ token: z.string().min(20, 'validation.tokenRequired'), password: passwordRule });
 
 /**
- * Parolni tiklash (2 bosqich, bitta ixcham oynada). Email yuborish servisi ulanmagan:
- * development rejimida token javobda qaytadi va avtomatik qoʻyiladi; productionda administrator parolni qayta oʻrnatadi.
+ * Parolni tiklaş (2 bosqiç, bitta ixçam oynada). Email yuboriş servisi ulanmagan:
+ * development rejimida token javobda qaytadi va avtomatik qöyiladi; productionda administrator parolni qayta örnatadi.
  */
 export default function ForgotPasswordPage() {
   const { t } = useTranslation();

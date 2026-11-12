@@ -12,7 +12,7 @@ const DEFS: Record<MethodTool, { icon: ReactNode; to: string }> = {
   profile: { icon: <FolderOpenOutlined />, to: '/app/profile' },
 };
 
-/** Metodni qoʻllashda ishlatiladigan platforma boʻlimlari; nom va izoh joriy tilda oʻqiladi */
+/** Metodni qöllaşda işlatiladigan platforma bölimlari; nom va izoh joriy tilda öqiladi */
 export const TOOLS = Object.fromEntries(
   (Object.keys(DEFS) as MethodTool[]).map((k) => [
     k,

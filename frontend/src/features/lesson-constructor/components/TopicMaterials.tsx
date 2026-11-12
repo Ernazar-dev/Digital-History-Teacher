@@ -18,9 +18,9 @@ interface Props {
 }
 
 /**
- * Hujjat, 3-modul: talaba mavzuni tanlaganda platforma unga shu mavzuga oid manbalarni
- * (fotosuratlar, matnlar, nashrlar) va davrga oid 3D/360° obyektlarni taklif qiladi.
- * Tanlov talabaning oʻzida qoladi — hech narsa avtomatik qoʻshilmaydi.
+ * Hujjat, 3-modul: talaba mavzuni tanlaganda platforma unga şu mavzuga oid manbalarni
+ * (fotosuratlar, matnlar, naşrlar) va davrga oid 3D/360° obyektlarni taklif qiladi.
+ * Tanlov talabaning özida qoladi — heç narsa avtomatik qöşilmaydi.
  */
 export const TopicMaterials = ({ topicId, addedSourceIds, addedObjectIds, onAddSource, onAddObject }: Props) => {
   const [preview, setPreview] = useState<{ slug: string; title: string }>();

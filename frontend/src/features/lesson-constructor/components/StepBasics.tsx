@@ -8,7 +8,7 @@ import { catalogService } from '@/services/catalog.service';
 import { GRADE_OPTIONS, type LessonFormValues } from '../lessonForm';
 import { Hint, hints } from './Hint';
 
-/** Katalog mavzulari davrlar boʻyicha guruhlangan holda */
+/** Katalog mavzulari davrlar böyiça guruhlangan holda */
 const useTopicOptions = () => {
   const topics = useQuery({ queryKey: ['topics', 'all'], queryFn: () => catalogService.topics() });
   const options = useMemo(() => {

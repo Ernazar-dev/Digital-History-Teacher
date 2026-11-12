@@ -25,7 +25,7 @@ const ContactRow = ({ icon, label, value, href }: { icon: ReactNode; label: stri
   </a>
 );
 
-/** «Muallif va bogʻlanish» — muallif tanishuvi, aloqa maʼlumotlari va admin panelga tushadigan xabar formasi */
+/** «Muallif va boğlaniş» — muallif tanişuvi, aloqa ma’lumotlari va admin panelga tushadigan xabar formasi */
 export default function AuthorPage() {
   const { t } = useTranslation();
   const [v, setV] = useState({ name: '', email: '', phone: '', message: '' });
@@ -61,7 +61,7 @@ export default function AuthorPage() {
   return (
     <section className="overflow-hidden rounded-3xl lg:h-[calc(100dvh-104px)] lg:min-h-[620px] bg-gradient-to-br from-[#0b2150] via-[#12408c] to-[#1d6fd1] text-white shadow-xl">
       <div className="grid lg:h-full lg:grid-cols-[1.05fr_1fr]">
-        {/* Muallif: surat toʻliq (kesilmaydi), 4:5 nisbatda boʻsh joyga sigʻadi — sahifa ekran balandligidan oshmaydi */}
+        {/* Muallif: surat töliq (kesilmaydi), 4:5 nisbatda böş joyga siğadi — sahifa ekran balandligidan oşmaydi */}
         <div className="order-1 flex flex-col items-center gap-4 bg-black/10 p-6 md:p-8 lg:order-2 lg:min-h-0">
           <div className="aspect-[4/5] w-full max-w-sm overflow-hidden rounded-3xl border-2 border-accent-light/70 shadow-2xl lg:min-h-0 lg:w-auto lg:max-w-full lg:flex-1">
             <img src="/author.jpg" alt={t('author.photoAlt')} width={800} height={1000} className="size-full object-cover" />

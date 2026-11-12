@@ -9,7 +9,7 @@ export interface Progress {
   groups: { id: string; name: string }[];
 }
 
-/** Oʻquv yoʻli: mavzular tartibida testlar va natijalar */
+/** Öquv yöli: mavzular tartibida testlar va natijalar */
 export const progressService = {
   mine: () => getData<Progress>('/progress/me'),
   student: (studentId: string) => getData<Progress>(`/progress/students/${studentId}`),

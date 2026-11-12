@@ -21,7 +21,7 @@ export const catalogService = {
   updatePeriod: (id: string, body: Partial<Period>) => patchData<Period>(`/periods/${id}`, body),
   deletePeriod: (id: string) => del(`/periods/${id}`),
   topics: (periodId?: string) => getData<Topic[]>('/topics', cleanParams({ periodId })),
-  /** Boshqaruv (tahrirlash) uchun: tarjima qilinmagan asosiy nomlar */
+  /** Boşqaruv (tahrirlaş) uçun: tarjima qilinmagan asosiy nomlar */
   periodsBase: () => getData<Period[]>('/periods', undefined, { 'X-Lang': 'uz' }),
   topicsBase: () => getData<Topic[]>('/topics', undefined, { 'X-Lang': 'uz' }),
   createTopic: (body: Partial<Topic>) => postData<Topic>('/topics', body),
@@ -31,7 +31,7 @@ export const catalogService = {
 export const sourcesService = {
   list: (f: SourceFilters) => getPage<SourceListItem>('/sources', cleanParams({ ...f })),
   get: (idOrSlug: string) => getData<Source>(`/sources/${idOrSlug}`),
-  /** Tahrirlash uchun: interfeys tilidan qat'i nazar asosiy (oʻzbekcha) yozuv — tarjima ustiga yozilib ketmasligi uchun */
+  /** Tahrirlaş uçun: interfeys tilidan qat'i nazar asosiy (özbekça) yozuv — tarjima ustiga yozilib ketmasligi uçun */
   getBase: (idOrSlug: string) => getData<Source>(`/sources/${idOrSlug}`, undefined, { 'X-Lang': 'uz' }),
   translations: (id: string) => getData<SourceTranslation[]>(`/sources/${id}/translations`),
   saveTranslation: (id: string, locale: 'ru' | 'en', body: SourceTranslationInput) =>

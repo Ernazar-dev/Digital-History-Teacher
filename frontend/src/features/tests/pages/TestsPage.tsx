@@ -16,7 +16,7 @@ import { percentColor } from './TestPage';
 export default function TestsPage() {
   const { t } = useTranslation();
   const { isStaff: staff } = useAuth();
-  // Saytni koʻrish rejimida sahifa talaba koʻrinishida chiqadi
+  // Saytni köriş rejimida sahifa talaba körinişida çiqadi
   const siteView = useSiteViewStore((s) => s.siteView);
   const isStaff = staff && !siteView;
   const query = useQuery({ queryKey: ['tests'], queryFn: testsService.list });
