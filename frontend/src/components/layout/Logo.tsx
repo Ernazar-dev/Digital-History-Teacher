@@ -15,7 +15,7 @@ export const Logo = ({ dark = false, to = '/', compact = false }: { dark?: boole
           onError={(e) => { e.currentTarget.src = DEFAULT_LOGO; }}
         />
       </span>
-      <span className={`font-serif-title ${compact ? "hidden min-[1500px]:inline" : ""} truncate text-lg font-bold leading-tight transition-colors duration-300 ${dark ? 'text-white' : 'text-primary'}`}>{name}</span>
+      <span className={`font-serif-title ${compact ? "sr-only" : ""} truncate text-lg font-bold leading-tight transition-colors duration-300 ${dark ? 'text-white' : 'text-primary'}`}>{name}</span>
     </Link>
   );
 };
