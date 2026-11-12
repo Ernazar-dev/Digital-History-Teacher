@@ -6,8 +6,7 @@
  * Natija (har mavzu uchun): `<slug>.docx` (uz), `<slug>.ru.docx`, `<slug>.en.docx` va ularning Markdown nusxalari
  * `<slug>.md`, `<slug>.ru.md`, `<slug>.en.md` (qidiruv va matn ko'rinishi uchun).
  *
- * Mijozning o'zbekcha fayllari eski «diakritik» lotin yozuvida: ö = o‘, ğ = g‘, ş = sh, ç = ch. Word fayl ichida
- * ham, Markdown'da ham shu belgilar hozirgi imloga o'tkaziladi. ru/en Word fayllar o'zgartirilmaydi.
+ * Mijozning o'zbekcha fayllari yangi o'zbek lotin alifbosida (ö, ğ, ş, ç) — matn o'zgartirilmasdan olinadi.
  * `jszip` frontend/node_modules ichida (frontend paketlarini o'rnatish yetarli).
  */
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
@@ -33,9 +32,6 @@ const SLUGS = {
   'XVII XVIII asrlar birinchi yarmida Ashtarxoniylar davlati': 'ashtarxoniylar-davlati',
   'XVIII asr ikkinchi yarmi XIX asr birinchi yarmida Buxoro amirligi': 'buxoro-amirligi',
 };
-
-const fixUz = (s) =>
-  s.replace(/ö/g, 'o‘').replace(/Ö/g, 'O‘').replace(/ş/g, 'sh').replace(/Ş/g, 'Sh').replace(/ç/g, 'ch').replace(/Ç/g, 'Ch').replace(/ğ/g, 'g‘').replace(/Ğ/g, 'G‘');
 
 const unxml = (s) => s.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&apos;/g, "'").replace(/&amp;/g, '&');
 
@@ -114,7 +110,10 @@ const TAIL = [
   /^(nazorat savollari va topshiriqlar|контрольные вопросы и задания|test questions and assignments)$/i,
   /^(foydalanilgan adabiyotlar|использованная литература|references)$/i,
 ];
-const tailKind = (s) => TAIL.findIndex((r) => r.test(s.replace(/[.:\s]+$/, '').trim()));
+const tailKind = (s) => {
+  const t = s.replace(/[.:\s]+$/, '').trim().replace(/ş/g, 'sh').replace(/ç/g, 'ch');
+  return TAIL.findIndex((r) => r.test(t));
+};
 
 const toMarkdown = (xml, lang) => {
   const bl = blocks(xml);
@@ -212,13 +211,7 @@ for (const [name, entry] of Object.entries(zip.files)) {
   const slug = SLUGS[m[1]];
   const suffix = lang === 'uz' ? '' : `.${lang}`;
   const doc = await JSZip.loadAsync(await entry.async('nodebuffer'));
-  let xml = await doc.file('word/document.xml').async('string');
-  if (lang === 'uz') {
-    xml = fixUz(xml);
-    doc.file('word/document.xml', xml);
-    const core = doc.file('docProps/core.xml');
-    if (core) doc.file('docProps/core.xml', fixUz(await core.async('string')));
-  }
+  const xml = await doc.file('word/document.xml').async('string');
   writeFileSync(join(OUT, `${slug}${suffix}.docx`), await doc.generateAsync({ type: 'nodebuffer', compression: 'DEFLATE' }));
   writeFileSync(join(OUT, `${slug}${suffix}.md`), toMarkdown(xml, lang));
   done += 1;

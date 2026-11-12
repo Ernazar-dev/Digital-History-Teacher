@@ -6,12 +6,15 @@
 
 **Plan:**
 
-1. Sources and Formation of the Mongol State
+### Sources and Formation of the Mongol State
+
 2. Relations between Genghis Khan and Muhammad Khwarazmshah
 3. The Weaknesses of the Khwarazmshah State
 4. The Mongol invasion of Maveraunnahr
 5. Jaloliddin Manguberdi — Hero of the Motherland
-6. Political and socio-economic life in the Chigatai Ulus
+
+Political and socio-economic life in the Chigatai Ulus
+
 7. Mahmoud Tarabi's Rebellion
 8. Cultural life in the second half of the 13th and first half of the 14th centuries
 9. The Consequences of the Mongol Invasion and Its Evaluation in Historiography

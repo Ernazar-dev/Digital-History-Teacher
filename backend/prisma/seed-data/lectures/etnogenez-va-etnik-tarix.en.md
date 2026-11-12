@@ -155,9 +155,10 @@ Ethnogenesis is a multifaceted, long-term process that cannot be explained solel
 - **Ethnonym** — the name of a people; toponym - place name.
 - The Central Asian Two-River Race is an anthropological type characteristic of the Uzbek people.
 
-## Review questions and assignments
+### Review questions and assignments
 
-1. Explain the concepts of ethnogenesis and ethnic history.
+Explain the concepts of ethnogenesis and ethnic history.
+
 2. What principles are recommended to be followed when studying ethnogenesis?
 3. Distinguish between ethnic factors and ethnic characteristics.
 4. What is the difference between the concepts of "tribe," "people," and "nation"?

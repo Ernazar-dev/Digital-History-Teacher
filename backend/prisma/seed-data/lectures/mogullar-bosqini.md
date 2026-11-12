@@ -1,215 +1,223 @@
-# O‘rta Osiyoga mo‘g‘ullar bosqini va unga qarshi kurash
+# Örta Osiyoga möğullar bosqini va unga qarşi kuraş
 
-> Ma’ruza: “O‘zbekiston tarixi” darsligi (I kitob) 14-mavzusi hamda mo‘g‘ullar bosqiniga oid manbalar asosida tayyorlandi.
+> Ma’ruza: “Özbekiston tarixi” darsligi (I kitob) 14-mavzusi hamda möğullar bosqiniga oid manbalar asosida tayyorlandi.
 
-**Ma’ruzaning maqsadi:** talabalarga Mo‘g‘ul davlatining tashkil topishi, Chingizxon va Muhammad Xorazmshoh munosabatlari, mo‘g‘ul bosqinining borishi va oqibatlari, Jaloliddin Manguberdi boshchiligidagi ozodlik kurashi, Chig‘atoy ulusidagi ijtimoiy-iqtisodiy munosabatlar hamda XIII-XIV asrlardagi madaniy hayot haqida yaxlit bilim berish; vatanparvarlik va tarixiy shaxsni baholash ko‘nikmasini shakllantirish.
+**Ma’ruzaning maqsadi:** talabalarga Möğul davlatining taşkil topişi, Çingizxon va Muhammad Xorazmşoh munosabatlari, möğul bosqinining borişi va oqibatlari, Jaloliddin Manguberdi boşçiligidagi ozodlik kuraşi, Çiğatoy ulusidagi ijtimoiy-iqtisodiy munosabatlar hamda XIII-XIV asrlardagi madaniy hayot haqida yaxlit bilim beriş; vatanparvarlik va tarixiy şaxsni baholaş könikmasini şakllantiriş.
 
 **Reja:**
 
-1. Manbalar va Mo‘g‘ul davlatining tashkil topishi
-2. Chingizxon va Muhammad Xorazmshoh munosabatlari
-3. Xorazmshohlar davlatining zaif tomonlari
-4. Movarounnahrga mo‘g‘ul bosqini
+1. Manbalar va Möğul davlatining taşkil topişi
+2. Çingizxon va Muhammad Xorazmşoh munosabatlari
+3. Xorazmşohlar davlatining zaif tomonlari
+4. Movarounnahrga möğul bosqini
 5. Jaloliddin Manguberdi — Vatan qahramoni
-6. Chig‘atoy ulusidagi siyosiy va ijtimoiy-iqtisodiy hayot
-7. Mahmud Tarobiy qo‘zg‘oloni
-8. XIII asr ikkinchi yarmi — XIV asr birinchi yarmidagi madaniy hayot
-9. Mo‘g‘ul bosqinining oqibatlari va tarixshunoslikdagi baholar
+6. Çiğatoy ulusidagi siyosiy va ijtimoiy-iqtisodiy hayot
+7. Mahmud Tarobiy qözğoloni
+8. XIII asr ikkinçi yarmi — XIV asr birinçi yarmidagi madaniy hayot
+9. Möğul bosqinining oqibatlari va tarixşunoslikdagi baholar
 
-## 1. Manbalar va Mo‘g‘ul davlatining tashkil topishi
+## 1. Manbalar va Möğul davlatining taşkil topişi
 
 ### Manbalar
 
-Bosqin haqida Ibn al-Asirning “Al-komil fit-tarix”, Shahobiddin an-Nasaviyning “Siyrat as-sulton Jaloliddin Mankburni”, Minhojiddin Juzjoniyning “Tabaqoti Nosiriy”, Atomalik Juvayniyning “Tarixi jahongusho”, Rashididdinning “Jome at-tavorix” asarlari asosiy manbalardir. Mavzuni V.V. Bartold, I.P. Petrushevskiy, Z.M. Bunyodov va ko‘plab xorijiy olimlar o‘rgangan. Manbalarning aksariyati bosqindan zarar ko‘rgan musulmon mualliflari yoki mo‘g‘ullar xizmatidagi tarixchilar qalamiga mansub bo‘lgani uchun ularni o‘zaro solishtirib baholash zarur.
+Bosqin haqida Ibn al-Asirning “Al-komil fit-tarix”, Şahobiddin an-Nasaviyning “Siyrat as-sulton Jaloliddin Mankburni”, Minhojiddin Juzjoniyning “Tabaqoti Nosiriy”, Atomalik Juvayniyning “Tarixi jahonguşo”, Raşididdinning “Jome at-tavorix” asarlari asosiy manbalardir. Mavzuni V.V. Bartold, I.P. Petruşevskiy, Z.M. Bunyodov va köplab xorijiy olimlar örgangan. Manbalarning aksariyati bosqindan zarar körgan musulmon mualliflari yoki möğullar xizmatidagi tarixçilar qalamiga mansub bölgani uçun ularni özaro soliştirib baholaş zarur.
 
-### Temuchin — Chingizxon
+### Temuçin — Çingizxon
 
-Mo‘g‘ullar ilk bor Xitoyning Tan sulolasi solnomasida «menu» nomi bilan tilga olinadi; ular elat sifatida XIII asrda shakllangan. Mo‘g‘ul rahnamosi Yesugay bahodir tatarlar tomonidan o‘ldirilgach, uning o‘g‘li Temuchin (1155-1227) — kuchli, tadbirkor va ayyor sarkarda — parokanda qabilalarni birlashtirdi: 1186-yilda markitlarni, keyin tatarlarni bo‘ysundirdi, 1203-yilda kerayitlar xoni O‘ngxonni yengdi. 1206-yilda mo‘g‘ullarning umumiy qurultoyida Temuchin oliy xon deb e’lon qilindi va unga “Chingizxon” (“kuchli”, “buyuk”) nomi berildi. Davlat Yeke Mo‘ng‘ol ulus (Buyuk mo‘g‘ul davlati) deb ataldi, poytaxti Qoraqurum bo‘ldi; butun Mo‘g‘uliston 95 harbiy-ma’muriy birlikka (minglik) bo‘lindi.
+Möğullar ilk bor Xitoyning Tan sulolasi solnomasida «menu» nomi bilan tilga olinadi; ular elat sifatida XIII asrda şakllangan. Möğul rahnamosi Yesugay bahodir tatarlar tomonidan öldirilgaç, uning öğli Temuçin (1155-1227) — kuçli, tadbirkor va ayyor sarkarda — parokanda qabilalarni birlaştirdi: 1186-yilda markitlarni, keyin tatarlarni böysundirdi, 1203-yilda kerayitlar xoni Öngxonni yengdi. 1206-yilda möğullarning umumiy qurultoyida Temuçin oliy xon deb e’lon qilindi va unga “Çingizxon” (“kuçli”, “buyuk”) nomi berildi. Davlat Yeke Mönğol ulus (Buyuk möğul davlati) deb ataldi, poytaxti Qoraqurum böldi; butun Möğuliston 95 harbiy-ma’muriy birlikka (minglik) bölindi.
 
 ### “Yasoq” qonunlari
 
-Davlat yorliq (buyruq), yasoq (qonun) va bilik (nasihat)larga tayangan. “Yasoq” patriarxal harbiy tuzumni aks ettirgan qattiq qonunlar to‘plami bo‘lib, uning asosiy qoidalariga ko‘ra, xon “Yasoq”qa qat’iy rioya qilishga qasam ichadi, aks holda umrbod qamalishi mumkin edi; barchaga diniy erkinlik berilib, ruhoniylar soliqdan ozod qilingan; jazo sifatida o‘lim jazosi keng qo‘llangan; bosib olinayotgan xalqlarga rahm-shafqat qilinmagan.
+Davlat yorliq (buyruq), yasoq (qonun) va bilik (nasihat)larga tayangan. “Yasoq” patriarxal harbiy tuzumni aks ettirgan qattiq qonunlar töplami bölib, uning asosiy qoidalariga köra, xon “Yasoq”qa qat’iy rioya qilişga qasam içadi, aks holda umrbod qamalişi mumkin edi; barçaga diniy erkinlik berilib, ruhoniylar soliqdan ozod qilingan; jazo sifatida ölim jazosi keng qöllangan; bosib olinayotgan xalqlarga rahm-şafqat qilinmagan.
 
-Chingizxon shaxsiy gvardiyasini (keshiktan) 9000 kishiga yetkazdi; 1204-yilda mo‘g‘ul yozuvi uchun uyg‘ur alifbosi qabul qilindi. 1209-yilda tangutlar, 1211-yilda uyg‘urlar, 1215-yilda Shimoliy Xitoy (Pekin bilan) bo‘ysundirildi. Mo‘g‘ullar uyg‘ur va musulmon savdogarlar tajribasidan keng foydalangan, ularni ko‘pincha ayg‘oqchi sifatida ham ishlatgan.
+Çingizxon şaxsiy gvardiyasini (keşiktan) 9000 kişiga yetkazdi; 1204-yilda möğul yozuvi uçun uyğur alifbosi qabul qilindi. 1209-yilda tangutlar, 1211-yilda uyğurlar, 1215-yilda Şimoliy Xitoy (Pekin bilan) böysundirildi. Möğullar uyğur va musulmon savdogarlar tajribasidan keng foydalangan, ularni köpinça ayğoqçi sifatida ham işlatgan.
 
-## 2. Chingizxon va Muhammad Xorazmshoh munosabatlari
+## 2. Çingizxon va Muhammad Xorazmşoh munosabatlari
 
-Xitoy zabt etilgach, Chingizxon davlati g‘arbdagi eng kuchli qo‘shni — Xorazmshoh-Anushtaginiylar davlati (1097-1231) bilan chegaradosh bo‘lib qoldi. Ikki davlat munosabatlari bosqichma-bosqich keskinlashdi.
+Xitoy zabt etilgaç, Çingizxon davlati ğarbdagi eng kuçli qöşni — Xorazmşoh-Anuştaginiylar davlati (1097-1231) bilan çegaradoş bölib qoldi. Ikki davlat munosabatlari bosqiçma-bosqiç keskinlaşdi.
 
 | Yil | Voqea |
 |---|---|
-| 1215 | Xorazmshoh elchisi Bahovuddin Roziy Pekinda Chingizxon qabulida bo‘ldi |
-| 1215/1217 | To‘rg‘oy dashtida xorazmshoh qo‘shini Jo‘chi qo‘shini bilan to‘qnashdi |
-| 1217 | Xorazmshohning Bag‘dod xalifaligiga muvaffaqiyatsiz yurishi |
-| 1218 (bahor) | Mahmud Yalavoch boshchiligidagi mo‘g‘ul elchilari Buxoroda qabul qilindi |
-| 1218 | O‘tror fojiasi — 450 savdogarli karvon talanib, a’zolari o‘ldirildi |
-| 1219 (sentabr) | Mo‘g‘ul bosqini boshlandi |
+| 1215 | Xorazmşoh elçisi Bahovuddin Roziy Pekinda Çingizxon qabulida bo‘ldi |
+| 1215/1217 | Törğoy daştida xorazmşoh qöşini Jöçi qöşini bilan töqnashdi |
+| 1217 | Xorazmşohning Bağdod xalifaligiga muvaffaqiyatsiz yurishi |
+| 1218 (bahor) | Mahmud Yalavoch boşçiligidagi möğul elçilari Buxoroda qabul qilindi |
+| 1218 | Ötror fojiasi — 450 savdogarli karvon talanib, a’zolari öldirildi |
+| 1219 (sentabr) | Möğul bosqini boşlandi |
 
-Chingizxon xatida: “Men — Sharqning hokimiman, sen — G‘arbning hokimisan! Ikkimiz o‘rtamizda do‘stlik va sulh haqida qat’iy bitim bo‘lsin” deb yozgan. Keyingi maktubida esa xorazmshohni “eng aziz o‘g‘lim” deb atadi, bu Sharq odobida qaram qilish yoki homiylikka olish ma’nosini anglatardi.
+Çingizxon xatida: “Men — Şarqning hokimiman, sen — Ğarbning hokimisan! Ikkimiz örtamizda döstlik va sulh haqida qat’iy bitim bölsin” deb yozgan. Keyingi maktubida esa xorazmşohni “eng aziz öğlim” deb atadi, bu Şarq odobida qaram qiliş yoki homiylikka oliş ma’nosini anglatardi.
 
-### O‘tror fojiasi
+### Ötror fojiasi
 
-1218-yilda Chingizxon 450 musulmon savdogar va 500 tuyadan iborat karvon yubordi. O‘tror hokimi Inalxon (G‘oyirxon) — Turkon xotunning qarindoshi — ularni josuslikda ayblab qirib tashladi, mollarni talatdi. Chingizxon Inalxonni topshirishni talab qilib, elchi ibn Kafroj Bug‘roni yubordi. Shahzoda Jaloliddin urushning oldini olish uchun Inalxonni topshirishni taklif qilgan bo‘lsa-da, sulton buni rad etdi va elchini o‘ldirtirdi. Darslik xulosasi: Chingizxon rasman urushga xorazmshohni sababchi qilib ko‘rsatib, o‘zini “olijanob xaloskor” deb tutdi; aslida u urushga puxta tayyorlangan edi. Demak, urushga har ikkala tomon ham sababchi bo‘lgan. 1218-yilda Jebe Yettisuv va Qashg‘arda Kuchluk davlatini tor-mor etib, Talas vodiysigacha bo‘lgan yerlarni egalladi.
+1218-yilda Çingizxon 450 musulmon savdogar va 500 tuyadan iborat karvon yubordi. Ötror hokimi Inalxon (Ğoyirxon) — Turkon xotunning qarindoşi — ularni josuslikda ayblab qirib taşladi, mollarni talatdi. Çingizxon Inalxonni topşirişni talab qilib, elçi ibn Kafroj Buğroni yubordi. Şahzoda Jaloliddin uruşning oldini oliş uçun Inalxonni topşirişni taklif qilgan bölsa-da, sulton buni rad etdi va elçini öldirtirdi. Darslik xulosasi: Çingizxon rasman uruşga xorazmşohni sababçi qilib körsatib, özini “olijanob xaloskor” deb tutdi; aslida u uruşga puxta tayyorlangan edi. Demak, uruşga har ikkala tomon ham sababçi bölgan. 1218-yilda Jebe Yettisuv va Qaşğarda Kuçluk davlatini tor-mor etib, Talas vodiysigaça bölgan yerlarni egalladi.
 
-## 3. Xorazmshohlar davlatining zaif tomonlari
+## 3. Xorazmşohlar davlatining zaif tomonlari
 
-Xorazmshohlar davlati musulmon olamida buyuk davlat bo‘lib, qo‘shini 400 ming kishiga yetgan, bu mo‘g‘ullardan ikki baravar ko‘p edi. Biroq davlatning ichki zaifligi uning halokatiga sabab bo‘ldi. Amalda Turkon xotun (sultonning onasi) birinchi shaxs bo‘lib, qipchoq sarkardalariga tayangan; uning farmoni sulton farmonidan ustun bo‘lgan, u nevarasi O‘zloqshohni valiahd qildirib, Jaloliddinni chetlatgan. Qo‘shin asosan yollanma, intizomi past bo‘lib, istilo va o‘lja uchun mo‘ljallangan edi.
+Xorazmşohlar davlati musulmon olamida buyuk davlat bölib, qöşini 400 ming kişiga yetgan, bu möğullardan ikki baravar köp edi. Biroq davlatning içki zaifligi uning halokatiga sabab böldi. Amalda Turkon xotun (sultonning onasi) birinçi şaxs bölib, qipçoq sarkardalariga tayangan; uning farmoni sulton farmonidan ustun bölgan, u nevarasi Özloqşohni valiahd qildirib, Jaloliddinni çetlatgan. Qöşin asosan yollanma, intizomi past bölib, istilo va ölja uçun möljallangan edi.
 
-Soliqlar o‘zboshimcha undirilgan: 1218-yilda xiroj bir yo‘la uch marta olingan; 1206 va 1212-yillarda Buxoro va Samarqandda xalq g‘alayonlari bo‘lgan. Sultonning xalifaga yurishi, Termizlik shayx A’lamulkni xalifa deb e’lon qilishi, Majdiddin Bag‘dodiyning qatl etilishi ulamolar noroziligini kuchaytirgan. Bundan tashqari, sulton o‘z sarkardalariga ishonmagan. Shu omillar birgalikda davlatni ichdan zaiflashtirgan edi.
+Soliqlar özboşimça undirilgan: 1218-yilda xiroj bir yöla uç marta olingan; 1206 va 1212-yillarda Buxoro va Samarqandda xalq ğalayonlari bölgan. Sultonning xalifaga yurişi, Termizlik şayx A’lamulkni xalifa deb e’lon qilişi, Majdiddin Bağdodiyning qatl etilişi ulamolar noroziligini kuçaytirgan. Bundan taşqari, sulton öz sarkardalariga işonmagan. Şu omillar birgalikda davlatni içdan zaiflaştirgan edi.
 
-## 4. Movarounnahrga mo‘g‘ul bosqini
+## 4. Movarounnahrga möğul bosqini
 
-### Urganchdagi harbiy kengash
+### Urgançdagi harbiy kengaş
 
-Bosqin boshlangach, sulton Urganchda kengash chaqirdi. Shahobiddin al-Xivaqiy barcha qo‘shinni Sirdaryo bo‘yiga to‘plab, chegaradayoq hal qiluvchi zarba berishni taklif qildi. Jaloliddin esa dushmanni ichkariga kiritib, joy sharoitini bilishdan foydalanib yo‘q qilishni taklif qildi. Ammo sulton va uning onasi bosimi bilan mudofaa usuli tanlandi: qo‘shin 450 ga yaqin shahar va qal’aga bo‘lib tarqatib yuborildi. Bu halokatli xato edi.
+Bosqin boşlangaç, sulton Urgançda kengaş çaqirdi. Şahobiddin al-Xivaqiy barça qöşinni Sirdaryo böyiga töplab, çegaradayoq hal qiluvçi zarba berişni taklif qildi. Jaloliddin esa duşmanni içkariga kiritib, joy şaroitini bilişdan foydalanib yöq qilişni taklif qildi. Ammo sulton va uning onasi bosimi bilan mudofaa usuli tanlandi: qöşin 450 ga yaqin şahar va qal’aga bölib tarqatib yuborildi. Bu halokatli xato edi.
 
-### Bosqinning borishi
+### Bosqinning borişi
 
-Chingizxon 1219-yilda 200 mingga yaqin qo‘shin bilan yo‘lga chiqdi va uni O‘tror yaqinida to‘rt qismga bo‘ldi. Chig‘atoy va O‘qtoy O‘tror qamaliga, Jo‘chi Sirdaryoning quyi oqimidagi Jand, Yangikent va Sig‘noqqa, Uloq no‘yon (5 ming) Xo‘jand va Banokatga yo‘naltirildi; Chingizxonning o‘zi (Jebe va Subutoy bilan) Buxoro va Samarqandga yurdi.
+Çingizxon 1219-yilda 200 mingga yaqin qöşin bilan yölga çiqdi va uni Ötror yaqinida tört qismga böldi. Çiğatoy va Öqtoy Ötror qamaliga, Jöçi Sirdaryoning quyi oqimidagi Jand, Yangikent va Siğnoqqa, Uloq nöyon (5 ming) Xöjand va Banokatga yönaltirildi; Çingizxonning özi (Jebe va Subutoy bilan) Buxoro va Samarqandga yurdi.
 
-| Shahar | Mudofa | Taqdiri |
+| Şahar | Mudofa | Taqdiri |
 |---|---|---|
-| O‘tror | Inalxon 6 oy qarshilik ko‘rsatdi (5 oy shahar, 1 oy qal’a) | Qoracha hojib xiyonati bilan olindi; Inalxonning quloq-ko‘ziga kumush quyib o‘ldirildi |
-| Buxoro | 1220-yil 10-fevral egallandi; arkda Ko‘kxon boshchiligidagi 400 kishi 12 kun qarshilik ko‘rsatdi | 30 ming kishi qirildi, shahar yoqib yuborildi |
-| Samarqand | 110 ming askar; hokim To‘g‘ayxon xiyonat qildi; 1000 kishi jome masjidida jang qildi | 1220-yil 17-mart egallandi; aholining faqat choragi tirik qoldi; 30 ming hunarmand bo‘lib olindi |
-| Xo‘jand | Temur Malik Sirdaryo orolida mudofaa qildi, so‘ng 70 kemada daryo bo‘ylab yorib o‘tdi | Temur Malik Jaloliddin safiga qo‘shildi |
-| Termiz | Hokim Faxriddin 11 kun mudofaa qildi | Aholi qirib tashlandi |
-| Gurganj (Urganch) | 90 ming qo‘shin; qamal 7 oy (1221); har bir ko‘cha uchun jang | Amudaryo to‘g‘oni buzilib, shahar suvga bostirildi; 100 mingdan ortiq hunarmand Mo‘g‘ulistonga haydaldi |
+| Ötror | Inalxon 6 oy qarşilik körsatdi (5 oy shahar, 1 oy qal’a) | Qoracha hojib xiyonati bilan olindi; Inalxonning quloq-köziga kumuş quyib öldirildi |
+| Buxoro | 1220-yil 10-fevral egallandi; arkda Kökxon boşçiligidagi 400 kişi 12 kun qarşilik körsatdi | 30 ming kişi qirildi, şahar yoqib yuborildi |
+| Samarqand | 110 ming askar; hokim Töğayxon xiyonat qildi; 1000 kişi jome masjidida jang qildi | 1220-yil 17-mart egallandi; aholining faqat çoragi tirik qoldi; 30 ming hunarmand bölib olindi |
+| Xöjand | Temur Malik Sirdaryo orolida mudofaa qildi, söng 70 kemada daryo böylab yorib ötdi | Temur Malik Jaloliddin safiga qöşildi |
+| Termiz | Hokim Faxriddin 11 kun mudofaa qildi | Aholi qirib taşlandi |
+| Gurganj (Urganç) | 90 ming qöşin; qamal 7 oy (1221); har bir köça uçun jang | Amudaryo töğoni buzilib, şahar suvga bostirildi; 100 mingdan ortiq hunarmand Möğulistonga haydaldi |
 
-Buxoroni egallagan Chingizxonning xatti-harakatini Rashididdin shunday tasvirlaydi: mo‘g‘ullar Qur’on sandiqlarini otlarga oxur qilishdi, ulamolar va shayxlar otxonalarda otlarni qo‘riqlashga majbur bo‘ldi. Qozi Badriddin va imom Rukniddin bu nomussizlikka chiday olmay, dushmanga tashlanib halok bo‘ldi.
+Buxoroni egallagan Çingizxonning xatti-harakatini Raşididdin şunday tasvirlaydi: möğullar Qur’on sandiqlarini otlarga oxur qilişdi, ulamolar va şayxlar otxonalarda otlarni qöriqlaşga majbur böldi. Qozi Badriddin va imom Rukniddin bu nomussizlikka çiday olmay, duşmanga taşlanib halok böldi.
 
 ### Sulton Muhammadning taqdiri
 
-Samarqand olingach, sulton janubga qochdi — Amudaryodan o‘tishda 70 yuk tilla suvga cho‘kib ketgan. Jebe va Subutoy boshchiligidagi 20 ming kishilik saralangan qo‘shin uni izma-iz ta’qib qildi. O‘limi oldidan sulton Jaloliddinni valiahd deb e’lon qilib: “Men uchun faqat o‘g‘lim Jaloliddingina qasos ola oladi” dedi. U 1220-yil dekabrida Kaspiy dengizidagi Ashuradi orolida vafot etdi. Turkon xotun Mozandarondagi qal’ada 4 oy qamaldan so‘ng taslim bo‘ldi va 1233-yilda Qoraqurumda cho‘rilikda vafot etdi.
+Samarqand olingaç, sulton janubga qoçdi — Amudaryodan ötişda 70 yuk tilla suvga çökib ketgan. Jebe va Subutoy boşçiligidagi 20 ming kişilik saralangan qöşin uni izma-iz ta’qib qildi. Ölimi oldidan sulton Jaloliddinni valiahd deb e’lon qilib: “Men uçun faqat öğlim Jaloliddingina qasos ola oladi” dedi. U 1220-yil dekabrida Kaspiy dengizidagi Aşuradi orolida vafot etdi. Turkon xotun Mozandarondagi qal’ada 4 oy qamaldan söng taslim böldi va 1233-yilda Qoraqurumda çörilikda vafot etdi.
 
 ### Najmiddin Kubro va bosqin oqibatlari
 
-Gurganj mudofaasida kubroviya tariqati asoschisi, 76 yoshli Najmiddin Kubro (1145-1221) “Yo Vatan, yo sharafli o‘lim” shiori bilan shogirdlari bilan jang qilib, qahramonlarcha halok bo‘ldi. Uch yil ichida buyuk Xorazmshohlar davlati istilo qilindi. Niso (70 ming kishi o‘ldirilgan), Marv, Balx, Nishopur va Bomiyon vayron etildi. O‘tror va Sig‘noq kabi shaharlar uzoq vaqt dasht-biyobonga aylanib qoldi. Ibn al-Asir yozganidek: “Ular hech kimga shafqat qilishmadi. Bu musibat to‘lqinlari turli tomonlarga tarqaldi va uning fojiasi umumiy bo‘lib qoldi”.
+Gurganj mudofaasida kubroviya tariqati asosçisi, 76 yoşli Najmiddin Kubro (1145-1221) “Yo Vatan, yo şarafli ölim” şiori bilan şogirdlari bilan jang qilib, qahramonlarça halok böldi. Uç yil içida buyuk Xorazmşohlar davlati istilo qilindi. Niso (70 ming kişi öldirilgan), Marv, Balx, Nişopur va Bomiyon vayron etildi. Ötror va Siğnoq kabi şaharlar uzoq vaqt daşt-biyobonga aylanib qoldi. Ibn al-Asir yozganidek: “Ular heç kimga şafqat qilişmadi. Bu musibat tölqinlari turli tomonlarga tarqaldi va uning fojiasi umumiy bölib qoldi”.
 
 ## 5. Jaloliddin Manguberdi — Vatan qahramoni
 
-Jaloliddin Manguberdi (an-Nasaviyda — Mankburni, “xoldor burunli”) mo‘g‘ullarga qarshi 11 yil kurashdi, 14 jangning 13 tasida g‘alaba qozondi. Unga G‘azna, Bomiyon, G‘ur va Hindiston bilan chegaradosh yerlar mulk qilib berilgan edi.
+Jaloliddin Manguberdi (an-Nasaviyda — Mankburni, “xoldor burunli”) möğullarga qarşi 11 yil kuraşdi, 14 jangning 13 tasida ğalaba qozondi. Unga Ğazna, Bomiyon, Ğur va Hindiston bilan çegaradoş yerlar mulk qilib berilgan edi.
 
 ### Asosiy janglar
 
 | Sana | Jang | Natija |
 |---|---|---|
-| 1221 boshi | Niso yaqinida — 300 askar 700 mo‘g‘ulga qarshi | G‘alaba; “yengilmas mo‘g‘ullar” haqidagi afsonaga zarba |
-| 1221 | Qandahor yaqinida — tarixda ilk bor piyoda yoyandozlar otliqlarga qarshi qo‘yildi | Uch kunlik jangda g‘alaba |
-| 1221 | Valiyon qo‘rg‘oni yonida | 1000 dan ortiq mo‘g‘ul halok bo‘ldi |
-| 1221 (kuz) | Parvon jangi — Shiki Xutuxu qo‘shiniga qarshi | To‘liq g‘alaba; Marv, Hirot, Buxoroda qo‘zg‘olonlar boshlandi |
-| 1221-yil 25-noyabr | Sind daryosi bo‘yidagi uch kunlik jang — Chingizxonning o‘ziga qarshi | Mag‘lubiyat; Jaloliddin oti bilan daryoga sakrab, narigi qirg‘oqqa suzib o‘tdi |
-| 1227-yil 5-sentabr | Isfahon yaqinida Taynal no‘yonga qarshi | G‘alaba; mo‘g‘ullar Erondan quvib chiqarildi |
-| 1230-yil 10-avgust | Ko‘niya sultoni va boshqa hokimlar ittifoqiga qarshi | Mag‘lubiyat |
+| 1221 boşi | Niso yaqinida — 300 askar 700 möğulga qarşi | Ğalaba; “yengilmas möğullar” haqidagi afsonaga zarba |
+| 1221 | Qandahor yaqinida — tarixda ilk bor piyoda yoyandozlar otliqlarga qarşi qöyildi | Uch kunlik jangda ğalaba |
+| 1221 | Valiyon qörğoni yonida | 1000 dan ortiq möğul halok böldi |
+| 1221 (kuz) | Parvon jangi — Şiki Xutuxu qöşiniga qarşi | To‘liq g‘alaba; Marv, Hirot, Buxoroda qözğolonlar boşlandi |
+| 1221-yil 25-noyabr | Sind daryosi böyidagi uch kunlik jang — Çingizxonning öziga qarşi | Mağlubiyat; Jaloliddin oti bilan daryoga sakrab, narigi qirğoqqa suzib ötdi |
+| 1227-yil 5-sentabr | Isfahon yaqinida Taynal nöyonga qarşi | Ğalaba; möğullar Erondan quvib çiqarildi |
+| 1230-yil 10-avgust | Köniya sultoni va boşqa hokimlar ittifoqiga qarşi | Mağlubiyat |
 
-Parvon g‘alabasidan so‘ng o‘lja taqsimotida sarkardalar Amin Malik va Sayfiddin O‘g‘roq o‘rtasida ixtilof chiqib, qo‘shinning bir qismi ajralib ketdi, bu Sind jangidagi mag‘lubiyatga sabab bo‘ldi. Sind bo‘yida Jaloliddinning jasoratiga qoyil qolgan Chingizxon o‘g‘illariga shunday degan: «Otaning faqat shunday o‘g‘li bo‘lishi lozim!» — va uni ta’qib qilishni taqiqlagan.
+Parvon ğalabasidan söng ölja taqsimotida sarkardalar Amin Malik va Sayfiddin Öğroq örtasida ixtilof çiqib, qöşinning bir qismi ajralib ketdi, bu Sind jangidagi mağlubiyatga sabab böldi. Sind böyida Jaloliddinning jasoratiga qoyil qolgan Çingizxon öğillariga şunday degan: «Otaning faqat şunday öğli bölişi lozim!» — va uni ta’qib qilişni taqiqlagan.
 
-### Hindiston va Eron-Kavkazdagi kurash
+### Hindiston va Eron-Kavkazdagi kuraş
 
-Jaloliddin Hindistonda Sind bo‘yi yerlarini egalladi; Dehli sultoni Eltutmish ham uning hokimiyatini tan oldi. 1224-yildan u Kirmon, Fors, Iroq, Ozarbayjon (1225) va Gurjiston (1226, 1228)ni egallab, katta davlat barpo etdi. U Tabrizni uch yillik soliqdan ozod qildi, poraxo‘r vazir al-Jandiyni jazoladi. Jaloliddin qo‘shni musulmon hukmdorlarini mo‘g‘ullarga qarshi birlashishga chaqirdi, ammo ular uning kuchayishidan qo‘rqib, ittifoqqa kirmadi; Bag‘dod xalifaligi va ismoiliylar hatto mo‘g‘ullarga yaqinlashdi. 1231-yil avgustida mo‘g‘ullar to‘satdan hujum qilganda, Jaloliddin Mayafariqin yaqinidagi tog‘ qishlog‘ida bir kurd tomonidan o‘ldirildi.
+Jaloliddin Hindistonda Sind böyi yerlarini egalladi; Dehli sultoni Eltutmiş ham uning hokimiyatini tan oldi. 1224-yildan u Kirmon, Fors, Iroq, Ozarbayjon (1225) va Gurjiston (1226, 1228)ni egallab, katta davlat barpo etdi. U Tabrizni uç yillik soliqdan ozod qildi, poraxör vazir al-Jandiyni jazoladi. Jaloliddin qöşni musulmon hukmdorlarini möğullarga qarşi birlaşişga çaqirdi, ammo ular uning kuçayişidan qörqib, ittifoqqa kirmadi; Bağdod xalifaligi va ismoiliylar hatto möğullarga yaqinlaşdi. 1231-yil avgustida möğullar tösatdan hujum qilganda, Jaloliddin Mayafariqin yaqinidagi toğ qişloğida bir kurd tomonidan öldirildi.
 
-Damashq hokimi al-Malik al-Ashraf uning o‘limi haqida eshitib: “Uning halokati islom olamiga mo‘g‘ullarning bostirib kirishini anglatadi. Endi biz bilan ya’juj va ma’jujlar o‘rtasida devor bo‘lib turgan Xorazmshohdek odam yo‘qdir”, — degan.
+Damaşq hokimi al-Malik al-Aşraf uning ölimi haqida eşitib: “Uning halokati islom olamiga möğullarning bostirib kirişini anglatadi. Endi biz bilan ya’juj va ma’jujlar örtasida devor bölib turgan Xorazmşohdek odam yöqdir”, — degan.
 
-### Xotirani abadiylashtirish
+### Xotirani abadiylaştiriş
 
-1998-yilda Vazirlar Mahkamasining qarori bilan Jaloliddin Manguberdi tavalludining 800 yilligi keng nishonlandi; 1999-yilda Urganchda unga mahobatli haykal o‘rnatildi, 2000-yil 30-avgustda “Jaloliddin Manguberdi” ordeni ta’sis etildi.
+1998-yilda Vazirlar Mahkamasining qarori bilan Jaloliddin Manguberdi tavalludining 800 yilligi keng nişonlandi; 1999-yilda Urgançda unga mahobatli haykal örnatildi, 2000-yil 30-avgustda “Jaloliddin Manguberdi” ordeni ta’sis etildi.
 
-## 6. Chig‘atoy ulusidagi siyosiy va ijtimoiy-iqtisodiy hayot
+## 6. Çiğatoy ulusidagi siyosiy va ijtimoiy-iqtisodiy hayot
 
-### Uluslarga bo‘linish
+### Uluslarga böliniş
 
-Chingizxon bosib olingan yerlarni o‘g‘illariga ulus qilib bo‘lib berdi.
+Çingizxon bosib olingan yerlarni öğillariga ulus qilib bölib berdi.
 
-| O‘g‘li | Ulusi |
+| Öğli | Ulusi |
 |---|---|
-| Jo‘chi | Janubiy Sibirdan Xorazm va Darbandgacha |
-| Chig‘atoy | Oltoy janubidan Amudaryo va Sindgacha (Movarounnahr) |
-| O‘gedey | Xitoy va Mo‘g‘uliston (xoqonlik vorisi) |
+| Jöçi | Janubiy Sibirdan Xorazm va Darbandgaça |
+| Çiğatoy | Oltoy janubidan Amudaryo va Sindgaça (Movarounnahr) |
+| Ögedey | Xitoy va Möğuliston (xoqonlik vorisi) |
 | Tuli | Eron va Xuroson |
 
-Movarounnahr noibi etib xorazmlik savdogar Mahmud Yalavoch tayinlandi (qarorgohi — Xo‘jand). Uning ixtiyorida soliq yig‘uvchi bosqoqlar, dorug‘alar va harbiy otryadlar bo‘lgan.
+Movarounnahr noibi etib xorazmlik savdogar Mahmud Yalavoç tayinlandi (qarorgohi — Xöjand). Uning ixtiyorida soliq yiğuvchi bosqoqlar, doruğalar va harbiy otryadlar bölgan.
 
 ### Soliqlar va majburiyatlar
 
 | Soliq | Mazmuni |
 |---|---|
-| Kalon | Yer solig‘i — hosilning 1/10 qismi |
-| Qopchur | Chorva solig‘i — har 100 boshdan 1 bosh (1235-yildan) |
-| Shulen | Oziq-ovqat solig‘i — har podadan ikki yashar qo‘y, har 1000 otdan bir biya |
-| Tamg‘a | Hunarmandlar solig‘i |
+| Kalon | Yer soliği — hosilning 1/10 qismi |
+| Qopçur | Chorva soliği — har 100 boshdan 1 bosh (1235-yildan) |
+| Şulen | Oziq-ovqat soliği — har podadan ikki yashar qöy, har 1000 otdan bir biya |
+| Tamğa | Hunarmandlar soliği |
 
-Payza (oltin, kumush yoki yog‘och taxtacha) egalari aholidan tekinga ot, yem va oziq-ovqat talab qila olgan. Pochta bekatlari — yomlar xarajati aholi bo‘ynida edi. Hunarmandlarning ahvoli og‘ir bo‘lgan: ular qul darajasida “korxona”larda ishlagan. 1232-yildan Samarqandda pul muomalasi barham topib, savdo ayirboshlov darajasiga tushdi. Yer-mulk in’omi endi suyurg‘ol deb atala boshladi.
+Payza (oltin, kumuş yoki yoğoç taxtaça) egalari aholidan tekinga ot, yem va oziq-ovqat talab qila olgan. Poçta bekatlari — yomlar xarajati aholi böynida edi. Hunarmandlarning ahvoli oğir bölgan: ular qul darajasida “korxona”larda işlagan. 1232-yildan Samarqandda pul muomalasi barham topib, savdo ayirboşlov darajasiga tuşdi. Yer-mulk in’omi endi suyurğol deb atala boşladi.
 
 ### Islohotlar
 
-Soliq va boshqaruv tizimidagi tartibsizliklarga qarshi bir qator islohotlar o‘tkazildi. Munqaxon (1251-1259) eski payza va yorliqlarni bekor qildi, yomlardagi otlar sonini belgiladi, aholidan ortiqcha talablarni taqiqladi. Mas’udbek (1238-1289 yillarda noib) 1271-yilda pul islohoti o‘tkazdi: 16 ta shahar va viloyatda bir xil vazndagi sof kumush tangalar zarb etildi; 1273-yilda u talangan Buxoroni tiklashga boshchilik qildi. Duvaxon (1291-1306) davrida Andijon shahriga asos solindi. Kebekxon (1318-1326) Movarounnahrga ko‘chib kelib, Nasaf yonida qarorgoh qurdi (keyinchalik Qarshi shahri); ma’muriy (tuman va viloyatlar) va moliyaviy islohot o‘tkazib, kumush dinor (taxminan 8 g) va dirham (1 dinor = 6 dirham) zarb etdi. Tarmashirin (1326-1334) islomni Chig‘atoy ulusining rasmiy diniga aylantirdi; ko‘chmanchi zodagonlar isyonida o‘ldirildi.
+Soliq va boşqaruv tizimidagi tartibsizliklarga qarşi bir qator islohotlar ötkazildi. Munqaxon (1251-1259) eski payza va yorliqlarni bekor qildi, yomlardagi otlar sonini belgiladi, aholidan ortiqça talablarni taqiqladi. Mas’udbek (1238-1289 yillarda noib) 1271-yilda pul islohoti ötkazdi: 16 ta şahar va viloyatda bir xil vazndagi sof kumuş tangalar zarb etildi; 1273-yilda u talangan Buxoroni tiklaşga boşçilik qildi. Duvaxon (1291-1306) davrida Andijon şahriga asos solindi. Kebekxon (1318-1326) Movarounnahrga köçib kelib, Nasaf yonida qarorgoh qurdi (keyinçalik Qarşi şahri); ma’muriy (tuman va viloyatlar) va moliyaviy islohot ötkazib, kumuş dinor (taxminan 8 g) va dirham (1 dinor = 6 dirham) zarb etdi. Tarmaşirin (1326-1334) islomni Çiğatoy ulusining rasmiy diniga aylantirdi; köçmançi zodagonlar isyonida öldirildi.
 
-### Ulusning parchalanishi
+### Ulusning parçalanişi
 
-XIV asr 40-yillarida Yettisuvda Mo‘g‘uliston (Dug‘lot amirligi) ajralib chiqdi. Qozonxon (1343-1346) markaziy hokimiyatni kuchaytirishga uringan bo‘lsa-da, 1346-yilda amir Qozag‘on tomonidan o‘ldirildi. Movarounnahr yarim mustaqil qismlarga bo‘linib ketdi: Keshda Hoji Barlos, Xo‘jandda Boyazid Jaloyir, Balxda amir Husayn, Buxoroda sadrlar hukmronlik qildi. Aynan shu siyosiy tarqoqlik Amir Temur tomonidan yagona davlat tuzilishi uchun tarixiy zamin yaratdi.
+XIV asr 40-yillarida Yettisuvda Möğuliston (Duğlot amirligi) ajralib çiqdi. Qozonxon (1343-1346) markaziy hokimiyatni kuçaytirişga uringan bölsa-da, 1346-yilda amir Qozağon tomonidan öldirildi. Movarounnahr yarim mustaqil qismlarga bölinib ketdi: Keşda Hoji Barlos, Xöjandda Boyazid Jaloyir, Balxda amir Husayn, Buxoroda sadrlar hukmronlik qildi. Aynan şu siyosiy tarqoqlik Amir Temur tomonidan yagona davlat tuzilişi uçun tarixiy zamin yaratdi.
 
-## 7. Mahmud Tarobiy qo‘zg‘oloni
+## 7. Mahmud Tarobiy qözğoloni
 
-1238-yilda Buxorodan 3 farsax uzoqlikdagi Tarob qishlog‘ida g‘alvir yasovchi hunarmand Mahmud Tarobiy boshchiligida mo‘g‘ullar va mahalliy zodagonlar zulmiga qarshi qo‘zg‘olon ko‘tarildi. U xalqni shunday chaqirdi: «Kimning qanday qurolga qurbi yetsa, qilichmi, o‘q-yoymi, kaltakmi, qo‘lga olsin». Qo‘zg‘olonchilar Buxoroni egalladi; buxorolik olim Shamsiddin Mahbubiy ham ularga qo‘shildi. Karmana yo‘lidagi jangda 10 ming mo‘g‘ul qirildi, ammo Mahmud Tarobiy va Shamsiddin Mahbubiy halok bo‘ldi. Yangi rahbarlar (Tarobiyning ukalari) tajribasiz edi; bir haftadan so‘ng mo‘g‘ullarning yangi qo‘shini qo‘zg‘olonni bostirdi — ikki tomondan 21 mingdan ortiq kishi halok bo‘ldi.
+1238-yilda Buxorodan 3 farsax uzoqlikdagi Tarob qişloğida ğalvir yasovçi hunarmand Mahmud Tarobiy boşçiligida möğullar va mahalliy zodagonlar zulmiga qarşi qözğolon kötarildi. U xalqni şunday çaqirdi: «Kimning qanday qurolga qurbi yetsa, qiliçmi, öq-yoymi, kaltakmi, qölga olsin». Qözğolonçilar Buxoroni egalladi; buxorolik olim Şamsiddin Mahbubiy ham ularga qöşildi. Karmana yölidagi jangda 10 ming möğul qirildi, ammo Mahmud Tarobiy va Şamsiddin Mahbubiy halok böldi. Yangi rahbarlar (Tarobiyning ukalari) tajribasiz edi; bir haftadan söng möğullarning yangi qöşini qözğolonni bostirdi — ikki tomondan 21 mingdan ortiq kişi halok böldi.
 
-Qo‘zg‘olon xalq hamisha vatan ozodligi uchun kurashga tayyorligini ko‘rsatdi. Undan so‘ng mo‘g‘ullar soliqlarni tartibga solishga harakat qildi, Mahmud Yalavoch lavozimidan olinib, o‘rniga o‘g‘li Mas’udbek tayinlandi.
+Qözğolon xalq hamişa vatan ozodligi uçun kuraşga tayyorligini körsatdi. Undan söng möğullar soliqlarni tartibga solişga harakat qildi, Mahmud Yalavoç lavozimidan olinib, örniga öğli Mas’udbek tayinlandi.
 
-## 8. XIII asr ikkinchi yarmi — XIV asr birinchi yarmidagi madaniy hayot
+## 8. XIII asr ikkinçi yarmi — XIV asr birinçi yarmidagi madaniy hayot
 
-### Me’morchilik
+### Me’morçilik
 
-Xo‘jalikdagi jonlanish va mo‘g‘ullarning o‘troqlashuvi bilan qurilish qayta tiklandi; ganchkorlik, koshinpazlik va me’moriy xattotlik qaytadan rivojlandi. Bu davr yodgorliklari qatoriga Buxorodagi Sayfiddin Boharziy maqbarasi (Ibn Battuta yuqori baho bergan), Mas’udiya va Xoniya madrasalari, Samarqanddagi Qusam ibn Abbos maqbarasi ziyoratxonasi, Urganchdagi Najmiddin Kubro va To‘rabekxonim maqbaralari hamda minora (saqlangan qismi 62 metr) kiradi.
+Xöjalikdagi jonlaniş va möğullarning ötroqlaşuvi bilan quriliş qayta tiklandi; gançkorlik, koşinpazlik va me’moriy xattotlik qaytadan rivojlandi. Bu davr yodgorliklari qatoriga Buxorodagi Sayfiddin Boharziy maqbarasi (Ibn Battuta yuqori baho bergan), Mas’udiya va Xoniya madrasalari, Samarqanddagi Qusam ibn Abbos maqbarasi ziyoratxonasi, Urgançdagi Najmiddin Kubro va Törabekxonim maqbaralari hamda minora (saqlangan qismi 62 metr) kiradi.
 
 ### Adabiyot va tarixnavislik
 
-Mo‘g‘ul bosqini ilm-fan o‘choqlariga katta zarba berdi; madaniyat markazlari faqat XIV asr oxiri — XV asr boshida Movarounnahr va Xurosonga qaytdi. Bu davrda fors-tojik adabiyotida Jaloliddin Rumiy (“Masnaviyi ma’naviy”), Sa’diy Sheroziy (“Guliston”, “Bo‘ston”), ota-bobosi Keshdan bo‘lgan Amir Xusrav Dehlaviy (“Xamsa”) jahonga tanildi. “Tabaqoti Nosiriy”, “Tarixi jahongusho”, “Jome at-tavorix” va an-Nasaviyning Jaloliddin haqidagi asari kabi tarixiy asarlar yaratildi. Turkiy adabiyotda Xorazmlik faylasuf shoir va yengilmas kurashchi Pahlavon Mahmud (1247-1326) ruboiylarida inson aql-zakovati va axloqiy pokligini ulug‘lagan, mukofotlarini yetim-yesirlarga ulashgan; Nosiriddin Rabg‘uziy 1309-1310-yillarda “Qissasi Rabg‘uziy” (72 qism) asarini yozgan.
+Möğul bosqini ilm-fan öçoqlariga katta zarba berdi; madaniyat markazlari faqat XIV asr oxiri — XV asr boşida Movarounnahr va Xurosonga qaytdi. Bu davrda fors-tojik adabiyotida Jaloliddin Rumiy (“Masnaviyi ma’naviy”), Sa’diy Şeroziy (“Guliston”, “Böston”), ota-bobosi Keşdan bölgan Amir Xusrav Dehlaviy (“Xamsa”) jahonga tanildi. “Tabaqoti Nosiriy”, “Tarixi jahonguşo”, “Jome at-tavorix” va an-Nasaviyning Jaloliddin haqidagi asari kabi tarixiy asarlar yaratildi. Turkiy adabiyotda Xorazmlik faylasuf şoir va yengilmas kuraşçi Pahlavon Mahmud (1247-1326) ruboiylarida inson aql-zakovati va axloqiy pokligini uluğlagan, mukofotlarini yetim-yesirlarga ulaşgan; Nosiriddin Rabğuziy 1309-1310-yillarda “Qissasi Rabğuziy” (72 qism) asarini yozgan.
 
-### Bahouddin Naqshband
+### Bahouddin Naqşband
 
-Naqshbandiya tariqati asoschisi Bahouddin Naqshband (1318-1389) halol mehnat bilan kun ko‘rish g‘oyasini yoqladi. Uning “Dil ba yor-u, dast ba kor” (“Diling Allohda bo‘lsin-u, qo‘ling mehnatda”) shiori xalq orasida keng tarqaldi. Mustaqillik yillarida Buxoro yaqinidagi qabri o‘rnida yodgorlik majmuasi barpo etildi.
+Naqşbandiya tariqati asosçisi Bahouddin Naqşband (1318-1389) halol mehnat bilan kun köriş ğoyasini yoqladi. Uning “Dil ba yor-u, dast ba kor” (“Diling Allohda bölsin-u, qöling mehnatda”) şiori xalq orasida keng tarqaldi. Mustaqillik yillarida Buxoro yaqinidagi qabri örnida yodgorlik majmuasi barpo etildi.
 
-## 9. Mo‘g‘ul bosqinining oqibatlari va tarixshunoslikdagi baholar
+## 9. Möğul bosqinining oqibatlari va tarixşunoslikdagi baholar
 
 ### Siyosiy va ijtimoiy-iqtisodiy oqibatlar
 
-Mo‘g‘ul bosqini Movarounnahr va Xuroson tarixida chuqur iz qoldirgan voqea bo‘ldi. Siyosiy jihatdan Xorazmshohlar davlati barham topdi, mintaqa Mo‘g‘ul imperiyasi tarkibiga kiritilib, Chig‘atoy ulusiga bo‘ysundirildi. Mahalliy hukmdorlar o‘rniga mo‘g‘ul noiblari, bosqoqlar va dorug‘alar boshqaruvi joriy etildi. Ijtimoiy-iqtisodiy hayotda eng og‘ir oqibat shaharlarning vayron qilinishi va aholining katta qismining qirilishi yoki asirga olinishi bo‘ldi. Buxoro, Samarqand, Gurganj, Marv, Balx va Nishopur kabi gullab-yashnagan shaharlar katta talofat ko‘rdi, ko‘plab hunarmandlar Mo‘g‘ulistonga haydab ketildi. Sug‘orish tizimlari buzildi, bu esa dehqonchilikka salbiy ta’sir ko‘rsatdi. Savdo yo‘llarining xavfsizligi buzilib, pul muomalasi ayrim joylarda izdan chiqdi, soliqlar og‘irlashdi.
+Möğul bosqini Movarounnahr va Xuroson tarixida çuqur iz qoldirgan voqea böldi. Siyosiy jihatdan Xorazmşohlar davlati barham topdi, mintaqa Möğul imperiyasi tarkibiga kiritilib, Çiğatoy ulusiga böysundirildi. Mahalliy hukmdorlar örniga möğul noiblari, bosqoqlar va doruğalar boşqaruvi joriy etildi. Ijtimoiy-iqtisodiy hayotda eng oğir oqibat şaharlarning vayron qilinişi va aholining katta qismining qirilişi yoki asirga olinişi böldi. Buxoro, Samarqand, Gurganj, Marv, Balx va Nişopur kabi gullab-yaşnagan şaharlar katta talofat kördi, köplab hunarmandlar Möğulistonga haydab ketildi. Suğoriş tizimlari buzildi, bu esa dehqonçilikka salbiy ta’sir körsatdi. Savdo yöllarining xavfsizligi buzilib, pul muomalasi ayrim joylarda izdan çiqdi, soliqlar oğirlaşdi.
 
 ### Madaniy oqibatlar
 
-Bosqin ilm-fan va madaniyat markazlariga ham katta zarba berdi: kutubxonalar yo‘q qilindi, ko‘plab olimlar, shoirlar va ulamolar halok bo‘ldi yoki boshqa mamlakatlarga ketishga majbur bo‘ldi. Shunga qaramay, xalq madaniy merosni saqlab qolishga intildi. Bahouddin Naqshband ta’limoti, Pahlavon Mahmud ijodi, tarixnavislikning yangi asarlari madaniy hayotning to‘liq to‘xtamaganini ko‘rsatadi. Davr o‘tishi bilan mo‘g‘ul hukmdorlarining o‘zi ham o‘troq hayotga o‘tib, islomni qabul qilib, mahalliy madaniyat ta’siriga tushdi. Bu jarayon, ayniqsa, Tarmashirin davrida va undan keyingi yillarda kuchaydi.
+Bosqin ilm-fan va madaniyat markazlariga ham katta zarba berdi: kutubxonalar yöq qilindi, köplab olimlar, şoirlar va ulamolar halok böldi yoki boşqa mamlakatlarga ketişga majbur böldi. Şunga qaramay, xalq madaniy merosni saqlab qolişga intildi. Bahouddin Naqşband ta’limoti, Pahlavon Mahmud ijodi, tarixnavislikning yangi asarlari madaniy hayotning töliq töxtamaganini körsatadi. Davr ötişi bilan möğul hukmdorlarining özi ham ötroq hayotga ötib, islomni qabul qilib, mahalliy madaniyat ta’siriga tuşdi. Bu jarayon, ayniqsa, Tarmaşirin davrida va undan keyingi yillarda kuçaydi.
 
-### Tarixshunoslikdagi baholar
+### Tarixşunoslikdagi baholar
 
-Mo‘g‘ul bosqini va uning oqibatlari tarixchilar tomonidan turlicha baholangan. Ayrim tadqiqotchilar bosqinni mintaqa taraqqiyotini uzoq muddatga orqaga surgan fojia sifatida baholasa, boshqalar Mo‘g‘ul imperiyasining Sharq va G‘arb o‘rtasida savdo va madaniy aloqalarni kengaytirishdagi rolini ham qayd etadi. Darslikda bosqinning og‘ir oqibatlari bilan bir qatorda xalqning mardonavor qarshiligi, Jaloliddin Manguberdi, Temur Malik, Najmiddin Kubro va Mahmud Tarobiy kabi shaxslarning qahramonligi alohida ta’kidlanadi. Tarixiy voqealarni baholashda manbalar muallifining ijtimoiy mavqei va siyosiy qarashlarini hisobga olish, bir tomonlama xulosalardan qochish muhimdir.
+Möğul bosqini va uning oqibatlari tarixçilar tomonidan turliça baholangan. Ayrim tadqiqotçilar bosqinni mintaqa taraqqiyotini uzoq muddatga orqaga surgan fojia sifatida baholasa, boşqalar Möğul imperiyasining Şarq va Ğarb örtasida savdo va madaniy aloqalarni kengaytirişdagi rolini ham qayd etadi. Darslikda bosqinning oğir oqibatlari bilan bir qatorda xalqning mardonavor qarşiligi, Jaloliddin Manguberdi, Temur Malik, Najmiddin Kubro va Mahmud Tarobiy kabi şaxslarning qahramonligi alohida ta’kidlanadi. Tarixiy voqealarni baholaşda manbalar muallifining ijtimoiy mavqei va siyosiy qaraşlarini hisobga oliş, bir tomonlama xulosalardan qoçiş muhimdir.
 
-Shuni ham ta’kidlash kerakki, XIV asr o‘rtalaridagi siyosiy tarqoqlik Amir Temur boshchiligida markazlashgan davlat tuzilishi uchun zarurat tug‘dirdi. Shu ma’noda, mo‘g‘ul davri O‘zbekiston davlatchiligi tarixida inqiroz bilan bir qatorda yangi, kuchli markazlashgan davlat vujudga kelishining tarixiy shart-sharoitini ham yaratgan bosqich sifatida baholanadi.
+Şuni ham ta’kidlaş kerakki, XIV asr örtalaridagi siyosiy tarqoqlik Amir Temur boşçiligida markazlaşgan davlat tuzilişi uçun zarurat tuğdirdi. Şu ma’noda, möğul davri Özbekiston davlatçiligi tarixida inqiroz bilan bir qatorda yangi, kuçli markazlaşgan davlat vujudga kelişining tarixiy şart-şaroitini ham yaratgan bosqiç sifatida baholanadi.
 
 ## Xulosa
 
-XIII asr boshida Chingizxon birlashtirgan Mo‘g‘ul davlati qisqa vaqtda ulkan harbiy kuchga aylandi. Xorazmshohlar davlatining ichki zaifligi — Turkon xotun va sulton o‘rtasidagi qo‘sh hokimiyat, yollanma qo‘shin, og‘ir soliqlar, ulamolar bilan ziddiyat va mudofaa strategiyasidagi xato — mo‘g‘ullarga uch yilda butun mamlakatni egallash imkonini berdi. O‘tror, Buxoro, Samarqand, Xo‘jand, Gurganj himoyachilari, Najmiddin Kubro, Temur Malik va ayniqsa Jaloliddin Manguberdi xalqimiz vatanparvarligining yorqin timsoliga aylandi. Bosqin dehqonchilik vohalari, shaharlar va madaniyatga og‘ir zarba berdi; Mahmud Tarobiy qo‘zg‘oloni xalqning ozodlik uchun kurashdan qo‘rqmasligini ko‘rsatdi. XIII asr oxiri — XIV asrda Mas’udbek va Kebekxon islohotlari natijasida xo‘jalik va madaniyat asta-sekin tiklandi, ammo Chig‘atoy ulusi siyosiy tarqoqlik bilan yakunlandi.
+XIII asr boşida Çingizxon birlaştirgan Möğul davlati qisqa vaqtda ulkan harbiy kuçga aylandi. Xorazmşohlar davlatining içki zaifligi — Turkon xotun va sulton örtasidagi qöş hokimiyat, yollanma qöşin, oğir soliqlar, ulamolar bilan ziddiyat va mudofaa strategiyasidagi xato — möğullarga uç yilda butun mamlakatni egallaş imkonini berdi. Ötror, Buxoro, Samarqand, Xöjand, Gurganj himoyaçilari, Najmiddin Kubro, Temur Malik va ayniqsa Jaloliddin Manguberdi xalqimiz vatanparvarligining yorqin timsoliga aylandi. Bosqin dehqonçilik vohalari, şaharlar va madaniyatga oğir zarba berdi; Mahmud Tarobiy qözğoloni xalqning ozodlik uçun kuraşdan qörqmasligini körsatdi. XIII asr oxiri — XIV asrda Mas’udbek va Kebekxon islohotlari natijasida xöjalik va madaniyat asta-sekin tiklandi, ammo Çiğatoy ulusi siyosiy tarqoqlik bilan yakunlandi.
 
-## Tayanch tushunchalar
+### Tayanç tuşunçalar
 
-- **Qurultoy** — mo‘g‘ul zodagonlarining oliy kengashi.
-- **Yasoq** — Chingizxon qonunlari to‘plami.
-- **Ulus** — Chingizxon o‘g‘illariga berilgan hudud va aholi.
-- **Noib, bosqoq, dorug‘a** — mo‘g‘ul boshqaruvidagi noib, soliq yig‘uvchi va harbiy ma’mur.
-- **Kalon, qopchur, shulen, tamg‘a** — mo‘g‘ullar davridagi soliqlar.
-- **Payza** — aholidan to‘lov talab qilish huquqini beruvchi taxtacha.
-- **Yom** — pochta-aloqa bekati.
-- **Suyurg‘ol** — mo‘g‘ullar davridan in’om qilingan yer-mulk.
+- Qurultoy — möğul zodagonlarining oliy kengaşi.
+- Yasoq — Çingizxon qonunlari töplami.
+- Ulus — Çingizxon öğillariga berilgan hudud va aholi.
+- Noib, bosqoq, doruğa — möğul boşqaruvidagi noib, soliq yiğuvçi va harbiy ma’mur.
+- Kalon, qopçur, şulen, tamğa — möğullar davridagi soliqlar.
+- Payza — aholidan tölov talab qiliş huquqini beruvçi taxtaça.
+- Yom — poçta-aloqa bekati.
+- Suyurğol — möğullar davridan in’om qilingan yer-mulk.
 
-## Nazorat savollari va topshiriqlar
+### Nazorat savollari va topşiriqlar
 
-1. Temuchin mo‘g‘ul qabilalarini qanday birlashtirdi? «Yasoq»ning asosiy qoidalarini sanab bering.
-2. O‘tror fojiasi qanday sodir bo‘ldi? Urushga kim sababchi bo‘lgan — o‘z fikringizni dalillar bilan asoslang.
-3. Xorazmshohlar davlatining mag‘lubiyatiga olib kelgan ichki sabablarni tushuntiring.
-4. Urganchdagi harbiy kengashda qanday rejalar taklif qilindi? Nima uchun mudofaa usuli halokatli bo‘ldi?
-5. O‘tror, Buxoro, Xo‘jand va Gurganj mudofaasini taqqoslang.
-6. Jaloliddin Manguberdining asosiy janglarini xaritada ko‘rsating.
-7. Mo‘g‘ullar davridagi soliq va majburiyatlarni tavsiflang.
-8. Mas’udbek va Kebekxon islohotlarining ahamiyati nimada?
-9. Metodik topshiriq: “Jaloliddin Manguberdi — Vatan qahramoni” mavzusida tarixiy xarita bilan ishlashga asoslangan dars bo‘lagini tayyorlang: talabalar Niso, Qandahor, Parvon, Sind, Isfahon janglarini kontur xaritaga tushiradi, har bir jang uchun bir jumlalik xulosa yozadi va yakunda “Nima uchun 13 g‘alaba davlatni qutqara olmadi?” degan muammoli savolni muhokama qiladi.
+1.Temuçin möğul qabilalarini qanday birlaştirdi? «Yasoq»ning asosiy qoidalarini sanab bering.
+
+2.Ötror fojiasi qanday sodir böldi? Uruşga kim sababçi bölgan — öz fikringizni dalillar bilan asoslang.
+
+3.Xorazmşohlar davlatining mağlubiyatiga olib kelgan içki sabablarni tuşuntiring.
+
+4.Urgançdagi harbiy kengaşda qanday rejalar taklif qilindi? Nima uçun mudofaa usuli halokatli böldi?
+
+5.Ötror, Buxoro, Xöjand va Gurganj mudofaasini taqqoslang.
+
+6.Jaloliddin Manguberdining asosiy janglarini xaritada körsating.
+
+7.Möğullar davridagi soliq va majburiyatlarni tavsiflang.
+
+8.Mas’udbek va Kebekxon islohotlarining ahamiyati nimada?
+
+9.Metodik topşiriq: “Jaloliddin Manguberdi — Vatan qahramoni” mavzusida tarixiy xarita bilan işlaşga asoslangan dars bölagini tayyorlang: talabalar Niso, Qandahor, Parvon, Sind, Isfahon janglarini kontur xaritaga tuşiradi, har bir jang uçun bir jumlalik xulosa yozadi va yakunda “Nima uçun 13 ğalaba davlatni qutqara olmadi?” degan muammoli savolni muhokama qiladi.
 
 ## Foydalanilgan adabiyotlar
 
