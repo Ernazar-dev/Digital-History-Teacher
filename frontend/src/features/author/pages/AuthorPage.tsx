@@ -20,7 +20,7 @@ const ContactRow = ({ icon, label, value, href }: { icon: ReactNode; label: stri
     <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-white/15 text-lg text-white">{icon}</span>
     <span className="min-w-0">
       <span className="block text-xs uppercase tracking-wider text-white/60">{label}</span>
-      <span className="block truncate text-[15px] font-semibold">{value}</span>
+      <span className="block break-all text-sm font-semibold">{value}</span>
     </span>
   </a>
 );
@@ -61,17 +61,17 @@ export default function AuthorPage() {
   return (
     <section className="overflow-hidden rounded-3xl lg:h-[calc(100dvh-104px)] lg:min-h-[620px] bg-gradient-to-br from-[#0b2150] via-[#12408c] to-[#1d6fd1] text-white shadow-xl">
       <div className="grid lg:h-full lg:grid-cols-[1.05fr_1fr]">
-        {/* Muallif: surat bo‘sh joyni to‘ldiradi — sahifa ekran balandligidan oshmaydi */}
-        <div className="order-1 flex flex-col gap-4 bg-black/10 p-6 md:p-8 lg:order-2 lg:min-h-0">
-          <div className="relative h-96 w-full overflow-hidden rounded-3xl border-2 border-accent-light/70 shadow-2xl lg:h-auto lg:min-h-0 lg:flex-1">
-            <img src="/author.jpg" alt={t('author.photoAlt')} width={800} height={1000} className="absolute inset-0 size-full object-cover object-top" />
-            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#0b2150] via-[#0b2150]/80 to-transparent px-5 pb-4 pt-16">
-              <p className="m-0 text-xs font-semibold uppercase tracking-[0.2em] text-accent-light">{t('author.eyebrow')}</p>
-              <h1 className="font-serif-title m-0 mt-1 text-2xl font-bold text-white md:text-3xl">{t('author.name')}</h1>
-            </div>
+        {/* Muallif: surat to‘liq (kesilmaydi), 4:5 nisbatda bo‘sh joyga sig‘adi — sahifa ekran balandligidan oshmaydi */}
+        <div className="order-1 flex flex-col items-center gap-4 bg-black/10 p-6 md:p-8 lg:order-2 lg:min-h-0">
+          <div className="aspect-[4/5] w-full max-w-sm overflow-hidden rounded-3xl border-2 border-accent-light/70 shadow-2xl lg:min-h-0 lg:w-auto lg:max-w-full lg:flex-1">
+            <img src="/author.jpg" alt={t('author.photoAlt')} width={800} height={1000} className="size-full object-cover" />
           </div>
-          <p className="m-0 text-sm leading-relaxed text-white/75">{t('author.intro')}</p>
-          <div className="grid gap-2.5 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+          <div className="text-center">
+            <p className="m-0 text-xs font-semibold uppercase tracking-[0.2em] text-accent-light">{t('author.eyebrow')}</p>
+            <h1 className="font-serif-title m-0 mt-1 text-xl font-bold text-white md:text-2xl">{t('author.name')}</h1>
+            <p className="m-0 mt-1 text-sm leading-snug text-white/80">{t('author.position')}</p>
+          </div>
+          <div className="grid w-full gap-2.5 sm:grid-cols-2">
             <ContactRow icon={<MailOutlined />} label={t('author.email')} value={EMAIL} href={`mailto:${EMAIL}`} />
             <ContactRow icon={<PhoneOutlined />} label={t('author.phone')} value={PHONE_VIEW} href={`tel:${PHONE}`} />
           </div>

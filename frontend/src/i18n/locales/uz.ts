@@ -894,8 +894,9 @@ export const uz = {
   },
   author: {
     eyebrow: 'Platforma muallifi',
-    name: 'Berdibay aga',
-    photoAlt: 'Berdibay aga — platforma muallifi',
+    name: 'Otegenov Berdibay Menglibaeviç',
+    position: 'Nukus davlat pedagogika instituti tayanç doktoranti',
+    photoAlt: 'Otegenov Berdibay Menglibaeviç — platforma muallifi',
     intro: 'Savol, taklif yoki hamkorlik bo‘yicha muallif bilan bevosita bog‘laning.',
     contactsTitle: 'Aloqa ma’lumotlari',
     email: 'Email',

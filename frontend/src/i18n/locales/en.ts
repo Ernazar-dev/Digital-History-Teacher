@@ -895,8 +895,9 @@ export const en: Translation = {
   },
   author: {
     eyebrow: 'Platform author',
-    name: 'Berdibay aga',
-    photoAlt: 'Berdibay aga — author of the platform',
+    name: 'Otegenov Berdibay Menglibaeviç',
+    position: 'Doctoral candidate, Nukus State Pedagogical Institute',
+    photoAlt: 'Otegenov Berdibay Menglibaeviç — author of the platform',
     intro: 'Get in touch with the author directly for questions, suggestions or collaboration.',
     contactsTitle: 'Contact details',
     email: 'Email',
