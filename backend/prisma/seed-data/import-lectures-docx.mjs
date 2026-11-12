@@ -24,6 +24,14 @@ const SLUGS = {
   'IX XII asrlarda Movarounnahr va Xuroson davlatlari': 'ix-xii-asrlar-tarixi',
   'IX XII asrlarda Uyg onish davri. Ajdodlarimizning jahon sivilizatsiyasiga qoshgan hissasi': 'sharq-uygonish-davri',
   'Orta Osiyoga mogullar bosqini va unga qarshi kurash': 'mogullar-bosqini',
+  'Amir Temur hukmronligi davrida ozbek davlatchiligi': 'amir-temur-davlati',
+  'Qoqon xonligi. Siyosiy ijtimoiy-iqtisodiy va madaniy hayot': 'qoqon-xonligi',
+  'Shayboniylar sulolasi hukmronligi davrida ozbek davlatchiligi': 'shayboniylar-davlati',
+  'Songgi orta asrlarda qoraqalpoqlar': 'qoraqalpoqlar-tarixi',
+  'Temuriylar hukmronligi davri. Ijtimoiy-siyosiy iqtisodiy va madaniy hayot': 'temuriylar-davri',
+  'XVI XIX asr birinchi yarmida Xiva xonligi': 'xiva-xonligi',
+  'XVII XVIII asrlar birinchi yarmida Ashtarxoniylar davlati': 'ashtarxoniylar-davlati',
+  'XVIII asr ikkinchi yarmi XIX asr birinchi yarmida Buxoro amirligi': 'buxoro-amirligi',
 };
 
 const fixUz = (s) =>
@@ -99,7 +107,14 @@ const blocks = (xml) => {
 const PLAN = /^(Reja|Plan|План)\s*:?$/i;
 const strip = (s) => s.replace(/^\s*(?:\d+\s*[.)]\s*)/, '');
 
-const TAIL_UZ = /^(xulosa|tayanch tushunchalar|nazorat savollari va topshiriqlar|foydalanilgan adabiyotlar)$/i;
+/** Oxirgi bo'limlar (uz / ru / en): Xulosa, Tayanch tushunchalar, Nazorat savollari, Adabiyotlar — tartib raqami = turi */
+const TAIL = [
+  /^(xulosa|заключение|выводы?|conclusions?)$/i,
+  /^(tayanch tushunchalar|ключевые понятия|key concepts)$/i,
+  /^(nazorat savollari va topshiriqlar|контрольные вопросы и задания|test questions and assignments)$/i,
+  /^(foydalanilgan adabiyotlar|использованная литература|references)$/i,
+];
+const tailKind = (s) => TAIL.findIndex((r) => r.test(s.replace(/[.:\s]+$/, '').trim()));
 
 const toMarkdown = (xml, lang) => {
   const bl = blocks(xml);
@@ -107,7 +122,7 @@ const toMarkdown = (xml, lang) => {
   // O'zbekcha faylda ba'zi sarlavhalar qalin/uslubsiz berilgan: reja bandlari («6. …») va qisqa, nuqtasiz, ortidan uzun
   // abzats keladigan qatorlar sarlavha deb olinadi
   const forced = new Set();
-  if (lang === 'uz') {
+  {
     const at = bl.findIndex((b) => b.type === 'p' && PLAN.test(b.text));
     const plan = [];
     for (let i = at + 1; i < bl.length && bl[i].type === 'p' && /^\d+\s*[.)]\s*\S/.test(bl[i].text); i++) plan.push(strip(bl[i].text));
@@ -116,16 +131,17 @@ const toMarkdown = (xml, lang) => {
       const b = bl[i];
       const m = b.type === 'p' && b.text.match(/^(\d+)\s*[.)]\s*(.+)$/);
       if (m && plan[m[1] - 1] === m[2].trim()) forced.add(i);
-      else if (b.type === 'p' && !TAIL_UZ.test(b.text) && b.text.length <= 80 && !/[.:;!?,]$/.test(b.text) && !/^[-–•\d]/.test(b.text) && bl[i + 1] && (bl[i + 1].type === 'table' || bl[i + 1].text.length > 40)) forced.add(i);
+      else if (b.type === 'p' && tailKind(b.text) < 0 && b.text.length <= 80 && !/[.:;!?,]$/.test(b.text) && !/^[-–•\d]/.test(b.text) && bl[i + 1] && (bl[i + 1].type === 'table' || bl[i + 1].text.length > 40)) forced.add(i);
     }
   }
   const isHeading = (b) =>
-    b.type === 'p' && b.jc !== 'center' && !PLAN.test(b.text) && b.text.length <= 170 && !/^[-–•]/.test(b.text) &&
-    (((b.style === '1' || b.style === '2') && !b.noBold) || b.allBold || (lang === 'uz' && TAIL_UZ.test(b.text)) || forced.has(bl.indexOf(b)));
+    b.type === 'p' &&
+    (tailKind(b.text) >= 0 ||
+      (b.jc !== 'center' && !PLAN.test(b.text) && b.text.length <= 170 && !/^[-–•]/.test(b.text) &&
+        (((b.style === '1' || b.style === '2') && !b.noBold) || b.allBold || forced.has(bl.indexOf(b)))));
   const headIdx = bl.map((b, i) => (isHeading(b) && i > 0 ? i : -1)).filter((i) => i >= 0);
-  // Oxirgi to'rt sarlavha (Xulosa, Tayanch tushunchalar, Nazorat savollari, Adabiyotlar) — 2-daraja
-  const tail = lang === 'uz' ? headIdx.filter((i) => TAIL_UZ.test(bl[i].text)) : headIdx.slice(-4);
-  if (tail.length !== 4) throw new Error(`Oxirgi bo‘limlar topilmadi (${tail.length} ta)`);
+  const tail = headIdx.filter((i) => tailKind(bl[i].text) >= 0);
+  if (tail.length < 2) throw new Error(`Oxirgi bo‘limlar topilmadi (${tail.length} ta)`);
   const lines = [];
   const push = (s) => lines.push(s, '');
   let section = ''; // 'plan' | 'glossary' | 'numbered' | ''
@@ -142,7 +158,7 @@ const toMarkdown = (xml, lang) => {
       continue;
     }
     if (headIdx.includes(i)) {
-      const tailNo = tail.indexOf(i);
+      const tailNo = tailKind(b.text);
       const h2 = tailNo >= 0 || /^\d+\s*[.)]\s*\S/.test(b.text);
       push(`${h2 ? '##' : '###'} ${dashes(b.text)}`);
       section = tailNo === 1 ? 'glossary' : tailNo >= 2 ? 'numbered' : '';
@@ -190,7 +206,7 @@ const zip = await JSZip.loadAsync(readFileSync(zipPath));
 mkdirSync(OUT, { recursive: true });
 let done = 0;
 for (const [name, entry] of Object.entries(zip.files)) {
-  const m = basename(name).match(/^(.+) (uz|ru|en)\.docx$/);
+  const m = basename(name).match(/^(.+?) +(uz|ru|en) *\.docx$/);
   if (entry.dir || !m || !SLUGS[m[1]]) continue;
   const lang = m[2];
   const slug = SLUGS[m[1]];

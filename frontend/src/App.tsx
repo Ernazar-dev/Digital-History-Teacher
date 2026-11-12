@@ -37,7 +37,8 @@ export const App = () => {
       <ConfigProvider theme={antTheme} locale={ANT_LOCALE[lang]}>
         <AntApp>
           <QueryClientProvider client={queryClient}>
-            <RouterProvider router={router} future={{ v7_startTransition: true }} />
+            {/* key={lang}: i18n.t() ishlatadigan komponentlar (breadcrumb, sarlavhalar) til almashganda qayta chiziladi — qo‘lda yangilash shart emas */}
+            <RouterProvider key={lang} router={router} future={{ v7_startTransition: true }} />
           </QueryClientProvider>
         </AntApp>
       </ConfigProvider>

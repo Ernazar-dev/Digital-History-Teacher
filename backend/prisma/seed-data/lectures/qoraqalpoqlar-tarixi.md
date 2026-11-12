@@ -1,14 +1,14 @@
 # So‘nggi o‘rta asrlarda qoraqalpoqlar
 
-> Ma’ruza B.J. Eshov va A.A. Odilovning «O‘zbekiston tarixi» darsligi (II kitob, 2020) 8-mavzusi hamda qoraqalpoq xalqi tarixiga oid manbalar asosida tayyorlandi.
+> Ma’ruza B.J. Eshov va A.A. Odilovning “O‘zbekiston tarixi” darsligi (II kitob, 2020) 8-mavzusi hamda qoraqalpoq xalqi tarixiga oid manbalar asosida tayyorlandi.
 
-**Ma’ruzaning maqsadi:** talabalarga XVI – XIX asr birinchi yarmida qoraqalpoq xalqining siyosiy tarixi, ijtimoiy-iqtisodiy hayoti va madaniyati haqida yaxlit tasavvur berish; qoraqalpoqlarning qo‘shni davlatlar — Buxoro, Xiva, qozoq xonliklari va Rossiya bilan munosabatlarini tahlil qilishga o‘rgatish.
+Ma’ruzaning maqsadi: talabalarga XVI — XIX asr birinchi yarmida qoraqalpoq xalqining siyosiy tarixi, ijtimoiy-iqtisodiy hayoti va madaniyati haqida yaxlit tasavvur berish; qoraqalpoqlarning qo‘shni davlatlar — Buxoro, Xiva, qozoq xonliklari va Rossiya bilan munosabatlarini tahlil qilishga o‘rgatish.
 
 **Reja:**
 
 1. Manbalar va tarixshunoslik
 2. Qoraqalpoq xalqining kelib chiqishi
-3. XVI–XVIII asrlarda siyosiy tarix
+3. XVI-XVIII asrlarda siyosiy tarix
 4. Qoraqalpoqlar va Xiva xonligi
 5. Ijtimoiy tuzum va boshqaruv
 6. Xo‘jalik hayoti
@@ -17,33 +17,33 @@
 
 ## 1. Manbalar va tarixshunoslik
 
-XVI – XIX asr birinchi yarmi qoraqalpoqlar tarixiga oid ma’lumotlar turli xildagi manbalarda saqlanib qolgan. Ularni uch guruhga ajratish mumkin.
+XVI — XIX asr birinchi yarmi qoraqalpoqlar tarixiga oid ma’lumotlar turli xildagi manbalarda saqlanib qolgan. Ularni uch guruhga ajratish mumkin.
 
-**Xalq og‘zaki ijodi.** «Alpomish», «Qirq qiz», «Qo‘blan», «Mast podsho», «Edigey», «Shahriyor», «Yer sho‘ra», «Omongeldi» va «Davlatyorbek» kabi xalq dostonlarida xalqning o‘tmishi, qahramonlari va urf-odatlari aks etgan. Doston tarixiy manba sifatida qimmatli, ammo undagi voqealar badiiy talqin qilinganini unutmaslik kerak.
+Xalq og‘zaki ijodi. “Alpomish”, “Qirq qiz”, “Qo‘blan”, “Mast podsho”, “Edigey”, “Shahriyor”, “Yer sho‘ra”, “Omongeldi” va “Davlatyorbek” kabi xalq dostonlarida xalqning o‘tmishi, qahramonlari va urf-odatlari aks etgan. Doston tarixiy manba sifatida qimmatli, ammo undagi voqealar badiiy talqin qilinganini unutmaslik kerak.
 
-**Yozma tarixiy asarlar.** Abulg‘ozi Bahodirxonning «Shajarayi turk», Muhammad Yusuf Munshiyning «Tarixi Muqimxoniy», Muhammad Rizoning «Firdavs ul-iqbol» kabi asarlarida qoraqalpoqlar haqida ma’lumotlar uchraydi. Bu asarlar asosan xon saroylarida yozilgani sababli, voqealarni hukmdorlar nuqtai nazaridan yoritadi.
+Yozma tarixiy asarlar. Abulg‘ozi Bahodirxonning “Shajarayi turk”, Muhammad Yusuf Munshiyning “Tarixi Muqimxoniy”, Muhammad Rizoning “Firdavs ul-iqbol” kabi asarlarida qoraqalpoqlar haqida ma’lumotlar uchraydi. Bu asarlar asosan xon saroylarida yozilgani sababli, voqealarni hukmdorlar nuqtai nazaridan yoritadi.
 
-**Qoraqalpoq mualliflarining asarlari.** Qoraqalpoq adabiyotining buyuk vakili Berdaq (Berdimurat Qarg‘aboy o‘g‘li, 1827–1900) asarlari, xususan uning «Shajara» asari xalq tarixi bo‘yicha birlamchi ma’lumot beradi. Shu bois Berdaq birinchi qoraqalpoq tarixchisi sifatida e’tirof etiladi. Rus savdogarlari va elchilarining yozuvlari (masalan, 1669-yilgi Pazuxin elchiligi, 1693-yilgi savdo karvoni) ham qoraqalpoqlarning qo‘shni davlatlar bilan munosabatlarini o‘rganishda muhim manba hisoblanadi.
+Qoraqalpoq mualliflarining asarlari. Qoraqalpoq adabiyotining buyuk vakili Berdaq (Berdimurat Qarg‘aboy o‘g‘li, 1827-1900) asarlari, xususan uning “Shajara” asari xalq tarixi bo‘yicha birlamchi ma’lumot beradi. Shu bois Berdaq birinchi qoraqalpoq tarixchisi sifatida e’tirof etiladi. Rus savdogarlari va elchilarining yozuvlari (masalan, 1669-yilgi Pazuxin elchiligi, 1693-yilgi savdo karvoni) ham qoraqalpoqlarning qo‘shni davlatlar bilan munosabatlarini o‘rganishda muhim manba hisoblanadi.
 
 Mavzuni S.P. Tolstov, Ya.G‘. G‘ulomov, P.P. Ivanov, L.S. Tolstova, B.V. Andrianov, T.A. Jdanko, S.K. Kamolov, A. Qo‘shchanov, O. Jalilov, R. Kosbergenov, X. Yesbergenov, U.A. Abdurasulov, M. Karlibayev kabi olimlar tadqiq etgan. Manbalar turli-tuman bo‘lgani uchun tarixchi ularni o‘zaro solishtirib, har birining yozilish maqsadi va muallif nuqtai nazarini hisobga olishi lozim.
 
 ## 2. Qoraqalpoq xalqining kelib chiqishi
 
-Tadqiqotchilar miloddan avvalgi VI asrga oid Behistun yozuvlarida eslatilgan saka tigraxaudalar («cho‘qqi qalpoqli saklar»)ni hozirgi qoraqalpoqlarning ham ajdodlaridan biri deb hisoblaydi. Manbalarga ko‘ra, milodning VI–VIII asrlarida Orol dengizi atroflarida bijanak va o‘g‘uz etnik guruhlari shakllangan. Tadqiqotlarga ko‘ra, bijanak qabilalari qoraqalpoqlarning ajdodi hisoblanadi. VIII–X asrlarda qoraqalpoq xalqi shakllana boshlagan. X asr boshlarida bijanaklarning bir qismi o‘g‘uzlar va qipchoqlarning siquvi ostida Janubiy Rus yerlariga ko‘chib o‘tishga majbur bo‘lgan. Mo‘g‘ullar bosqini natijasida Orolbo‘yidagi qoraqalpoqlarning bir qismi Volga va Ural daryolari bo‘ylariga, Sirdaryoning yuqori oqimlariga ko‘chib ketgan.
+Tadqiqotchilar miloddan avvalgi VI asrga oid Behistun yozuvlarida eslatilgan saka tigraxaudalar (“cho‘qqi qalpoqli saklar”)ni hozirgi qoraqalpoqlarning ham ajdodlaridan biri deb hisoblaydi. Manbalarga ko‘ra, milodning VI-VIII asrlarida Orol dengizi atroflarida bijanak va o‘g‘uz etnik guruhlari shakllangan. Tadqiqotlarga ko‘ra, bijanak qabilalari qoraqalpoqlarning ajdodi hisoblanadi. VIII-X asrlarda qoraqalpoq xalqi shakllana boshlagan. X asr boshlarida bijanaklarning bir qismi o‘g‘uzlar va qipchoqlarning siquvi ostida Janubiy Rus yerlariga ko‘chib o‘tishga majbur bo‘lgan. Mo‘g‘ullar bosqini natijasida Orolbo‘yidagi qoraqalpoqlarning bir qismi Volga va Ural daryolari bo‘ylariga, Sirdaryoning yuqori oqimlariga ko‘chib ketgan.
 
-O‘rta asrlarga oid rus manbalarida qoraqalpoqlar «chyornye klobuki» («qora qalpoqlar»), mahalliy manbalarda esa «qora bo‘rkli» nomi bilan tilga olinadi. Xalqning nomi ham shu — milliy bosh kiyim bilan bog‘liq. «Qoraqalpoq» nomi rasmiy hujjatda 1598-yili Abdullaxon II tomonidan Sig‘noqdagi muqaddas Ziyoviddin maqbarasiga berilgan yorliqda tilga olingan. Demak, qoraqalpoq xalqining shakllanishi bir necha asrlik murakkab etnik jarayon bo‘lib, unda qadimgi sak, o‘rta asr turkiy qabilalari va keyingi davr ko‘chmanchi guruhlari ishtirok etgan.
+O‘rta asrlarga oid rus manbalarida qoraqalpoqlar “chornye klobuki” (“qora qalpoqlar”), mahalliy manbalarda esa “qora bo‘rkli” nomi bilan tilga olinadi. Xalqning nomi ham shu — milliy bosh kiyim bilan bog‘liq. “Qoraqalpoq” nomi rasmiy hujjatda 1598-yili Abdullaxon II tomonidan Sig‘noqdagi muqaddas Ziyoviddin maqbarasiga berilgan yorliqda tilga olingan. Demak, qoraqalpoq xalqining shakllanishi bir necha asrlik murakkab etnik jarayon bo‘lib, unda qadimgi sak, o‘rta asr turkiy qabilalari va keyingi davr ko‘chmanchi guruhlari ishtirok etgan.
 
-## 3. XVI–XVIII asrlarda siyosiy tarix
+## 3. XVI-XVIII asrlarda siyosiy tarix
 
 ### Ko‘chmanchilik va qo‘shnilar
 
-XVI–XVII asrlarda qoraqalpoqlar katta hududda ko‘chmanchilik tarzida hayot kechirgan. Ular eng zich joylashgan hudud Sirdaryoning o‘rta va quyi havzasi bo‘lgan. Berdaq ma’lumotiga ko‘ra, kam sonli qismi Urganch va Oqqal’a atrofida ham yashagan. Ba’zi manbalarga ko‘ra, XVI asrda qoraqalpoqlarning ayrim guruhlari Volga, Ural, Emba daryolari oralig‘ida va Buxoro xonligi hududlarida ham o‘rnashgan. XVII asrda No‘g‘aylar Qrimga ko‘cha boshlagach, qoraqalpoqlar Orol va Sirdaryo bo‘ylariga o‘rnashdi.
+XVI-XVII asrlarda qoraqalpoqlar katta hududda ko‘chmanchilik tarzida hayot kechirgan. Ular eng zich joylashgan hudud Sirdaryoning o‘rta va quyi havzasi bo‘lgan. Berdaq ma’lumotiga ko‘ra, kam sonli qismi Urganch va Oqqal’a atrofida ham yashagan. Ba’zi manbalarga ko‘ra, XVI asrda qoraqalpoqlarning ayrim guruhlari Volga, Ural, Emba daryolari oralig‘ida va Buxoro xonligi hududlarida ham o‘rnashgan. XVII asrda No‘g‘aylar Qrimga ko‘cha boshlagach, qoraqalpoqlar Orol va Sirdaryo bo‘ylariga o‘rnashdi.
 
-Qoraqalpoqlar Buxorodagi Ashtarxoniylar va Toshkent vohasi bilan savdo-iqtisodiy munosabatlarda bo‘lgan. 1578–1582-yillarda ular Buxoro xonligi siyosiy hayotida bevosita ishtirok etgan; rus manbalariga ko‘ra, qoraqalpoqlar Buxoro davlatiga bo‘ysungan. XVII asrda ularning Xiva xonligi siyosiy hayotida ham ishtirok etgani Abulg‘ozi Bahodirxonning «Shajarayi turk» asarida eslatiladi.
+Qoraqalpoqlar Buxorodagi Ashtarxoniylar va Toshkent vohasi bilan savdo-iqtisodiy munosabatlarda bo‘lgan. 1578-1582-yillarda ular Buxoro xonligi siyosiy hayotida bevosita ishtirok etgan; rus manbalariga ko‘ra, qoraqalpoqlar Buxoro davlatiga bo‘ysungan. XVII asrda ularning Xiva xonligi siyosiy hayotida ham ishtirok etgani Abulg‘ozi Bahodirxonning “Shajarayi turk” asarida eslatiladi.
 
 ### Qozoq xonlariga tobelik
 
-XVIII asr o‘rtalariga qadar qoraqalpoqlar Sirdaryoning o‘rta va quyi oqimi bo‘ylab kichik juz qozoqlari bilan qo‘shni yashagan va iqtisodiy hamda siyosiy jihatdan qozoq xonlariga tobe bo‘lgan. Qozoq hukmdori Tavkaxon (1680–1718) davrida qoraqalpoqlarni uning o‘g‘illaridan biri boshqargan: 1694-yildan Taburchak sulton, 1709-yildan uning o‘g‘li G‘oib sulton. 1722-yildan qoraqalpoqlar xoni Eshmuhammadxon bo‘lgan. Qoraqalpoqlar qozoq xonlariga har yili ko‘p miqdorda g‘alla va otliq sarbozlar berishi, qozoqlarning harbiy yurishlarida qatnashishi, o‘z hududlaridan o‘tgan karvonlardan qozoq sultonlari uchun boj olishi kerak edi.
+XVIII asr o‘rtalariga qadar qoraqalpoqlar Sirdaryoning o‘rta va quyi oqimi bo‘ylab kichik juz qozoqlari bilan qo‘shni yashagan va iqtisodiy hamda siyosiy jihatdan qozoq xonlariga tobe bo‘lgan. Qozoq hukmdori Tavkaxon (1680-1718) davrida qoraqalpoqlarni uning o‘g‘illaridan biri boshqargan: 1694-yildan Taburchak sulton, 1709-yildan uning o‘g‘li G‘oib sulton. 1722-yildan qoraqalpoqlar xoni Eshmuhammadxon bo‘lgan. Qoraqalpoqlar qozoq xonlariga har yili ko‘p miqdorda g‘alla va otliq sarbozlar berishi, qozoqlarning harbiy yurishlarida qatnashishi, o‘z hududlaridan o‘tgan karvonlardan qozoq sultonlari uchun boj olishi kerak edi.
 
 ### Savdo vositachiligi va Rossiya bilan aloqalar
 
@@ -51,19 +51,19 @@ Qoraqalpoqlar yashagan Sirdaryoning quyi va o‘rta oqimi bo‘ylari Toshkent, Q
 
 ### Jung‘or bosqini va xalqning bo‘linishi
 
-1723-yili jung‘orlar Qozoq xonligi yerlariga bostirib kirdi. Qarshilik ko‘rsata olmagan qozoqlarning katta qismi tarqalib ketdi, qoraqalpoqlar esa ikkiga bo‘linib ko‘chishga majbur bo‘ldi. Bir guruhi Sirdaryoning yuqori oqimi — Toshkent vohasi tomonga ketib, jung‘orlarga tobe bo‘ldi («yuqori qoraqalpoqlar»). Ikkinchi guruhi Sirdaryoning quyi oqimiga, Orol bo‘ylariga borib o‘rnashdi va kichik juz qozoqlariga tobe bo‘ldi («quyi qoraqalpoqlar»). Jung‘or xavfi turli hududlardagi qoraqalpoqlar orasida birlashishga intilishni kuchaytirdi: Sirdaryo qoraqalpoqlarining Zarafshon vohasi va Xorazm qoraqalpoqlari bilan aloqalari yo‘lga qo‘yildi.
+1723-yili jung‘orlar Qozoq xonligi yerlariga bostirib kirdi. Qarshilik ko‘rsata olmagan qozoqlarning katta qismi tarqalib ketdi, qoraqalpoqlar esa ikkiga bo‘linib ko‘chishga majbur bo‘ldi. Bir guruhi Sirdaryoning yuqori oqimi — Toshkent vohasi tomonga ketib, jung‘orlarga tobe bo‘ldi (“yuqori qoraqalpoqlar”). Ikkinchi guruhi Sirdaryoning quyi oqimiga, Orol bo‘ylariga borib o‘rnashdi va kichik juz qozoqlariga tobe bo‘ldi (“quyi qoraqalpoqlar”). Jung‘or xavfi turli hududlardagi qoraqalpoqlar orasida birlashishga intilishni kuchaytirdi: Sirdaryo qoraqalpoqlarining Zarafshon vohasi va Xorazm qoraqalpoqlari bilan aloqalari yo‘lga qo‘yildi.
 
 ### Abulxayrxon hujumi va Jonidaryoga ko‘chish
 
-XVIII asrning 30–40-yillarida qoraqalpoqlar Kichik juz xoni Abulxayr tasarrufiga o‘tdi. 1743-yili Mamanbiy boshchiligidagi qoraqalpoq elchilari Sankt-Peterburgda Rossiya hukmdori Yelizavetaning «homiylik» haqidagi yorlig‘ini oldi. Bundan g‘azablangan Abulxayrxon o‘sha yili Orolbo‘yi qoraqalpoqlariga hujum qilib, ularni talon-taroj qildi. Natijada Sirdaryo bo‘yidagi qoraqalpoqlarning asosiy qismi Jonidaryo tomonga ko‘chdi. 1746–1747-yillar qishida ular O‘rta juz hukmdori Ablay sulton hujumiga ham duchor bo‘ldi.
+XVIII asrning 30-40-yillarida qoraqalpoqlar Kichik juz xoni Abulxayr tasarrufiga o‘tdi. 1743-yili Mamanbiy boshchiligidagi qoraqalpoq elchilari Sankt-Peterburgda Rossiya hukmdori Yelizavetaning «homiylik» haqidagi yorlig‘ini oldi. Bundan g‘azablangan Abulxayrxon o‘sha yili Orolbo‘yi qoraqalpoqlariga hujum qilib, ularni talon-taroj qildi. Natijada Sirdaryo bo‘yidagi qoraqalpoqlarning asosiy qismi Jonidaryo tomonga ko‘chdi. 1746-1747-yillar qishida ular O‘rta juz hukmdori Ablay sulton hujumiga ham duchor bo‘ldi.
 
-Qozoq xon va sultonlarining hujumlariga dosh berolmagan qoraqalpoqlarning asosiy qismi janubi-g‘arbga — Xiva xonligi chegaralariga, Quvondaryo va Jonidaryo oralig‘iga o‘rnashdi. 1762-yili sulton Erali Sirdaryo bo‘yida qolgan qoraqalpoqlarni ham Jonidaryo va Orol bo‘yiga ko‘chishga majbur qildi. XVIII – XIX asr boshlarida Quvondaryo va Jonidaryo havzalari to‘liq qoraqalpoqlarning mulki edi. Bu yerda ular Orolbo‘yi o‘zbeklari bilan siyosiy ittifoq tuzdi va etnik jihatdan ham aralashib ketdi.
+Qozoq xon va sultonlarining hujumlariga dosh berolmagan qoraqalpoqlarning asosiy qismi janubi-g‘arbga — Xiva xonligi chegaralariga, Quvondaryo va Jonidaryo oralig‘iga o‘rnashdi. 1762-yili sulton Erali Sirdaryo bo‘yida qolgan qoraqalpoqlarni ham Jonidaryo va Orol bo‘yiga ko‘chishga majbur qildi. XVIII — XIX asr boshlarida Quvondaryo va Jonidaryo havzalari to‘liq qoraqalpoqlarning mulki edi. Bu yerda ular Orolbo‘yi o‘zbeklari bilan siyosiy ittifoq tuzdi va etnik jihatdan ham aralashib ketdi.
 
 ## 4. Qoraqalpoqlar va Xiva xonligi
 
 ### Muhammad Amin inoq siyosati
 
-XVIII asrning ikkinchi yarmidan qoraqalpoqlar va Xiva hukmdorlari o‘rtasida kurash avj oldi. Muhammad Amin inoq (1763–1790) markaziy hokimiyatni kuchaytirib, qoraqalpoqlarni xonlikka bo‘ysundirishga harakat qildi. U nufuzli urug‘ boshliqlarini o‘z tomoniga og‘dirdi: uning hokimiyatini taniqli qoraqalpoq biylari Esongeldi mahram va Oydo‘stbiy tan oldi. Muarrix Munis yozishicha, Oydo‘stbiy «keyinchalik butun qoraqalpoq ulusining hokimi darajasiga erishgan». Muhammad Amin inoq qoraqalpoq zodagonlariga yerlar taqdim etdi. Bu davrda Orol va Amudaryo bo‘ylaridagi yerlarni o‘zlashtirish, suv inshootlarini qurish boshlandi. Masalan, kenagas qabilasi boshlig‘i Omonqulibiy Amudaryodan katta kanal qazdirib, o‘z qabilasining suv ta’minotini yaxshiladi.
+XVIII asrning ikkinchi yarmidan qoraqalpoqlar va Xiva hukmdorlari o‘rtasida kurash avj oldi. Muhammad Amin inoq (1763-1790) markaziy hokimiyatni kuchaytirib, qoraqalpoqlarni xonlikka bo‘ysundirishga harakat qildi. U nufuzli urug‘ boshliqlarini o‘z tomoniga og‘dirdi: uning hokimiyatini taniqli qoraqalpoq biylari Esongeldi mahram va Oydo‘stbiy tan oldi. Muarrix Munis yozishicha, Oydo‘stbiy “keyinchalik butun qoraqalpoq ulusining hokimi darajasiga erishgan”. Muhammad Amin inoq qoraqalpoq zodagonlariga yerlar taqdim etdi. Bu davrda Orol va Amudaryo bo‘ylaridagi yerlarni o‘zlashtirish, suv inshootlarini qurish boshlandi. Masalan, kenagas qabilasi boshlig‘i Omonqulibiy Amudaryodan katta kanal qazdirib, o‘z qabilasining suv ta’minotini yaxshiladi.
 
 ### Muhammad Rahimxon I davrida bo‘ysundirish
 
@@ -71,7 +71,7 @@ Xonlikdan ajralib Orolbo‘yi hokimligini tuzgan To‘ra Murod so‘fi va Xo‘j
 
 ### Norozilik va qo‘zg‘olonlar
 
-Olloqulixon (1825–1842) davrida Oydo‘stbiyga berilgan imtiyozlarning katta qismi bekor qilindi. Xon noibi Gadoy Niyoz mahramning soliq yig‘ishdagi talonchiligi va mansabni suiiste’mol qilishi qoraqalpoqlar orasida kuchli norozilikka sabab bo‘ldi. 1855–1856-yillarda xonlikka qarshi yana bir qo‘zg‘olon bo‘lib o‘tdi. Shunga qaramay, qoraqalpoq aholisi xonlikning iqtisodiy hayoti va savdosida faol ishtirok etdi. XIX asr o‘rtalarida qoraqalpoqlarning ma’muriy markazi Chimboy shahriga ko‘chdi; bu yerda Xiva xonining noibi ham joylashdi.
+Olloqulixon (1825-1842) davrida Oydo‘stbiyga berilgan imtiyozlarning katta qismi bekor qilindi. Xon noibi Gadoy Niyoz mahramning soliq yig‘ishdagi talonchiligi va mansabni suiiste’mol qilishi qoraqalpoqlar orasida kuchli norozilikka sabab bo‘ldi. 1855-1856-yillarda xonlikka qarshi yana bir qo‘zg‘olon bo‘lib o‘tdi. Shunga qaramay, qoraqalpoq aholisi xonlikning iqtisodiy hayoti va savdosida faol ishtirok etdi. XIX asr o‘rtalarida qoraqalpoqlarning ma’muriy markazi Chimboy shahriga ko‘chdi; bu yerda Xiva xonining noibi ham joylashdi.
 
 ### 1873-yil va undan keyin
 
@@ -87,7 +87,7 @@ Xiva xonligidagi yer egaligining uch turi — davlat (xon) yerlari, mulk yerlari
 
 ### Boshqaruv tizimi
 
-XVIII asrda qoraqalpoqlar biylar maslahati orqali boshqarilgan. Har bir qabila uyushmasiga yirik yer va chorva egasi bo‘lgan biy boshchilik qilgan. Bir qancha qabila va urug‘lar birlashmasi — «o‘n to‘rt urug‘»ni mang‘it urug‘i biylari boshqargan. XIX asrning ikkinchi yarmigacha asosiy mansablar biy (urug‘ boshlig‘i), juzbasi (yuzboshi), mahram (zakot yig‘uvchi), mirob, qozi va rais edi. Asosiysi biy bo‘lib, u xon xazinasiga soliq yig‘ish, urug‘ ichidagi nizolarni — yer-suv va jinoiy ishlarni hal etish vazifalarini bajargan.
+XVIII asrda qoraqalpoqlar biylar maslahati orqali boshqarilgan. Har bir qabila uyushmasiga yirik yer va chorva egasi bo‘lgan biy boshchilik qilgan. Bir qancha qabila va urug‘lar birlashmasi – “o‘n to‘rt urug‘”ni mang‘it urug‘i biylari boshqargan. XIX asrning ikkinchi yarmigacha asosiy mansablar biy (urug‘ boshlig‘i), juzbasi (yuzboshi), mahram (zakot yig‘uvchi), mirob, qozi va rais edi. Asosiysi biy bo‘lib, u xon xazinasiga soliq yig‘ish, urug‘ ichidagi nizolarni — yer-suv va jinoiy ishlarni hal etish vazifalarini bajargan.
 
 XIX asrning ikkinchi yarmidan biylarning huquqlari cheklandi. Xiva xoni Sayid Muhammadxon qoraqalpoqlar boshqaruvi uchun qo‘shimcha ikkita noib, oltita otaliq, ikkita beklarbegi va bitta og‘abiy mansabini joriy etdi. Boshlang‘ich ma’muriy birlik ovul bo‘lib, uni oqsoqollar kengashi boshqargan. Asosiy ma’muriy markazlar Amudaryoning o‘ng qirg‘og‘ida Chimboy, chap qirg‘og‘ida Qo‘ng‘irot edi.
 
@@ -117,17 +117,17 @@ So‘nggi o‘rta asrlarda qoraqalpoq madaniyati og‘ir tabiiy sharoit va Xiva 
 
 ### Ta’lim
 
-Har bir ovulda maktab va unda saboq beradigan mulla bo‘lgan; o‘qituvchi vazifasini masjid imomi, muazzin yoki ma’lumotli shaxs ham bajargan. Maktablarga 5–6 yoshli o‘g‘il bolalar qabul qilingan va ular savod chiqarib, Qur’on va hadislarni o‘qishni o‘rgangan. Maktab masjid huzurida bo‘lsa, muallim maoshi vaqf daromadidan to‘langan. Maktabni bitirganlar Xiva va Buxoro madrasalarida, shuningdek mahalliy madrasalarda o‘qigan. XIX asr o‘rtalarida hozirgi Qoraqalpog‘istonning o‘ng qirg‘oq qismining o‘zida 58 ta madrasa faoliyat ko‘rsatgan; ular orasida Qoraqum eshon va Tosh madrasa (Tas madrasa) katta nufuzga ega edi. Madrasalarda ta’lim ikki bosqichli bo‘lgan: birinchisida arab tili grammatikasi, ikkinchisida fiqh, mantiq, tarix va boshqa fanlar o‘qitilgan.
+Har bir ovulda maktab va unda saboq beradigan mulla bo‘lgan; o‘qituvchi vazifasini masjid imomi, muazzin yoki ma’lumotli shaxs ham bajargan. Maktablarga 5-6 yoshli o‘g‘il bolalar qabul qilingan va ular savod chiqarib, Qur’on va hadislarni o‘qishni o‘rgangan. Maktab masjid huzurida bo‘lsa, muallim maoshi vaqf daromadidan to‘langan. Maktabni bitirganlar Xiva va Buxoro madrasalarida, shuningdek mahalliy madrasalarda o‘qigan. XIX asr o‘rtalarida hozirgi Qoraqalpog‘istonning o‘ng qirg‘oq qismining o‘zida 58 ta madrasa faoliyat ko‘rsatgan; ular orasida Qoraqum eshon va Tosh madrasa (Tas madrasa) katta nufuzga ega edi. Madrasalarda ta’lim ikki bosqichli bo‘lgan: birinchisida arab tili grammatikasi, ikkinchisida fiqh, mantiq, tarix va boshqa fanlar o‘qitilgan.
 
 ### Adabiyot va musiqa
 
-Qoraqalpoqlarda jirov-baxshichilik rivojlangan: Jiyen jirov (1730–1784), Shankay jirov (1814–1884) va Jismurat jirov (1836–1908) mashhur bo‘lgan. XIX asr shoirlari Jiyen jirovni «qoraqalpoq poeziyasining otasi» deb atagan. Kunxo‘ja Ibrohim o‘g‘li umri muhtojlikda o‘tgan shoir bo‘lib, «O‘roqchilar», «Oq qamish» va «Cho‘ponlar» she’rlari mashhur. Ajiniyoz Qosiboy o‘g‘li (1811–1878) she’rlarida vatanparvarlik va insonparvarlik g‘oyalari ustun; «Bo‘zatov» dostonida xalqning majburan ko‘chirilishi kuylangan. Berdaq (1827–1900) qoraqalpoq mumtoz adabiyotining yirik namoyandasi bo‘lib, uning «Xalq uchun» she’ri o‘z davri uchun xitobnoma bo‘lgan; «Shajara», «Oydo‘stbiy», «Emazarbiy» va «Omongeldi» asarlarida tarixiy jarayonlar aks etgan. Otash Olshinboy o‘g‘li (1828–1902) tarixiy voqealarga murojaat qilgan, «Gulziba» va «Qizlar» asarlarida ayollar hayoti tasvirlangan.
+Qoraqalpoqlarda jirov-baxshichilik rivojlangan: Jiyen jirov (1730-1784), Shankay jirov (1814-1884) va Jismurat jirov (1836-1908) mashhur bo‘lgan. XIX asr shoirlari Jiyen jirovni “qoraqalpoq poeziyasining otasi” deb atagan. Kunxo‘ja Ibrohim o‘g‘li umri muhtojlikda o‘tgan shoir bo‘lib, “O‘roqchilar”, “Oq qamish” va “Cho‘ponlar” she’rlari mashhur. Ajiniyoz Qosiboy o‘g‘li (1811-1878) she’rlarida vatanparvarlik va insonparvarlik g‘oyalari ustun; “Bo‘zatov” dostonida xalqning majburan ko‘chirilishi kuylangan. Berdaq (1827-1900) qoraqalpoq mumtoz adabiyotining yirik namoyandasi bo‘lib, uning “Xalq uchun” she’ri o‘z davri uchun xitobnoma bo‘lgan; “Shajara”, “Oydo‘stbiy”, “Ernazarbiy” va “Omongeldi” asarlarida tarixiy jarayonlar aks etgan. Otash Olshinboy o‘g‘li (1828-1902) tarixiy voqealarga murojaat qilgan, “Gulziba” va “Qizlar” asarlarida ayollar hayoti tasvirlangan.
 
-Qoraqalpoq musiqasining o‘zagini xalq ashulalari tashkil etadi: to‘ylarda ijro etiladigan yallalar (xajar, betashar), allalar (besik jiri), «shifobaxsh» kuylar (badik). Asosiy cholg‘ular qo‘biz, dutor, chanqovuz, surnay va g‘ijjak edi.
+Qoraqalpoq musiqasining o‘zagini xalq ashulalari tashkil etadi: to‘ylarda ijro etiladigan yallalar (xajar, betashar), allalar (besik jiri), “shifobaxsh” kuylar (badik). Asosiy cholg‘ular qo‘biz, dutor, chanqovuz, surnay va g‘ijjak edi.
 
 ### Diniy hayot va maishiy turmush
 
-XVII – XIX asr birinchi yarmida qoraqalpoqlarning ma’naviy hayoti yassaviya va naqshbandiya tariqatlari bilan bog‘liq edi. Qarorgohi Qirontovda bo‘lgan Imom eshonning nufuzi katta bo‘lib, bu hudud Amudaryo o‘ng sohilidagi qoraqalpoqlarning diniy va madaniy markaziga aylandi. Oqbilakoyim, Rustambobo, Imom eshon va Bektemir eshon qabrlari, shuningdek Sulton Uvays, Norinjon bobo, Shamun nabi va Hakim ota kabi qadamjolar umumxalq ziyoratgohlari bo‘lgan. Maishiy turmushda ham o‘zgarishlar yuz berdi: uy-joy qurilishining to‘rt xil uslubi paydo bo‘ldi, o‘tov (chodir) va hovlilar yangicha tashkil etildi, ularni naqsh va bezaklar bilan bezash san’at darajasiga ko‘tarildi. Erkak va ayollarning kiyim-kechaklari, zeb-ziynatlari ham o‘ziga xos naqshlar bilan bezatilgan.
+XVII — XIX asr birinchi yarmida qoraqalpoqlarning ma’naviy hayoti yassaviya va naqshbandiya tariqatlari bilan bog‘liq edi. Qarorgohi Qirontovda bo‘lgan Imom eshonning nufuzi katta bo‘lib, bu hudud Amudaryo o‘ng sohilidagi qoraqalpoqlarning diniy va madaniy markaziga aylandi. Oqbilakoyim, Rustambobo, Imom eshon va Bektemir eshon qabrlari, shuningdek Sulton Uvays, Norinjon bobo, Shamun nabi va Hakim ota kabi qadamjolar umumxalq ziyoratgohlari bo‘lgan. Maishiy turmushda ham o‘zgarishlar yuz berdi: uy-joy qurilishining to‘rt xil uslubi paydo bo‘ldi, o‘tov (chodir) va hovlilar yangicha tashkil etildi, ularni naqsh va bezaklar bilan bezash san’at darajasiga ko‘tarildi. Erkak va ayollarning kiyim-kechaklari, zeb-ziynatlari ham o‘ziga xos naqshlar bilan bezatilgan.
 
 ## 8. Qoraqalpoq xalqi tarixining o‘ziga xos xususiyatlari va tarixiy ahamiyati
 
@@ -145,7 +145,7 @@ XVIII asr oxiri — XIX asr birinchi yarmida qoraqalpoq jamiyatida eng muhim o�
 
 ### Madaniy merosning ahamiyati
 
-Qoraqalpoq xalqining o‘zining boy og‘zaki ijodi, dostonchilik va jirovlik an’analari, Berdaq, Ajiniyoz, Kunxo‘ja kabi shoirlarning ijodi xalq tarixiy xotirasining asosiy tashuvchisi bo‘lgan. Ayniqsa, Berdaq «Shajara» asarida xalq tarixini she’riy shaklda bayon etib, tarixshunoslik va adabiyotni uyg‘unlashtirgan. Tarixiy manba sifatida ularni o‘rganganda, badiiy talqin bilan tarixiy haqiqatni farqlash, bir necha manbani solishtirib xulosa chiqarish muhimdir. Qoraqalpoq xalqi tarixini o‘rganish O‘zbekiston va butun O‘rta Osiyo tarixining ko‘p qirrali va murakkab manzarasini chuqurroq tushunish imkonini beradi.
+Qoraqalpoq xalqining o‘zining boy og‘zaki ijodi, dostonchilik va jirovlik an’analari, Berdaq, Ajiniyoz, Kunxo‘ja kabi shoirlarning ijodi xalq tarixiy xotirasining asosiy tashuvchisi bo‘lgan. Ayniqsa, Berdaq “Shajara” asarida xalq tarixini she’riy shaklda bayon etib, tarixshunoslik va adabiyotni uyg‘unlashtirgan. Tarixiy manba sifatida ularni o‘rganganda, badiiy talqin bilan tarixiy haqiqatni farqlash, bir necha manbani solishtirib xulosa chiqarish muhimdir. Qoraqalpoq xalqi tarixini o‘rganish O‘zbekiston va butun O‘rta Osiyo tarixining ko‘p qirrali va murakkab manzarasini chuqurroq tushunish imkonini beradi.
 
 ## Xulosa
 
@@ -155,7 +155,7 @@ So‘nggi o‘rta asrlarda qoraqalpoq xalqi murakkab tarixiy yo‘lni bosib o‘
 
 - **Cho‘qqi qalpoqli saklar (tigraxaudalar)** — qoraqalpoqlarning qadimgi ajdodlaridan biri sifatida ko‘riladigan saklar.
 - **Bijanaklar, o‘g‘uzlar** — Orolbo‘yida shakllangan etnik guruhlar.
-- **«Chyornye klobuki», «qora bo‘rkli»** — qoraqalpoqlarning rus va mahalliy manbalardagi nomlari.
+- **“Chyornye klobuki”, “qora bo‘rkli”** — qoraqalpoqlarning rus va mahalliy manbalardagi nomlari.
 - **Yuqori va quyi qoraqalpoqlar** — 1723-yildan keyingi ikki guruh.
 - **Biy, juzbasi, mahram, ovul** — urug‘ boshlig‘i, yuzboshi, zakot yig‘uvchi va boshlang‘ich ma’muriy birlik.
 - **Solg‘ut-kesma, hashar** — yillik soliq va ariq qazish hamda tozalash majburiyati.
@@ -170,8 +170,8 @@ So‘nggi o‘rta asrlarda qoraqalpoq xalqi murakkab tarixiy yo‘lni bosib o‘
 5. Muhammad Amin inoq va Muhammad Rahimxon I ning qoraqalpoqlarga nisbatan siyosatini solishtiring.
 6. XIX asrda qoraqalpoqlarning boshqaruv tizimi va soliq majburiyatlarini tavsiflang.
 7. Qoraqalpoqlarning xo‘jalik hayotida Amudaryoning o‘rni qanday edi?
-8. Berdaqning «Shajara» asari tarixiy manba sifatida qanday ahamiyatga ega?
-9. **Metodik topshiriq:** Ajiniyozning «Bo‘zatov» dostoni yoki Berdaq she’ridan parcha asosida maktab o‘quvchilari uchun «Adabiy asar — tarixiy manba sifatida» mavzusida 10 daqiqalik mashg‘ulot topshirig‘ini tuzing.
+8. Berdaqning “Shajara” asari tarixiy manba sifatida qanday ahamiyatga ega?
+9. Metodik topshiriq: Ajiniyozning “Bo‘zatov” dostoni yoki Berdaq she’ridan parcha asosida maktab o‘quvchilari uchun “Adabiy asar — tarixiy manba sifatida” mavzusida 10 daqiqalik mashg‘ulot topshirig‘ini tuzing.
 
 ## Foydalanilgan adabiyotlar
 
