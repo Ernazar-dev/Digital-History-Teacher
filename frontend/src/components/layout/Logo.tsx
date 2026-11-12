@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
 import { DEFAULT_LOGO, usePlatform } from '@/hooks/usePlatform';
 
-export const Logo = ({ dark = false, to = '/' }: { dark?: boolean; to?: string }) => {
+export const Logo = ({ dark = false, to = '/', compact = false }: { dark?: boolean; to?: string; compact?: boolean }) => {
   const { name, logoUrl } = usePlatform();
   return (
-    <Link to={to} className="group flex min-w-0 items-center gap-3 no-underline">
+    <Link to={to} className="group flex shrink-0 items-center gap-3 no-underline">
       <span className="relative flex h-10 w-10 shrink-0 items-center justify-center">
         <span className="absolute inset-0 rounded-xl bg-[conic-gradient(from_0deg,#f3dd9e,#c29a45,#8f6a24,#c29a45,#f3dd9e)] opacity-0 blur-md transition-opacity duration-500 group-hover:opacity-60" />
         {/* To'q fonda ochiq plitka ustida — shaffof fonli to'q logotip ham ko'rinadi */}
@@ -15,7 +15,7 @@ export const Logo = ({ dark = false, to = '/' }: { dark?: boolean; to?: string }
           onError={(e) => { e.currentTarget.src = DEFAULT_LOGO; }}
         />
       </span>
-      <span className={`font-serif-title truncate text-lg font-bold leading-tight transition-colors duration-300 ${dark ? 'text-white' : 'text-primary'}`}>{name}</span>
+      <span className={`font-serif-title ${compact ? "hidden min-[1500px]:inline" : ""} truncate text-lg font-bold leading-tight transition-colors duration-300 ${dark ? 'text-white' : 'text-primary'}`}>{name}</span>
     </Link>
   );
 };

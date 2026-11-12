@@ -1,5 +1,5 @@
 import { DownOutlined, HomeOutlined, LockOutlined, LogoutOutlined, MenuOutlined, SearchOutlined, UserOutlined } from '@ant-design/icons';
-import { Avatar, Button, Drawer, Dropdown, Grid, Tooltip } from 'antd';
+import { Avatar, Button, Drawer, Dropdown, Tooltip } from 'antd';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation } from 'react-router-dom';
@@ -12,6 +12,7 @@ import { Logo } from './Logo';
 import { isNavGroup, TOP_NAV, TOP_NAV_ITEMS, type TopNavGroup, type TopNavItem } from './navigation';
 
 const HOME = '/';
+const WIDE_QUERY = '(min-width: 1420px)';
 
 const initials = (name?: string) =>
   (name ?? '').split(/\s+/).filter(Boolean).slice(0, 2).map((p) => p.charAt(0).toUpperCase()).join('') || '?';
@@ -36,15 +37,21 @@ export const TopNavbar = () => {
   const setSiteView = useSiteViewStore((s) => s.setSiteView);
   const { name } = usePlatform();
   const { pathname } = useLocation();
-  const screens = Grid.useBreakpoint();
   const [drawer, setDrawer] = useState(false);
   const [openGroup, setOpenGroup] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
-  const wide = Boolean(screens.xl);
+  // Navbar sig‘adigan eng tor kenglik: undan tor ekranda menyu «burger» tugmasiga o‘tadi (logotip va til tugmasiga tegib ketmasin)
+  const [wide, setWide] = useState(() => window.matchMedia(WIDE_QUERY).matches);
   const active = activePath(pathname);
   // Kirish/ro'yxatdan so'ng shu sahifaga qaytish — faqat platforma sahifalaridan
   const next = pathname.startsWith('/app') ? `?next=${encodeURIComponent(pathname)}` : '';
 
+  useEffect(() => {
+    const mq = window.matchMedia(WIDE_QUERY);
+    const on = () => setWide(mq.matches);
+    mq.addEventListener('change', on);
+    return () => mq.removeEventListener('change', on);
+  }, []);
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 4);
     onScroll();
@@ -173,10 +180,10 @@ export const TopNavbar = () => {
           scrolled ? 'border-line shadow-[0_6px_24px_-18px_rgba(11,21,48,0.35)]' : 'border-transparent'
         }`}
       >
-        <div className="mx-auto flex h-16 max-w-7xl items-center gap-4 px-4 md:px-8">
-          <Logo to={HOME} />
+        <div className="mx-auto flex h-16 max-w-[1440px] items-center gap-4 px-4 md:px-8">
+          <Logo to={HOME} compact />
           {wide && (
-            <nav className="ml-2 flex items-center gap-0.5" aria-label={t('nav.mainSections')}>
+            <nav className="ml-2 flex min-w-0 items-center gap-0.5" aria-label={t('nav.mainSections')}>
               {TOP_NAV.map((e) => (isNavGroup(e) ? group(e) : single(e)))}
             </nav>
           )}

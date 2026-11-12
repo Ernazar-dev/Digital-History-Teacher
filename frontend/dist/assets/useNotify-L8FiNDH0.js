@@ -1,1 +1,0 @@
-import{av as t,bh as i,l as a,y as n}from"./index-V_6o_C8M.js";const p=()=>{const{message:e,notification:r}=t.useApp();return{success:s=>e.success(s),error:(s,o=n.t("errors.actionFailed"))=>{s instanceof i||r.error({message:o,description:a(s),placement:"topRight"})},info:s=>e.info(s)}};export{p as u};
