@@ -16,11 +16,11 @@ const inputCls =
   'w-full rounded-xl border border-white/25 bg-white/10 px-4 py-3 text-[15px] text-white placeholder-white/55 outline-none transition focus:border-white/70 focus:bg-white/15 focus:ring-2 focus:ring-white/25';
 
 const ContactRow = ({ icon, label, value, href }: { icon: ReactNode; label: string; value: string; href: string }) => (
-  <a href={href} className="group flex items-center gap-4 rounded-2xl border border-white/15 bg-white/10 p-3.5 text-white no-underline backdrop-blur transition hover:border-white/40 hover:bg-white/15">
-    <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-white/15 text-lg text-white">{icon}</span>
+  <a href={href} className="group flex items-center gap-3 rounded-2xl border border-white/15 bg-white/10 p-3 text-white no-underline backdrop-blur transition hover:border-white/40 hover:bg-white/15">
+    <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-white/15 text-lg text-white">{icon}</span>
     <span className="min-w-0">
       <span className="block text-xs uppercase tracking-wider text-white/60">{label}</span>
-      <span className="block break-all text-sm font-semibold">{value}</span>
+      <span className="block whitespace-nowrap text-[13px] font-semibold sm:text-sm">{value}</span>
     </span>
   </a>
 );
