@@ -18,9 +18,9 @@ const inputCls =
 const ContactRow = ({ icon, label, value, href }: { icon: ReactNode; label: string; value: string; href: string }) => (
   <a href={href} className="group flex items-center gap-3 rounded-2xl border border-white/15 bg-white/10 p-3 text-white no-underline backdrop-blur transition hover:border-white/40 hover:bg-white/15">
     <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-white/15 text-lg text-white">{icon}</span>
-    <span className="min-w-0">
+    <span className="min-w-0 flex-1">
       <span className="block text-xs uppercase tracking-wider text-white/60">{label}</span>
-      <span className="block whitespace-nowrap text-[13px] font-semibold sm:text-sm">{value}</span>
+      <span className="block whitespace-nowrap text-[clamp(12px,3.6vw,14px)] font-semibold sm:text-sm">{value}</span>
     </span>
   </a>
 );
@@ -71,7 +71,7 @@ export default function AuthorPage() {
             <h1 className="font-serif-title m-0 mt-1 text-xl font-bold text-white md:text-2xl">{t('author.name')}</h1>
             <p className="m-0 mt-1 text-sm leading-snug text-white/80">{t('author.position')}</p>
           </div>
-          <div className="grid w-full gap-2.5 sm:grid-cols-2">
+          <div className="grid w-full gap-2.5">
             <ContactRow icon={<MailOutlined />} label={t('author.email')} value={EMAIL} href={`mailto:${EMAIL}`} />
             <ContactRow icon={<PhoneOutlined />} label={t('author.phone')} value={PHONE_VIEW} href={`tel:${PHONE}`} />
           </div>
