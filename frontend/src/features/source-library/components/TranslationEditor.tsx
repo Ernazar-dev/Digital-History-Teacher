@@ -54,7 +54,7 @@ const toPayload = (v: Values): SourceTranslationInput => ({
 const langName = (l: 'ru' | 'en') => i18n.t(l === 'ru' ? 'translation.langRu' : 'translation.langEn');
 
 /**
- * Mavzuning rus/ingliz tilidagi varianti. Bo'sh qoldirilgan qism saytda o'zbekcha ko'rsatiladi.
+ * Mavzuning rus/ingliz tilidagi varianti. Boʻsh qoldirilgan qism saytda oʻzbekcha koʻrsatiladi.
  * Ma'ruza (matn + fayl) va video (havola + fayl) bir butun sifatida almashadi.
  */
 export const TranslationEditor = ({ sourceId, locale }: { sourceId: string; locale: 'ru' | 'en' }) => {

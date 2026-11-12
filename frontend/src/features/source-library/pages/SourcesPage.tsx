@@ -13,7 +13,7 @@ import { sourcesService } from '@/services/catalog.service';
 import type { SourceListItem } from '@/types/api';
 import { SourceCard } from '../components/SourceCard';
 
-/** Mavzular darslik bo'yicha guruhlanadi: «O‘zbekiston tarixi, I kitob · 12-mavzu» → «O‘zbekiston tarixi, I kitob» */
+/** Mavzular darslik boʻyicha guruhlanadi: «Oʻzbekiston tarixi, I kitob · 12-mavzu» → «Oʻzbekiston tarixi, I kitob» */
 const groupByBook = (items: SourceListItem[]) => {
   const groups = new Map<string, SourceListItem[]>();
   for (const s of items) {
@@ -60,7 +60,7 @@ export default function SourcesPage() {
           <div className="space-y-10">
             {groupByBook(d.data).map(([book, items]) => (
               <section key={book || 'other'} aria-label={book || undefined}>
-                {/* Darslik/guruh nomi bo'lmagan mavzular sarlavhasiz chiqadi */}
+                {/* Darslik/guruh nomi boʻlmagan mavzular sarlavhasiz chiqadi */}
                 {book && <h2 className="font-serif-title mb-4 text-xl font-semibold text-ink">{book}</h2>}
                 <div className="stagger grid gap-x-6 gap-y-10 sm:grid-cols-2 xl:grid-cols-3">
                   {items.map((s) => <SourceCard key={s.id} s={s} base={base} q={filters.q} />)}

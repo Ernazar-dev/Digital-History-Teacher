@@ -5,7 +5,7 @@ import { segmentLabel } from './navigation';
 const APP_TREE = [{ path: '/app', children: appRoutes }];
 
 /**
- * Boshqaruv bo'limidagi oraliq yo'llarning o'z sahifasi yo'q — ular ochiq sahifaga ko'rsatiladi:
+ * Boshqaruv boʻlimidagi oraliq yoʻllarning oʻz sahifasi yoʻq — ular ochiq sahifaga koʻrsatiladi:
  * /app/admin/sources/<id>/edit → «Manbalar» = /app/sources, «Batafsil» = /app/sources/<id>
  */
 const ALIASES: [RegExp, string][] = [
@@ -13,15 +13,15 @@ const ALIASES: [RegExp, string][] = [
   [/^\/app\/admin\/objects(?=\/|$)/, '/app/museum'],
 ];
 
-/** Yo'l haqiqiy sahifaga olib boradimi (404 emas) */
+/** Yoʻl haqiqiy sahifaga olib boradimi (404 emas) */
 const exists = (path: string) => {
   const matches = matchRoutes(APP_TREE, path);
   return Boolean(matches && matches[matches.length - 1].route.path !== '*');
 };
 
 /**
- * URL segmentlaridan breadcrumb. Havola faqat mavjud sahifaga qo'yiladi —
- * sahifasi yo'q oraliq bo'g'in (masalan «Administrator») oddiy matn bo'lib qoladi.
+ * URL segmentlaridan breadcrumb. Havola faqat mavjud sahifaga qoʻyiladi —
+ * sahifasi yoʻq oraliq boʻg'in (masalan «Administrator») oddiy matn boʻlib qoladi.
  */
 export const breadcrumbItems = (pathname: string) => {
   const crumbs = pathname.split('/').filter(Boolean);

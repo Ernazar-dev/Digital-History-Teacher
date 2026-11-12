@@ -17,7 +17,7 @@ import { yearLabel } from '@/utils/format';
 import heroImage from '@/assets/hero-arch.jpg';
 import { CHAIN, MODULES } from '../content';
 
-/** Barcha bo'limlar navbar bilan bir xil konteynerda — ikki chetdagi bo'shliq teng */
+/** Barcha boʻlimlar navbar bilan bir xil konteynerda — ikki chetdagi boʻshliq teng */
 const CONTAINER = 'mx-auto w-full max-w-7xl px-4 md:px-8';
 
 const SectionTitle = ({ title, text, link }: { title: string; text?: string; link?: { to: string; label: string } }) => (
@@ -30,15 +30,15 @@ const SectionTitle = ({ title, text, link }: { title: string; text?: string; lin
   </Reveal>
 );
 
-/** Rasm ustidagi aylanuvchi bosqich — platformadagi yo'l: manba → tahlil → dars */
+/** Rasm ustidagi aylanuvchi bosqich — platformadagi yoʻl: manba → tahlil → dars */
 const HERO_STAGES = ['landing.stage1', 'landing.stage2', 'landing.stage3'];
 const pad2 = (n: number) => String(n).padStart(2, '0');
 const onPhoto = { textShadow: '0 1px 10px rgba(11, 21, 48, 0.55)' };
 
 /**
- * Hero rasmi: ravoq ichidagi Registon, qo'lyozma va planshet (qadimiy manbadan raqamli darsga).
- * Rasmda hech qanday yozuv yo'q — hisoblagich va obyekt nomi HTML'da, ma'lumot bazadan.
- * O'lchamlar rasm kengligiga bog'liq (container query birliklari — cqw).
+ * Hero rasmi: ravoq ichidagi Registon, qoʻlyozma va planshet (qadimiy manbadan raqamli darsga).
+ * Rasmda hech qanday yozuv yoʻq — hisoblagich va obyekt nomi HTML'da, ma'lumot bazadan.
+ * Oʻlchamlar rasm kengligiga bogʻliq (container query birliklari — cqw).
  */
 const HeroArch = ({ featured }: { featured?: Pick<VirtualObject, 'slug' | 'title' | 'periodLabel'> }) => {
   const { t } = useTranslation();
@@ -127,7 +127,7 @@ const ADVANTAGES = [
   { icon: <ExperimentOutlined />, title: 'landing.adv2Title', text: 'landing.adv2Text' },
 ];
 
-/** To'q ko'k bo'lim: platformaning afzalliklari va muzeydan bitta obyekt (bazadan) */
+/** Toʻq koʻk boʻlim: platformaning afzalliklari va muzeydan bitta obyekt (bazadan) */
 const AdvantagesBand = ({ media }: { media?: VirtualObjectListItem }) => {
   const { t } = useTranslation();
   return (
@@ -177,7 +177,7 @@ const AdvantagesBand = ({ media }: { media?: VirtualObjectListItem }) => {
   );
 };
 
-/** Bo'lim ekranga kirganda qadamlarni birin-ketin yoqadi (bir marta) */
+/** Boʻlim ekranga kirganda qadamlarni birin-ketin yoqadi (bir marta) */
 const useStepper = (count: number, step = 450) => {
   const { ref, inView } = useInView<HTMLDivElement>(0.35);
   const [active, setActive] = useState(-1);
@@ -194,7 +194,7 @@ const useStepper = (count: number, step = 450) => {
   return { ref, active };
 };
 
-/** Sakkiz qadamda mavzuni o'zlashtirish — bitta ekranga sig'adigan 4×2 to'r */
+/** Sakkiz qadamda mavzuni oʻzlashtirish — bitta ekranga sigʻadigan 4×2 toʻr */
 const ChainSection = () => {
   const { t } = useTranslation();
   const { ref, active } = useStepper(CHAIN.length);
@@ -214,7 +214,7 @@ const ChainSection = () => {
             <span className="text-xl"> / {String(CHAIN.length).padStart(2, '0')}</span>
           </div>
         </div>
-        {/* Umumiy progress chizig'i */}
+        {/* Umumiy progress chizigʻi */}
         <div className="mb-6 h-1 overflow-hidden rounded-full bg-line" aria-hidden>
           <div className="h-full rounded-full bg-primary transition-[width] duration-500 ease-premium" style={{ width: `${progress}%` }} />
         </div>
@@ -253,7 +253,7 @@ export default function LandingPage() {
   const items = objects.data?.data ?? [];
   // Hero rasmidagi ravoq ortida Registon — uning nomi va davri bazadan olinadi
   const registon = useQuery({ queryKey: ['landing-registon'], queryFn: () => museumService.get('registon-majmuasi-samarqand'), retry: false });
-  // Afzalliklar bo'limi uchun: 360° panorama bo'lsa — u, aks holda rasmli birinchi obyekt
+  // Afzalliklar boʻlimi uchun: 360° panorama boʻlsa — u, aks holda rasmli birinchi obyekt
   const featuredMedia = items.find((o) => o.type === 'TOUR_360' && o.thumbnailUrl) ?? items.find((o) => o.thumbnailUrl && o.slug !== 'registon-majmuasi-samarqand');
 
   return (
@@ -292,7 +292,7 @@ export default function LandingPage() {
               </Link>
             </div>
           </div>
-          {/* Rasm o'ngda ekran chetigacha cho'ziladi, chapda matn ostiga singib ketadi */}
+          {/* Rasm oʻngda ekran chetigacha choʻziladi, chapda matn ostiga singib ketadi */}
           <div className="relative lg:-ml-24 lg:-mr-[max(2rem,calc((100vw-80rem)/2+2rem))]">
             <HeroArch featured={registon.data} />
           </div>
@@ -340,7 +340,7 @@ export default function LandingPage() {
             text={t('landing.periodsText')}
             link={{ to: '/app/explore', label: t('landing.periodsLink') }}
           />
-          {/* 6 ustunli to'r: soni 3 ga bo'linmasa, birinchi 2 (yoki 4) karta yarim kenglikda — oxirgi qatorda bo'sh joy qolmaydi */}
+          {/* 6 ustunli toʻr: soni 3 ga boʻlinmasa, birinchi 2 (yoki 4) karta yarim kenglikda — oxirgi qatorda boʻsh joy qolmaydi */}
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-6">
             {periods.data!.map((p, i, all) => (
               <Reveal

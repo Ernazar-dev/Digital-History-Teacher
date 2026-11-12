@@ -18,7 +18,7 @@ import { AnswerSheet } from '../components/AnswerSheet';
 export default function TestPage() {
   const { id = '' } = useParams();
   const { isStaff: staff } = useAuth();
-  // Saytni ko'rish rejimida test talaba ko'rinishida ochiladi
+  // Saytni koʻrish rejimida test talaba koʻrinishida ochiladi
   const siteView = useSiteViewStore((s) => s.siteView);
   const isStaff = staff && !siteView;
   const query = useQuery({ queryKey: ['test', id], queryFn: () => testsService.get(id) });
@@ -40,7 +40,7 @@ const ResultCard = ({ r }: { r: TestAttemptResult }) => {
   );
 };
 
-/** Ikki ustun: chapda test fayli, o'ngda javoblar varag'i (mobilda — ketma-ket) */
+/** Ikki ustun: chapda test fayli, oʻngda javoblar varagʻi (mobilda — ketma-ket) */
 const Layout = ({ t, side }: { t: Test; side: ReactNode }) => (
   <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_340px]">
     <div className="min-w-0"><MaterialViewer files={[t.file]} /></div>

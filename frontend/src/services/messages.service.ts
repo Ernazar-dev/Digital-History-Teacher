@@ -8,7 +8,7 @@ export interface ContactInput { name: string; email?: string; phone?: string; me
 export const messagesService = {
   /** Ochiq forma: mehmon ham yubora oladi */
   send: (body: ContactInput) => postData<{ sent: true }>('/messages', cleanParams({ ...body })),
-  /** Administrator: xabarlar ro'yxati (+ o'qilmaganlar soni) */
+  /** Administrator: xabarlar roʻyxati (+ oʻqilmaganlar soni) */
   list: (params: { page?: number; pageSize?: number; unread?: boolean }) =>
     getPage<ContactMessage>('/messages', cleanParams({ ...params })),
   unreadCount: () => getData<{ count: number }>('/messages/unread-count').then((d) => d.count),

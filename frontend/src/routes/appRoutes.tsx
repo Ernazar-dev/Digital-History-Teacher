@@ -7,12 +7,12 @@ import { P } from './pages';
 const STAFF: Role[] = ['ADMIN', 'TEACHER'];
 const ADMIN: Role[] = ['ADMIN'];
 const role = (roles: Role[], el: ReactNode) => <RequireRole roles={roles}>{el}</RequireRole>;
-/** Shaxsiy bo'lim — mehmonga sahifa o'rnida kirish taklifi ko'rinadi */
+/** Shaxsiy boʻlim — mehmonga sahifa oʻrnida kirish taklifi koʻrinadi */
 const auth = (el: ReactNode) => <RequireAuth>{el}</RequireAuth>;
 
 /**
- * /app — mehmonlar uchun ham ochiq: bosh sahifa, qidiruv, manbalar, muzey, xarita, vaqt chizig'i va metodika.
- * Qolgan bo'limlar navbarda ko'rinadi, lekin kirishni talab qiladi.
+ * /app — mehmonlar uchun ham ochiq: bosh sahifa, qidiruv, manbalar, muzey, xarita, vaqt chizigʻi va metodika.
+ * Qolgan boʻlimlar navbarda koʻrinadi, lekin kirishni talab qiladi.
  */
 export const appRoutes: RouteObject[] = [
   { index: true, element: <P.Dashboard /> },
@@ -36,7 +36,7 @@ export const appRoutes: RouteObject[] = [
   { path: 'assignments/new', element: role(STAFF, <P.TestForm />) },
   { path: 'assignments/:id/edit', element: role(STAFF, <P.TestForm />) },
   { path: 'assignments/:id', element: auth(<P.TestPage />) },
-  // «Mening o'quv yo'lim» talaba kabineti ichida (tab)
+  // «Mening oʻquv yoʻlim» talaba kabineti ichida (tab)
   { path: 'progress', element: <Navigate to="/app?tab=yol" replace /> },
   { path: 'progress/students/:studentId', element: role(STAFF, <P.Progress />) },
   // Talabaning elektron portfoliosi profil sahifasiga birlashtirilgan

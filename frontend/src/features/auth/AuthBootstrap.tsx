@@ -6,8 +6,8 @@ import { hasSessionHint, useAuthStore } from './auth.store';
 
 /**
  * Sahifa yuklanganda httpOnly refresh cookie orqali sessiyani tiklaydi.
- * Faqat avval kirgan brauzerda javob kutiladi; mehmonga sahifa darhol ko'rinadi
- * (backend uyg'onishini kutib qolmaydi), sessiya fonda tekshiriladi.
+ * Faqat avval kirgan brauzerda javob kutiladi; mehmonga sahifa darhol koʻrinadi
+ * (backend uygʻonishini kutib qolmaydi), sessiya fonda tekshiriladi.
  */
 export const AuthBootstrap = () => {
   const initialized = useAuthStore((s) => s.initialized);

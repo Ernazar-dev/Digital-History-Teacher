@@ -19,7 +19,7 @@ export interface Ref { id: string; title: string; slug?: string; type?: string }
 export interface User {
   id: string; username: string; email: string | null; fullName: string; role: Role; status: UserStatus;
   institution: string | null; createdAt: string; lastLoginAt: string | null;
-  /** Faqat /users ro'yxatida: talaba a'zo bo'lgan guruhlar */
+  /** Faqat /users roʻyxatida: talaba a'zo boʻlgan guruhlar */
   groups?: { id: string; name: string }[];
 }
 
@@ -49,12 +49,12 @@ export interface Source extends SourceListItem {
   createdBy: { id: string; fullName: string } | null;
   mediaFile: MediaFileRef | null; lectureFile: MediaFileRef | null; presentationFile: MediaFileRef | null; videoFile: MediaFileRef | null;
   lectureFileId: string | null;
-  /** Javob tili (tarjima topilmasa — 'uz') va o'zbekchada qolgan qismlar: 'text' | 'lecture' | 'presentation' | 'video' */
+  /** Javob tili (tarjima topilmasa — 'uz') va oʻzbekchada qolgan qismlar: 'text' | 'lecture' | 'presentation' | 'video' */
   lang?: 'uz' | 'ru' | 'en';
   fallbacks?: string[];
-  /** Qaysi tillarda variant bor (o'zbekcha doim) */
+  /** Qaysi tillarda variant bor (oʻzbekcha doim) */
   availableLocales?: string[];
-  /** Tarixiy kitob bo'lsa — qidiriladigan sahifalar soni (ro'yxat qidiruvi uchun), aks holda 0 */
+  /** Tarixiy kitob boʻlsa — qidiriladigan sahifalar soni (roʻyxat qidiruvi uchun), aks holda 0 */
   pageCount: number;
   tests: { id: string; title: string; questionCount: number }[];
   virtualObjects: (Ref & { slug: string; type: ObjectType; thumbnailUrl: string | null; periodLabel: string | null; location: string | null })[];
@@ -123,7 +123,7 @@ export interface PortfolioItem {
   id: string; type: PortfolioItemType; title: string; description: string | null; refType: string; refId: string;
   sourceIds: string[]; version: number; isFeatured: boolean; createdAt: string; updatedAt: string;
   sources: { id: string; title: string; slug: string; type: SourceType }[];
-  /** Ish natijasi: holat, foiz, oxirgi o'qituvchi izohi */
+  /** Ish natijasi: holat, foiz, oxirgi oʻqituvchi izohi */
   outcome?: { status: string | null; percent: number | null; teacherComment: string | null };
 }
 export interface Reflection { id: string; title: string; content: string; relatedType: string | null; relatedId: string | null; createdAt: string; updatedAt: string }
@@ -134,7 +134,7 @@ export interface Portfolio {
 }
 export interface PortfolioItemDetail extends PortfolioItem { detail: Record<string, unknown> | null }
 
-/** O'qituvchi ko'rib chiqishi kerak bo'lgan ish (dars ishlanmasi yoki virtual obyekt javobi) */
+/** Oʻqituvchi koʻrib chiqishi kerak boʻlgan ish (dars ishlanmasi yoki virtual obyekt javobi) */
 export interface ReviewItem {
   kind: 'LESSON' | 'VIRTUAL'; id: string; title: string; student: { id: string; fullName: string }; submittedAt: string | null; slug: string | null;
 }
@@ -148,7 +148,7 @@ export interface TestListItem {
   source: { id: string; title: string; slug: string } | null; createdBy: { id: string; fullName: string } | null;
   attemptCount: number; myAttempt: TestAttemptResult | null;
 }
-/** Fayl asosidagi test: kalit o'qituvchiga; talabaga faqat topshirgandan keyin (myAttempt.answerKey) */
+/** Fayl asosidagi test: kalit oʻqituvchiga; talabaga faqat topshirgandan keyin (myAttempt.answerKey) */
 export interface Test extends Omit<TestListItem, 'attemptCount' | 'myAttempt'> {
   fileId: string; sourceId: string | null; file: MediaFileRef; answerKey: TestOption[] | null; myAttempt: TestAttemptResult | null;
 }

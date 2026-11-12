@@ -26,7 +26,7 @@ export default function RegisterPage() {
   });
   const groups = useQuery({ queryKey: ['groups', 'public'], queryFn: groupsService.publicList });
   const hasGroups = (groups.data?.length ?? 0) > 0;
-  // Guruhlar mavjud bo'lsa, talaba o'z guruhini tanlashi shart — aks holda topshiriqlar ko'rinmaydi
+  // Guruhlar mavjud boʻlsa, talaba oʻz guruhini tanlashi shart — aks holda topshiriqlar koʻrinmaydi
   const onSubmit = (v: RegisterForm) => {
     if (hasGroups && !v.groupId) {
       setError('groupId', { message: 'auth.groupRequired' });
@@ -45,7 +45,7 @@ export default function RegisterPage() {
     },
   });
 
-  // Faqat tasdiq kutayotgan hisob uchun (talabalarni avtomatik tasdiqlash o'chirilganda)
+  // Faqat tasdiq kutayotgan hisob uchun (talabalarni avtomatik tasdiqlash oʻchirilganda)
   if (register.isSuccess && !register.data.accessToken) {
     return (
       <div className="animate-scale-in mx-auto w-full max-w-lg rounded-[28px] border border-line bg-white px-6 py-4 shadow-lift">

@@ -19,31 +19,31 @@ describe('Marshrut himoyasi va rolga mos navigatsiya', () => {
   it('sessiya hali tekshirilayotganda kirish taklifi chaqnab ketmaydi', () => {
     useAuthStore.setState({ initialized: false });
     renderWithProviders(<RequireAuth><div>MAXFIY</div></RequireAuth>, { route: '/app/portfolio' });
-    expect(screen.queryByText('Bu bo‘lim shaxsiy kabinetda')).not.toBeInTheDocument();
+    expect(screen.queryByText('Bu boʻlim shaxsiy kabinetda')).not.toBeInTheDocument();
     expect(screen.queryByText('MAXFIY')).not.toBeInTheDocument();
   });
 
-  it('kirmagan foydalanuvchiga yopiq bo‘lim o‘rnida kirish taklifi ko‘rsatiladi', () => {
+  it('kirmagan foydalanuvchiga yopiq boʻlim oʻrnida kirish taklifi koʻrsatiladi', () => {
     renderWithProviders(<RequireAuth><div>MAXFIY</div></RequireAuth>, { route: '/app/portfolio' });
-    expect(screen.getByText('Bu bo‘lim shaxsiy kabinetda')).toBeInTheDocument();
+    expect(screen.getByText('Bu boʻlim shaxsiy kabinetda')).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Kirish' })).toHaveAttribute('href', '/login?next=%2Fapp%2Fportfolio');
     expect(screen.queryByText('MAXFIY')).not.toBeInTheDocument();
   });
 
-  it('noto‘g‘ri rol uchun 403 ko‘rsatiladi', () => {
+  it('notoʻgʼri rol uchun 403 koʻrsatiladi', () => {
     useAuthStore.getState().setSession(user('STUDENT'), 'token');
     renderWithProviders(<RequireRole roles={['ADMIN']}><div>ADMIN PANEL</div></RequireRole>);
-    expect(screen.getByText('Ruxsat yo‘q')).toBeInTheDocument();
+    expect(screen.getByText('Ruxsat yoʻq')).toBeInTheDocument();
     expect(screen.queryByText('ADMIN PANEL')).not.toBeInTheDocument();
   });
 
-  it('mos rol kontentni ko‘radi', () => {
+  it('mos rol kontentni koʻradi', () => {
     useAuthStore.getState().setSession(user('ADMIN'), 'token');
     renderWithProviders(<RequireRole roles={['ADMIN']}><div>ADMIN PANEL</div></RequireRole>);
     expect(screen.getByText('ADMIN PANEL')).toBeInTheDocument();
   });
 
-  it('sidebar rolga qarab o‘zgaradi', () => {
+  it('sidebar rolga qarab oʻzgaradi', () => {
     const student = navFor('STUDENT').map((i) => i.key);
     const teacher = navFor('TEACHER').map((i) => i.key);
     const admin = navFor('ADMIN').map((i) => i.key);

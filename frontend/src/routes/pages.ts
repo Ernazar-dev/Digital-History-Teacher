@@ -1,6 +1,6 @@
 import { lazy } from 'react';
 
-/** Barcha sahifalar kerak bo'lganda yuklanadi (code splitting) */
+/** Barcha sahifalar kerak boʻlganda yuklanadi (code splitting) */
 export const P = {
   Landing: lazy(() => import('@/features/public/pages/LandingPage')),
   About: lazy(() => import('@/features/public/pages/AboutPage')),
@@ -41,7 +41,7 @@ export const P = {
 };
 
 /**
- * Eng ko'p ochiladigan sahifalar kodi — sayt ochilib bo'lgach, brauzer bo'sh turganda oldindan yuklanadi.
+ * Eng koʻp ochiladigan sahifalar kodi — sayt ochilib boʻlgach, brauzer boʻsh turganda oldindan yuklanadi.
  * Shunda menyudan bosilganda «Yuklanmoqda...» kutilmaydi (import() bir xil modulni qayta yuklamaydi).
  */
 const COMMON_PAGES = [
@@ -62,7 +62,7 @@ export const prefetchCommonPages = () => {
   // Trafikni tejash rejimida yoki juda sekin (2G) tarmoqda oldindan yuklanmaydi
   if (conn?.saveData || /(^|-)2g$/.test(conn?.effectiveType ?? '')) return;
   const run = () => {
-    // Birma-bir yuklanadi — asosiy sahifa so'rovlari bilan raqobat qilmasligi uchun
+    // Birma-bir yuklanadi — asosiy sahifa soʻrovlari bilan raqobat qilmasligi uchun
     COMMON_PAGES.reduce((p, load) => p.then(() => load().then(() => undefined, () => undefined)), Promise.resolve());
   };
   const idle = (window as Window & { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number }).requestIdleCallback;

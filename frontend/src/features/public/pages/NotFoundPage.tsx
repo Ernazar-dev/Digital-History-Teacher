@@ -16,7 +16,7 @@ export default function NotFoundPage() {
         <p className="animate-fade-up mx-auto mb-0 mt-3 max-w-md text-muted" style={{ animationDelay: '220ms' }}>
           {t('notFound.text')}
         </p>
-        {/* Platforma ichida — platformaning bosh sahifasiga (landing'ga emas) */}
+        {/* Platforma ichida — platformaning bosh sahifasiga (landingʻga emas) */}
         <Link to={pathname.startsWith('/app') ? '/app' : '/'} className="animate-fade-up mt-8 inline-block" style={{ animationDelay: '320ms' }}>
           <Button type="primary" size="large" icon={<ArrowLeftOutlined />} className="btn-shine">{t('notFound.back')}</Button>
         </Link>

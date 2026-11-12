@@ -26,7 +26,7 @@ export const checklist = (v: LessonFormValues) => {
   ];
 };
 
-/** goTo — bandni bosganda o'sha qadamga o'tkazadi (qadam raqami 1 dan boshlanadi) */
+/** goTo — bandni bosganda oʻsha qadamga oʻtkazadi (qadam raqami 1 dan boshlanadi) */
 export const StepReview = ({ form, goTo }: { form: UseFormReturn<LessonFormValues>; goTo?: (step: number) => void }) => {
   const items = checklist(form.watch());
   const ready = items.every((i) => i.ok);

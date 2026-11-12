@@ -73,7 +73,7 @@ const renderPptx: Render = async (buf, el) => {
   sanitizeDom(el);
 };
 
-/** PDF brauzerning o'z ko'ruvchisida — blob URL orqali (API javobidagi frame-ancestors cheklovi ta'sir qilmaydi) */
+/** PDF brauzerning oʻz koʻruvchisida — blob URL orqali (API javobidagi frame-ancestors cheklovi ta'sir qilmaydi) */
 const PdfView = ({ file }: { file: MediaFileRef }) => {
   const [src, setSrc] = useState<string | null>(null);
   const [failed, setFailed] = useState(false);
@@ -122,7 +122,7 @@ export const FileBadge = ({ file }: { file: MediaFileRef }) => {
   );
 };
 
-/** O'quv materiallari: yuqorida fayllar ro'yxati, pastda tanlangan fayl sahifaning o'zida ochiladi */
+/** Oʻquv materiallari: yuqorida fayllar roʻyxati, pastda tanlangan fayl sahifaning oʻzida ochiladi */
 export const MaterialViewer = ({ files }: { files: MediaFileRef[] }) => {
   const [activeId, setActiveId] = useState(files[0]?.id);
   const stageRef = useRef<HTMLDivElement>(null);

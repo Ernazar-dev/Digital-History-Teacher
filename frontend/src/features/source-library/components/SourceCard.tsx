@@ -23,7 +23,7 @@ const Has = ({ on, icon, label }: { on: boolean; icon: ReactNode; label: string 
 /** Bosh sahifadagi «Meros» kartochkalari uslubida: katta afisha, oltin davr yozuvi, serif sarlavha, strelka */
 export const SourceCard = ({ s, base, q }: { s: SourceListItem; base: string; q?: string }) => {
   const { t } = useTranslation();
-  // Qidiruvdan kelingan bo'lsa — so'z mavzu/kitob ichida ham darhol topiladi
+  // Qidiruvdan kelingan boʻlsa — soʻz mavzu/kitob ichida ham darhol topiladi
   const href = q ? `${base}/${s.slug}?izlash=${encodeURIComponent(q)}` : `${base}/${s.slug}`;
   const cover = coverOf(s);
 

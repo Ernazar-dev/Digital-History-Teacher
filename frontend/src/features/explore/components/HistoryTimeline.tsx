@@ -71,8 +71,8 @@ const PeriodCard = ({ p, onShowOnMap }: { p: TimelinePeriod; onShowOnMap?: () =>
 };
 
 /**
- * Davrlar bo'yicha vaqt chizig'i: katta ekranda zig-zag (chap–o'ng), mobil'da bitta ustun.
- * activeId — tanlangan davr ajratib ko'rsatiladi, qolganlari xiralashadi.
+ * Davrlar boʻyicha vaqt chizigʻi: katta ekranda zig-zag (chap–oʻng), mobil'da bitta ustun.
+ * activeId — tanlangan davr ajratib koʻrsatiladi, qolganlari xiralashadi.
  */
 export const HistoryTimeline = ({ periods, activeId, onSelect }: { periods: TimelinePeriod[]; activeId?: string; onSelect?: (id: string) => void }) => {
   const { t } = useTranslation();
@@ -84,7 +84,7 @@ export const HistoryTimeline = ({ periods, activeId, onSelect }: { periods: Time
         const on = activeId === p.id;
         const dim = Boolean(activeId) && !on;
         return (
-          // Katta ekranda kartalar navbatma-navbat chap/o'ngda — bo'sh joy qolmasligi uchun keyingisi yuqoriga suriladi
+          // Katta ekranda kartalar navbatma-navbat chap/oʻngda — boʻsh joy qolmasligi uchun keyingisi yuqoriga suriladi
           <li key={p.id} className={`relative mb-8 pl-10 last:mb-0 md:grid md:grid-cols-2 md:gap-14 md:pl-0 ${i > 0 ? 'md:-mt-48' : ''}`}>
             <span
               aria-hidden

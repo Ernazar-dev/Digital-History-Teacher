@@ -27,8 +27,8 @@ const useUploader = () => {
 };
 
 /**
- * Videolar faqat YouTube havolasi orqali qo'yiladi (fayl joy egallaydi). Avval yuklangan video fayl bo'lsa —
- * u saqlanib qoladi (yo'qolib ketmasin), lekin yangisini yuklab bo'lmaydi; xohlansa olib tashlanadi.
+ * Videolar faqat YouTube havolasi orqali qoʻyiladi (fayl joy egallaydi). Avval yuklangan video fayl boʻlsa —
+ * u saqlanib qoladi (yoʻqolib ketmasin), lekin yangisini yuklab boʻlmaydi; xohlansa olib tashlanadi.
  */
 export const LegacyVideoNotice = ({ value, onChange }: { value: UploadedFile | null; onChange: (v: UploadedFile | null) => void }) =>
   value ? (
@@ -40,7 +40,7 @@ export const LegacyVideoNotice = ({ value, onChange }: { value: UploadedFile | n
     </div>
   ) : null;
 
-/** Muqova rasmi — kutubxona kartochkasi va manba sahifasi tepasida ko'rinadi */
+/** Muqova rasmi — kutubxona kartochkasi va manba sahifasi tepasida koʻrinadi */
 export const CoverUpload = ({ value, onChange }: { value: UploadedFile | null; onChange: (v: UploadedFile | null) => void }) => {
   const { upload, pending } = useUploader();
   const pick = ({ file }: { file: unknown }) => void upload(file as File).then((f) => f && onChange(f));
@@ -77,7 +77,7 @@ export const CoverUpload = ({ value, onChange }: { value: UploadedFile | null; o
 
 /**
  * Bitta fayl (taqdimot, video, ma'ruza fayli, test fayli): tashlash yoki tanlash, almashtirish va olib tashlash.
- * `preview` — yuklangan fayl nomi ostida sahifaning o'zida ochiladi (nima yuklanganini ko'rish uchun).
+ * `preview` — yuklangan fayl nomi ostida sahifaning oʻzida ochiladi (nima yuklanganini koʻrish uchun).
  */
 export const SingleFileUpload = ({
   value,
@@ -117,7 +117,7 @@ export const SingleFileUpload = ({
             />
           </span>
         </div>
-        {/* key — fayl almashtirilsa ko'rinish yangidan yuklanadi */}
+        {/* key — fayl almashtirilsa koʻrinish yangidan yuklanadi */}
         {preview && <MaterialViewer key={value.id} files={[value]} />}
       </div>
     );

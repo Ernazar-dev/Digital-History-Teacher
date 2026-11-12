@@ -31,7 +31,7 @@ export const catalogService = {
 export const sourcesService = {
   list: (f: SourceFilters) => getPage<SourceListItem>('/sources', cleanParams({ ...f })),
   get: (idOrSlug: string) => getData<Source>(`/sources/${idOrSlug}`),
-  /** Tahrirlash uchun: interfeys tilidan qat'i nazar asosiy (o'zbekcha) yozuv — tarjima ustiga yozilib ketmasligi uchun */
+  /** Tahrirlash uchun: interfeys tilidan qat'i nazar asosiy (oʻzbekcha) yozuv — tarjima ustiga yozilib ketmasligi uchun */
   getBase: (idOrSlug: string) => getData<Source>(`/sources/${idOrSlug}`, undefined, { 'X-Lang': 'uz' }),
   translations: (id: string) => getData<SourceTranslation[]>(`/sources/${id}/translations`),
   saveTranslation: (id: string, locale: 'ru' | 'en', body: SourceTranslationInput) =>

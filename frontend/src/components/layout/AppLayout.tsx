@@ -16,7 +16,7 @@ const SIDER_WIDTH = 272;
 const toItem = (i: NavItem): NonNullable<MenuProps['items']>[number] =>
   ({ key: i.key, icon: i.icon, label: i.children ? i.label : <Link to={i.key}>{i.label}</Link>, children: i.children?.map(toItem) });
 
-/** Bir xil `section`dagi ketma-ket bandlar sarlavhali guruhga jamlanadi */
+/** Bir xil `sectionʼdagi ketma-ket bandlar sarlavhali guruhga jamlanadi */
 const toMenu = (items: NavItem[]): MenuProps['items'] => {
   const out: NonNullable<MenuProps['items']> = [];
   items.forEach((i) => {
@@ -31,7 +31,7 @@ const toMenu = (items: NavItem[]): MenuProps['items'] => {
 /** Eng uzun mos keluvchi menyu kalitini tanlaydi */
 const activeKey = (path: string, items: NavItem[]): string => {
   const keys = items.flatMap((i) => (i.children ? i.children.map((c) => c.key) : [i.key]));
-  // «Bosh sahifa» (/app) faqat aynan o'zida faol — aks holda menyuda yo'q har qanday sahifada noto'g'ri belgilanadi
+  // «Bosh sahifa» (/app) faqat aynan oʻzida faol — aks holda menyuda yoʻq har qanday sahifada notoʻg'ri belgilanadi
   return keys.filter((k) => path === k || (k !== '/app' && path.startsWith(`${k}/`))).sort((a, b) => b.length - a.length)[0] ?? '';
 };
 
@@ -92,7 +92,7 @@ export const AppLayout = () => {
           />
           <div className="ml-auto flex items-center gap-3">
             <LanguageSwitcher />
-            {/* Ochiq saytni yangi tabda ko'rish — qo'shilgan/o'zgartirilgan narsalarni tekshirish uchun */}
+            {/* Ochiq saytni yangi tabda koʻrish — qoʻshilgan/oʻzgartirilgan narsalarni tekshirish uchun */}
             <Tooltip title={isMobile ? i18n.t('staffNav.viewSite') : undefined}>
               <a
                 href="/"

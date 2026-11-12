@@ -67,12 +67,12 @@ export const toPayload = (v: LessonFormValues) => ({
 });
 
 /**
- * Interaktiv metodlar ro'yxati — talaba o'zi tanlaydi yoki yangisini yozadi.
- * Bazada saqlanadigan qiymat o'zbekcha qoladi; ko'rinadigan nomi joriy tilda (lesson.methodLabels, bir xil tartibda).
+ * Interaktiv metodlar roʻyxati — talaba oʻzi tanlaydi yoki yangisini yozadi.
+ * Bazada saqlanadigan qiymat oʻzbekcha qoladi; koʻrinadigan nomi joriy tilda (lesson.methodLabels, bir xil tartibda).
  */
 const METHOD_VALUES = [
   'Guruhli ish', 'Juftlikda ishlash', 'Muammoli vaziyat', 'Aqliy hujum', 'Klaster', 'Insert', 'Venn diagrammasi',
-  'Kuzatuv varag‘i', 'Manba bilan ishlash', 'Rolli o‘yin', 'Munozara', 'Virtual sayohat', 'Xronologik lenta', 'Keys-stadi',
+  'Kuzatuv varagʻi', 'Manba bilan ishlash', 'Rolli oʻyin', 'Munozara', 'Virtual sayohat', 'Xronologik lenta', 'Keys-stadi',
 ];
 export const METHOD_OPTIONS = METHOD_VALUES.map((value, i) => ({
   value,
@@ -82,7 +82,7 @@ export const METHOD_OPTIONS = METHOD_VALUES.map((value, i) => ({
   },
 }));
 
-/** Kurs yorlig'i; avvalgi yozuvlardagi boshqa qiymatlar o'zgarishsiz ko'rsatiladi */
+/** Kurs yorligʻi; avvalgi yozuvlardagi boshqa qiymatlar oʻzgarishsiz koʻrsatiladi */
 export const courseLabel = (g: string) => (['1', '2', '3', '4'].includes(g) ? i18n.t('lesson.course', { g }) : g);
 
 /** Oliy ta'lim: bakalavriat 1–4 kurslari */

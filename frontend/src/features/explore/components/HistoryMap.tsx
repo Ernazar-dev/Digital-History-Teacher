@@ -9,7 +9,7 @@ import { featureKey, featureLink, featureType } from '../mapFeature';
 
 const escapeAttr = (s: string) => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
 
-/** Marker: obyekt — o'z rasmi bilan dumaloq, manba — rangli nuqta; tanlangani kattalashib, to'lqin chiqaradi */
+/** Marker: obyekt — oʻz rasmi bilan dumaloq, manba — rangli nuqta; tanlangani kattalashib, toʻlqin chiqaradi */
 const pinIcon = (f: MapFeature, selected: boolean) =>
   L.divIcon({
     className: '',
@@ -21,7 +21,7 @@ const pinIcon = (f: MapFeature, selected: boolean) =>
     }</div>`,
   });
 
-/** Ma'lumot o'zgarganda barcha nuqtalarga moslashadi; tanlangan joyga silliq uchadi */
+/** Ma'lumot oʻzgarganda barcha nuqtalarga moslashadi; tanlangan joyga silliq uchadi */
 const MapController = ({ features, selected }: { features: MapFeature[]; selected?: MapFeature }) => {
   const map = useMap();
   useEffect(() => {

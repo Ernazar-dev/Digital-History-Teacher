@@ -25,7 +25,7 @@ export const adminService = {
   },
 };
 
-/** Profil sahifasidagi elektron portfolio fayli (talaba o'zi yuklaydi) */
+/** Profil sahifasidagi elektron portfolio fayli (talaba oʻzi yuklaydi) */
 export interface PortfolioFile {
   id: string; title: string; createdAt: string;
   file: { id: string; originalName: string; mimeType: string; size: number } | null;

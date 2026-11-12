@@ -4,7 +4,7 @@ import LoginPage from '@/features/auth/pages/LoginPage';
 import { renderWithProviders } from './utils';
 
 describe('Kirish formasi validatsiyasi', () => {
-  it('bo‘sh va noto‘g‘ri maydonlar uchun xato ko‘rsatadi', async () => {
+  it('boʻsh va notoʻgʼri maydonlar uchun xato koʻrsatadi', async () => {
     renderWithProviders(<LoginPage />, { route: '/login-form' });
     fireEvent.click(screen.getByRole('button', { name: /Kirish/ }));
     await waitFor(() => expect(screen.getByText('Loginni kiriting')).toBeInTheDocument());

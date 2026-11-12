@@ -6,7 +6,7 @@ import i18n from '@/i18n';
 const MAX_MATCHES = 1000;
 const MIN_LENGTH = 2;
 
-/** Apostrof ko'rinishlari bir xil sanaladi (' ‘ ’ ʻ ʼ ` ´ ′) — birma-bir almashadi, matn o'rinlari saqlanadi */
+/** Apostrof koʻrinishlari bir xil sanaladi (' ‘ ’ ʻ ʼ ` ´ ′) — birma-bir almashadi, matn oʻrinlari saqlanadi */
 const fold = (text: string) => text.replace(/[‘’ʻʼ`´′]/g, "'");
 
 const escapeRe = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -15,7 +15,7 @@ type Highlights = { set: (name: string, h: unknown) => void; delete: (name: stri
 const registry = (): Highlights | null => (typeof CSS !== 'undefined' && 'highlights' in CSS ? (CSS as unknown as { highlights: Highlights }).highlights : null);
 const makeHighlight = (ranges: Range[]) => new (window as unknown as { Highlight: new (...r: Range[]) => unknown }).Highlight(...ranges);
 
-/** Ildiz ichidagi barcha matn tugunlari birlashtirib qidiriladi — qalin/kursiv bilan bo'lingan so'zlar ham topiladi */
+/** Ildiz ichidagi barcha matn tugunlari birlashtirib qidiriladi — qalin/kursiv bilan boʻlingan soʻzlar ham topiladi */
 const findRanges = (root: HTMLElement, query: string): Range[] => {
   const nodes: { node: Text; start: number }[] = [];
   let text = '';
@@ -29,7 +29,7 @@ const findRanges = (root: HTMLElement, query: string): Range[] => {
   if (!nodes.length) return [];
   const re = new RegExp(fold(query).trim().split(/\s+/).map(escapeRe).join('\\s+'), 'giu');
 
-  /** pos qaysi tugunga to'g'ri keladi; chegarada boshlanish keyingi tugundan, tugash oldingi tugundan olinadi */
+  /** pos qaysi tugunga toʻg'ri keladi; chegarada boshlanish keyingi tugundan, tugash oldingi tugundan olinadi */
   const locate = (pos: number, atEnd: boolean) => {
     const found = nodes.find((n) => (atEnd ? pos > n.start && pos <= n.start + n.node.length : pos >= n.start && pos < n.start + n.node.length));
     const n = found ?? nodes[nodes.length - 1];
@@ -53,8 +53,8 @@ const findRanges = (root: HTMLElement, query: string): Range[] => {
 };
 
 /**
- * Sahifadagi matn ichidan qidirish: topilgan joylar ajratib ko'rsatiladi, «keyingi/oldingi» tugmalari va Enter bilan
- * o'tiladi. DOM o'zgartirilmaydi (CSS Custom Highlight API) — React va Word ko'ruvchisi buzilmaydi.
+ * Sahifadagi matn ichidan qidirish: topilgan joylar ajratib koʻrsatiladi, «keyingi/oldingi» tugmalari va Enter bilan
+ * oʻtiladi. DOM oʻzgartirilmaydi (CSS Custom Highlight API) — React va Word koʻruvchisi buzilmaydi.
  */
 export const DocSearch = ({ rootRef, ready, initial = '' }: { rootRef: RefObject<HTMLElement | null>; ready: boolean; initial?: string }) => {
   const [value, setValue] = useState(initial);
@@ -62,7 +62,7 @@ export const DocSearch = ({ rootRef, ready, initial = '' }: { rootRef: RefObject
   const [ranges, setRanges] = useState<Range[]>([]);
   const [index, setIndex] = useState(0);
 
-  // So'rov yozib bo'lingach (kechikish bilan) qidiriladi
+  // Soʻrov yozib boʻlingach (kechikish bilan) qidiriladi
   useEffect(() => {
     const t = window.setTimeout(() => setQuery(value.trim()), 250);
     return () => window.clearTimeout(t);
@@ -90,7 +90,7 @@ export const DocSearch = ({ rootRef, ready, initial = '' }: { rootRef: RefObject
     if (!current) return;
     current.startContainer.parentElement?.scrollIntoView({ block: 'center', behavior: 'smooth' });
     if (!hl) {
-      // Eski brauzerlar: topilgan joy oddiy tanlov sifatida ko'rsatiladi
+      // Eski brauzerlar: topilgan joy oddiy tanlov sifatida koʻrsatiladi
       const sel = window.getSelection();
       sel?.removeAllRanges();
       sel?.addRange(current);

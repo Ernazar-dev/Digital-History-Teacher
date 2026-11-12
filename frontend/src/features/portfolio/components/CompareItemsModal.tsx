@@ -35,7 +35,7 @@ const Column = ({ label, item, detail }: { label: string; item: PortfolioItem; d
   </div>
 );
 
-/** Hujjat, 7-modul: «talaba o'zining avvalgi va keyingi ishlarini taqqoslashi mumkin» */
+/** Hujjat, 7-modul: «talaba oʻzining avvalgi va keyingi ishlarini taqqoslashi mumkin» */
 export const CompareItemsModal = ({ items, open, onClose }: { items: PortfolioItem[]; open: boolean; onClose: () => void }) => {
   const ordered = [...items].sort((a, b) => a.createdAt.localeCompare(b.createdAt));
   const results = useQueries({ queries: ordered.map((i) => ({ queryKey: ['portfolio-item', i.id], queryFn: () => portfolioService.item(i.id), enabled: open })) });

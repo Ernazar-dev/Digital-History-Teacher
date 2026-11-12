@@ -15,7 +15,7 @@ import { AnswerSheet, OPTIONS } from '../components/AnswerSheet';
 
 const MAX = 200;
 
-/** «ABCD…» yoki «1A 2C …» ko'rinishidagi matndan kalit: faqat A–D harflari olinadi */
+/** «ABCD…» yoki «1A 2C …» koʻrinishidagi matndan kalit: faqat A–D harflari olinadi */
 const parseKey = (text: string): TestOption[] =>
   [...text.toUpperCase().replace(/\d+[.)]?/g, ' ')].filter((c): c is TestOption => (OPTIONS as string[]).includes(c));
 

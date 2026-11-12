@@ -12,7 +12,7 @@ export class ErrorBoundary extends Component<{ children: ReactNode; compact?: bo
     return { error };
   }
 
-  /** resetKey o'zgarsa xato holati tozalanadi (boundary qayta mount qilinmaydi — Suspense eski sahifani ushlab turadi) */
+  /** resetKey oʻzgarsa xato holati tozalanadi (boundary qayta mount qilinmaydi — Suspense eski sahifani ushlab turadi) */
   componentDidUpdate(prev: { resetKey?: string }) {
     if (this.state.error && prev.resetKey !== this.props.resetKey) this.setState({ error: null });
   }

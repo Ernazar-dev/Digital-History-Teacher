@@ -10,7 +10,7 @@ const opens = (path: string) => {
   return Boolean(m && m[m.length - 1].route.path !== '*');
 };
 
-/** Har bir sahifa yo'li — :param o'rniga namunaviy qiymat */
+/** Har bir sahifa yoʻli — :param oʻrniga namunaviy qiymat */
 const samplePaths = appRoutes
   .map((r) => r.path)
   .filter((p): p is string => Boolean(p) && p !== '*')
@@ -28,7 +28,7 @@ describe('Breadcrumb', () => {
     }
   });
 
-  it('manbani tahrirlash: «Manbalar» ro‘yxatga, «Batafsil» mavzu sahifasiga olib boradi', () => {
+  it('manbani tahrirlash: «Manbalar» roʻyxatga, «Batafsil» mavzu sahifasiga olib boradi', () => {
     const items = breadcrumbItems('/app/admin/sources/abc/edit');
     const links = items.map(({ title }) => (isValidElement(title) ? (title as ReactElement<{ to: string }>).props.to : null));
     expect(links).toEqual(['/app', null, '/app/sources', '/app/sources/abc', null]);

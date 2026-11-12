@@ -23,7 +23,7 @@ const SECTIONS = [
   { id: 'tartib', key: 'secSteps' },
 ];
 
-/** Bitta metod: maqsad, amaliy misol, bajarish tartibi (bosqichlar) va platformada qo'llash */
+/** Bitta metod: maqsad, amaliy misol, bajarish tartibi (bosqichlar) va platformada qoʻllash */
 export default function MethodPage() {
   const { slug } = useParams();
   const i = METHODS.findIndex((m) => m.slug === slug);

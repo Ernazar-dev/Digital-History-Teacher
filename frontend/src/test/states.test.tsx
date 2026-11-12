@@ -9,12 +9,12 @@ const base = { isLoading: false, isError: false, error: null, data: undefined as
 describe('Loading / error / empty holatlari', () => {
   it('xato holatida tushunarli xabar va qayta urinish tugmasi', () => {
     render(<QueryState query={{ ...base, isError: true, error: new Error('Tarmoq xatosi') }}>{() => <div>OK</div>}</QueryState>);
-    expect(screen.getByText('Ma’lumotlarni yuklab bo‘lmadi')).toBeInTheDocument();
+    expect(screen.getByText('Maʼlumotlarni yuklab boʻlmadi')).toBeInTheDocument();
     expect(screen.getByText('Tarmoq xatosi')).toBeInTheDocument();
     expect(screen.getByText('Qayta urinish')).toBeInTheDocument();
   });
 
-  it('bo‘sh holat yo‘naltiruvchi matn bilan', () => {
+  it('boʻsh holat yoʻnaltiruvchi matn bilan', () => {
     render(<QueryState query={{ ...base, data: [] }} isEmpty={(d) => d.length === 0} empty="Manba topilmadi">{() => <div>OK</div>}</QueryState>);
     expect(screen.getByText('Manba topilmadi')).toBeInTheDocument();
   });
@@ -25,8 +25,8 @@ describe('Loading / error / empty holatlari', () => {
   });
 });
 
-describe('Dars ishlanmasi to‘liqlik tekshiruvi', () => {
-  it('bo‘sh ishlanma topshirishga tayyor emas', () => {
+describe('Dars ishlanmasi toʻliqlik tekshiruvi', () => {
+  it('boʻsh ishlanma topshirishga tayyor emas', () => {
     expect(checklist(EMPTY_LESSON).every((i) => i.ok)).toBe(false);
   });
   it('vaqt taqsimoti oshib ketsa ogohlantiradi', () => {

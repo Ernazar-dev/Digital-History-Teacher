@@ -7,7 +7,7 @@ import { breadcrumbItems } from './breadcrumbs';
 import { SiteFooter } from './SiteFooter';
 import { TopNavbar } from './TopNavbar';
 
-/** Talaba va mehmon uchun platforma layouti — landing bilan bir xil yuqori navbar (sidebar faqat o'qituvchi/administrator uchun) */
+/** Talaba va mehmon uchun platforma layouti — landing bilan bir xil yuqori navbar (sidebar faqat oʻqituvchi/administrator uchun) */
 export const StudentLayout = () => {
   const location = useLocation();
 

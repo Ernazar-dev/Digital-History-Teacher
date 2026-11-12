@@ -17,10 +17,10 @@ const WIDE_QUERY = '(min-width: 1420px)';
 const initials = (name?: string) =>
   (name ?? '').split(/\s+/).filter(Boolean).slice(0, 2).map((p) => p.charAt(0).toUpperCase()).join('') || '?';
 
-/** «Bosh sahifa» kabinet emas, landing'ga olib boradi */
+/** «Bosh sahifa» kabinet emas, landingʻga olib boradi */
 const withHome = (i: TopNavItem): TopNavItem => (i.to === '/app' ? { ...i, to: HOME } : i);
 
-/** Eng uzun mos keluvchi yo'l faol hisoblanadi; bosh sahifa — faqat aynan o'zida */
+/** Eng uzun mos keluvchi yoʻl faol hisoblanadi; bosh sahifa — faqat aynan oʻzida */
 const activePath = (path: string) =>
   TOP_NAV_ITEMS.map((i) => withHome(i).to)
     .filter((k) => path === k || (k !== HOME && path.startsWith(`${k}/`)))
@@ -28,7 +28,7 @@ const activePath = (path: string) =>
 
 /**
  * Yagona yuqori navbar — landing, ochiq sahifalar va talaba kabineti uchun bir xil.
- * Bir xil yo'nalishdagi bo'limlar pastga ochiladigan guruhlarga jamlangan.
+ * Bir xil yoʻnalishdagi boʻlimlar pastga ochiladigan guruhlarga jamlangan.
  */
 export const TopNavbar = () => {
   const { t } = useTranslation();
@@ -40,10 +40,10 @@ export const TopNavbar = () => {
   const [drawer, setDrawer] = useState(false);
   const [openGroup, setOpenGroup] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
-  // Navbar sig‘adigan eng tor kenglik: undan tor ekranda menyu «burger» tugmasiga o‘tadi (logotip va til tugmasiga tegib ketmasin)
+  // Navbar sigʻadigan eng tor kenglik: undan tor ekranda menyu «burger» tugmasiga oʻtadi (logotip va til tugmasiga tegib ketmasin)
   const [wide, setWide] = useState(() => window.matchMedia(WIDE_QUERY).matches);
   const active = activePath(pathname);
-  // Kirish/ro'yxatdan so'ng shu sahifaga qaytish — faqat platforma sahifalaridan
+  // Kirish/roʻyxatdan soʻng shu sahifaga qaytish — faqat platforma sahifalaridan
   const next = pathname.startsWith('/app') ? `?next=${encodeURIComponent(pathname)}` : '';
 
   useEffect(() => {
@@ -137,7 +137,7 @@ export const TopNavbar = () => {
         items: [
           { key: 'who', label: <div className="py-1"><div className="font-medium">{user.fullName}</div><div className="text-xs text-muted">{ROLE[user.role]}</div></div>, disabled: true },
           { type: 'divider' },
-          // Xodim uchun — «Saytni ko'rish» rejimidan chiqib, boshqaruv paneliga qaytish
+          // Xodim uchun — «Saytni koʻrish» rejimidan chiqib, boshqaruv paneliga qaytish
           { key: 'cabinet', icon: <HomeOutlined />, label: <Link to="/app" onClick={() => setSiteView(false)}>{staff ? t('account.dashboard') : t('account.cabinet')}</Link> },
           { key: 'profile', icon: <UserOutlined />, label: <Link to="/app/profile">{t('account.profile')}</Link> },
           { type: 'divider' },

@@ -1,9 +1,9 @@
 import { create } from 'zustand';
 
 /**
- * «Saytni ko'rish» rejimi — o'qituvchi/administrator ochiq saytga o'tgach, platformani talaba ko'zi bilan ko'radi
+ * «Saytni koʻrish» rejimi — oʻqituvchi/administrator ochiq saytga oʻtgach, platformani talaba koʻzi bilan koʻradi
  * (sidebarli boshqaruv paneli emas, yuqori navbar). Rejim faqat shu tabga tegishli (sessionStorage):
- * boshqaruv panelidagi asl tab o'zgarmaydi. Panelga qaytish — profil menyusidagi «Boshqaruv paneli» orqali.
+ * boshqaruv panelidagi asl tab oʻzgarmaydi. Panelga qaytish — profil menyusidagi «Boshqaruv paneli» orqali.
  */
 const KEY = 'dht_site_view';
 

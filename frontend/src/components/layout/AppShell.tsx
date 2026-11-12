@@ -5,8 +5,8 @@ import { AppLayout } from './AppLayout';
 import { StudentLayout } from './StudentLayout';
 
 /**
- * O'qituvchi/administrator — sidebarli boshqaruv paneli; talaba va mehmon — yuqori navbarli platforma.
- * Xodim ochiq saytga o'tgan bo'lsa («Saytni ko'rish» rejimi), platforma ham talaba ko'rinishida ochiladi.
+ * Oʻqituvchi/administrator — sidebarli boshqaruv paneli; talaba va mehmon — yuqori navbarli platforma.
+ * Xodim ochiq saytga oʻtgan boʻlsa («Saytni koʻrish» rejimi), platforma ham talaba koʻrinishida ochiladi.
  */
 export const AppShell = () => {
   const user = useAuthStore((s) => s.user);

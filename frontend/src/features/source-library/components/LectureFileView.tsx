@@ -8,7 +8,7 @@ import { fileKind, mediaFileUrl } from '../files';
 import { DocSearch } from './DocSearch';
 import { FileBadge } from './MaterialViewer';
 
-/** Shrift o'lchamlari (rem) — tanlov brauzerda eslab qolinadi */
+/** Shrift oʻlchamlari (rem) — tanlov brauzerda eslab qolinadi */
 const SIZES = [0.9375, 1.0625, 1.1875, 1.3125];
 const SIZE_KEY = 'dht.lecture.size';
 const readSize = () => {
@@ -29,7 +29,7 @@ const loadBuffer = async (id: string) => {
 };
 
 /**
- * Word hujjatini qog'oz sahifalari ko'rinishida emas, ekranga moslashadigan oqma matn qilib chizadi:
+ * Word hujjatini qogʻoz sahifalari koʻrinishida emas, ekranga moslashadigan oqma matn qilib chizadi:
  * sayt shrifti, qulay qator uzunligi, sahifa hoshiyalarisiz. Sarlavhalardan «Reja» tuziladi.
  */
 const DocxReader = ({ file, size, onHeadings }: { file: MediaFileRef; size: number; onHeadings: (h: Heading[]) => void }) => {
@@ -55,7 +55,7 @@ const DocxReader = ({ file, size, onHeadings }: { file: MediaFileRef; size: numb
         renderFootnotes: true,
       });
       sanitizeDom(el);
-      // Matn boshidagi ortiqcha bo'sh joy (bo'sh abzatslar, sahifa uzilishi, tepadan katta masofa) olib tashlanadi — hamma fayllar uchun
+      // Matn boshidagi ortiqcha boʻsh joy (boʻsh abzatslar, sahifa uzilishi, tepadan katta masofa) olib tashlanadi — hamma fayllar uchun
       for (const p of Array.from(el.querySelectorAll('p'))) {
         if (p.textContent?.trim() || p.querySelector('img,svg,table')) {
           p.style.marginTop = '0';
@@ -65,7 +65,7 @@ const DocxReader = ({ file, size, onHeadings }: { file: MediaFileRef; size: numb
         p.remove();
       }
       el.querySelectorAll('br[style*="page-break"]').forEach((br) => br.remove());
-      // Word sahifasining tepa/past hoshiyasi (≈2 sm) ekranda bo'sh joy bo'lib qolmasin
+      // Word sahifasining tepa/past hoshiyasi (≈2 sm) ekranda boʻsh joy boʻlib qolmasin
       el.querySelectorAll<HTMLElement>('section.docx').forEach((sec) => {
         sec.style.paddingTop = '0';
         sec.style.paddingBottom = '0';
@@ -101,7 +101,7 @@ const DocxReader = ({ file, size, onHeadings }: { file: MediaFileRef; size: numb
   );
 };
 
-/** PDF brauzerning o'z ko'ruvchisida — ekran balandligiga moslab */
+/** PDF brauzerning oʻz koʻruvchisida — ekran balandligiga moslab */
 const PdfReader = ({ file }: { file: MediaFileRef }) => {
   const [src, setSrc] = useState<string | null>(null);
   const [failed, setFailed] = useState(false);
@@ -124,8 +124,8 @@ const PdfReader = ({ file }: { file: MediaFileRef }) => {
   return <iframe title={file.originalName} src={src} className="block h-[calc(100vh-11rem)] min-h-[520px] w-full rounded-xl border border-solid border-line bg-white" />;
 };
 
-/** Ma'ruza fayli: tepada qisqa panel (fayl, shrift, yuklab olish), chapda reja, o'ngda o'qiladigan matn */
-/** `initialQuery` — ro'yxatdagi qidiruvdan kelgan so'z: Word hujjat ochilgach shu so'z darhol topiladi */
+/** Ma'ruza fayli: tepada qisqa panel (fayl, shrift, yuklab olish), chapda reja, oʻngda oʻqiladigan matn */
+/** `initialQuery` — roʻyxatdagi qidiruvdan kelgan soʻz: Word hujjat ochilgach shu soʻz darhol topiladi */
 export const LectureFileView = ({ file, initialQuery = '' }: { file: MediaFileRef; initialQuery?: string }) => {
   const isDocx = fileKind(file) === 'docx';
   const [size, setSize] = useState(readSize);
@@ -150,7 +150,7 @@ export const LectureFileView = ({ file, initialQuery = '' }: { file: MediaFileRe
     }
   };
 
-  // O'qish progressi va joriy bo'lim
+  // Oʻqish progressi va joriy boʻlim
   useEffect(() => {
     if (!isDocx) return undefined;
     const onScroll = () => {

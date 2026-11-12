@@ -6,7 +6,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useAuthStore } from '@/features/auth/auth.store';
 import { useLoginPrompt } from '@/features/auth/loginPrompt.store';
 
-/** Kirish/ro'yxatdan so'ng shu sahifaga qaytish uchun ?next= */
+/** Kirish/roʻyxatdan soʻng shu sahifaga qaytish uchun ?next= */
 const useNext = () => {
   const { pathname, search } = useLocation();
   return `?next=${encodeURIComponent(pathname + search)}`;
@@ -42,7 +42,7 @@ export const LoginPromptModal = () => {
   );
 };
 
-/** Faqat ro'yxatdan o'tganlar uchun bo'lim — mehmonga sahifa o'rnida ko'rsatiladi */
+/** Faqat roʻyxatdan oʻtganlar uchun boʻlim — mehmonga sahifa oʻrnida koʻrsatiladi */
 export const GuestGate = ({ title }: { title?: string }) => {
   const { t } = useTranslation();
   return (

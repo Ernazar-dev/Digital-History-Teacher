@@ -11,7 +11,7 @@ const STORAGE_KEY = 'dht.lang';
 
 export const isLang = (v: unknown): v is Lang => typeof v === 'string' && (LANGS as readonly string[]).includes(v);
 
-/** Saqlangan til; bo'lmasa — o'zbekcha (brauzer tiliga qaramaymiz: platforma asosan o'zbek auditoriyasi uchun) */
+/** Saqlangan til; boʻlmasa — oʻzbekcha (brauzer tiliga qaramaymiz: platforma asosan oʻzbek auditoriyasi uchun) */
 const initialLang = (): Lang => {
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
@@ -30,14 +30,14 @@ void i18n.use(initReactI18next).init({
   returnNull: false,
 });
 
-/** So'rovlar sarlavhasi va sahifa <html lang> uchun joriy til */
+/** Soʻrovlar sarlavhasi va sahifa <html lang> uchun joriy til */
 export const currentLang = (): Lang => (isLang(i18n.language) ? i18n.language : DEFAULT_LANG);
 
 export const setLang = (lang: Lang) => {
   try {
     localStorage.setItem(STORAGE_KEY, lang);
   } catch {
-    /* saqlab bo'lmasa ham til joriy sessiyada almashadi */
+    /* saqlab boʻlmasa ham til joriy sessiyada almashadi */
   }
   void i18n.changeLanguage(lang);
 };

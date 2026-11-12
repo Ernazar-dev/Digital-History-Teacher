@@ -17,7 +17,7 @@ const resetSchema = z.object({ token: z.string().min(20, 'validation.tokenRequir
 
 /**
  * Parolni tiklash (2 bosqich, bitta ixcham oynada). Email yuborish servisi ulanmagan:
- * development rejimida token javobda qaytadi va avtomatik qo'yiladi; productionda administrator parolni qayta o'rnatadi.
+ * development rejimida token javobda qaytadi va avtomatik qoʻyiladi; productionda administrator parolni qayta oʻrnatadi.
  */
 export default function ForgotPasswordPage() {
   const { t } = useTranslation();

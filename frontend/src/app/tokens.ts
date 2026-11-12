@@ -1,14 +1,14 @@
 /**
  * Dizayn tokenlari — YAGONA manba. Ant Design temasi va Tailwind konfiguratsiyasi
- * shu qiymatlardan foydalanadi (rang/radius/shrift bir joyda o'zgartiriladi).
+ * shu qiymatlardan foydalanadi (rang/radius/shrift bir joyda oʻzgartiriladi).
  * Konsepsiya: "tungi muzey" — chuqur lojuvard (lapis) + oltin + fil suyagi fon.
  */
 export const tokens = {
   color: {
-    primary: '#1b3768', // lojuvard ko'k
+    primary: '#1b3768', // lojuvard koʻk
     primaryHover: '#284b8a',
     primarySoft: '#e9eef8',
-    midnight: '#0b1530', // eng to'q fon (sidebar, hero)
+    midnight: '#0b1530', // eng toʻq fon (sidebar, hero)
     midnightSoft: '#13224a',
     accent: '#c29a45', // oltin aksent
     accentLight: '#e6c77c',

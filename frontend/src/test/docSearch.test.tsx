@@ -9,7 +9,7 @@ const Harness = ({ initial }: { initial?: string }) => {
     <div>
       <DocSearch rootRef={ref} ready initial={initial} />
       <div ref={ref} data-testid="doc">
-        <p>O‘zbekiston tarixi. <b>Amir</b> Temur davlati — Temuriylar.</p>
+        <p>Oʻzbekiston tarixi. <b>Amir</b> Temur davlati — Temuriylar.</p>
         <p>Oʻzbek xalqi va amir temur haqida.</p>
       </div>
     </div>
@@ -22,16 +22,16 @@ beforeAll(() => {
 
 const type = (v: string) => fireEvent.change(screen.getByLabelText('Matn ichidan qidirish'), { target: { value: v } });
 
-describe('Ma’ruza matni ichidan qidirish', () => {
-  it('so‘z sonini ko‘rsatadi; qalin matn va katta-kichik harf, apostrof ko‘rinishlariga e’tibor bermaydi', async () => {
+describe('Maʼruza matni ichidan qidirish', () => {
+  it('soʻz sonini koʻrsatadi; qalin matn va katta-kichik harf, apostrof koʻrinishlariga eʼtibor bermaydi', async () => {
     render(<Harness />);
     type('amir temur');
     expect(await screen.findByText('1 / 2')).toBeInTheDocument();
-    type("o'zbek");
+    type("oʻzbek");
     expect(await screen.findByText('1 / 2')).toBeInTheDocument();
   });
 
-  it('topilmasa «topilmadi», bir harfli so‘rovda qidirilmaydi; Enter keyingisiga o‘tadi', async () => {
+  it('topilmasa «topilmadi», bir harfli soʻrovda qidirilmaydi; Enter keyingisiga oʻtadi', async () => {
     render(<Harness />);
     type('mavjud emas');
     expect(await screen.findByText('topilmadi')).toBeInTheDocument();
@@ -43,7 +43,7 @@ describe('Ma’ruza matni ichidan qidirish', () => {
     expect(await screen.findByText('2 / 3')).toBeInTheDocument();
   });
 
-  it('havoladan kelgan boshlang‘ich so‘z darhol qidiriladi', async () => {
+  it('havoladan kelgan boshlangʻich soʻz darhol qidiriladi', async () => {
     render(<Harness initial="temuriylar" />);
     expect(await screen.findByText('1 / 1')).toBeInTheDocument();
   });

@@ -3,7 +3,7 @@ import { useEffect, useRef, useState, type CSSProperties, type ElementType, type
 const prefersReducedMotion = () =>
   typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
 
-/** Element ko'rinish maydoniga kirganini kuzatadi (bir marta) */
+/** Element koʻrinish maydoniga kirganini kuzatadi (bir marta) */
 export const useInView = <T extends Element>(threshold = 0.15) => {
   const ref = useRef<T>(null);
   const [inView, setInView] = useState(false);
@@ -28,7 +28,7 @@ export const useInView = <T extends Element>(threshold = 0.15) => {
   return { ref, inView };
 };
 
-/** Scroll qilinganda yumshoq paydo bo'luvchi blok */
+/** Scroll qilinganda yumshoq paydo boʻluvchi blok */
 export const Reveal = ({
   children, delay = 0, className = '', as: Tag = 'div',
 }: { children: ReactNode; delay?: number; className?: string; as?: ElementType }) => {
@@ -40,7 +40,7 @@ export const Reveal = ({
   );
 };
 
-/** Sarlavhani so'zma-so'z ko'taradi */
+/** Sarlavhani soʻzma-soʻz koʻtaradi */
 export const SplitWords = ({ text, delay = 0, step = 70, className = '' }: { text: string; delay?: number; step?: number; className?: string }) => (
   <span className={className} aria-label={text}>
     {text.split(' ').map((w, i) => (
@@ -52,7 +52,7 @@ export const SplitWords = ({ text, delay = 0, step = 70, className = '' }: { tex
   </span>
 );
 
-/** Raqamni 0 dan qiymatgacha sanab chiqadi (ko'ringanda) */
+/** Raqamni 0 dan qiymatgacha sanab chiqadi (koʻringanda) */
 export const CountUp = ({ value, duration = 1400, className = '' }: { value: number; duration?: number; className?: string }) => {
   const { ref, inView } = useInView<HTMLSpanElement>(0.3);
   const [n, setN] = useState(0);
@@ -75,7 +75,7 @@ export const CountUp = ({ value, duration = 1400, className = '' }: { value: num
   return <span ref={ref} className={className}>{n.toLocaleString('uz-UZ')}</span>;
 };
 
-/** Kursor joylashuvini CSS o'zgaruvchilariga yozadi (.spotlight effekti uchun) */
+/** Kursor joylashuvini CSS oʻzgaruvchilariga yozadi (.spotlight effekti uchun) */
 export const spotlightHandler = (e: MouseEvent<HTMLElement>) => {
   const r = e.currentTarget.getBoundingClientRect();
   e.currentTarget.style.setProperty('--mx', `${e.clientX - r.left}px`);

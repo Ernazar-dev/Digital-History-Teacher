@@ -34,7 +34,7 @@ const toPayload = (v: SourceFormValues): SourceInput => ({
   videoFileId: v.videoFile?.id ?? null,
   videoUrl: v.videoUrl || null,
   mediaFileId: v.cover?.id ?? null,
-  // Mavzu saqlanishi bilan talabalarga ko'rinadi
+  // Mavzu saqlanishi bilan talabalarga koʻrinadi
   status: 'PUBLISHED',
 });
 
@@ -56,7 +56,7 @@ export default function SourceFormPage() {
   const navigate = useNavigate();
   const notify = useNotify();
   const qc = useQueryClient();
-  // Tahrirlash doim asosiy (o'zbekcha) yozuv bilan: interfeys tili ruscha bo'lsa ham tarjima ustiga yozilib ketmaydi
+  // Tahrirlash doim asosiy (oʻzbekcha) yozuv bilan: interfeys tili ruscha boʻlsa ham tarjima ustiga yozilib ketmaydi
   const existing = useQuery({ queryKey: ['source', id, 'base'], queryFn: () => sourcesService.getBase(id!), enabled: Boolean(id) });
   const form = useForm<SourceFormValues>({ resolver: zodResolver(sourceFormSchema), defaultValues: EMPTY_SOURCE });
   const { control } = form;

@@ -28,7 +28,7 @@ interface Props {
 }
 
 /**
- * Tashqi 3D/360° kontent ko'ruvchisi. Kontent yuklanmasa yoki ruxsat etilmagan bo'lsa,
+ * Tashqi 3D/360° kontent koʻruvchisi. Kontent yuklanmasa yoki ruxsat etilmagan boʻlsa,
  * sahifa buzilmaydi: tavsif saqlanadi, preview rasm va tashqi havola taklif qilinadi.
  */
 export const EmbedViewer = ({ title, embedUrl, externalUrl, thumbnailUrl, kind = '3d', autoLoad = false, height = 520 }: Props) => {

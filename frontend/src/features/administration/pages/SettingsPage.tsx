@@ -71,7 +71,7 @@ const LogoUpload = ({ value, onChange }: { value: string; onChange: (v: string) 
   );
 };
 
-/** Saqlashdan oldin navbar va bosh sahifada qanday ko'rinishini ko'rsatadi */
+/** Saqlashdan oldin navbar va bosh sahifada qanday koʻrinishini koʻrsatadi */
 const Preview = ({ v }: { v: Partial<Values> }) => (
   <div className="overflow-hidden rounded-2xl border border-solid border-line bg-white">
     <div className="border-0 border-b border-solid border-line px-5 py-3 text-xs font-medium uppercase tracking-wider text-accent">{i18n.t('settings.preview')}</div>

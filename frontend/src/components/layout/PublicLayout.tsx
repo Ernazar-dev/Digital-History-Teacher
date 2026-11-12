@@ -14,14 +14,14 @@ export const PublicLayout = () => {
   const staff = useAuthStore((s) => s.user?.role === 'ADMIN' || s.user?.role === 'TEACHER');
   const setSiteView = useSiteViewStore((s) => s.setSiteView);
   const isLanding = location.pathname === '/';
-  // Kirish/ro'yxat/parol tiklash — forma ekran markazida, 100vh ichida
+  // Kirish/roʻyxat/parol tiklash — forma ekran markazida, 100vh ichida
   const isAuth = ['/login', '/register', '/forgot-password'].includes(location.pathname);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location.pathname]);
 
-  // Xodim ochiq saytga o'tdi — shu tabda navbar havolalari ham talaba ko'rinishida ochiladi.
+  // Xodim ochiq saytga oʻtdi — shu tabda navbar havolalari ham talaba koʻrinishida ochiladi.
   // Kirish sahifalari hisobga olinmaydi: tizimga kirgan xodim boshqaruv paneliga tushishi kerak.
   useEffect(() => {
     if (staff && !isAuth) setSiteView(true);

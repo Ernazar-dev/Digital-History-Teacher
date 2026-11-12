@@ -9,7 +9,7 @@ const baseURL = (import.meta.env.VITE_API_BASE_URL as string | undefined) || '/a
 /** Yagona axios instansi — barcha servislar shundan foydalanadi */
 export const http = axios.create({ baseURL, withCredentials: true, timeout: 30000 });
 
-/** Mehmon o'zgartiruvchi amal (POST/PUT/PATCH/DELETE) qilmoqchi bo'lganda — so'rov yuborilmaydi, "Kirish" oynasi ochiladi */
+/** Mehmon oʻzgartiruvchi amal (POST/PUT/PATCH/DELETE) qilmoqchi boʻlganda — soʻrov yuborilmaydi, "Kirish" oynasi ochiladi */
 export class AuthRequiredError extends Error {
   constructor() {
     super(i18n.t('errors.authRequired'));
@@ -20,8 +20,8 @@ export class AuthRequiredError extends Error {
 http.interceptors.request.use((config) => {
   const token = useAuthStore.getState().accessToken;
   if (token) config.headers.Authorization = `Bearer ${token}`;
-  // Server kontentni shu tilda qaytaradi (tarjima bo'lmasa — o'zbekcha)
-  // (so'rov o'zi til bergan bo'lsa — masalan, tahrirlash uchun asosiy yozuv — o'zgartirilmaydi)
+  // Server kontentni shu tilda qaytaradi (tarjima boʻlmasa — oʻzbekcha)
+  // (soʻrov oʻzi til bergan boʻlsa — masalan, tahrirlash uchun asosiy yozuv — oʻzgartirilmaydi)
   if (!config.headers['X-Lang']) config.headers['X-Lang'] = currentLang();
   const method = (config.method ?? 'get').toLowerCase();
   if (!token && method !== 'get' && !config.url?.includes('/auth/')) {
@@ -31,7 +31,7 @@ http.interceptors.request.use((config) => {
   return config;
 });
 
-/** Bir vaqtda bir nechta 401 kelganda faqat bitta refresh so'rovi yuboriladi */
+/** Bir vaqtda bir nechta 401 kelganda faqat bitta refresh soʻrovi yuboriladi */
 let refreshing: Promise<string | null> | null = null;
 
 export const refreshSession = async (): Promise<string | null> => {

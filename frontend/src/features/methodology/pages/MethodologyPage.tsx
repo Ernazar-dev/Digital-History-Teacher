@@ -52,7 +52,7 @@ const MethodCard = ({ m }: { m: Method }) => {
   );
 };
 
-/** Metodika — tarix darslarida raqamli manbalar bilan ishlash metodlari: qidiruv, yo'nalish bo'yicha saralash va kartochkalar */
+/** Metodika — tarix darslarida raqamli manbalar bilan ishlash metodlari: qidiruv, yoʻnalish boʻyicha saralash va kartochkalar */
 export default function MethodologyPage() {
   const [filters, setFilters] = useUrlState<{ q?: string; yo?: string }>();
   const cat = filters.yo && filters.yo in CATEGORIES ? (filters.yo as MethodCategory) : undefined;

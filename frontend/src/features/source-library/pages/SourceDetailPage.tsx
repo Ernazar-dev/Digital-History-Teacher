@@ -79,12 +79,12 @@ const TopicView = ({ s }: { s: Source }) => {
   const { sources: back, museum } = useAreaPath();
   const [params, setParams] = useSearchParams();
   const siteView = useSiteViewStore((st) => st.siteView);
-  // Saytni ko'rish rejimida tahrirlash/o'chirish ko'rsatilmaydi — bular boshqaruv panelida bajariladi
+  // Saytni koʻrish rejimida tahrirlash/oʻchirish koʻrsatilmaydi — bular boshqaruv panelida bajariladi
   const canEdit = !siteView && (isAdmin || (isStaff && s.createdBy?.id === user?.id));
   const editTo = canEdit ? `/app/admin/sources/${s.id}/edit` : null;
   const video = youtubeEmbedUrl(s.videoUrl);
   const pages = wordsToPages(s.lectureContent);
-  // Tarixiy kitob: bo'laklarga bo'linmaydi — kitobning o'zi (Word) birinchi qism; qolgan qismlar mavzulardagidek
+  // Tarixiy kitob: boʻlaklarga boʻlinmaydi — kitobning oʻzi (Word) birinchi qism; qolgan qismlar mavzulardagidek
   const isBook = s.pageCount > 0;
   const initialQuery = params.get('izlash') ?? '';
 
@@ -92,7 +92,7 @@ const TopicView = ({ s }: { s: Source }) => {
     { key: 'maruza', label: isBook ? t('topic.book') : t('topic.lecture'), icon: <BookOutlined />, ready: Boolean(s.lectureContent || s.lectureFile), hint: s.lectureFile ? (isBook ? t('topic.hintBook') : t('topic.hintLecture')) : s.lectureContent ? t('topic.hintPages', { n: pages }) : t('topic.soon') },
     { key: 'taqdimot', label: t('topic.presentation'), icon: <FilePptOutlined />, ready: Boolean(s.presentationFile), hint: s.presentationFile ? t('topic.slides') : t('topic.soon') },
     { key: 'video', label: t('topic.videoPart'), icon: <PlayCircleOutlined />, ready: Boolean(video || s.videoFile), hint: video || s.videoFile ? t('topic.watch') : t('topic.soon') },
-    // 3D model / 360° sayohat bo'limi faqat mavzuga obyekt biriktirilgan bo'lsa chiqadi
+    // 3D model / 360° sayohat boʻlimi faqat mavzuga obyekt biriktirilgan boʻlsa chiqadi
     ...(s.virtualObjects.length
       ? [{ key: 'virtual' as const, label: t('topic.virtual'), icon: <CompassOutlined />, ready: true, hint: t('topic.objectsCount', { n: s.virtualObjects.length }) }]
       : []),
@@ -111,7 +111,7 @@ const TopicView = ({ s }: { s: Source }) => {
     <div>
       <Hero s={s} cover={coverOf(s)} back={back} editTo={editTo} />
 
-      {/* Tanlangan tilda tarjima to'liq bo'lmasa — qaysi qismlar o'zbekchada ekani aytiladi */}
+      {/* Tanlangan tilda tarjima toʻliq boʻlmasa — qaysi qismlar oʻzbekchada ekani aytiladi */}
       {currentLang() !== 'uz' && (s.fallbacks?.length ?? 0) > 0 && (
         <p className="mb-4 mt-0 rounded-xl bg-primary-soft px-4 py-2 text-sm text-ink">{t('content.notTranslated')}</p>
       )}
@@ -157,7 +157,7 @@ const TopicView = ({ s }: { s: Source }) => {
       </div>
 
       <section role="tabpanel" id={`panel-${active}`} aria-labelledby={`tab-${active}`} className="rounded-3xl border border-solid border-line bg-white p-4 md:p-8">
-        {/* Ma'ruza — bitta: yuklangan fayl bo'lsa o'sha ko'rsatiladi, bo'lmasa tayyor matn */}
+        {/* Ma'ruza — bitta: yuklangan fayl boʻlsa oʻsha koʻrsatiladi, boʻlmasa tayyor matn */}
         {active === 'maruza' &&
           (s.lectureFile ? (
             <LectureFileView file={s.lectureFile} initialQuery={initialQuery} />

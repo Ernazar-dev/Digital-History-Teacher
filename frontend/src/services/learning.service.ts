@@ -16,7 +16,7 @@ export const lessonsService = {
   list: (f: { status?: WorkStatus; authorId?: string; q?: string; page?: number; pageSize?: number } = {}) =>
     getPage<LessonListItem>('/lessons', cleanParams({ pageSize: 50, ...f })),
   get: (id: string) => getData<LessonPlan>(`/lessons/${id}`),
-  /** Tahrirlash uchun: tarjima qilinmagan (metod nomlari o'zbekcha qiymatda) yozuv */
+  /** Tahrirlash uchun: tarjima qilinmagan (metod nomlari oʻzbekcha qiymatda) yozuv */
   getBase: (id: string) => getData<LessonPlan>(`/lessons/${id}`, undefined, { 'X-Lang': 'uz' }),
   version: (id: string, v: number) =>
     getData<{ version: number; snapshot: Record<string, unknown>; note: string | null; createdAt: string }>(`/lessons/${id}/versions/${v}`),

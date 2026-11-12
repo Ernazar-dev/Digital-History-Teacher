@@ -3,7 +3,7 @@ import type { MediaFileRef } from '@/types/api';
 
 export const mediaFileUrl = (id: string) => `/api/v1/media/${id}`;
 
-/** Mavzu afishasi: yuklangan rasm ustun, bo'lmasa tashqi havola */
+/** Mavzu afishasi: yuklangan rasm ustun, boʻlmasa tashqi havola */
 export const coverOf = (s: { mediaFile?: { id: string; mimeType: string } | null; mediaUrl?: string | null }) =>
   s.mediaFile?.mimeType.startsWith('image/') ? mediaFileUrl(s.mediaFile.id) : s.mediaUrl || null;
 
@@ -42,7 +42,7 @@ export const fileKind = (f: Pick<MediaFileRef, 'mimeType'>): FileKind =>
   MIME_KIND[f.mimeType] ??
   (f.mimeType.startsWith('image/') ? 'image' : f.mimeType.startsWith('audio/') ? 'audio' : f.mimeType.startsWith('video/') ? 'video' : 'other');
 
-/** Fayl turi nomi joriy tilda o'qiladi */
+/** Fayl turi nomi joriy tilda oʻqiladi */
 export const KIND_LABEL = (() => {
   const out = {} as Record<FileKind, string>;
   for (const k of ['pdf', 'docx', 'pptx', 'image', 'audio', 'video', 'other'] as FileKind[]) {
@@ -54,7 +54,7 @@ export const KIND_LABEL = (() => {
 export const formatSize = (bytes: number) =>
   bytes < 1024 * 1024 ? `${Math.max(1, Math.round(bytes / 1024))} KB` : `${(bytes / 1024 / 1024).toFixed(1)} MB`;
 
-/** O'quv materiali sifatida yuklash mumkin bo'lgan turlar (serverda mazmuni ham tekshiriladi) */
+/** Oʻquv materiali sifatida yuklash mumkin boʻlgan turlar (serverda mazmuni ham tekshiriladi) */
 export const MATERIAL_ACCEPT = [
   '.pdf', '.docx', '.pptx', 'application/pdf',
   'application/vnd.openxmlformats-officedocument.wordprocessingml.document',

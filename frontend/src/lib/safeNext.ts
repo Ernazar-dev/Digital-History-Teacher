@@ -1,6 +1,6 @@
 /**
  * Kirishdan keyingi `?next=` manzili — faqat platforma ichidagi /app sahifalari.
- * Ochiq yo'naltirishga (open redirect) qarshi: protokol, "//", teskari slesh, bo'shliq va boshqarish belgilari rad etiladi.
+ * Ochiq yoʻnaltirishga (open redirect) qarshi: protokol, "//", teskari slesh, boʻshliq va boshqarish belgilari rad etiladi.
  */
 export const safeNext = (next: string | null | undefined, fallback = '/app') => {
   if (!next || !/^\/app(?:[/?#]|$)/.test(next)) return fallback;

@@ -8,7 +8,7 @@ export const useNotify = () => {
   return {
     success: (text: string) => message.success(text),
     error: (err: unknown, title = i18n.t('errors.actionFailed')) => {
-      // Mehmon uchun "Kirish" oynasi allaqachon ochilgan — qo'shimcha xato ko'rsatilmaydi
+      // Mehmon uchun "Kirish" oynasi allaqachon ochilgan — qoʻshimcha xato koʻrsatilmaydi
       if (err instanceof AuthRequiredError) return;
       notification.error({ message: title, description: errorMessage(err), placement: 'topRight' });
     },

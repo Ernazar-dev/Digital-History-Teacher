@@ -12,7 +12,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   </React.StrictMode>,
 );
 
-// Sahifa to'liq yuklangach — keyingi sahifalarni oldindan tayyorlab qo'yamiz (testlarda ishlamaydi)
+// Sahifa toʻliq yuklangach — keyingi sahifalarni oldindan tayyorlab qoʻyamiz (testlarda ishlamaydi)
 if (import.meta.env.PROD) {
   window.addEventListener('load', () => prefetchCommonPages(), { once: true });
 }

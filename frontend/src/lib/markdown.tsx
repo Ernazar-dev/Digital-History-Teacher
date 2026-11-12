@@ -1,8 +1,8 @@
 import { Fragment, type ReactNode } from 'react';
 
 /**
- * Ma'ruza matni uchun kichik Markdown o'quvchi — faqat React elementlari (innerHTML yo'q, XSS xavfi yo'q).
- * Qo'llab-quvvatlanadi: # / ## / ### sarlavhalar, paragraflar, «- » va «1. » ro'yxatlar, «> » iqtibos,
+ * Ma'ruza matni uchun kichik Markdown oʻquvchi — faqat React elementlari (innerHTML yoʻq, XSS xavfi yoʻq).
+ * Qoʻllab-quvvatlanadi: # / ## / ### sarlavhalar, paragraflar, «- » va «1. » roʻyxatlar, «> » iqtibos,
  * **qalin**, *kursiv*, «---» ajratgich.
  */
 export type MdBlock =
@@ -52,7 +52,7 @@ export const parseMarkdown = (src: string): MdBlock[] => {
       const rows: string[][] = [];
       while (i < lines.length && lines[i].trim().startsWith('|')) {
         const row = cells(lines[i]);
-        // «|---|---|» ajratuvchi qatori o'tkazib yuboriladi
+        // «|---|---|» ajratuvchi qatori oʻtkazib yuboriladi
         if (!row.every((c) => /^:?-{2,}:?$/.test(c))) rows.push(row);
         i += 1;
       }

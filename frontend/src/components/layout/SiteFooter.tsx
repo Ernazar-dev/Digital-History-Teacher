@@ -29,7 +29,7 @@ const linkCls = 'text-white/60 no-underline transition-colors duration-200 hover
 
 /**
  * Sayt footeri — landing, «Platforma haqida» va talaba/mehmon sahifalari uchun bitta umumiy.
- * To'q fon sahifadan aniq ajralib turadi (oldingi oq footer krem fonga qo'shilib ketardi).
+ * Toʻq fon sahifadan aniq ajralib turadi (oldingi oq footer krem fonga qoʻshilib ketardi).
  */
 export const SiteFooter = () => {
   const { t } = useTranslation();
@@ -41,7 +41,7 @@ export const SiteFooter = () => {
 
   return (
     <footer className="relative bg-midnight text-white">
-      {/* Yuqori oltin chiziq — footer boshlanganini aniq ko'rsatadi */}
+      {/* Yuqori oltin chiziq — footer boshlanganini aniq koʻrsatadi */}
       <div className="h-px bg-gradient-to-r from-transparent via-accent/70 to-transparent" aria-hidden />
       <div className="mx-auto max-w-7xl px-4 pb-8 pt-14 md:px-8">
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr]">

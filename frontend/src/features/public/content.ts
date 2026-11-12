@@ -1,6 +1,6 @@
 import i18n from '@/i18n';
 
-/** Platforma konsepsiyasi: pedagogik zanjir qadamlari — i18n kalitlari (ko'rsatishda t() bilan) */
+/** Platforma konsepsiyasi: pedagogik zanjir qadamlari — i18n kalitlari (koʻrsatishda t() bilan) */
 export const CHAIN: readonly string[] = Array.from({ length: 8 }, (_, i) => `landing.chain${i + 1}`);
 
 const MODULE_DEFS = [
@@ -12,7 +12,7 @@ const MODULE_DEFS = [
   { n: 6, to: '/app/profile' },
 ] as const;
 
-/** Modullar: matnlar o'qilganda joriy tilda hisoblanadi */
+/** Modullar: matnlar oʻqilganda joriy tilda hisoblanadi */
 export const MODULES = MODULE_DEFS.map(({ n, to }) => ({
   n,
   to,

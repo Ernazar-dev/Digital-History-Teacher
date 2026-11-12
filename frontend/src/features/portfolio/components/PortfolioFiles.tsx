@@ -31,8 +31,8 @@ const saveFile = async (f: PortfolioFile) => {
 };
 
 /**
- * Elektron portfolio — talaba o'z ishlarini (PDF, Word, PowerPoint, rasm) yuklaydi.
- * studentId berilsa — o'qituvchi/administrator uchun faqat ko'rish rejimi.
+ * Elektron portfolio — talaba oʻz ishlarini (PDF, Word, PowerPoint, rasm) yuklaydi.
+ * studentId berilsa — oʻqituvchi/administrator uchun faqat koʻrish rejimi.
  */
 export const PortfolioFiles = ({ studentId }: { studentId?: string }) => {
   const editable = !studentId;

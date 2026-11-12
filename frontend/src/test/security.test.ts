@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { safeNext } from '@/lib/safeNext';
 import { sanitizeDom } from '@/lib/sanitizeDom';
 
-describe('Ochiq yo‘naltirishga qarshi (safeNext)', () => {
+describe('Ochiq yoʻnaltirishga qarshi (safeNext)', () => {
   it('faqat /app ichidagi manzillarga ruxsat', () => {
     expect(safeNext('/app/sources/abc?tab=1')).toBe('/app/sources/abc?tab=1');
     expect(safeNext('/app')).toBe('/app');

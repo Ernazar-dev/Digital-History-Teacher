@@ -9,9 +9,9 @@ import { safeNext } from '@/lib/safeNext';
 
 /**
  * Frontend guard faqat UX uchun — ruxsatlar backendda ham tekshiriladi.
- * Mehmon yopiq bo'limga kirsa — yo'naltirilmaydi, sahifa o'rnida "Kirish / Ro'yxatdan o'tish" taklifi ko'rinadi.
+ * Mehmon yopiq boʻlimga kirsa — yoʻnaltirilmaydi, sahifa oʻrnida "Kirish / Roʻyxatdan oʻtish" taklifi koʻrinadi.
  */
-/** Sessiya fonda tekshirilayotganda — kirish taklifi o'rniga qisqa kutish */
+/** Sessiya fonda tekshirilayotganda — kirish taklifi oʻrniga qisqa kutish */
 const Pending = () => <div className="flex min-h-[50vh] items-center justify-center"><Spin size="large" /></div>;
 
 export const RequireAuth = ({ children }: { children: ReactNode }) => {

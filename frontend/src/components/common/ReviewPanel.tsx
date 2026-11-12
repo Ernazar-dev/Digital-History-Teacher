@@ -5,7 +5,7 @@ import i18n from '@/i18n';
 export interface ReviewValues { decision: 'RETURN' | 'ACCEPT'; comment: string; score?: number }
 
 /**
- * O'qituvchi ko'rib chiqish paneli: qayta ishlashga qaytarish yoki qabul qilib baholash (0–100 ball).
+ * Oʻqituvchi koʻrib chiqish paneli: qayta ishlashga qaytarish yoki qabul qilib baholash (0–100 ball).
  */
 export const ReviewPanel = ({
   onSubmit, loading, title = i18n.t('reviewPanel.title'),
@@ -40,7 +40,7 @@ export const ReviewPanel = ({
   );
 };
 
-/** Talabaga ko'rinadigan o'qituvchi xulosasi */
+/** Talabaga koʻrinadigan oʻqituvchi xulosasi */
 export const TeacherVerdict = ({ comment, score, status }: { comment: string | null; score: number | null; status: string }) => {
   if (!comment) return null;
   return (

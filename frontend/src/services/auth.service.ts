@@ -6,7 +6,7 @@ export interface RegisterInput { username: string; email?: string; password: str
 
 export const authService = {
   login: (input: LoginInput) => http.post<{ data: { user: User; accessToken: string } }>('/auth/login', input).then((r) => r.data.data),
-  /** accessToken — hisob darhol faol bo'lsa (sessiya ochiladi), aks holda null */
+  /** accessToken — hisob darhol faol boʻlsa (sessiya ochiladi), aks holda null */
   register: (input: RegisterInput) => http.post<{ data: { user: User; accessToken: string | null; message: string } }>('/auth/register', input).then((r) => r.data.data),
   logout: () => http.post('/auth/logout', null, { headers: { 'X-Requested-With': 'dht' } }),
   me: () => http.get<{ data: User }>('/auth/me').then((r) => r.data.data),

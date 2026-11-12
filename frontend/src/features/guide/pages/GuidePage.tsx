@@ -17,7 +17,7 @@ interface GuideSection {
   hasTip?: boolean;
 }
 
-/** Platformani to'ldirish tartibi — yuqoridan pastga shu ketma-ketlikda bajarish qulay. Matnlar `guide.<id>` kalitlarida. */
+/** Platformani toʻldirish tartibi — yuqoridan pastga shu ketma-ketlikda bajarish qulay. Matnlar `guide.<id>` kalitlarida. */
 const SECTIONS: GuideSection[] = [
   { id: 'sources', icon: <BookOutlined />, link: '/app/sources', hasTip: true },
   { id: 'museum', icon: <BankOutlined />, link: '/app/admin/objects/new', adminOnly: true },

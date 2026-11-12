@@ -18,7 +18,7 @@ const toForm = (o: VirtualObject): ObjectFormValues => ({
   description: o.description,
 });
 
-// Faqat shu uch maydon yuboriladi — obyektning boshqa ma'lumotlari (topshiriqlar va h.k.) o'zgarmaydi
+// Faqat shu uch maydon yuboriladi — obyektning boshqa ma'lumotlari (topshiriqlar va h.k.) oʻzgarmaydi
 const toPayload = (v: ObjectFormValues): ObjectFormValues => ({ ...v });
 
 export default function ObjectFormPage() {

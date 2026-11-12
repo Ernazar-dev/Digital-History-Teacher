@@ -5,8 +5,8 @@ import { Controller, type Control, type FieldPath, type FieldValues } from 'reac
 import i18n from '@/i18n';
 
 /**
- * React Hook Form + Zod validatsiyasini Ant Design Form.Item ko'rinishi bilan birlashtiruvchi maydonlar.
- * Xato matni Zod sxemasidan keladi va maydon ostida ko'rsatiladi.
+ * React Hook Form + Zod validatsiyasini Ant Design Form.Item koʻrinishi bilan birlashtiruvchi maydonlar.
+ * Xato matni Zod sxemasidan keladi va maydon ostida koʻrsatiladi.
  */
 interface Base<T extends FieldValues> {
   control: Control<T>;
@@ -17,7 +17,7 @@ interface Base<T extends FieldValues> {
   className?: string;
 }
 
-/** Sxemalardagi xato matni i18n kaliti bo'lishi mumkin (masalan, "validation.pwdMin") — shunda joriy tilda ko'rsatiladi */
+/** Sxemalardagi xato matni i18n kaliti boʻlishi mumkin (masalan, "validation.pwdMin") — shunda joriy tilda koʻrsatiladi */
 const translateError = (error?: string) => (error && i18n.exists(error) ? i18n.t(error) : error);
 
 const Item = ({ id, label, required, error, help, className, children }: { id?: string; label?: ReactNode; required?: boolean; error?: string; help?: ReactNode; className?: string; children: ReactNode }) => (
