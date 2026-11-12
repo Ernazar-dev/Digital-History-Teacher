@@ -12,10 +12,16 @@ import type { Readable } from 'node:stream';
 import { PrismaClient } from '@prisma/client';
 import { driverFor, storage } from '../src/modules/media/storage';
 import { LECTURES } from './seed-data/lectures';
+import { textHash } from '../src/shared/i18n/textHash';
 import { PERIODS } from './seed-data/periods';
 
-const lectureText = (slug: string) => {
-  const file = join(__dirname, 'seed-data', 'lectures', `${slug}.md`);
+/** Mijoz bergan ma'ruzalarning ru/en nusxalari (`<slug>.ru.docx`, `<slug>.en.docx`); uz — asosiy yozuv */
+const TRANSLATED_LOCALES = ['ru', 'en'] as const;
+type TranslatedLocale = (typeof TRANSLATED_LOCALES)[number];
+const suffixOf = (locale?: TranslatedLocale) => (locale ? `.${locale}` : '');
+
+const lectureText = (slug: string, locale?: TranslatedLocale) => {
+  const file = join(__dirname, 'seed-data', 'lectures', `${slug}${suffixOf(locale)}.md`);
   return existsSync(file) ? readFileSync(file, 'utf8').trim() || null : null;
 };
 
@@ -25,11 +31,11 @@ const DOCX_MIME = 'application/vnd.openxmlformats-officedocument.wordprocessingm
  * Ma'ruzaning Word fayli (seed-data/lectures/<slug>.docx) — platforma saqlash joyiga yoziladi va mavzuga biriktiriladi.
  * Talaba ma'ruzani shu fayl orqali o'qiydi va yuklab oladi.
  */
-const seedDocxPath = (slug: string) => join(__dirname, 'seed-data', 'lectures', `${slug}.docx`);
+const seedDocxPath = (slug: string, locale?: TranslatedLocale) => join(__dirname, 'seed-data', 'lectures', `${slug}${suffixOf(locale)}.docx`);
 const seedFileName = (title: string) => `${title.replace(/[^\p{L}\p{N}._ -]/gu, ' ').replace(/\s+/g, ' ').trim().slice(0, 180)}.docx`;
 
-const attachLectureFile = async (prisma: PrismaClient, slug: string, title: string, adminId: string | null) => {
-  const file = seedDocxPath(slug);
+const attachLectureFile = async (prisma: PrismaClient, slug: string, title: string, adminId: string | null, locale?: TranslatedLocale) => {
+  const file = seedDocxPath(slug, locale);
   if (!existsSync(file)) return null;
   const data = readFileSync(file);
   const storageKey = `${randomUUID()}.docx`;
@@ -50,11 +56,11 @@ const readAll = async (stream: Readable) => {
  * Mavzudagi fayl avvalgi seed yozgan nusxa (nomi seed nomi bilan bir xil), lekin tayyor Word fayldan farq qiladimi —
  * ya'ni ma'ruza yangilangan. Administrator o'zi yuklagan fayl (boshqa nom) bu tekshiruvdan o'tmaydi va almashtirilmaydi.
  */
-const isOutdatedSeedFile = async (prisma: PrismaClient, mediaFileId: string, slug: string, titles: string[]) => {
+const isOutdatedSeedFile = async (prisma: PrismaClient, mediaFileId: string, slug: string, titles: string[], locale?: TranslatedLocale) => {
   const file = await prisma.mediaFile.findUnique({ where: { id: mediaFileId }, select: { originalName: true, storage: true, storageKey: true } });
-  if (!file || !titles.some((t) => seedFileName(t) === file.originalName) || !existsSync(seedDocxPath(slug))) return false;
+  if (!file || !titles.some((t) => seedFileName(t) === file.originalName) || !existsSync(seedDocxPath(slug, locale))) return false;
   try {
-    return !(await readAll(await driverFor(file.storage).read(file.storageKey))).equals(readFileSync(seedDocxPath(slug)));
+    return !(await readAll(await driverFor(file.storage).read(file.storageKey))).equals(readFileSync(seedDocxPath(slug, locale)));
   } catch {
     return false;
   }
@@ -88,6 +94,50 @@ const isFileLost = async (prisma: PrismaClient, mediaFileId: string) => {
 /** Shu mavzuning avvalgi seed'dagi darslik yozuvlari: «… I kitob · 12-mavzu» va «… I kitob, A.S.Sagdullayev · 12-mavzu» */
 const staleBookLabels = (label: string) => [label.replace(' (A.S.Sagdullayev)', ''), label.replace(' (A.S.Sagdullayev)', ', A.S.Sagdullayev')];
 
+/** Bazadagi tarjima lug'atidan (TextTranslation) o'zbekcha matnning ru/en varianti */
+const dictText = async (prisma: PrismaClient, locale: TranslatedLocale, text: string | null) => {
+  if (!text) return null;
+  const row = await prisma.textTranslation.findUnique({ where: { sourceHash_locale: { sourceHash: textHash(text), locale } } });
+  return row?.text ?? null;
+};
+
+/**
+ * Mavzuning ru/en ma'ruzasi (Word + Markdown) — HistoricalSourceTranslation. Qoidalar o'zbekcha ma'ruzadagi bilan bir xil:
+ * yozuv yo'q bo'lsa yaratiladi; fayl yo'q / yo'qolgan / avvalgi seed nusxasi eskirgan bo'lsa almashtiriladi (matn ham);
+ * administrator o'zi yuklagan fayl va tahrirlangan sarlavha/tavsif o'zgarmaydi.
+ */
+const seedLectureTranslations = async (prisma: PrismaClient, sourceId: string, slug: string, uzTitle: string, uzSummary: string, adminId: string | null) => {
+  let changed = 0;
+  for (const locale of TRANSLATED_LOCALES) {
+    const content = lectureText(slug, locale);
+    if (!content || !existsSync(seedDocxPath(slug, locale))) continue;
+    const mdTitle = content.match(/^# (.+)$/m)?.[1]?.trim();
+    const dictTitle = await dictText(prisma, locale, uzTitle);
+    const dictSummary = await dictText(prisma, locale, uzSummary);
+    const existing = await prisma.historicalSourceTranslation.findUnique({ where: { sourceId_locale: { sourceId, locale } } });
+    const title = existing?.title || dictTitle || mdTitle || uzTitle;
+    const fileId = existing?.lectureFileId ?? null;
+    const needsFile = !fileId || (await isFileLost(prisma, fileId)) || (await isOutdatedSeedFile(prisma, fileId, slug, [existing?.title ?? title, title], locale));
+    const lectureFileId = needsFile ? await attachLectureFile(prisma, slug, title, adminId, locale) : null;
+    if (!existing) {
+      await prisma.historicalSourceTranslation.create({ data: { sourceId, locale, title, summary: dictSummary, lectureContent: content, lectureFileId } });
+      changed += 1;
+    } else {
+      const data = {
+        ...(lectureFileId ? { lectureFileId, lectureContent: content } : {}),
+        ...(!existing.lectureContent && !existing.lectureFileId && !lectureFileId ? { lectureContent: content } : {}),
+        ...(!existing.summary && dictSummary ? { summary: dictSummary } : {}),
+      };
+      if (Object.keys(data).length) {
+        await prisma.historicalSourceTranslation.update({ where: { id: existing.id }, data });
+        if (lectureFileId && fileId) await dropOldFile(prisma, fileId);
+        changed += 1;
+      }
+    }
+  }
+  return changed;
+};
+
 export const seedLectures = async (prisma: PrismaClient, adminId: string | null) => {
   const periods = new Map<string, string>();
   for (const p of PERIODS) {
@@ -115,17 +165,20 @@ export const seedLectures = async (prisma: PrismaClient, adminId: string | null)
         createdById: adminId,
         deletedAt: null,
       };
-      if (existing) await prisma.historicalSource.update({ where: { id: existing.id }, data });
-      else await prisma.historicalSource.create({ data });
+      const row = existing ? await prisma.historicalSource.update({ where: { id: existing.id }, data }) : await prisma.historicalSource.create({ data });
+      await seedLectureTranslations(prisma, row.id, l.slug, l.title, l.summary, adminId);
       created += 1;
     } else {
       // Ma'ruza fayli bo'sh, mazmuni yo'qolgan yoki avvalgi seed nusxasi eskirgan bo'lsa (ma'ruza yangilangan) almashtiriladi —
       // ishlayotgan administrator fayli almashtirilmaydi
       const oldFileId = existing.lectureFileId;
-      const needsFile = !oldFileId || (await isFileLost(prisma, oldFileId)) || (await isOutdatedSeedFile(prisma, oldFileId, l.slug, [existing.title, l.title]));
+      const outdated = Boolean(oldFileId) && (await isOutdatedSeedFile(prisma, oldFileId!, l.slug, [existing.title, l.title]));
+      const needsFile = !oldFileId || outdated || (await isFileLost(prisma, oldFileId));
       const lectureFileId = needsFile ? await attachLectureFile(prisma, l.slug, existing.title, adminId) : null;
       const data = {
         ...(lectureFileId ? { lectureFileId } : {}),
+        // Seed yozgan eski fayl yangi nusxaga almashganda matn ham yangilanadi (ikkalasi bir hujjat)
+        ...(outdated && lectureFileId && lectureContent ? { lectureContent } : {}),
         // Matn faqat ma'ruza umuman bo'lmasa qo'yiladi — administrator o'z faylini yuklagan bo'lsa, tayyor matn qaytarilmaydi
         ...(!existing.lectureContent && !existing.lectureFileId && lectureContent ? { lectureContent } : {}),
         // Darslik yozuvi avvalgi seed qiymati bo'lsa (muallifsiz yoki vergulli) — yangi ko'rinishga o'tkaziladi; admin tahriri o'zgarmaydi
@@ -138,6 +191,7 @@ export const seedLectures = async (prisma: PrismaClient, adminId: string | null)
         if (lectureFileId && oldFileId) await dropOldFile(prisma, oldFileId);
         filled += 1;
       }
+      if ((await seedLectureTranslations(prisma, existing.id, l.slug, l.title, l.summary, adminId)) > 0 && !Object.keys(data).length) filled += 1;
     }
   }
   return { created, filled };

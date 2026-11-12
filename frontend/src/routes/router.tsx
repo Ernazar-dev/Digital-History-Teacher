@@ -21,6 +21,7 @@ export const router = createBrowserRouter([
         children: [
           { path: '/', element: <P.Landing /> },
           { path: '/about', element: <P.About /> },
+          { path: '/author', element: <P.Author /> },
           { path: '/catalog/*', element: <CatalogRedirect /> },
           { path: '/login', element: <GuestOnly><P.Login /></GuestOnly> },
           { path: '/register', element: <GuestOnly><P.Register /></GuestOnly> },

@@ -705,3 +705,16 @@ model AuditLog {
   @@index([entity, entityId])
   @@index([createdAt])
 }
+
+/// «Muallif va bog'lanish» sahifasidagi forma xabarlari — admin panelda «Xabarlar» bo'limida ko'rinadi
+model ContactMessage {
+  id        String   @id @default(uuid()) @db.Uuid
+  name      String
+  email     String?
+  phone     String?
+  message   String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([isRead, createdAt])
+}

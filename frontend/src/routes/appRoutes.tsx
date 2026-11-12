@@ -51,6 +51,7 @@ export const appRoutes: RouteObject[] = [
   { path: 'admin/objects/new', element: role(ADMIN, <P.ObjectForm />) },
   { path: 'admin/objects/:id/edit', element: role(ADMIN, <P.ObjectForm />) },
   { path: 'admin/taxonomy', element: role(ADMIN, <P.Taxonomy />) },
+  { path: 'admin/messages', element: role(ADMIN, <P.Messages />) },
   { path: 'admin/settings', element: role(ADMIN, <P.Settings />) },
   { path: '*', element: <P.NotFound /> },
 ];

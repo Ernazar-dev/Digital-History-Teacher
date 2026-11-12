@@ -4,6 +4,8 @@ import { lazy } from 'react';
 export const P = {
   Landing: lazy(() => import('@/features/public/pages/LandingPage')),
   About: lazy(() => import('@/features/public/pages/AboutPage')),
+  Author: lazy(() => import('@/features/author/pages/AuthorPage')),
+  Messages: lazy(() => import('@/features/administration/pages/MessagesPage')),
   NotFound: lazy(() => import('@/features/public/pages/NotFoundPage')),
   Login: lazy(() => import('@/features/auth/pages/LoginPage')),
   Register: lazy(() => import('@/features/auth/pages/RegisterPage')),

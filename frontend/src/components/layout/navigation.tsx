@@ -1,6 +1,6 @@
 import {
   BankOutlined, BookOutlined, BulbOutlined, CheckSquareOutlined, DashboardOutlined,
-  GlobalOutlined, InfoCircleOutlined, QuestionCircleOutlined, ReadOutlined, RiseOutlined,
+  ContactsOutlined, GlobalOutlined, InfoCircleOutlined, MailOutlined, QuestionCircleOutlined, ReadOutlined, RiseOutlined,
   SettingOutlined, TeamOutlined, UserOutlined,
 } from '@ant-design/icons';
 import type { ReactNode } from 'react';
@@ -34,6 +34,7 @@ const NAV_DEFS: NavItem[] = [
   { key: '/app/assignments', label: 'staffNav.assignments', icon: <CheckSquareOutlined />, roles: ALL, section: 'nav.assessment' },
 
   { key: '/app/admin/users', label: 'staffNav.users', icon: <UserOutlined />, roles: ['ADMIN'], section: 'staffNav.system' },
+  { key: '/app/admin/messages', label: 'staffNav.messages', icon: <MailOutlined />, roles: ['ADMIN'], section: 'staffNav.system' },
   { key: '/app/groups', label: 'staffNav.groups', icon: <TeamOutlined />, roles: STAFF, section: 'staffNav.system' },
   { key: '/app/admin/settings', label: 'staffNav.settings', icon: <SettingOutlined />, roles: ['ADMIN'], section: 'staffNav.system' },
 ];
@@ -71,6 +72,7 @@ export const TOP_NAV: TopNavEntry[] = [
   },
   { to: '/app/methodology', label: 'nav.methodology', icon: <BulbOutlined />, open: true },
   { to: '/about', label: 'nav.about', icon: <InfoCircleOutlined />, open: true },
+  { to: '/author', label: 'nav.author', icon: <ContactsOutlined />, open: true },
 ];
 
 /** Barcha bandlar tekis ro'yxatda (faol bandni aniqlash va mobil menyu uchun) */
@@ -84,7 +86,7 @@ const SEGMENT_KEYS: Record<string, string> = {
   app: 'nav.home', sources: 'nav.sources', museum: 'nav.museum', explore: 'nav.explore', methodology: 'nav.methodology',
   lessons: 'footer.lessonBuilder', assignments: 'nav.assignments', portfolio: 'seg.portfolio', groups: 'staffNav.groups',
   admin: 'seg.admin', users: 'staffNav.users', objects: 'seg.objects', taxonomy: 'seg.taxonomy',
-  settings: 'staffNav.settings', new: 'seg.new', edit: 'seg.edit',
+  settings: 'staffNav.settings', messages: 'seg.messages', new: 'seg.new', edit: 'seg.edit',
   search: 'nav.search', guide: 'staffNav.guide', profile: 'seg.profile',
   items: 'seg.items', students: 'seg.students', responses: 'seg.responses', progress: 'seg.progress',
 };
